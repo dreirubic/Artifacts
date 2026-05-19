@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estimating Sums of Decimals – Grade 4</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange: #f97316;
+  --orange-dark: #c2410c;
+  --orange-light: #fff7ed;
+  --teal: #0d9488;
+  --teal-light: #ccfbf1;
+  --sky: #0ea5e9;
+  --sky-light: #e0f2fe;
+  --red: #ef4444;
+  --red-light: #fee2e2;
+  --green: #16a34a;
+  --green-light: #dcfce7;
+  --yellow: #eab308;
+  --yellow-light: #fef9c3;
+  --bg: #fafaf9;
+  --white: #ffffff;
+  --gray: #6b7280;
+  --text: #1c1917;
+  --border: #e7e5e4;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* HEADER */
+header {
+  background: var(--orange-dark);
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 18px,
+    rgba(255,255,255,.04) 18px,
+    rgba(255,255,255,.04) 36px
+  );
+  color: white;
+  padding: 2rem 1rem 3.5rem;
+  text-align: center;
+  position: relative;
+}
+header h1 {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: clamp(1.7rem, 5vw, 2.6rem);
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: .4rem;
+}
+header p { font-size: .95rem; opacity: .85; font-weight: 500; }
+.header-pills {
+  display: flex;
+  justify-content: center;
+  gap: .5rem;
+  flex-wrap: wrap;
+  margin-top: .8rem;
+}
+.pill {
+  background: rgba(255,255,255,.15);
+  border: 1.5px solid rgba(255,255,255,.3);
+  border-radius: 999px;
+  padding: .25rem .9rem;
+  font-size: .8rem;
+  font-weight: 700;
+}
+
+/* NAV */
+.nav-wrap {
+  background: white;
+  border-bottom: 2px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  overflow-x: auto;
+}
+.nav-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: .88rem;
+  padding: .9rem 1.1rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--gray);
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  transition: all .2s;
+}
+.nav-btn.active {
+  color: var(--orange-dark);
+  border-bottom-color: var(--orange);
+}
+.nav-btn:hover:not(.active) { color: var(--text); }
+
+/* MAIN */
+main { max-width: 760px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+.section { display: none; }
+.section.active { display: block; }
+
+/* SECTION TITLE */
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  margin-bottom: 1.2rem;
+}
+.section-head h2 {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--orange-dark);
+}
+.section-head .tag {
+  font-size: .75rem;
+  font-weight: 700;
+  background: var(--orange-light);
+  color: var(--orange-dark);
+  border: 1.5px solid #fed7aa;
+  padding: .2rem .7rem;
+  border-radius: 999px;
+  margin-left: auto;
+}
+
+/* QUICK RULE STRIP */
+.rule-strip {
+  background: var(--orange-dark);
+  color: white;
+  border-radius: 14px;
+  padding: 1rem 1.3rem;
+  font-size: .9rem;
+  font-weight: 600;
+  line-height: 1.8;
+  margin-bottom: 1.4rem;
+}
+.rule-strip b { color: #fed7aa; }
+
+/* Q CARDS */
+.q-card {
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 1.3rem 1.4rem;
+  margin-bottom: 1rem;
+  transition: border-color .2s, box-shadow .2s;
+}
+.q-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.07); }
+.q-card.answered-correct { border-color: var(--teal); background: var(--teal-light); }
+.q-card.answered-wrong { border-color: var(--red); background: var(--red-light); }
+
+.q-meta {
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--gray);
+  margin-bottom: .5rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.q-meta .badge-type {
+  background: var(--orange-light);
+  color: var(--orange-dark);
+  border-radius: 4px;
+  padding: .1rem .45rem;
+  font-size: .7rem;
+}
+
+.q-text {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.65;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+.q-text .num { font-family: 'Baloo 2', sans-serif; font-weight: 800; color: var(--orange-dark); font-size: 1.05rem; }
+
+/* MC OPTIONS */
+.options { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+@media (max-width: 420px) { .options { grid-template-columns: 1fr; } }
+
+.opt {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .6rem .85rem;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .92rem;
+  font-weight: 600;
+  transition: all .15s;
+  text-align: left;
+}
+.opt:hover:not(:disabled) { border-color: var(--orange); background: var(--orange-light); }
+.opt .ltr {
+  min-width: 26px; height: 26px;
+  border-radius: 6px;
+  background: var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: .8rem;
+  flex-shrink: 0;
+  transition: all .15s;
+}
+.opt.chosen { border-color: var(--orange); background: var(--orange-light); }
+.opt.chosen .ltr { background: var(--orange); color: white; }
+.opt.correct-opt { border-color: var(--teal) !important; background: var(--teal-light) !important; }
+.opt.correct-opt .ltr { background: var(--teal) !important; color: white !important; }
+.opt.wrong-opt { border-color: var(--red) !important; background: var(--red-light) !important; }
+.opt.wrong-opt .ltr { background: var(--red) !important; color: white !important; }
+
+/* FILL IN */
+.fill-row { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+.fill-input {
+  border: 2.5px solid var(--border);
+  border-radius: 10px;
+  padding: .55rem .9rem;
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  width: 130px;
+  outline: none;
+  transition: border-color .2s;
+  background: var(--bg);
+}
+.fill-input:focus { border-color: var(--orange); background: white; }
+.fill-input.correct-fill { border-color: var(--teal) !important; background: var(--teal-light) !important; color: var(--teal); }
+.fill-input.wrong-fill { border-color: var(--red) !important; background: var(--red-light) !important; color: var(--red); }
+
+/* FEEDBACK */
+.fb {
+  margin-top: .7rem;
+  padding: .6rem .9rem;
+  border-radius: 9px;
+  font-size: .875rem;
+  font-weight: 600;
+  display: none;
+  line-height: 1.55;
+}
+.fb.show { display: block; }
+.fb.ok { background: var(--green-light); color: var(--green); }
+.fb.no { background: var(--red-light); color: #991b1b; }
+
+/* BUTTONS */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .65rem 1.6rem;
+  background: var(--orange);
+  color: white;
+  border: none;
+  border-radius: 999px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: .92rem;
+  cursor: pointer;
+  transition: all .2s;
+  box-shadow: 0 3px 10px rgba(249,115,22,.3);
+}
+.btn-primary:hover { background: var(--orange-dark); transform: translateY(-2px); }
+.btn-primary:disabled { opacity: .5; cursor: default; transform: none; }
+
+.btn-teal {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .65rem 1.6rem;
+  background: var(--teal);
+  color: white;
+  border: none;
+  border-radius: 999px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: .92rem;
+  cursor: pointer;
+  transition: all .2s;
+}
+.btn-teal:hover { background: #0f766e; transform: translateY(-2px); }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .65rem 1.4rem;
+  background: white;
+  color: var(--text);
+  border: 2px solid var(--border);
+  border-radius: 999px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: .92rem;
+  cursor: pointer;
+  transition: all .2s;
+}
+.btn-ghost:hover { border-color: var(--orange); color: var(--orange-dark); }
+
+.action-row {
+  display: flex;
+  gap: .7rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+/* PROGRESS */
+.prog-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: .5rem;
+  font-size: .85rem;
+  font-weight: 700;
+}
+.prog-bar {
+  height: 8px;
+  background: var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+.prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--orange), var(--yellow));
+  border-radius: 999px;
+  transition: width .4s;
+}
+
+/* RESULTS */
+.results {
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+  display: none;
+  margin-top: 1.5rem;
+}
+.results.show { display: block; }
+.result-big {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--orange-dark);
+}
+.result-sub { font-size: 1rem; font-weight: 600; color: var(--gray); margin-bottom: 1.2rem; }
+.result-bar { display: flex; gap: 6px; justify-content: center; margin: 1rem 0 1.4rem; flex-wrap: wrap; }
+.result-dot {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.result-dot.ok { background: var(--teal); }
+.result-dot.no { background: var(--red); }
+.result-msg {
+  font-size: 1rem;
+  font-weight: 700;
+  padding: .9rem 1.2rem;
+  border-radius: 12px;
+  margin-bottom: 1.4rem;
+}
+
+/* DIVIDER */
+.divider { height: 2px; background: var(--border); border-radius: 999px; margin: 1.5rem 0; }
+
+/* DIFFICULTY BADGE */
+.diff { display: inline-flex; align-items: center; gap: .3rem; font-size: .75rem; font-weight: 700; padding: .2rem .6rem; border-radius: 4px; }
+.diff.easy { background: var(--green-light); color: var(--green); }
+.diff.medium { background: var(--yellow-light); color: #854d0e; }
+.diff.hard { background: var(--red-light); color: #991b1b; }
+
+/* TIMER (exam) */
+.timer-box {
+  background: white;
+  border: 2.5px solid var(--orange);
+  border-radius: 12px;
+  padding: .5rem 1.1rem;
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--orange-dark);
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+}
+.timer-box.urgent { border-color: var(--red); color: var(--red); animation: pulse-timer .8s infinite; }
+@keyframes pulse-timer { 0%,100%{opacity:1} 50%{opacity:.5} }
+
+.exam-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+  gap: .6rem;
+}
+
+/* SCORE PILL */
+.score-pill {
+  background: var(--orange-light);
+  color: var(--orange-dark);
+  border: 1.5px solid #fed7aa;
+  border-radius: 999px;
+  padding: .35rem 1rem;
+  font-weight: 800;
+  font-size: .9rem;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🎯 Estimating Sums of Decimals</h1>
+  <p>Practice Quizzes &amp; Exam — Grade 4 Math</p>
+  <div class="header-pills">
+    <div class="pill">Quiz A · Basic</div>
+    <div class="pill">Quiz B · Applied</div>
+    <div class="pill">Quiz C · Word Problems</div>
+    <div class="pill">📋 Final Exam</div>
+  </div>
+</header>
+
+<nav class="nav-wrap">
+  <button class="nav-btn active" onclick="gotoSection('qa', this)">Quiz A</button>
+  <button class="nav-btn" onclick="gotoSection('qb', this)">Quiz B</button>
+  <button class="nav-btn" onclick="gotoSection('qc', this)">Quiz C</button>
+  <button class="nav-btn" onclick="gotoSection('exam', this)">📋 Exam</button>
+</nav>
+
+<main>
+
+<!-- ============================================================ QUIZ A ============================================================ -->
+<div id="qa" class="section active">
+  <div class="section-head">
+    <h2>Quiz A — Basic Estimating</h2>
+    <span class="tag">10 items</span>
+  </div>
+
+  <div class="rule-strip">
+    <b>Remember the rule:</b> Round each decimal to the nearest whole number, then add. Use <b>≈</b> for estimates!<br>
+    Round <b>UP</b> if decimal part is .5 or more &nbsp;|&nbsp; Round <b>DOWN</b> if less than .5
+  </div>
+
+  <div class="prog-row">
+    <span id="qa-prog-text">0 / 10 answered</span>
+    <span class="score-pill" id="qa-score-pill">Score: 0</span>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="qa-prog" style="width:0%"></div></div>
+
+  <div id="qa-questions"></div>
+
+  <div class="action-row">
+    <button class="btn-primary" onclick="submitSection('qa')">✅ Check Answers</button>
+    <button class="btn-ghost" onclick="resetSection('qa')">🔄 Retry</button>
+  </div>
+  <div class="results" id="qa-results"></div>
+</div>
+
+<!-- ============================================================ QUIZ B ============================================================ -->
+<div id="qb" class="section">
+  <div class="section-head">
+    <h2>Quiz B — Estimate &amp; Compare</h2>
+    <span class="tag">10 items</span>
+  </div>
+
+  <div class="rule-strip">
+    <b>This quiz:</b> You'll estimate sums AND decide if an answer is <b>reasonable</b>. Also: choosing the correct sign (<b>≈</b> or <b>=</b>).
+  </div>
+
+  <div class="prog-row">
+    <span id="qb-prog-text">0 / 10 answered</span>
+    <span class="score-pill" id="qb-score-pill">Score: 0</span>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="qb-prog" style="width:0%"></div></div>
+
+  <div id="qb-questions"></div>
+
+  <div class="action-row">
+    <button class="btn-primary" onclick="submitSection('qb')">✅ Check Answers</button>
+    <button class="btn-ghost" onclick="resetSection('qb')">🔄 Retry</button>
+  </div>
+  <div class="results" id="qb-results"></div>
+</div>
+
+<!-- ============================================================ QUIZ C ============================================================ -->
+<div id="qc" class="section">
+  <div class="section-head">
+    <h2>Quiz C — Word Problems</h2>
+    <span class="tag">10 items</span>
+  </div>
+
+  <div class="rule-strip">
+    <b>Strategy:</b> Read carefully → identify the numbers → round each → add the rounded numbers → write your estimated answer.
+  </div>
+
+  <div class="prog-row">
+    <span id="qc-prog-text">0 / 10 answered</span>
+    <span class="score-pill" id="qc-score-pill">Score: 0</span>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="qc-prog" style="width:0%"></div></div>
+
+  <div id="qc-questions"></div>
+
+  <div class="action-row">
+    <button class="btn-primary" onclick="submitSection('qc')">✅ Check Answers</button>
+    <button class="btn-ghost" onclick="resetSection('qc')">🔄 Retry</button>
+  </div>
+  <div class="results" id="qc-results"></div>
+</div>
+
+<!-- ============================================================ EXAM ============================================================ -->
+<div id="exam" class="section">
+  <div class="section-head">
+    <h2>📋 Final Exam</h2>
+    <span class="tag">25 items · Timed</span>
+  </div>
+
+  <div class="exam-topbar">
+    <div>
+      <div style="font-weight:700; font-size:.85rem; color:var(--gray); margin-bottom:.2rem;">TIME REMAINING</div>
+      <div class="timer-box" id="exam-timer">⏱ 20:00</div>
+    </div>
+    <div style="text-align:right;">
+      <div style="font-weight:700; font-size:.85rem; color:var(--gray); margin-bottom:.2rem;">PROGRESS</div>
+      <div class="score-pill" id="exam-score-pill">0 / 25 answered</div>
+    </div>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="exam-prog" style="width:0%"></div></div>
+
+  <div id="exam-questions"></div>
+
+  <div class="action-row">
+    <button class="btn-teal" onclick="submitSection('exam')">📋 Submit Exam</button>
+    <button class="btn-ghost" onclick="resetSection('exam')">🔄 Reset</button>
+  </div>
+  <div class="results" id="exam-results"></div>
+</div>
+
+</main>
+
+<script>
+// ═══════════════════════════════════════════════
+// QUESTION BANKS
+// ═══════════════════════════════════════════════
+
+const QA = [
+  { type:'mc', diff:'easy', q:'Round 3.72 to the nearest whole number.', opts:['3','4','5','37'], ans:1, hint:'The decimal part is .72 — that is ≥ .5, so round UP.' },
+  { type:'mc', diff:'easy', q:'Round 14.29 to the nearest whole number.', opts:['15','14','13','142'], ans:1, hint:'.29 < .5, so round DOWN. Keep 14.' },
+  { type:'mc', diff:'easy', q:'Round 9.5 to the nearest whole number.', opts:['9','10','8','95'], ans:1, hint:'.5 means round UP.' },
+  { type:'fill', diff:'easy', q:'What is the estimated sum of 6.3 + 2.8?\n6.3 ≈ ___ and 2.8 ≈ ___, so the estimate is ___.\nWrite the final estimate only.', ans:'9', hint:'6.3 → 6, 2.8 → 3, then 6 + 3 = 9' },
+  { type:'mc', diff:'easy', q:'Estimate: 5.2 + 4.9 ≈ ?', opts:['9','10','11','8'], ans:1, hint:'5.2 → 5, 4.9 → 5. Add: 5 + 5 = 10' },
+  { type:'mc', diff:'easy', q:'Estimate: 7.6 + 3.1 ≈ ?', opts:['10','11','12','13'], ans:1, hint:'7.6 → 8, 3.1 → 3. Add: 8 + 3 = 11' },
+  { type:'fill', diff:'medium', q:'Estimate: 12.45 + 6.73 ≈ ___', ans:'19', hint:'12.45 → 12, 6.73 → 7. 12 + 7 = 19' },
+  { type:'mc', diff:'medium', q:'Estimate: 25.38 + 11.91 ≈ ?', opts:['35','36','37','38'], ans:2, hint:'25.38 → 25, 11.91 → 12. 25 + 12 = 37' },
+  { type:'fill', diff:'medium', q:'Estimate: 18.6 + 9.4 ≈ ___', ans:'28', hint:'18.6 → 19, 9.4 → 9. 19 + 9 = 28' },
+  { type:'mc', diff:'medium', q:'Estimate: 32.9 + 8.99 ≈ ?', opts:['40','41','42','43'], ans:2, hint:'32.9 → 33, 8.99 → 9. 33 + 9 = 42' },
+];
+
+const QB = [
+  { type:'mc', diff:'easy', q:'Which sign correctly completes this?\n25.38 + 11.91 ___ 37', opts:['=','≈','+','>'], ans:1, hint:'37 is the ESTIMATE, not the exact answer. Use ≈.' },
+  { type:'mc', diff:'easy', q:'The actual value of 4.4 + 5.63 is 10.03. Which sign completes: 4.4 + 5.63 ___ 10.03?', opts:['≈','=','<','>'], ans:1, hint:'10.03 is the EXACT answer. Use =.' },
+  { type:'mc', diff:'medium', q:'Maria estimated 8.25 + 6.7 as 15. Is this reasonable?\n(Actual answer: 14.95)', opts:['Yes, it is reasonable.','No, the estimate is too far.','We cannot tell.','The estimate should be 13.'], ans:0, hint:'8.25 ≈ 8, 6.7 ≈ 7, estimate = 15. Actual = 14.95. Very close! ✓' },
+  { type:'mc', diff:'medium', q:'Estimate: 3.85 + 1.42 ≈ ?', opts:['4','5','6','7'], ans:1, hint:'3.85 → 4, 1.42 → 1. 4 + 1 = 5' },
+  { type:'fill', diff:'medium', q:'Estimate: 34.98 + 3.71 ≈ ___', ans:'39', hint:'34.98 → 35, 3.71 → 4. 35 + 4 = 39' },
+  { type:'mc', diff:'medium', q:'Tom says the estimate of 4.4 + 5.63 is 10. Is he correct?', opts:['Yes — 4.4 → 4 and 5.63 → 6, giving 10.','No — the estimate is 9.','No — the estimate is 11.','Yes — 4.4 → 5 and 5.63 → 5, giving 10.'], ans:0, hint:'4.4 → 4 (since .4 < .5), 5.63 → 6 (since .63 ≥ .5). 4 + 6 = 10 ✓' },
+  { type:'fill', diff:'medium', q:'Estimate: 62.87 + 22.54 ≈ ___', ans:'86', hint:'62.87 → 63, 22.54 → 23. 63 + 23 = 86' },
+  { type:'mc', diff:'hard', q:'The estimated sum of two decimals is 20. Which pair could be those two numbers?', opts:['9.2 + 11.4','8.3 + 12.6','7.8 + 13.1','10.5 + 8.9'], ans:0, hint:'9.2 → 9, 11.4 → 11. 9 + 11 = 20 ✓' },
+  { type:'mc', diff:'hard', q:'Estimate: 4.4 + 5.63 + 2.1 ≈ ?\n(Three numbers!)', opts:['11','12','13','10'], ans:1, hint:'4.4 → 4, 5.63 → 6, 2.1 → 2. 4 + 6 + 2 = 12' },
+  { type:'fill', diff:'hard', q:'A student says: "The estimate of 7.49 + 4.51 is 12." Is this correct?\nType YES or NO.', ans:'NO', hint:'7.49 → 7 (since .49 < .5), 4.51 → 5 (since .51 ≥ .5). 7 + 5 = 12. Wait — that IS 12! So the answer is YES.', realans:'YES' },
+];
+// fix the tricky one
+QB[9].ans = 'YES'; QB[9].realans = undefined;
+
+const QC = [
+  { type:'mc', diff:'easy', q:'Lisa bought 3.45 m of red ribbon and 2.6 m of blue ribbon. About how many meters did she buy in all?', opts:['5 m','6 m','7 m','8 m'], ans:1, hint:'3.45 → 3, 2.6 → 3. 3 + 3 = 6' },
+  { type:'mc', diff:'easy', q:'A mango weighs 0.75 kg and a papaya weighs 1.4 kg. About how many kilograms do they weigh altogether?', opts:['1 kg','2 kg','3 kg','4 kg'], ans:1, hint:'0.75 → 1, 1.4 → 1. 1 + 1 = 2' },
+  { type:'fill', diff:'easy', q:'Nico ran 4.2 km on Monday and 3.85 km on Tuesday. About how many kilometers did he run in all? (Write the estimated number)', ans:'8', hint:'4.2 → 4, 3.85 → 4. 4 + 4 = 8' },
+  { type:'mc', diff:'medium', q:'A bottle of juice costs ₱18.75 and a sandwich costs ₱24.5. About how much do they cost altogether?', opts:['₱42','₱43','₱44','₱45'], ans:1, hint:'18.75 → 19, 24.5 → 25. 19 + 25 = 44. Wait — that\'s 44. Pick the closest!', ans:2 },
+  { type:'mc', diff:'medium', q:'Sarah bought 5.42 m of lace. Anna bought 3.26 m of lace. About how many meters did they buy in all?', opts:['7 m','8 m','9 m','10 m'], ans:1, hint:'5.42 → 5, 3.26 → 3. 5 + 3 = 8' },
+  { type:'fill', diff:'medium', q:'Jahli spent ₱26.50 on milk and ₱22.15 on a snack. Estimate the total amount he spent. ₱___', ans:'49', hint:'26.50 → 27, 22.15 → 22. 27 + 22 = 49' },
+  { type:'mc', diff:'medium', q:'A school bag weighs 2.38 kg and books weigh 3.75 kg. About how heavy are they altogether?', opts:['5 kg','6 kg','7 kg','8 kg'], ans:1, hint:'2.38 → 2, 3.75 → 4. 2 + 4 = 6' },
+  { type:'mc', diff:'hard', q:'Ana walked 1.65 km to school, then 0.9 km to the market, then 2.3 km home. About how far did she walk in all?', opts:['4 km','5 km','6 km','7 km'], ans:1, hint:'1.65 → 2, 0.9 → 1, 2.3 → 2. 2 + 1 + 2 = 5' },
+  { type:'fill', diff:'hard', q:'A bag of rice costs ₱52.75 and cooking oil costs ₱38.4. Estimate the total cost. ₱___', ans:'91', hint:'52.75 → 53, 38.4 → 38. 53 + 38 = 91' },
+  { type:'mc', diff:'hard', q:'Parcel A has a mass of 5.8 kg. Parcel B is 2.45 kg heavier than Parcel A. About how heavy is Parcel B?', opts:['7 kg','8 kg','9 kg','10 kg'], ans:1, hint:'5.8 → 6, 2.45 → 2. 6 + 2 = 8' },
+];
+
+const EXAM = [
+  // Section 1 — Rounding (5 items)
+  { type:'mc', diff:'easy', section:'I. Round to the Nearest Whole Number', q:'1. Round 3.5 to the nearest whole number.', opts:['3','4','2','35'], ans:1, hint:'.5 → round UP' },
+  { type:'mc', diff:'easy', section:null, q:'2. Round 0.49 to the nearest whole number.', opts:['1','0','4','5'], ans:1, hint:'.49 < .5 → round DOWN to 0' },
+  { type:'mc', diff:'easy', section:null, q:'3. Round 19.73 to the nearest whole number.', opts:['19','20','18','197'], ans:1, hint:'.73 ≥ .5 → round UP to 20' },
+  { type:'fill', diff:'easy', section:null, q:'4. Round 7.09 to the nearest whole number: ___', ans:'7', hint:'.09 < .5 → round DOWN' },
+  { type:'fill', diff:'easy', section:null, q:'5. Round 45.55 to the nearest whole number: ___', ans:'46', hint:'.55 ≥ .5 → round UP' },
+  // Section 2 — Estimate (8 items)
+  { type:'mc', diff:'easy', section:'II. Estimate the Sum', q:'6. Estimate: 6.3 + 2.8 ≈ ?', opts:['8','9','10','11'], ans:1, hint:'6.3 → 6, 2.8 → 3. 6+3=9' },
+  { type:'mc', diff:'easy', section:null, q:'7. Estimate: 5.2 + 4.9 ≈ ?', opts:['9','10','11','12'], ans:1, hint:'5.2 → 5, 4.9 → 5. 5+5=10' },
+  { type:'mc', diff:'medium', section:null, q:'8. Estimate: 12.45 + 6.73 ≈ ?', opts:['18','19','20','21'], ans:1, hint:'12.45 → 12, 6.73 → 7. 12+7=19' },
+  { type:'fill', diff:'medium', section:null, q:'9. Estimate: 25.38 + 11.91 ≈ ___', ans:'37', hint:'25.38 → 25, 11.91 → 12. 25+12=37' },
+  { type:'mc', diff:'medium', section:null, q:'10. Estimate: 34.98 + 3.71 ≈ ?', opts:['37','38','39','40'], ans:2, hint:'34.98 → 35, 3.71 → 4. 35+4=39' },
+  { type:'fill', diff:'medium', section:null, q:'11. Estimate: 4.4 + 5.63 ≈ ___', ans:'10', hint:'4.4 → 4, 5.63 → 6. 4+6=10' },
+  { type:'fill', diff:'medium', section:null, q:'12. Estimate: 62.87 + 22.54 ≈ ___', ans:'86', hint:'62.87 → 63, 22.54 → 23. 63+23=86' },
+  { type:'mc', diff:'hard', section:null, q:'13. Estimate: 8.25 + 6.7 ≈ ?', opts:['13','14','15','16'], ans:2, hint:'8.25 → 8, 6.7 → 7. 8+7=15' },
+  // Section 3 — Signs (3 items)
+  { type:'mc', diff:'easy', section:'III. Choose the Correct Sign (= or ≈)', q:'14. 25.38 + 11.91 ___ 37', opts:['=','≈','+','−'], ans:1, hint:'37 is an estimate, not exact. Use ≈.' },
+  { type:'mc', diff:'easy', section:null, q:'15. 4.4 + 5.63 ___ 10.03', opts:['≈','=','<','>'], ans:1, hint:'10.03 is the exact sum. Use =.' },
+  { type:'mc', diff:'medium', section:null, q:'16. Which statement is CORRECT?', opts:['5.38 + 4.7 = 10','5.38 + 4.7 ≈ 10','5.38 + 4.7 ≈ 11','5.38 + 4.7 = 11'], ans:1, hint:'5.38 → 5, 4.7 → 5. Estimate = 10. Use ≈ for estimates.' },
+  // Section 4 — Reasonableness (2 items)
+  { type:'mc', diff:'medium', section:'IV. Is the Answer Reasonable?', q:'17. Anna estimated 3.85 + 1.42 ≈ 5. The actual sum is 5.27. Is Anna\'s estimate reasonable?', opts:['Yes, 5 is close to 5.27.','No, the estimate is wrong.','We cannot tell.','Anna should have estimated 6.'], ans:0, hint:'3.85 → 4, 1.42 → 1. Estimate = 5. Actual = 5.27. Very close! ✓' },
+  { type:'mc', diff:'hard', section:null, q:'18. Ben estimated 9.67 + 4.22 ≈ 15. Is this reasonable?\n(Actual sum: 13.89)', opts:['Yes, it is reasonable.','No — 9.67 should round to 10, and 4.22 should round to 4. Estimate = 14.','No — the estimate should be 13.','Yes, because 15 is close to 14.'], ans:1, hint:'9.67 → 10, 4.22 → 4. Correct estimate = 14, not 15.' },
+  // Section 5 — Word Problems (7 items)
+  { type:'mc', diff:'medium', section:'V. Word Problems', q:'19. A bottle of shampoo costs ₱45.75 and a soap costs ₱18.4. About how much do they cost in all?', opts:['₱63','₱64','₱65','₱66'], ans:1, hint:'45.75 → 46, 18.4 → 18. 46 + 18 = 64' },
+  { type:'mc', diff:'medium', section:null, q:'20. Nico jogged 3.2 km in the morning and 4.75 km in the afternoon. About how many kilometers did he jog in all?', opts:['6 km','7 km','8 km','9 km'], ans:2, hint:'3.2 → 3, 4.75 → 5. 3 + 5 = 8' },
+  { type:'fill', diff:'medium', section:null, q:'21. A pencil case costs ₱32.50 and a notebook costs ₱24.9. Estimate the total cost. ₱___', ans:'58', hint:'32.50 → 33, 24.9 → 25. 33 + 25 = 58' },
+  { type:'mc', diff:'medium', section:null, q:'22. Sarah bought 5.42 m of lace and Anna bought 3.26 m. About how many meters did they buy altogether?', opts:['7 m','8 m','9 m','10 m'], ans:1, hint:'5.42 → 5, 3.26 → 3. 5 + 3 = 8' },
+  { type:'fill', diff:'hard', section:null, q:'23. A mango weighs 0.85 kg, a pineapple weighs 1.4 kg, and a watermelon weighs 3.6 kg. Estimate the total weight. ___ kg', ans:'6', hint:'0.85 → 1, 1.4 → 1, 3.6 → 4. 1+1+4 = 6' },
+  { type:'mc', diff:'hard', section:null, q:'24. Parcel A has a mass of 5.8 kg. Parcel B is 2.45 kg heavier than Parcel A. About how heavy is Parcel B?', opts:['7 kg','8 kg','9 kg','10 kg'], ans:1, hint:'5.8 → 6, 2.45 → 2. 6 + 2 = 8' },
+  { type:'mc', diff:'hard', section:null, q:'25. Ian spent ₱25.80 and had ₱53.95 left. About how much money did he have at first?', opts:['₱79','₱80','₱81','₱82'], ans:1, hint:'He STARTED with both amounts: 25.80 → 26, 53.95 → 54. 26 + 54 = 80' },
+];
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+const state = { qa:{}, qb:{}, qc:{}, exam:{} };
+let examTimer = null, examSeconds = 20 * 60;
+
+// ═══════════════════════════════════════════════
+// BUILD
+// ═══════════════════════════════════════════════
+function buildSection(id, questions) {
+  const container = document.getElementById(id + '-questions');
+  container.innerHTML = '';
+  state[id] = { answers: {}, submitted: false };
+
+  let lastSection = null;
+  questions.forEach((q, i) => {
+    if (q.section && q.section !== lastSection) {
+      lastSection = q.section;
+      const divider = document.createElement('div');
+      divider.style.cssText = 'font-family:Baloo 2,sans-serif;font-weight:800;font-size:1rem;color:var(--orange-dark);padding:.4rem 0 .6rem;border-bottom:2px solid var(--border);margin-bottom:1rem;margin-top:'+(i===0?'0':'1.2rem');
+      divider.textContent = q.section;
+      container.appendChild(divider);
+    }
+
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = `${id}-qcard-${i}`;
+
+    // meta row
+    const meta = document.createElement('div');
+    meta.className = 'q-meta';
+    const diffMap = { easy:'Easy', medium:'Medium', hard:'Hard' };
+    meta.innerHTML = `Item ${i+1} <span class="badge-type">${q.type === 'mc' ? 'Multiple Choice' : 'Fill in the Blank'}</span> <span class="diff ${q.diff}">${diffMap[q.diff]}</span>`;
+    card.appendChild(meta);
+
+    // question
+    const qText = document.createElement('div');
+    qText.className = 'q-text';
+    qText.style.whiteSpace = 'pre-line';
+    qText.textContent = q.q;
+    card.appendChild(qText);
+
+    if (q.type === 'mc') {
+      const opts = document.createElement('div');
+      opts.className = 'options';
+      ['A','B','C','D'].forEach((ltr, j) => {
+        const btn = document.createElement('button');
+        btn.className = 'opt';
+        btn.id = `${id}-q${i}-opt${j}`;
+        btn.innerHTML = `<span class="ltr">${ltr}</span><span>${q.opts[j]}</span>`;
+        btn.onclick = () => chooseOpt(id, i, j, questions.length);
+        opts.appendChild(btn);
+      });
+      card.appendChild(opts);
+    } else {
+      const row = document.createElement('div');
+      row.className = 'fill-row';
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.className = 'fill-input';
+      inp.id = `${id}-q${i}-input`;
+      inp.placeholder = 'Answer…';
+      inp.oninput = () => {
+        state[id].answers[i] = inp.value.trim();
+        updateProg(id, questions.length);
+      };
+      row.appendChild(inp);
+      card.appendChild(row);
+    }
+
+    const fb = document.createElement('div');
+    fb.className = 'feedback';
+    fb.id = `${id}-fb-${i}`;
+    card.appendChild(fb);
+
+    container.appendChild(card);
+  });
+}
+
+function chooseOpt(id, qi, oi, total) {
+  if (state[id].submitted) return;
+  state[id].answers[qi] = oi;
+  const q = getQ(id, qi);
+  for (let j = 0; j < q.opts.length; j++) {
+    const btn = document.getElementById(`${id}-q${qi}-opt${j}`);
+    btn.classList.toggle('chosen', j === oi);
+  }
+  updateProg(id, total);
+}
+
+function getQ(id, i) {
+  return { qa: QA, qb: QB, qc: QC, exam: EXAM }[id][i];
+}
+
+function updateProg(id, total) {
+  const answered = Object.keys(state[id].answers).length;
+  const pct = (answered / total) * 100;
+  const fill = document.getElementById(id + '-prog');
+  if (fill) fill.style.width = pct + '%';
+  const pill = document.getElementById(id + '-score-pill') || document.getElementById(id === 'exam' ? 'exam-score-pill' : id + '-score-pill');
+  const progText = document.getElementById(id + '-prog-text');
+  if (pill) {
+    if (id === 'exam') pill.textContent = `${answered} / ${total} answered`;
+    else pill.textContent = `Score: ${Object.keys(state[id].answers).length}`;
+  }
+  if (progText) progText.textContent = `${answered} / ${total} answered`;
+}
+
+function submitSection(id) {
+  if (state[id].submitted) return;
+  state[id].submitted = true;
+
+  const qs = { qa: QA, qb: QB, qc: QC, exam: EXAM }[id];
+  let score = 0;
+
+  qs.forEach((q, i) => {
+    const card = document.getElementById(`${id}-qcard-${i}`);
+    const fb = document.getElementById(`${id}-fb-${i}`);
+    const userAns = state[id].answers[i];
+
+    let correct = false;
+
+    if (q.type === 'mc') {
+      const correctIdx = typeof q.ans === 'number' ? q.ans : parseInt(q.ans);
+      for (let j = 0; j < q.opts.length; j++) {
+        const btn = document.getElementById(`${id}-q${i}-opt${j}`);
+        if (btn) btn.disabled = true;
+        btn.classList.remove('chosen');
+      }
+      if (userAns !== undefined && userAns === correctIdx) {
+        correct = true;
+        document.getElementById(`${id}-q${i}-opt${correctIdx}`).classList.add('correct-opt');
+      } else {
+        document.getElementById(`${id}-q${i}-opt${correctIdx}`).classList.add('correct-opt');
+        if (userAns !== undefined) document.getElementById(`${id}-q${i}-opt${userAns}`).classList.add('wrong-opt');
+      }
+    } else {
+      const inp = document.getElementById(`${id}-q${i}-input`);
+      if (inp) {
+        inp.disabled = true;
+        const correctStr = String(q.ans).trim().toUpperCase();
+        const userStr = String(userAns || '').trim().toUpperCase();
+        correct = userStr === correctStr;
+        inp.classList.add(correct ? 'correct-fill' : 'wrong-fill');
+      }
+    }
+
+    if (correct) {
+      score++;
+      card.classList.add('answered-correct');
+      fb.textContent = '✅ Correct!';
+      fb.className = 'feedback show ok';
+    } else {
+      card.classList.add('answered-wrong');
+      const correctDisplay = q.type === 'mc' ? q.opts[q.ans] : q.ans;
+      fb.textContent = `❌ Incorrect. Correct answer: ${correctDisplay}. 💡 ${q.hint}`;
+      fb.className = 'feedback show no';
+    }
+  });
+
+  // Show results
+  const total = qs.length;
+  const pct = Math.round((score / total) * 100);
+  let emoji, msg, color;
+  if (pct === 100) { emoji = '🏆'; msg = 'PERFECT SCORE! You are an Estimating Champion!'; color = 'var(--green-light)'; }
+  else if (pct >= 80) { emoji = '🌟'; msg = 'Excellent! You really know how to estimate!'; color = 'var(--sky-light)'; }
+  else if (pct >= 70) { emoji = '👍'; msg = 'Good job! A little more practice and you\'ll master it!'; color = 'var(--yellow-light)'; }
+  else if (pct >= 60) { emoji = '📖'; msg = 'Keep going! Review the rounding rule and try again.'; color = '#ffedd5'; }
+  else { emoji = '💪'; msg = 'Don\'t give up! Remember: round each decimal first, then add!'; color = 'var(--red-light)'; }
+
+  const dots = qs.map((_, i) => {
+    const c = state[id].answers[i] !== undefined;
+    const passed = (() => {
+      const q = qs[i];
+      const ua = state[id].answers[i];
+      if (q.type === 'mc') return ua === q.ans;
+      return String(ua||'').trim().toUpperCase() === String(q.ans).trim().toUpperCase();
+    })();
+    return `<span class="result-dot ${passed?'ok':'no'}"></span>`;
+  }).join('');
+
+  const resultsEl = document.getElementById(id + '-results');
+  resultsEl.innerHTML = `
+    <div style="font-size:2.8rem;margin-bottom:.4rem">${emoji}</div>
+    <div class="result-big">${score}/${total}</div>
+    <div class="result-sub">${pct}% — ${score} correct out of ${total} items</div>
+    <div class="result-bar">${dots}</div>
+    <div class="result-msg" style="background:${color}">${msg}</div>
+    <button class="btn-ghost" onclick="resetSection('${id}')">🔄 Try Again</button>
+  `;
+  resultsEl.classList.add('show');
+  resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // Stop timer if exam
+  if (id === 'exam' && examTimer) { clearInterval(examTimer); examTimer = null; }
+
+  // Update score pill
+  const pill = document.getElementById(id === 'exam' ? 'exam-score-pill' : id + '-score-pill');
+  if (pill) pill.textContent = `Score: ${score} / ${total}`;
+}
+
+function resetSection(id) {
+  const qs = { qa: QA, qb: QB, qc: QC, exam: EXAM }[id];
+  buildSection(id, qs);
+  updateProg(id, qs.length);
+  document.getElementById(id + '-results').classList.remove('show');
+  if (id === 'exam') startExamTimer();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ═══════════════════════════════════════════════
+// EXAM TIMER
+// ═══════════════════════════════════════════════
+function startExamTimer() {
+  if (examTimer) clearInterval(examTimer);
+  examSeconds = 20 * 60;
+  updateTimerDisplay();
+  examTimer = setInterval(() => {
+    examSeconds--;
+    updateTimerDisplay();
+    if (examSeconds <= 0) {
+      clearInterval(examTimer);
+      submitSection('exam');
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const el = document.getElementById('exam-timer');
+  if (!el) return;
+  const m = Math.floor(examSeconds / 60).toString().padStart(2, '0');
+  const s = (examSeconds % 60).toString().padStart(2, '0');
+  el.textContent = `⏱ ${m}:${s}`;
+  el.classList.toggle('urgent', examSeconds <= 120);
+}
+
+// ═══════════════════════════════════════════════
+// NAV
+// ═══════════════════════════════════════════════
+function gotoSection(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (id === 'exam' && !examTimer && !state.exam.submitted) startExamTimer();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+buildSection('qa', QA);
+buildSection('qb', QB);
+buildSection('qc', QC);
+buildSection('exam', EXAM);
+</script>
+</body>
+</html>

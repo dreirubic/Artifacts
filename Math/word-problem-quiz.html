@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pizza Math Adventure! 🍕</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --coral: #FF6B6B;
+    --yellow: #FFD93D;
+    --mint: #6BCB77;
+    --sky: #4D96FF;
+    --purple: #C77DFF;
+    --cream: #FFF8F0;
+    --dark: #2D2D2D;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--cream);
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image: radial-gradient(circle at 10% 20%, rgba(255,107,107,0.12) 0%, transparent 50%),
+                      radial-gradient(circle at 90% 80%, rgba(77,150,255,0.12) 0%, transparent 50%),
+                      radial-gradient(circle at 50% 50%, rgba(255,217,61,0.08) 0%, transparent 70%);
+  }
+
+  /* Floating emojis background */
+  .floaters {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .floater {
+    position: absolute;
+    font-size: 2rem;
+    animation: float linear infinite;
+    opacity: 0.15;
+  }
+  @keyframes float {
+    0% { transform: translateY(110vh) rotate(0deg); }
+    100% { transform: translateY(-10vh) rotate(360deg); }
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    padding: 30px 20px 20px;
+    animation: bounceIn 0.6s cubic-bezier(0.36,0.07,0.19,0.97);
+  }
+  @keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.05); }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .header-emoji { font-size: 3.5rem; display: block; margin-bottom: 8px; animation: wiggle 2s ease-in-out infinite; }
+  @keyframes wiggle {
+    0%,100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+  }
+  .header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.4rem;
+    color: var(--coral);
+    text-shadow: 3px 3px 0 rgba(255,107,107,0.2);
+    line-height: 1.1;
+  }
+  .header p {
+    font-size: 1rem;
+    color: #666;
+    margin-top: 6px;
+    font-weight: 700;
+  }
+
+  /* PROGRESS BAR */
+  .progress-wrap {
+    background: #fff;
+    border-radius: 50px;
+    padding: 6px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    margin: 16px 0;
+    border: 2px solid #f0e0d0;
+  }
+  .progress-bar {
+    height: 18px;
+    background: linear-gradient(90deg, var(--coral), var(--yellow));
+    border-radius: 50px;
+    transition: width 0.6s cubic-bezier(0.34,1.56,0.64,1);
+    position: relative;
+    min-width: 30px;
+  }
+  .progress-bar::after {
+    content: '⭐';
+    position: absolute;
+    right: -2px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+  }
+  .step-label {
+    text-align: center;
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 6px;
+  }
+
+  /* PROBLEM CARD */
+  .problem-card {
+    background: white;
+    border-radius: 24px;
+    padding: 28px 24px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    border: 3px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 16px;
+    animation: slideUp 0.4s ease;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .problem-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--coral), var(--yellow), var(--mint), var(--sky));
+  }
+
+  .story-box {
+    background: linear-gradient(135deg, #FFF3E0, #FFF8F0);
+    border-radius: 16px;
+    padding: 20px;
+    border: 2px dashed var(--yellow);
+    margin-bottom: 20px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.6;
+    text-align: center;
+  }
+  .story-box .big-emoji { font-size: 2.5rem; display: block; margin-bottom: 10px; }
+
+  /* STEP INDICATOR */
+  .step-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--coral);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 12px rgba(255,107,107,0.3);
+  }
+
+  .question-text {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 16px;
+  }
+
+  /* CHOICES */
+  .choices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .choice-btn {
+    background: white;
+    border: 3px solid #E8E0FF;
+    border-radius: 16px;
+    padding: 16px 12px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--dark);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+    text-align: center;
+    box-shadow: 0 4px 0 #E8E0FF;
+    position: relative;
+    overflow: hidden;
+  }
+  .choice-btn:hover {
+    transform: translateY(-4px) scale(1.03);
+    border-color: var(--sky);
+    box-shadow: 0 8px 0 #c5dcff;
+    background: #F0F7FF;
+  }
+  .choice-btn:active { transform: translateY(0) scale(0.97); }
+  .choice-btn.correct {
+    border-color: var(--mint);
+    background: #EDFBF0;
+    box-shadow: 0 4px 0 #a8e6b0;
+    animation: correctPop 0.5s ease;
+  }
+  .choice-btn.wrong {
+    border-color: var(--coral);
+    background: #FFF0F0;
+    box-shadow: 0 4px 0 #ffb3b3;
+    animation: shake 0.4s ease;
+  }
+  @keyframes correctPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+    100% { transform: scale(1); }
+  }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
+  }
+  .choice-emoji { font-size: 1.4rem; display: block; margin-bottom: 4px; }
+
+  /* FILL IN BLANK */
+  .fill-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+    justify-content: center;
+  }
+  .fill-input {
+    width: 80px;
+    padding: 10px;
+    border: 3px solid #E8E0FF;
+    border-radius: 12px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.4rem;
+    text-align: center;
+    color: var(--dark);
+    outline: none;
+    transition: all 0.2s;
+    box-shadow: 0 4px 0 #E8E0FF;
+  }
+  .fill-input:focus {
+    border-color: var(--sky);
+    box-shadow: 0 4px 0 #c5dcff;
+    transform: scale(1.05);
+  }
+  .fill-input.correct { border-color: var(--mint); box-shadow: 0 4px 0 #a8e6b0; background: #EDFBF0; }
+  .fill-input.wrong { border-color: var(--coral); box-shadow: 0 4px 0 #ffb3b3; background: #FFF0F0; }
+
+  /* BUTTONS */
+  .btn-check {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--sky), #6BA8FF);
+    border: none;
+    border-radius: 16px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 6px 0 #2d7add;
+    transition: all 0.2s;
+    margin-top: 8px;
+  }
+  .btn-check:hover { transform: translateY(-3px); box-shadow: 0 9px 0 #2d7add; }
+  .btn-check:active { transform: translateY(3px); box-shadow: 0 3px 0 #2d7add; }
+
+  .btn-next {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--mint), #4DB866);
+    border: none;
+    border-radius: 16px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 6px 0 #3a9a4d;
+    transition: all 0.2s;
+    margin-top: 8px;
+    display: none;
+  }
+  .btn-next:hover { transform: translateY(-3px); box-shadow: 0 9px 0 #3a9a4d; }
+  .btn-next:active { transform: translateY(3px); box-shadow: 0 3px 0 #3a9a4d; }
+
+  /* FEEDBACK */
+  .feedback {
+    display: none;
+    text-align: center;
+    padding: 14px;
+    border-radius: 16px;
+    font-weight: 800;
+    font-size: 1rem;
+    margin-top: 10px;
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+  .feedback.correct { background: #EDFBF0; color: #2E7D32; border: 2px solid #a8e6b0; }
+  .feedback.wrong { background: #FFF0F0; color: #C62828; border: 2px solid #ffb3b3; }
+
+  /* STARS */
+  .stars-row {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 10px 0;
+  }
+  .star {
+    font-size: 1.8rem;
+    opacity: 0.3;
+    transition: all 0.3s;
+    filter: grayscale(100%);
+  }
+  .star.earned { opacity: 1; filter: none; animation: starPop 0.4s ease; }
+  @keyframes starPop {
+    0% { transform: scale(0); }
+    60% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+  }
+
+  /* SCORE CARD */
+  .score-card {
+    display: none;
+    background: white;
+    border-radius: 28px;
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+    border: 4px solid var(--yellow);
+    animation: bounceIn 0.6s ease;
+  }
+  .score-card h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.2rem;
+    color: var(--coral);
+    margin: 16px 0 8px;
+  }
+  .score-card p { font-size: 1.1rem; font-weight: 700; color: #666; margin-bottom: 20px; }
+  .big-score {
+    font-family: 'Fredoka One', cursive;
+    font-size: 4rem;
+    color: var(--mint);
+    display: block;
+  }
+  .btn-restart {
+    padding: 16px 40px;
+    background: linear-gradient(135deg, var(--coral), #FF8E53);
+    border: none;
+    border-radius: 50px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 6px 0 #cc4433;
+    transition: all 0.2s;
+    margin-top: 10px;
+  }
+  .btn-restart:hover { transform: translateY(-3px); box-shadow: 0 9px 0 #cc4433; }
+
+  /* HINT button */
+  .hint-btn {
+    background: none;
+    border: 2px dashed var(--purple);
+    border-radius: 12px;
+    color: var(--purple);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+  }
+  .hint-btn:hover { background: #F9F0FF; transform: scale(1.03); }
+  .hint-box {
+    display: none;
+    background: #F9F0FF;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    color: #6a0dad;
+    font-weight: 700;
+    border: 2px solid #d4aaff;
+    margin-bottom: 10px;
+    animation: fadeIn 0.3s ease;
+  }
+
+  /* Confetti */
+  .confetti-piece {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 9999;
+    animation: confettiFall 1.5s ease-in forwards;
+  }
+  @keyframes confettiFall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating emojis background -->
+<div class="floaters" id="floaters"></div>
+
+<div class="container">
+  <div class="header">
+    <span class="header-emoji">🍕</span>
+    <h1>Pizza Math Adventure!</h1>
+    <p>Help solve the pizza problem step by step! 🧠✨</p>
+  </div>
+
+  <!-- Stars row -->
+  <div class="stars-row" id="starsRow">
+    <span class="star" id="star1">⭐</span>
+    <span class="star" id="star2">⭐</span>
+    <span class="star" id="star3">⭐</span>
+    <span class="star" id="star4">⭐</span>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <div class="progress-bar" id="progressBar" style="width: 12.5%"></div>
+  </div>
+  <p class="step-label" id="stepLabel">Step 1 of 4 — Understand the Problem</p>
+
+  <!-- QUIZ CARD -->
+  <div class="problem-card" id="quizCard">
+
+    <!-- Story always visible -->
+    <div class="story-box">
+      <span class="big-emoji">🍕🍕🍕🍕🍕</span>
+      A pizzeria makes <strong>5 pizzas</strong>, each cut into <strong>8 slices</strong>.<br>
+      If <strong>26 slices</strong> are eaten, how many slices are left? 🤔
+    </div>
+
+    <!-- Step badge -->
+    <div class="step-badge" id="stepBadge">📖 Step 1: Understand the Problem</div>
+
+    <!-- Question -->
+    <div class="question-text" id="questionText"></div>
+
+    <!-- Hint -->
+    <button class="hint-btn" id="hintBtn" onclick="showHint()">💡 Need a hint?</button>
+    <div class="hint-box" id="hintBox"></div>
+
+    <!-- Answer area (will be filled by JS) -->
+    <div id="answerArea"></div>
+
+    <div class="feedback" id="feedback"></div>
+
+    <button class="btn-check" id="btnCheck" onclick="checkAnswer()">✅ Check My Answer!</button>
+    <button class="btn-next" id="btnNext" onclick="nextStep()">Next Step ➡️</button>
+  </div>
+
+  <!-- Score card -->
+  <div class="score-card" id="scoreCard">
+    <span style="font-size:4rem">🎉</span>
+    <h2>Amazing Job!</h2>
+    <span class="big-score" id="finalScore"></span>
+    <p id="finalMsg"></p>
+    <div class="stars-row" style="margin: 10px 0 20px">⭐⭐⭐⭐</div>
+    <button class="btn-restart" onclick="restart()">🔄 Play Again!</button>
+  </div>
+</div>
+
+<script>
+// ---- FLOATING BACKGROUND ----
+const emojis = ['🍕','🌟','⭐','🎈','🏆','🎉','🍭','🎯','🌈'];
+const floaterDiv = document.getElementById('floaters');
+for (let i = 0; i < 15; i++) {
+  const el = document.createElement('div');
+  el.className = 'floater';
+  el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+  el.style.left = Math.random() * 100 + '%';
+  el.style.animationDuration = (10 + Math.random() * 15) + 's';
+  el.style.animationDelay = (Math.random() * 10) + 's';
+  el.style.fontSize = (1.2 + Math.random() * 1.5) + 'rem';
+  floaterDiv.appendChild(el);
+}
+
+// ---- QUIZ DATA ----
+const steps = [
+  {
+    badge: '📖 Step 1: Understand the Problem',
+    question: 'What do we know? Pick ALL the correct facts! 👇',
+    hint: 'Read the story carefully. How many pizzas? How many slices each? How many eaten?',
+    type: 'multi',
+    choices: [
+      { text: '🍕 5 pizzas', emoji: '🍕', correct: true },
+      { text: '🔪 8 slices each pizza', emoji: '🔪', correct: true },
+      { text: '😋 26 slices eaten', emoji: '😋', correct: true },
+      { text: '🧃 10 drinks given', emoji: '🧃', correct: false },
+    ],
+    feedback_correct: '🎉 Yes! You found all the facts! Great reading!',
+    feedback_wrong: '🤔 Hmm! Check again — there are NO drinks in the story!',
+    progressPct: 25,
+    starId: 'star1',
+    label: 'Step 1 of 4 — Understand the Problem'
+  },
+  {
+    badge: '🗺️ Step 2: Devise a Plan',
+    question: 'We need a plan! What math should we do FIRST? 🤔',
+    hint: 'We need to know how many slices in total. To find the total, we multiply!',
+    type: 'single',
+    choices: [
+      { text: '➕ Add 5 + 8', emoji: '➕', correct: false },
+      { text: '✖️ Multiply 5 × 8', emoji: '✖️', correct: true },
+      { text: '➗ Divide 26 ÷ 5', emoji: '➗', correct: false },
+      { text: '➖ Subtract 8 – 5', emoji: '➖', correct: false },
+    ],
+    feedback_correct: '🎉 Correct! We multiply 5 × 8 to get all the slices!',
+    feedback_wrong: '🤔 Not quite! We need to find the TOTAL slices first. Try multiplying!',
+    progressPct: 50,
+    starId: 'star2',
+    label: 'Step 2 of 4 — Devise a Plan'
+  },
+  {
+    badge: '⚙️ Step 3: Carry Out the Plan',
+    question: 'Now let\'s solve it! Fill in the blanks! 🔢',
+    hint: '5 × 8 = ? Then take away 26 from that!',
+    type: 'fill2',
+    blank1Label: '5 × 8 =', blank1Answer: 40,
+    blank2Label: '--- − 26 =', blank2Answer: 14,
+    blank2Prefix: '40',
+    feedback_correct: '🎉 Perfect math! 5×8=40 and 40−26=14. You\'re a star!',
+    feedback_wrong: '🤔 Almost! Try again. 5 pizzas × 8 slices = ? Then minus 26!',
+    progressPct: 75,
+    starId: 'star3',
+    label: 'Step 3 of 4 — Carry Out the Plan'
+  },
+  {
+    badge: '🔍 Step 4: Look Back',
+    question: 'Let\'s check! Which answer is correct? ✅',
+    hint: 'Remember: 40 total slices, 26 eaten. How many are LEFT?',
+    type: 'single',
+    choices: [
+      { text: '🍕 14 slices left!', emoji: '🍕', correct: true },
+      { text: '🍕 40 slices left!', emoji: '🍕', correct: false },
+      { text: '🍕 26 slices left!', emoji: '🍕', correct: false },
+      { text: '🍕 5 slices left!', emoji: '🍕', correct: false },
+    ],
+    feedback_correct: '🎉 YES! 14 slices are left! You solved it! Amazing!! 🏆',
+    feedback_wrong: '🤔 Think again! We started with 40 and 26 were eaten...',
+    progressPct: 100,
+    starId: 'star4',
+    label: 'Step 4 of 4 — Look Back'
+  }
+];
+
+let currentStep = 0;
+let score = 0;
+
+function renderStep() {
+  const s = steps[currentStep];
+  document.getElementById('stepBadge').textContent = s.badge;
+  document.getElementById('questionText').textContent = s.question;
+  document.getElementById('hintBox').style.display = 'none';
+  document.getElementById('hintBox').textContent = '💡 ' + s.hint;
+  document.getElementById('feedback').style.display = 'none';
+  document.getElementById('btnCheck').style.display = 'block';
+  document.getElementById('btnNext').style.display = 'none';
+  document.getElementById('stepLabel').textContent = s.label;
+  document.getElementById('progressBar').style.width = (currentStep === 0 ? 12.5 : s.progressPct - 12.5) + '%';
+
+  const area = document.getElementById('answerArea');
+  area.innerHTML = '';
+
+  if (s.type === 'multi' || s.type === 'single') {
+    const grid = document.createElement('div');
+    grid.className = 'choices';
+    if (s.type === 'multi') {
+      grid.style.gridTemplateColumns = '1fr 1fr';
+    }
+    s.choices.forEach((c, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'choice-btn';
+      btn.id = 'choice' + i;
+      btn.innerHTML = `<span class="choice-emoji">${c.emoji}</span>${c.text}`;
+      if (s.type === 'multi') {
+        btn.onclick = () => toggleMulti(btn);
+      } else {
+        btn.onclick = () => selectSingle(btn, i);
+      }
+      grid.appendChild(btn);
+    });
+    area.appendChild(grid);
+  } else if (s.type === 'fill2') {
+    const wrap = document.createElement('div');
+    wrap.style.display = 'flex';
+    wrap.style.flexDirection = 'column';
+    wrap.style.gap = '14px';
+    wrap.style.marginBottom = '12px';
+
+    // Row 1
+    const row1 = document.createElement('div');
+    row1.className = 'fill-wrap';
+    row1.innerHTML = `<span>${s.blank1Label}</span>`;
+    const inp1 = document.createElement('input');
+    inp1.type = 'number'; inp1.className = 'fill-input'; inp1.id = 'inp1';
+    inp1.placeholder = '?'; inp1.min = 0; inp1.max = 999;
+    row1.appendChild(inp1);
+    wrap.appendChild(row1);
+
+    // Row 2
+    const row2 = document.createElement('div');
+    row2.className = 'fill-wrap';
+    row2.innerHTML = `<span><strong>40</strong> − 26 =</span>`;
+    const inp2 = document.createElement('input');
+    inp2.type = 'number'; inp2.className = 'fill-input'; inp2.id = 'inp2';
+    inp2.placeholder = '?'; inp2.min = 0; inp2.max = 999;
+    row2.appendChild(inp2);
+    wrap.appendChild(row2);
+
+    area.appendChild(wrap);
+  }
+}
+
+function toggleMulti(btn) {
+  btn.classList.toggle('selected');
+  if (btn.classList.contains('selected')) {
+    btn.style.borderColor = 'var(--sky)';
+    btn.style.background = '#F0F7FF';
+  } else {
+    btn.style.borderColor = '#E8E0FF';
+    btn.style.background = 'white';
+  }
+}
+
+let selectedSingle = null;
+function selectSingle(btn, idx) {
+  if (document.getElementById('btnNext').style.display === 'block') return;
+  document.querySelectorAll('.choice-btn').forEach(b => {
+    b.style.borderColor = '#E8E0FF';
+    b.style.background = 'white';
+  });
+  btn.style.borderColor = 'var(--sky)';
+  btn.style.background = '#F0F7FF';
+  selectedSingle = idx;
+}
+
+function showHint() {
+  const h = document.getElementById('hintBox');
+  h.textContent = '💡 ' + steps[currentStep].hint;
+  h.style.display = h.style.display === 'block' ? 'none' : 'block';
+}
+
+function checkAnswer() {
+  const s = steps[currentStep];
+  let correct = false;
+  const fb = document.getElementById('feedback');
+
+  if (s.type === 'multi') {
+    const selected = [...document.querySelectorAll('.choice-btn')].filter(b => b.classList.contains('selected'));
+    const correctIndices = s.choices.map((c,i) => c.correct ? i : -1).filter(i => i >= 0);
+    const selectedIndices = selected.map(b => parseInt(b.id.replace('choice','')));
+    correct = correctIndices.length === selectedIndices.length &&
+              correctIndices.every(i => selectedIndices.includes(i));
+    s.choices.forEach((c, i) => {
+      const btn = document.getElementById('choice' + i);
+      if (c.correct) btn.classList.add('correct');
+      else btn.classList.add('wrong');
+      btn.onclick = null;
+    });
+  } else if (s.type === 'single') {
+    if (selectedSingle === null) {
+      fb.className = 'feedback wrong';
+      fb.textContent = '👆 Please pick an answer first!';
+      fb.style.display = 'block';
+      return;
+    }
+    correct = s.choices[selectedSingle].correct;
+    s.choices.forEach((c, i) => {
+      const btn = document.getElementById('choice' + i);
+      if (c.correct) btn.classList.add('correct');
+      else if (i === selectedSingle) btn.classList.add('wrong');
+      btn.onclick = null;
+    });
+    selectedSingle = null;
+  } else if (s.type === 'fill2') {
+    const v1 = parseInt(document.getElementById('inp1').value);
+    const v2 = parseInt(document.getElementById('inp2').value);
+    correct = v1 === s.blank1Answer && v2 === s.blank2Answer;
+    document.getElementById('inp1').classList.add(v1 === s.blank1Answer ? 'correct' : 'wrong');
+    document.getElementById('inp2').classList.add(v2 === s.blank2Answer ? 'correct' : 'wrong');
+    document.getElementById('inp1').readOnly = true;
+    document.getElementById('inp2').readOnly = true;
+  }
+
+  fb.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+  fb.textContent = correct ? s.feedback_correct : s.feedback_wrong;
+  fb.style.display = 'block';
+
+  if (correct) {
+    score++;
+    document.getElementById(s.starId).classList.add('earned');
+    launchConfetti();
+    document.getElementById('progressBar').style.width = s.progressPct + '%';
+  }
+
+  document.getElementById('btnCheck').style.display = 'none';
+  document.getElementById('btnNext').style.display = 'block';
+  if (currentStep === steps.length - 1) {
+    document.getElementById('btnNext').textContent = '🏆 See My Score!';
+  }
+}
+
+function nextStep() {
+  currentStep++;
+  if (currentStep >= steps.length) {
+    showScore();
+  } else {
+    document.getElementById('quizCard').style.animation = 'none';
+    setTimeout(() => {
+      document.getElementById('quizCard').style.animation = 'slideUp 0.4s ease';
+      renderStep();
+    }, 50);
+  }
+}
+
+function showScore() {
+  document.getElementById('quizCard').style.display = 'none';
+  const sc = document.getElementById('scoreCard');
+  sc.style.display = 'block';
+  document.getElementById('finalScore').textContent = score + ' / 4 ⭐';
+  const msgs = ['', 'Keep trying! You can do it! 💪', 'Good start! Try again! 😊', 'Almost perfect! So close! 🌟', 'PERFECT SCORE! You\'re a Math Hero! 🦸'];
+  document.getElementById('finalMsg').textContent = msgs[score] || msgs[4];
+  launchConfetti();
+  launchConfetti();
+}
+
+function restart() {
+  currentStep = 0; score = 0;
+  document.querySelectorAll('.star').forEach(s => s.classList.remove('earned'));
+  document.getElementById('scoreCard').style.display = 'none';
+  document.getElementById('quizCard').style.display = 'block';
+  renderStep();
+}
+
+function launchConfetti() {
+  const colors = ['#FF6B6B','#FFD93D','#6BCB77','#4D96FF','#C77DFF','#FF8E53'];
+  for (let i = 0; i < 30; i++) {
+    setTimeout(() => {
+      const c = document.createElement('div');
+      c.className = 'confetti-piece';
+      c.style.left = (10 + Math.random() * 80) + '%';
+      c.style.top = '0px';
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+      c.style.animationDuration = (1 + Math.random()) + 's';
+      c.style.animationDelay = (Math.random() * 0.5) + 's';
+      c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 2000);
+    }, i * 30);
+  }
+}
+
+// Start!
+renderStep();
+</script>
+</body>
+</html>

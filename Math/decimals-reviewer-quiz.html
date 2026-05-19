@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Decimals Reviewer & Quiz – Grade 4</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #3b82f6;
+    --blue-dark: #1d4ed8;
+    --green: #22c55e;
+    --green-dark: #15803d;
+    --yellow: #fbbf24;
+    --red: #ef4444;
+    --purple: #8b5cf6;
+    --bg: #f0f7ff;
+    --card: #ffffff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --border: #e2e8f0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  header {
+    background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 50%, #60a5fa 100%);
+    color: white;
+    text-align: center;
+    padding: 2rem 1rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  header h1 {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    letter-spacing: 1px;
+    margin-bottom: .4rem;
+  }
+  header p {
+    font-size: 1rem;
+    opacity: .9;
+    font-weight: 600;
+  }
+  .badge {
+    display: inline-block;
+    background: rgba(255,255,255,.2);
+    border: 2px solid rgba(255,255,255,.4);
+    border-radius: 999px;
+    padding: .3rem 1rem;
+    font-size: .85rem;
+    font-weight: 700;
+    margin-top: .6rem;
+  }
+
+  /* NAV TABS */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: .5rem;
+    padding: 1.2rem 1rem .5rem;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: .95rem;
+    padding: .55rem 1.4rem;
+    border: 3px solid transparent;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all .2s;
+    background: white;
+    color: var(--muted);
+    box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  }
+  .tab-btn.active {
+    background: var(--blue);
+    color: white;
+    border-color: var(--blue-dark);
+    box-shadow: 0 4px 12px rgba(59,130,246,.4);
+    transform: translateY(-2px);
+  }
+  .tab-btn:hover:not(.active) {
+    border-color: var(--blue);
+    color: var(--blue);
+  }
+
+  /* MAIN */
+  main { max-width: 800px; margin: 0 auto; padding: 1rem 1rem 3rem; }
+
+  /* SECTION */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 3px 12px rgba(0,0,0,.07);
+    border: 2px solid var(--border);
+  }
+  .card-title {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 1.2rem;
+    color: var(--blue-dark);
+    margin-bottom: .8rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  .card-title .icon {
+    font-size: 1.4rem;
+  }
+
+  /* REVIEW CONTENT */
+  .rule-box {
+    background: #eff6ff;
+    border-left: 5px solid var(--blue);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    margin: .8rem 0;
+    font-size: .95rem;
+    line-height: 1.7;
+  }
+  .tip-box {
+    background: #fef9c3;
+    border-left: 5px solid var(--yellow);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    margin: .8rem 0;
+    font-size: .95rem;
+    line-height: 1.7;
+  }
+  .example-box {
+    background: #f0fdf4;
+    border: 2px dashed var(--green);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    margin: .8rem 0;
+    font-size: .95rem;
+    line-height: 1.9;
+  }
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: .7rem;
+    margin: .5rem 0;
+  }
+  .step-num {
+    min-width: 28px;
+    height: 28px;
+    background: var(--blue);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: .85rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .highlight { color: var(--blue-dark); font-weight: 800; }
+  .math {
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    background: #f1f5f9;
+    padding: 2px 6px;
+    border-radius: 6px;
+  }
+  .math-block {
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    background: #f1f5f9;
+    padding: .8rem 1.2rem;
+    border-radius: 10px;
+    display: inline-block;
+    line-height: 1.9;
+    margin: .4rem 0;
+  }
+  .approx { color: var(--purple); font-weight: 800; }
+  .equals { color: var(--green-dark); font-weight: 800; }
+  table.columnar { border-collapse: collapse; margin: .4rem 0; }
+  table.columnar td {
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    text-align: right;
+    padding: 1px 4px;
+    min-width: 20px;
+  }
+  table.columnar tr.border-top td { border-top: 2px solid #334155; }
+
+  /* QUIZ */
+  .quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: .5rem;
+  }
+  .quiz-title {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 1.4rem;
+    color: var(--blue-dark);
+  }
+  .score-badge {
+    background: var(--blue);
+    color: white;
+    border-radius: 999px;
+    padding: .35rem 1rem;
+    font-weight: 800;
+    font-size: .95rem;
+  }
+  .progress-bar {
+    height: 10px;
+    background: var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--blue), var(--purple));
+    border-radius: 999px;
+    transition: width .4s ease;
+  }
+
+  .q-card {
+    background: white;
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 3px 14px rgba(0,0,0,.08);
+    border: 2px solid var(--border);
+    margin-bottom: 1.2rem;
+    transition: border-color .2s;
+  }
+  .q-card.correct { border-color: var(--green); background: #f0fdf4; }
+  .q-card.wrong { border-color: var(--red); background: #fff5f5; }
+
+  .q-num {
+    font-size: .8rem;
+    font-weight: 800;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: .5rem;
+  }
+  .q-text {
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .options { display: flex; flex-direction: column; gap: .6rem; }
+  .opt-btn {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    padding: .75rem 1rem;
+    border: 2.5px solid var(--border);
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-size: .95rem;
+    font-weight: 700;
+    text-align: left;
+    transition: all .2s;
+  }
+  .opt-btn:hover:not(:disabled) {
+    border-color: var(--blue);
+    background: #eff6ff;
+    transform: translateX(4px);
+  }
+  .opt-btn .opt-letter {
+    min-width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: .9rem;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+  }
+  .opt-btn.selected { border-color: var(--blue); background: #eff6ff; }
+  .opt-btn.selected .opt-letter { background: var(--blue); color: white; border-color: var(--blue); }
+  .opt-btn.correct-ans { border-color: var(--green) !important; background: #dcfce7 !important; }
+  .opt-btn.correct-ans .opt-letter { background: var(--green); color: white; border-color: var(--green); }
+  .opt-btn.wrong-ans { border-color: var(--red) !important; background: #fee2e2 !important; }
+  .opt-btn.wrong-ans .opt-letter { background: var(--red); color: white; border-color: var(--red); }
+
+  .feedback {
+    margin-top: .8rem;
+    padding: .7rem 1rem;
+    border-radius: 10px;
+    font-size: .9rem;
+    font-weight: 700;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct { background: #dcfce7; color: var(--green-dark); }
+  .feedback.wrong { background: #fee2e2; color: #991b1b; }
+
+  /* Fill in blank */
+  .fill-input {
+    border: 2.5px solid var(--border);
+    border-radius: 10px;
+    padding: .6rem .9rem;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    width: 140px;
+    margin: .3rem 0;
+    transition: border-color .2s;
+    outline: none;
+  }
+  .fill-input:focus { border-color: var(--blue); }
+  .fill-input.correct-input { border-color: var(--green); background: #dcfce7; }
+  .fill-input.wrong-input { border-color: var(--red); background: #fee2e2; }
+
+  .check-btn {
+    margin-top: .8rem;
+    padding: .55rem 1.4rem;
+    background: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 999px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: .9rem;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .check-btn:hover { background: var(--blue-dark); transform: translateY(-1px); }
+  .check-btn:disabled { opacity: .5; cursor: default; transform: none; }
+
+  /* RESULTS */
+  .results-card {
+    background: white;
+    border-radius: 24px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 6px 24px rgba(0,0,0,.1);
+    display: none;
+    margin-top: 1rem;
+  }
+  .results-card.show { display: block; }
+  .result-emoji { font-size: 4rem; margin-bottom: .8rem; }
+  .result-score {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 3.5rem;
+    color: var(--blue-dark);
+    line-height: 1;
+  }
+  .result-label {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 1.2rem;
+  }
+  .result-msg {
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 1rem;
+    border-radius: 14px;
+    margin-bottom: 1.5rem;
+  }
+
+  .retry-btn {
+    padding: .7rem 2rem;
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    color: white;
+    border: none;
+    border-radius: 999px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(59,130,246,.4);
+    transition: all .2s;
+  }
+  .retry-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(59,130,246,.5); }
+
+  .submit-area {
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+  .submit-btn {
+    padding: .8rem 2.5rem;
+    background: linear-gradient(135deg, var(--green), #16a34a);
+    color: white;
+    border: none;
+    border-radius: 999px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1.05rem;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(34,197,94,.4);
+    transition: all .2s;
+  }
+  .submit-btn:hover { transform: translateY(-2px); }
+
+  @media (max-width: 500px) {
+    header { padding: 1.5rem .8rem 2rem; }
+    .card { padding: 1.1rem; }
+    .q-card { padding: 1.1rem; }
+    .math-block { font-size: .85rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📐 Decimals Reviewer & Quiz</h1>
+  <p>Estimating and Adding Decimals • Solving Word Problems</p>
+  <div class="badge">Grade 4 Math</div>
+</header>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showSection('review')">📖 Reviewer</button>
+  <button class="tab-btn" onclick="showSection('quiz')">✏️ Quiz</button>
+</div>
+
+<main>
+
+<!-- ===== REVIEWER ===== -->
+<div id="review" class="section active">
+
+  <!-- PART 1: ESTIMATING SUMS -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🔢</span> Part 1: Estimating Sums</div>
+
+    <div class="rule-box">
+      <b>What is estimating?</b><br>
+      Estimating means finding a <span class="highlight">close but not exact</span> answer. We round decimals to the nearest whole number first, then add.
+    </div>
+
+    <div class="tip-box">
+      💡 <b>Rounding Rule:</b><br>
+      • If the decimal part is <b>.5 or more</b> → round <b>UP</b><br>
+      • If the decimal part is <b>less than .5</b> → round <b>DOWN</b>
+    </div>
+
+    <div class="card-title" style="font-size:1rem; margin-top:1rem;">🔍 How to Estimate a Sum:</div>
+    <div class="step"><div class="step-num">1</div><div>Round each decimal to the nearest whole number.</div></div>
+    <div class="step"><div class="step-num">2</div><div>Add the rounded numbers.</div></div>
+    <div class="step"><div class="step-num">3</div><div>Use the <span class="highlight">≈ (approximately equal)</span> sign for estimates.</div></div>
+    <div class="step"><div class="step-num">4</div><div>Use the <span class="highlight">= (equal)</span> sign once you finish the math.</div></div>
+
+    <div class="example-box">
+      <b>✏️ Example:</b> Estimate 25.38 + 11.91<br><br>
+      25.38 <span class="approx">≈</span> 25 &nbsp;(since .38 &lt; .5, round down)<br>
+      11.91 <span class="approx">≈</span> 12 &nbsp;(since .91 ≥ .5, round up)<br><br>
+      25.38 + 11.91 <span class="approx">≈</span> 25 + 12 <span class="equals">=</span> <b>37</b><br><br>
+      ✅ The estimated value is <b>37</b>.
+    </div>
+
+    <div class="example-box">
+      <b>✏️ Example:</b> Estimate 32.9 + 8.99<br><br>
+      32.9 <span class="approx">≈</span> 33 &nbsp;(since .9 ≥ .5, round up)<br>
+      8.99 <span class="approx">≈</span> 9 &nbsp;(since .99 ≥ .5, round up)<br><br>
+      32.9 + 8.99 <span class="approx">≈</span> 33 + 9 <span class="equals">=</span> <b>42</b>
+    </div>
+  </div>
+
+  <!-- PART 2: ADDING DECIMALS -->
+  <div class="card">
+    <div class="card-title"><span class="icon">➕</span> Part 2: Adding Decimals</div>
+
+    <div class="rule-box">
+      Adding decimals is just like adding whole numbers — but you need to <span class="highlight">line up the decimal points</span>!
+    </div>
+
+    <div class="card-title" style="font-size:1rem; margin-top:1rem;">🔍 Steps to Add Decimals:</div>
+    <div class="step"><div class="step-num">1</div><div>Write the numbers in a column. <b>Line up the decimal points.</b></div></div>
+    <div class="step"><div class="step-num">2</div><div>Add zeros if needed so both numbers have the same decimal places.</div></div>
+    <div class="step"><div class="step-num">3</div><div>Add from right to left. Don't forget to <b>carry</b> when needed!</div></div>
+    <div class="step"><div class="step-num">4</div><div>Put the decimal point in your answer.</div></div>
+    <div class="step"><div class="step-num">5</div><div>Check: Is your answer close to your estimate? ✅</div></div>
+
+    <div class="example-box">
+      <b>✏️ Example:</b> Find 25.38 + 11.91<br><br>
+      <div class="math-block">
+        &nbsp;&nbsp;<sup>1</sup><br>
+        &nbsp;2 5 . 3 8<br>
+        +&nbsp;1 1 . 9 1<br>
+        ───────────<br>
+        &nbsp;3 7 . 2 9
+      </div><br>
+      ✅ 25.38 + 11.91 <b>= 37.29</b><br>
+      <span style="color:var(--green-dark);">Close to our estimate of 37 → Reasonable! 👍</span>
+    </div>
+
+    <div class="example-box">
+      <b>✏️ Example:</b> Find 32.9 + 8.99<br><br>
+      <div class="math-block">
+        &nbsp;&nbsp;<sup>1 1</sup><br>
+        &nbsp;3 2 . 9 0<br>
+        +&nbsp;&nbsp;8 . 9 9<br>
+        ───────────<br>
+        &nbsp;4 1 . 8 9
+      </div><br>
+      ✅ 32.9 + 8.99 <b>= 41.89</b>
+    </div>
+
+    <div class="tip-box">
+      💡 <b>Remember:</b> When you add a whole number with decimals (like 4.4 + 5.63), write it as <span class="math">4.40 + 5.63</span> — just add a zero at the end!
+    </div>
+  </div>
+
+  <!-- PART 3: WORD PROBLEMS -->
+  <div class="card">
+    <div class="card-title"><span class="icon">📝</span> Part 3: Solving Word Problems</div>
+
+    <div class="rule-box">
+      For word problems, always follow these steps:<br>
+      <div class="step" style="margin-top:.5rem"><div class="step-num">1</div><div><b>Understand</b> – What is being asked?</div></div>
+      <div class="step"><div class="step-num">2</div><div><b>Plan</b> – What operation will you use? (add or subtract?)</div></div>
+      <div class="step"><div class="step-num">3</div><div><b>Solve</b> – Write and compute your number sentence.</div></div>
+      <div class="step"><div class="step-num">4</div><div><b>Check</b> – Does your answer make sense?</div></div>
+    </div>
+
+    <div class="example-box">
+      <b>✏️ Problem 1 (Addition):</b><br>
+      Sarah bought 5.42 m of lace. Anna bought 3.26 m of lace. How many meters did they buy in all?<br><br>
+      <b>Operation:</b> Addition (in all = add)<br>
+      <b>Number sentence:</b> 5.42 + 3.26 = ?<br><br>
+      <div class="math-block">
+        &nbsp;5 . 4 2<br>
+        +&nbsp;3 . 2 6<br>
+        ─────────<br>
+        &nbsp;8 . 6 8
+      </div><br>
+      ✅ They bought <b>8.68 meters</b> of lace in all.
+    </div>
+
+    <div class="example-box">
+      <b>✏️ Problem 2 (Multi-step / More than one item):</b><br>
+      Jahli spent ₱26.50 on milk and ₱22.15 on a snack. How much did he spend altogether?<br><br>
+      <b>Operation:</b> Addition<br>
+      <b>Number sentence:</b> ₱26.50 + ₱22.15 = ?<br><br>
+      <div class="math-block">
+        &nbsp;2 6 . 5 0<br>
+        +&nbsp;2 2 . 1 5<br>
+        ──────────<br>
+        &nbsp;4 8 . 6 5
+      </div><br>
+      ✅ Jahli spent <b>₱48.65</b> altogether.
+    </div>
+
+    <div class="tip-box">
+      💡 <b>Key words to help you:</b><br>
+      • <b>Add</b> → in all, altogether, total, both, combined, sum<br>
+      • <b>Subtract</b> → less, fewer, how much more, difference, left, remain
+    </div>
+  </div>
+
+  <!-- QUICK REVIEW TABLE -->
+  <div class="card">
+    <div class="card-title"><span class="icon">⚡</span> Quick Review Summary</div>
+    <table style="width:100%; border-collapse:collapse; font-size:.93rem;">
+      <thead>
+        <tr style="background:#eff6ff;">
+          <th style="padding:.7rem; text-align:left; border-radius:8px 0 0 0; border:2px solid #e2e8f0;">Topic</th>
+          <th style="padding:.7rem; text-align:left; border:2px solid #e2e8f0;">What to do</th>
+          <th style="padding:.7rem; text-align:left; border-radius:0 8px 0 0; border:2px solid #e2e8f0;">Sign used</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:.7rem; border:2px solid #e2e8f0; font-weight:700;">Estimate</td>
+          <td style="padding:.7rem; border:2px solid #e2e8f0;">Round each number, then add</td>
+          <td style="padding:.7rem; border:2px solid #e2e8f0; font-weight:800; color:var(--purple);">≈</td>
+        </tr>
+        <tr style="background:#f8fafc;">
+          <td style="padding:.7rem; border:2px solid #e2e8f0; font-weight:700;">Actual sum</td>
+          <td style="padding:.7rem; border:2px solid #e2e8f0;">Line up decimals, add carefully</td>
+          <td style="padding:.7rem; border:2px solid #e2e8f0; font-weight:800; color:var(--green-dark);">=</td>
+        </tr>
+        <tr>
+          <td style="padding:.7rem; border:2px solid #e2e8f0; font-weight:700;">Word problems</td>
+          <td style="padding:.7rem; border:2px solid #e2e8f0;">Understand → Plan → Solve → Check</td>
+          <td style="padding:.7rem; border:2px solid #e2e8f0;">+ or −</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- end review -->
+
+<!-- ===== QUIZ ===== -->
+<div id="quiz" class="section">
+  <div class="quiz-header">
+    <div class="quiz-title">🧠 Time to Practice!</div>
+    <div class="score-badge" id="score-display">Score: 0 / 10</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+  <div id="quiz-questions"></div>
+
+  <div class="submit-area">
+    <button class="submit-btn" onclick="submitQuiz()">✅ Check My Score!</button>
+  </div>
+
+  <div class="results-card" id="results-card">
+    <div class="result-emoji" id="result-emoji">🎉</div>
+    <div class="result-score" id="result-score">0/10</div>
+    <div class="result-label">points</div>
+    <div class="result-msg" id="result-msg"></div>
+    <button class="retry-btn" onclick="resetQuiz()">🔄 Try Again!</button>
+  </div>
+</div>
+
+</main>
+
+<script>
+const questions = [
+  // Rounding & Estimating (MC)
+  {
+    type: 'mc',
+    q: '1. Round 7.63 to the nearest whole number.',
+    opts: ['7', '8', '6', '70'],
+    ans: 1
+  },
+  {
+    type: 'mc',
+    q: '2. Round 14.25 to the nearest whole number.',
+    opts: ['15', '14', '13', '142'],
+    ans: 1
+  },
+  {
+    type: 'mc',
+    q: '3. What is the best estimate of 8.25 + 6.7?',
+    opts: ['13', '14', '15', '16'],
+    ans: 2,
+    hint: 'Round 8.25 ≈ 8 and 6.7 ≈ 7, then add.'
+  },
+  {
+    type: 'mc',
+    q: '4. Which sign do we use when writing an estimated value?',
+    opts: ['= (equal)', '≈ (approximately equal)', '+ (plus)', '< (less than)'],
+    ans: 1
+  },
+  // Adding decimals (fill-in)
+  {
+    type: 'fill',
+    q: '5. Find the actual sum: 4.4 + 5.63 = ___',
+    ans: '10.03',
+    hint: 'Line up the decimal points. 4.40 + 5.63 = ?'
+  },
+  {
+    type: 'fill',
+    q: '6. Find the actual sum: 34.98 + 3.71 = ___',
+    ans: '38.69',
+    hint: 'Add carefully column by column.'
+  },
+  {
+    type: 'fill',
+    q: '7. Find the actual sum: 62.87 + 22.54 = ___',
+    ans: '85.41',
+    hint: 'Don\'t forget to carry!'
+  },
+  // Word problems
+  {
+    type: 'mc',
+    q: '8. A sticker book costs ₱48.95 while a stamp album costs ₱22.35 more. What is the cost of the stamp album?',
+    opts: ['₱71.30', '₱71.10', '₱70.30', '₱26.60'],
+    ans: 0,
+    hint: '₱48.95 + ₱22.35 = ?'
+  },
+  {
+    type: 'mc',
+    q: '9. Container A can hold 12.36 liters. Container A holds 3.89 liters LESS than Container B. How much can Container B hold?',
+    opts: ['8.47 liters', '16.25 liters', '16.35 liters', '16.15 liters'],
+    ans: 1,
+    hint: 'Container B holds MORE. So add: 12.36 + 3.89 = ?'
+  },
+  {
+    type: 'mc',
+    q: '10. Parcel A has a mass of 5.8 kg. Parcel B is 2.45 kg heavier than Parcel A. What is the mass of Parcel B?',
+    opts: ['3.35 kg', '7.25 kg', '8.25 kg', '8.35 kg'],
+    ans: 2,
+    hint: 'Heavier → add. 5.8 + 2.45 = ? (Tip: 5.80 + 2.45)'
+  }
+];
+
+let userAnswers = {};
+let submitted = false;
+
+function buildQuiz() {
+  const container = document.getElementById('quiz-questions');
+  container.innerHTML = '';
+  userAnswers = {};
+  submitted = false;
+
+  questions.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = `qcard-${i}`;
+
+    const qNum = document.createElement('div');
+    qNum.className = 'q-num';
+    qNum.textContent = `Question ${i+1} of ${questions.length}`;
+    card.appendChild(qNum);
+
+    const qText = document.createElement('div');
+    qText.className = 'q-text';
+    qText.textContent = q.q;
+    card.appendChild(qText);
+
+    if (q.type === 'mc') {
+      const opts = document.createElement('div');
+      opts.className = 'options';
+      const letters = ['A','B','C','D'];
+      q.opts.forEach((opt, j) => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.id = `q${i}-opt${j}`;
+        btn.innerHTML = `<span class="opt-letter">${letters[j]}</span><span>${opt}</span>`;
+        btn.onclick = () => selectOpt(i, j);
+        opts.appendChild(btn);
+      });
+      card.appendChild(opts);
+    } else {
+      const row = document.createElement('div');
+      row.style.display = 'flex';
+      row.style.alignItems = 'center';
+      row.style.gap = '.5rem';
+      row.style.flexWrap = 'wrap';
+
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'fill-input';
+      input.id = `q${i}-input`;
+      input.placeholder = 'Your answer';
+      input.oninput = () => { userAnswers[i] = input.value.trim(); updateProgress(); };
+      row.appendChild(input);
+      card.appendChild(row);
+    }
+
+    const feedback = document.createElement('div');
+    feedback.className = 'feedback';
+    feedback.id = `feedback-${i}`;
+    card.appendChild(feedback);
+
+    container.appendChild(card);
+  });
+
+  updateProgress();
+  document.getElementById('results-card').classList.remove('show');
+  document.getElementById('score-display').textContent = 'Score: 0 / 10';
+}
+
+function selectOpt(qi, oi) {
+  if (submitted) return;
+  userAnswers[qi] = oi;
+  const letters = ['A','B','C','D'];
+  questions[qi].opts.forEach((_, j) => {
+    const btn = document.getElementById(`q${qi}-opt${j}`);
+    btn.classList.remove('selected');
+    btn.querySelector('.opt-letter').style.background = '';
+    btn.querySelector('.opt-letter').style.color = '';
+    btn.querySelector('.opt-letter').style.borderColor = '';
+  });
+  const sel = document.getElementById(`q${qi}-opt${oi}`);
+  sel.classList.add('selected');
+  updateProgress();
+}
+
+function updateProgress() {
+  const answered = Object.keys(userAnswers).length;
+  const pct = (answered / questions.length) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function submitQuiz() {
+  if (submitted) return;
+  submitted = true;
+  let score = 0;
+
+  questions.forEach((q, i) => {
+    const card = document.getElementById(`qcard-${i}`);
+    const fb = document.getElementById(`feedback-${i}`);
+
+    if (q.type === 'mc') {
+      const userAns = userAnswers[i];
+      const correct = q.ans;
+      const letters = ['A','B','C','D'];
+
+      if (userAns !== undefined) {
+        const uBtn = document.getElementById(`q${i}-opt${userAns}`);
+        if (userAns === correct) {
+          uBtn.classList.add('correct-ans');
+          card.classList.add('correct');
+          score++;
+          fb.textContent = '✅ Correct! Great job!';
+          fb.className = 'feedback show correct';
+        } else {
+          uBtn.classList.add('wrong-ans');
+          card.classList.add('wrong');
+          const cBtn = document.getElementById(`q${i}-opt${correct}`);
+          cBtn.classList.add('correct-ans');
+          let msg = `❌ Oops! The correct answer is ${letters[correct]}: ${q.opts[correct]}.`;
+          if (q.hint) msg += ` Hint: ${q.hint}`;
+          fb.textContent = msg;
+          fb.className = 'feedback show wrong';
+        }
+      } else {
+        const cBtn = document.getElementById(`q${i}-opt${correct}`);
+        cBtn.classList.add('correct-ans');
+        card.classList.add('wrong');
+        fb.textContent = `⚠️ No answer. The correct answer is ${letters[correct]}: ${q.opts[correct]}.`;
+        fb.className = 'feedback show wrong';
+      }
+      // Disable buttons
+      q.opts.forEach((_, j) => {
+        document.getElementById(`q${i}-opt${j}`).disabled = true;
+      });
+
+    } else {
+      const input = document.getElementById(`q${i}-input`);
+      const userVal = (userAnswers[i] || '').replace(/\s/g,'');
+      const correctVal = q.ans;
+      input.disabled = true;
+
+      if (userVal === correctVal) {
+        input.classList.add('correct-input');
+        card.classList.add('correct');
+        score++;
+        fb.textContent = '✅ Correct! Well done!';
+        fb.className = 'feedback show correct';
+      } else {
+        input.classList.add('wrong-input');
+        card.classList.add('wrong');
+        let msg = `❌ Not quite. The correct answer is ${correctVal}.`;
+        if (q.hint) msg += ` Hint: ${q.hint}`;
+        fb.textContent = msg;
+        fb.className = 'feedback show wrong';
+      }
+    }
+  });
+
+  // Show score
+  document.getElementById('score-display').textContent = `Score: ${score} / 10`;
+  document.getElementById('progress-fill').style.width = '100%';
+
+  const resultsCard = document.getElementById('results-card');
+  resultsCard.classList.add('show');
+  document.getElementById('result-score').textContent = `${score}/10`;
+
+  let emoji, msg, color;
+  if (score === 10) {
+    emoji = '🏆'; msg = 'PERFECT SCORE! You are a Decimal Master! 🎉';
+    color = '#dcfce7'; 
+  } else if (score >= 8) {
+    emoji = '🌟'; msg = 'Excellent! You really understand decimals!';
+    color = '#dbeafe';
+  } else if (score >= 6) {
+    emoji = '👍'; msg = 'Good job! Review the missed items and try again.';
+    color = '#fef9c3';
+  } else if (score >= 4) {
+    emoji = '📖'; msg = 'Keep practicing! Go back to the Reviewer and try again.';
+    color = '#ffedd5';
+  } else {
+    emoji = '💪'; msg = 'Don\'t give up! Read the Reviewer carefully, then retry.';
+    color = '#fee2e2';
+  }
+
+  document.getElementById('result-emoji').textContent = emoji;
+  const msgEl = document.getElementById('result-msg');
+  msgEl.textContent = msg;
+  msgEl.style.background = color;
+
+  resultsCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function resetQuiz() {
+  buildQuiz();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Init
+buildQuiz();
+</script>
+</body>
+</html>

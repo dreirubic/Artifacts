@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔢 Decimals Reviewer – Grade 4</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #4FC3F7;
+    --navy: #1A237E;
+    --mint: #69F0AE;
+    --lemon: #FFF176;
+    --coral: #FF7043;
+    --lavender: #CE93D8;
+    --peach: #FFCCBC;
+    --white: #FFFFFF;
+    --card: #F8FBFF;
+    --shadow: 0 4px 20px rgba(26,35,126,0.12);
+    --radius: 18px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #E3F2FD 0%, #E8F5E9 50%, #FFF8E1 100%);
+    min-height: 100vh;
+    color: #1A237E;
+  }
+
+  /* ===== HEADER ===== */
+  .site-header {
+    background: linear-gradient(120deg, #1A237E 0%, #283593 60%, #3949AB 100%);
+    padding: 28px 20px 22px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(79,195,247,0.2) 0%, transparent 60%),
+                radial-gradient(circle at 80% 30%, rgba(105,240,174,0.15) 0%, transparent 50%);
+  }
+  .site-header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    color: #FFF176;
+    letter-spacing: 1px;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+    position: relative;
+  }
+  .site-header p {
+    color: #B3E5FC;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 6px;
+    position: relative;
+  }
+  .stars { font-size: 1.4rem; letter-spacing: 4px; }
+
+  /* ===== NAV ===== */
+  .nav-bar {
+    background: white;
+    padding: 10px 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-btn {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.78rem;
+    padding: 7px 13px;
+    border-radius: 50px;
+    border: 2.5px solid transparent;
+    cursor: pointer;
+    transition: all .2s;
+    background: #EEF2FF;
+    color: #3949AB;
+  }
+  .nav-btn:hover, .nav-btn.active {
+    background: #1A237E;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26,35,126,0.3);
+  }
+
+  /* ===== PAGES ===== */
+  .page { display: none; padding: 24px 16px 40px; max-width: 860px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  /* ===== LESSON CARDS ===== */
+  .lesson-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    border-left: 6px solid var(--sky);
+    animation: fadeUp .4s ease;
+  }
+  .lesson-card.mint { border-left-color: #26A69A; }
+  .lesson-card.coral { border-left-color: var(--coral); }
+  .lesson-card.lavender { border-left-color: #7B1FA2; }
+  .lesson-card.lemon { border-left-color: #F9A825; }
+  .lesson-card.pink { border-left-color: #E91E63; }
+
+  .lesson-card h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.5rem;
+    margin-bottom: 6px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .lesson-card .emoji { font-size: 1.8rem; }
+  .lesson-card p, .lesson-card li { font-size: 1rem; line-height: 1.7; color: #37474F; }
+  .lesson-card ul { padding-left: 20px; margin-top: 8px; }
+
+  .example-box {
+    background: #EEF2FF;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-size: 1rem;
+    border: 2px dashed #7986CB;
+  }
+  .example-box .big {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.6rem;
+    color: #1A237E;
+    display: block;
+    margin: 4px 0;
+  }
+  .tip-box {
+    background: #FFF9C4;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-top: 12px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #F57F17;
+    border: 2px solid #FFD600;
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .step-list { counter-reset: steps; padding: 0; list-style: none; margin-top: 10px; }
+  .step-list li {
+    counter-increment: steps;
+    display: flex; align-items: flex-start; gap: 12px;
+    margin-bottom: 10px; padding: 10px 14px;
+    background: #F3F4FF;
+    border-radius: 10px;
+  }
+  .step-list li::before {
+    content: counter(steps);
+    background: #1A237E;
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* Place value table */
+  .pv-table { width: 100%; border-collapse: collapse; margin: 14px 0; border-radius: 12px; overflow: hidden; }
+  .pv-table th { background: #1A237E; color: white; padding: 10px; font-family: 'Fredoka One', cursive; font-size: 1rem; }
+  .pv-table td { padding: 10px 14px; text-align: center; font-size: 1rem; font-weight: 700; border: 2px solid #E3E8FF; }
+  .pv-table tr:nth-child(even) td { background: #EEF2FF; }
+  .pv-table tr:nth-child(odd) td { background: #F8F9FF; }
+  .pv-table .dot { color: #E91E63; font-size: 1.4rem; font-weight: 900; }
+
+  /* Visual blocks */
+  .blocks-row { display: flex; flex-wrap: wrap; gap: 4px; margin: 10px 0; }
+  .block { width: 28px; height: 28px; border-radius: 5px; display: inline-block; }
+  .block.filled { background: #FF7043; border: 2px solid #BF360C; }
+  .block.empty { background: #FFCCBC; border: 2px dashed #FFAB91; }
+
+  /* ===== QUIZ ===== */
+  .quiz-header {
+    background: linear-gradient(120deg, #1A237E, #3949AB);
+    color: white;
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 10px;
+  }
+  .quiz-header h2 { font-family: 'Fredoka One', cursive; font-size: 1.6rem; }
+  .quiz-header .badge {
+    background: #FFF176;
+    color: #1A237E;
+    font-weight: 800;
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+  }
+
+  .q-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 22px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+    animation: fadeUp .35s ease;
+  }
+  .q-card .q-num {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.85rem;
+    color: #7986CB;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .q-card .q-text {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1A237E;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 480px) { .choices { grid-template-columns: 1fr; } }
+  .choice-btn {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.97rem;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 2.5px solid #C5CAE9;
+    background: #F8F9FF;
+    cursor: pointer;
+    text-align: left;
+    transition: all .2s;
+    color: #283593;
+  }
+  .choice-btn:hover:not(:disabled) {
+    border-color: #3949AB;
+    background: #EEF2FF;
+    transform: translateY(-1px);
+  }
+  .choice-btn.correct { background: #E8F5E9; border-color: #2E7D32; color: #1B5E20; }
+  .choice-btn.wrong { background: #FFEBEE; border-color: #C62828; color: #B71C1C; }
+  .choice-btn.reveal-correct { background: #E8F5E9; border-color: #2E7D32; color: #1B5E20; animation: pulse .4s; }
+
+  .feedback {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: none;
+  }
+  .feedback.show { display: block; animation: fadeUp .3s ease; }
+  .feedback.correct { background: #E8F5E9; color: #2E7D32; }
+  .feedback.wrong { background: #FFEBEE; color: #C62828; }
+
+  /* Fill-in-the-blank */
+  .fill-input {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    width: 110px;
+    text-align: center;
+    border: 3px solid #7986CB;
+    border-radius: 10px;
+    padding: 6px 10px;
+    color: #1A237E;
+    background: #F8F9FF;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .fill-input:focus { border-color: #3949AB; background: #EEF2FF; }
+  .fill-input.correct { border-color: #2E7D32; background: #E8F5E9; color: #1B5E20; }
+  .fill-input.wrong { border-color: #C62828; background: #FFEBEE; color: #B71C1C; }
+
+  .check-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    padding: 9px 22px;
+    border-radius: 50px;
+    border: none;
+    background: #3949AB;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all .2s;
+    box-shadow: 0 3px 10px rgba(57,73,171,0.3);
+  }
+  .check-btn:hover { background: #1A237E; transform: translateY(-2px); }
+  .check-btn:disabled { background: #B0BEC5; cursor: default; transform: none; box-shadow: none; }
+
+  /* Score panel */
+  .score-panel {
+    background: white;
+    border-radius: var(--radius);
+    padding: 30px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    display: none;
+    animation: fadeUp .5s ease;
+  }
+  .score-panel.show { display: block; }
+  .score-panel .big-score {
+    font-family: 'Fredoka One', cursive;
+    font-size: 3.5rem;
+    color: #1A237E;
+  }
+  .score-panel .grade-emoji { font-size: 3rem; }
+  .score-panel p { font-size: 1.05rem; color: #546E7A; margin-top: 8px; font-weight: 600; }
+  .retry-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    padding: 12px 32px;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(120deg, #43A047, #1B5E20);
+    color: white;
+    cursor: pointer;
+    margin-top: 16px;
+    box-shadow: 0 4px 14px rgba(27,94,32,0.35);
+    transition: all .2s;
+  }
+  .retry-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(27,94,32,0.4); }
+
+  .submit-all-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.15rem;
+    padding: 14px 36px;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(120deg, #FF7043, #BF360C);
+    color: white;
+    cursor: pointer;
+    display: block;
+    margin: 24px auto 0;
+    box-shadow: 0 5px 16px rgba(191,54,12,0.35);
+    transition: all .2s;
+  }
+  .submit-all-btn:hover { transform: translateY(-2px); }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+    100% { transform: scale(1); }
+  }
+
+  /* ===== SECTION DIVIDER ===== */
+  .section-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.7rem;
+    color: #1A237E;
+    margin: 24px 0 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 3px;
+    background: linear-gradient(90deg, #4FC3F7, transparent);
+    border-radius: 2px;
+  }
+
+  /* Progress bar */
+  .progress-wrap { background: #E3E8FF; border-radius: 50px; height: 10px; margin-bottom: 18px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #4FC3F7, #69F0AE); border-radius: 50px; transition: width .5s ease; }
+
+  /* Number line visual */
+  .number-line-wrap {
+    overflow-x: auto;
+    padding: 10px 0;
+  }
+  .number-line {
+    display: flex;
+    align-items: flex-end;
+    gap: 0;
+    padding: 20px 10px 30px;
+    position: relative;
+    min-width: 400px;
+  }
+  .nl-tick {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+  }
+  .nl-tick .line { width: 2px; background: #1A237E; }
+  .nl-tick .line.major { height: 24px; }
+  .nl-tick .line.minor { height: 14px; }
+  .nl-tick .label {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.85rem;
+    color: #1A237E;
+    margin-top: 4px;
+  }
+  .nl-baseline {
+    position: absolute;
+    left: 10px; right: 10px;
+    top: 50%;
+    height: 3px;
+    background: #1A237E;
+    border-radius: 2px;
+  }
+  .nl-arrow {
+    font-size: 1.2rem;
+    color: var(--coral);
+    font-family: 'Fredoka One', cursive;
+  }
+
+  /* Home page */
+  .home-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .home-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 22px 18px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: all .25s;
+    border-top: 5px solid var(--sky);
+    text-align: center;
+  }
+  .home-card:nth-child(2) { border-top-color: #26A69A; }
+  .home-card:nth-child(3) { border-top-color: var(--coral); }
+  .home-card:nth-child(4) { border-top-color: #7B1FA2; }
+  .home-card:nth-child(5) { border-top-color: #F9A825; }
+  .home-card:nth-child(6) { border-top-color: #E91E63; }
+  .home-card:nth-child(7) { border-top-color: #00897B; }
+  .home-card:hover { transform: translateY(-5px); box-shadow: 0 8px 28px rgba(26,35,126,0.18); }
+  .home-card .hc-icon { font-size: 2.8rem; margin-bottom: 8px; }
+  .home-card h3 { font-family: 'Fredoka One', cursive; font-size: 1.05rem; color: #1A237E; margin-bottom: 4px; }
+  .home-card p { font-size: 0.82rem; color: #78909C; font-weight: 600; }
+
+  .hero-banner {
+    background: linear-gradient(120deg, #1A237E 0%, #3949AB 100%);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    color: white;
+    text-align: center;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+  }
+  .hero-banner h2 { font-family: 'Fredoka One', cursive; font-size: 1.9rem; color: #FFF176; }
+  .hero-banner p { color: #B3E5FC; font-size: 1rem; margin-top: 8px; font-weight: 600; }
+
+  /* fraction display */
+  .frac { display: inline-flex; flex-direction: column; align-items: center; font-family: 'Fredoka One', cursive; line-height: 1; vertical-align: middle; margin: 0 3px; }
+  .frac span:first-child { border-bottom: 2.5px solid currentColor; padding-bottom: 1px; }
+  .frac span { font-size: 1.1rem; }
+  .frac.big span { font-size: 1.5rem; }
+
+  .inline-eq { font-family: 'Fredoka One', cursive; font-size: 1.3rem; color: #1A237E; }
+
+  /* score bar at top of quiz */
+  .live-score {
+    background: #EEF2FF;
+    border-radius: 50px;
+    padding: 6px 18px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    color: #1A237E;
+    display: inline-block;
+    margin-bottom: 14px;
+  }
+  .live-score span { color: #43A047; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="site-header">
+  <h1>🔢 Decimals Reviewer</h1>
+  <p>Grade 4 Math &nbsp;•&nbsp; Learn · Practice · Quiz</p>
+  <div class="stars">⭐⭐⭐⭐⭐</div>
+</div>
+
+<!-- NAV -->
+<div class="nav-bar" id="navBar">
+  <button class="nav-btn active" onclick="showPage('home')">🏠 Home</button>
+  <button class="nav-btn" onclick="showPage('l1')">📖 Part 1: Tenths</button>
+  <button class="nav-btn" onclick="showPage('l2')">📖 Part 2: Hundredths</button>
+  <button class="nav-btn" onclick="showPage('l3')">📖 Part 3: Thousandths</button>
+  <button class="nav-btn" onclick="showPage('l4')">📖 Part 4: Number Lines</button>
+  <button class="nav-btn" onclick="showPage('l5')">📖 Part 5: Simplest Form</button>
+  <button class="nav-btn" onclick="showPage('l6')">📖 Part 6: Comparing</button>
+  <button class="nav-btn" onclick="showPage('q1')">✏️ Quiz 1</button>
+  <button class="nav-btn" onclick="showPage('q2')">✏️ Quiz 2</button>
+  <button class="nav-btn" onclick="showPage('q3')">✏️ Quiz 3</button>
+  <button class="nav-btn" onclick="showPage('q4')">✏️ Quiz 4</button>
+  <button class="nav-btn" onclick="showPage('q5')">✏️ Quiz 5</button>
+  <button class="nav-btn" onclick="showPage('q6')">✏️ Quiz 6</button>
+  <button class="nav-btn" onclick="showPage('exam')">🎓 Full Exam</button>
+</div>
+
+<!-- ═══════════════ HOME ═══════════════ -->
+<div class="page active" id="page-home">
+  <div class="hero-banner">
+    <h2>Welcome, Math Star! 🌟</h2>
+    <p>This reviewer will help you understand <strong>Decimals</strong> step by step.<br>Read each lesson, then take the quiz!</p>
+  </div>
+  <div class="home-grid">
+    <div class="home-card" onclick="showPage('l1')">
+      <div class="hc-icon">🔟</div>
+      <h3>Part 1: Tenths</h3>
+      <p>Fractions & decimals with 10 parts</p>
+    </div>
+    <div class="home-card" onclick="showPage('l2')">
+      <div class="hc-icon">💯</div>
+      <h3>Part 2: Hundredths</h3>
+      <p>Fractions & decimals with 100 parts</p>
+    </div>
+    <div class="home-card" onclick="showPage('l3')">
+      <div class="hc-icon">🔢</div>
+      <h3>Part 3: Thousandths</h3>
+      <p>Fractions & decimals with 1000 parts</p>
+    </div>
+    <div class="home-card" onclick="showPage('l4')">
+      <div class="hc-icon">📏</div>
+      <h3>Part 4: Number Lines</h3>
+      <p>Reading decimals on a number line</p>
+    </div>
+    <div class="home-card" onclick="showPage('l5')">
+      <div class="hc-icon">✂️</div>
+      <h3>Part 5: Simplest Form</h3>
+      <p>Reducing decimal fractions</p>
+    </div>
+    <div class="home-card" onclick="showPage('l6')">
+      <div class="hc-icon">⚖️</div>
+      <h3>Part 6: Comparing</h3>
+      <p>Which decimal is bigger or smaller?</p>
+    </div>
+    <div class="home-card" onclick="showPage('exam')" style="border-top-color:#E91E63; background: #FFF8F8;">
+      <div class="hc-icon">🎓</div>
+      <h3>Full Exam</h3>
+      <p>Test all 6 parts — 30 questions!</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ LESSON 1: TENTHS ═══════════════ -->
+<div class="page" id="page-l1">
+  <div class="lesson-card">
+    <h2><span class="emoji">🔟</span> Part 1: Tenths</h2>
+    <p>When we cut something into <strong>10 equal parts</strong>, each part is called a <strong>tenth</strong>.</p>
+
+    <div class="example-box">
+      <strong>Imagine a chocolate bar cut into 10 equal pieces.</strong><br>
+      If you eat <strong>3 pieces</strong>, you ate:
+      <span class="big"><span class="frac"><span>3</span><span>10</span></span> = <strong>0.3</strong></span>
+      We say this as: <em>"zero point three"</em>
+    </div>
+
+    <div class="blocks-row" id="blocks-tenths"></div>
+    <p style="font-size:0.85rem; color:#78909C; margin-top:4px;">🟠 = shaded (tenths counted) &nbsp; ⬜ = empty</p>
+
+    <div class="tip-box">💡 The digit after the decimal point (.) is the <strong>tenths</strong> place!<br>
+    0.<strong style="color:#E91E63;font-size:1.2rem;">3</strong> — the 3 is in the tenths place = <strong>3 tenths</strong></div>
+  </div>
+
+  <div class="lesson-card mint">
+    <h2><span class="emoji">📝</span> How to Write Tenths</h2>
+    <ol class="step-list">
+      <li>Look at the fraction: the <strong>bottom number</strong> (denominator) is 10.</li>
+      <li>The <strong>top number</strong> (numerator) becomes the digit after the decimal point.</li>
+      <li>Always write <strong>0.</strong> first, then the numerator.</li>
+    </ol>
+    <div class="example-box">
+      <span class="frac big"><span>7</span><span>10</span></span>
+      <span class="inline-eq"> = 0.7 &nbsp;(7 tenths)</span><br><br>
+      <span class="frac big"><span>1</span><span>10</span></span>
+      <span class="inline-eq"> = 0.1 &nbsp;(1 tenth)</span>
+    </div>
+    <div class="tip-box">💡 Going the other way: <strong>0.6 = 6/10</strong> (put the digit over 10!)</div>
+  </div>
+
+  <div class="lesson-card coral">
+    <h2><span class="emoji">🔀</span> Mixed Numbers with Tenths</h2>
+    <p>A <strong>mixed number</strong> has a whole number AND a fraction.</p>
+    <div class="example-box">
+      <span class="inline-eq">2 <span class="frac"><span>5</span><span>10</span></span> = 2 + 0.5 = <strong>2.5</strong></span><br><br>
+      <span class="inline-eq">3 <span class="frac"><span>4</span><span>10</span></span> = 3 + 0.4 = <strong>3.4</strong></span>
+    </div>
+    <ol class="step-list">
+      <li>Keep the whole number on the <strong>left</strong> of the decimal point.</li>
+      <li>Convert the fraction part to a decimal.</li>
+      <li>Put them together!</li>
+    </ol>
+  </div>
+
+  <button class="submit-all-btn" onclick="showPage('q1')">✏️ Take Quiz 1 Now!</button>
+</div>
+
+<!-- ═══════════════ LESSON 2: HUNDREDTHS ═══════════════ -->
+<div class="page" id="page-l2">
+  <div class="lesson-card">
+    <h2><span class="emoji">💯</span> Part 2: Hundredths</h2>
+    <p>When something is cut into <strong>100 equal parts</strong>, each part is called a <strong>hundredth</strong>.</p>
+    <div class="example-box">
+      <span class="frac big"><span>37</span><span>100</span></span>
+      <span class="inline-eq"> = 0.37</span>
+      <br><br>We say: <em>"zero point three seven"</em>
+    </div>
+    <table class="pv-table">
+      <tr><th>Ones</th><th class="dot">.</th><th>Tenths</th><th>Hundredths</th></tr>
+      <tr><td>0</td><td class="dot">.</td><td>3</td><td>7</td></tr>
+    </table>
+    <div class="tip-box">💡 The <strong>1st digit</strong> after the point = tenths<br>The <strong>2nd digit</strong> after the point = hundredths</div>
+  </div>
+
+  <div class="lesson-card mint">
+    <h2><span class="emoji">🔄</span> Fractions to Hundredths Decimals</h2>
+    <p>If the denominator is NOT 100, change it to 100 first!</p>
+    <ol class="step-list">
+      <li>Find what number multiplies the bottom to get 100.</li>
+      <li>Multiply the top by the same number.</li>
+      <li>Now write the decimal!</li>
+    </ol>
+    <div class="example-box">
+      <strong>Example: <span class="frac"><span>3</span><span>4</span></span></strong><br>
+      4 × 25 = 100, so 3 × 25 = 75<br>
+      <span class="inline-eq"><span class="frac"><span>3</span><span>4</span></span> = <span class="frac"><span>75</span><span>100</span></span> = 0.75</span>
+    </div>
+    <div class="example-box">
+      <strong>Example: 5<span class="frac"><span>3</span><span>4</span></span></strong><br>
+      <span class="frac"><span>3</span><span>4</span></span> = 0.75 &nbsp;→&nbsp; <strong>5.75</strong>
+    </div>
+  </div>
+
+  <div class="lesson-card coral">
+    <h2><span class="emoji">📐</span> Place Value Table</h2>
+    <table class="pv-table">
+      <tr><th>Number</th><th>Ones</th><th class="dot">.</th><th>Tenths</th><th>Hundredths</th></tr>
+      <tr><td><strong>0.45</strong></td><td>0</td><td class="dot">.</td><td>4</td><td>5</td></tr>
+      <tr><td><strong>3.08</strong></td><td>3</td><td class="dot">.</td><td>0</td><td>8</td></tr>
+      <tr><td><strong>12.50</strong></td><td>12</td><td class="dot">.</td><td>5</td><td>0</td></tr>
+    </table>
+    <div class="tip-box">💡 If there is nothing in tenths place, write <strong>0</strong>!<br>Example: 0.08 — 0 tenths, 8 hundredths</div>
+  </div>
+
+  <button class="submit-all-btn" onclick="showPage('q2')">✏️ Take Quiz 2 Now!</button>
+</div>
+
+<!-- ═══════════════ LESSON 3: THOUSANDTHS ═══════════════ -->
+<div class="page" id="page-l3">
+  <div class="lesson-card">
+    <h2><span class="emoji">🔢</span> Part 3: Thousandths</h2>
+    <p>Cut something into <strong>1,000 equal parts</strong> — each part is a <strong>thousandth</strong>!</p>
+    <div class="example-box">
+      <span class="frac big"><span>7</span><span>1000</span></span>
+      <span class="inline-eq"> = 0.007</span>
+      <br>We say: <em>"seven thousandths"</em>
+    </div>
+    <table class="pv-table">
+      <tr><th>Ones</th><th class="dot">.</th><th>Tenths</th><th>Hundredths</th><th>Thousandths</th></tr>
+      <tr><td>0</td><td class="dot">.</td><td>0</td><td>0</td><td>7</td></tr>
+      <tr><td>4</td><td class="dot">.</td><td>0</td><td>3</td><td>9</td></tr>
+    </table>
+    <div class="tip-box">💡 Count the digits after the decimal point:<br>
+    1 digit = tenths &nbsp;|&nbsp; 2 digits = hundredths &nbsp;|&nbsp; 3 digits = thousandths</div>
+  </div>
+
+  <div class="lesson-card mint">
+    <h2><span class="emoji">🧮</span> Examples with Thousandths</h2>
+    <ol class="step-list">
+      <li><span class="frac"><span>25</span><span>1000</span></span> = 0.025 &nbsp;→ "25 thousandths"</li>
+      <li><span class="frac"><span>172</span><span>1000</span></span> = 0.172 &nbsp;→ "172 thousandths"</li>
+      <li>4<span class="frac"><span>39</span><span>1000</span></span> = 4 + 0.039 = <strong>4.039</strong></li>
+    </ol>
+    <div class="tip-box">💡 For <span class="frac"><span>39</span><span>1000</span></span>: we need 3 digits after the point → 0.<strong>039</strong> (add a zero!)</div>
+  </div>
+
+  <button class="submit-all-btn" onclick="showPage('q3')">✏️ Take Quiz 3 Now!</button>
+</div>
+
+<!-- ═══════════════ LESSON 4: NUMBER LINES ═══════════════ -->
+<div class="page" id="page-l4">
+  <div class="lesson-card">
+    <h2><span class="emoji">📏</span> Part 4: Reading Number Lines</h2>
+    <p>A <strong>number line</strong> shows decimals in order. Between any two whole numbers, there are <strong>10 equal spaces</strong>.</p>
+    <div class="number-line-wrap">
+      <svg width="100%" viewBox="0 0 500 80" style="max-width:600px; display:block; margin:0 auto;">
+        <line x1="30" y1="40" x2="470" y2="40" stroke="#1A237E" stroke-width="3"/>
+        <polygon points="470,36 480,40 470,44" fill="#1A237E"/>
+        <!-- Ticks 0 to 2 with labels -->
+        <script>
+          // rendered in SVG text below
+        </script>
+        <!-- 0 -->
+        <line x1="50" y1="30" x2="50" y2="50" stroke="#1A237E" stroke-width="2.5"/>
+        <text x="50" y="65" text-anchor="middle" font-family="Fredoka One" font-size="14" fill="#1A237E">0</text>
+        <!-- 0.5 -->
+        <line x1="175" y1="35" x2="175" y2="45" stroke="#1A237E" stroke-width="1.5"/>
+        <text x="175" y="58" text-anchor="middle" font-family="Fredoka One" font-size="11" fill="#546E7A">0.5</text>
+        <!-- 1 -->
+        <line x1="262" y1="30" x2="262" y2="50" stroke="#1A237E" stroke-width="2.5"/>
+        <text x="262" y="65" text-anchor="middle" font-family="Fredoka One" font-size="14" fill="#1A237E">1</text>
+        <!-- 1.5 -->
+        <line x1="350" y1="35" x2="350" y2="45" stroke="#1A237E" stroke-width="1.5"/>
+        <text x="350" y="58" text-anchor="middle" font-family="Fredoka One" font-size="11" fill="#546E7A">1.5</text>
+        <!-- 2 -->
+        <line x1="440" y1="30" x2="440" y2="50" stroke="#1A237E" stroke-width="2.5"/>
+        <text x="440" y="65" text-anchor="middle" font-family="Fredoka One" font-size="14" fill="#1A237E">2</text>
+        <!-- Point A at 0.2 -->
+        <line x1="85" y1="20" x2="85" y2="40" stroke="#FF7043" stroke-width="2"/>
+        <circle cx="85" cy="40" r="5" fill="#FF7043"/>
+        <text x="85" y="16" text-anchor="middle" font-family="Fredoka One" font-size="12" fill="#FF7043">A</text>
+        <!-- Point B at 0.8 -->
+        <line x1="191" y1="20" x2="191" y2="40" stroke="#7B1FA2" stroke-width="2"/>
+        <circle cx="191" cy="40" r="5" fill="#7B1FA2"/>
+        <text x="191" y="16" text-anchor="middle" font-family="Fredoka One" font-size="12" fill="#7B1FA2">B</text>
+        <!-- Point C at 1.7 -->
+        <line x1="387" y1="20" x2="387" y2="40" stroke="#1B5E20" stroke-width="2"/>
+        <circle cx="387" cy="40" r="5" fill="#1B5E20"/>
+        <text x="387" y="16" text-anchor="middle" font-family="Fredoka One" font-size="12" fill="#1B5E20">C</text>
+      </svg>
+    </div>
+
+    <div class="example-box">
+      🔴 <strong>Point A = 0.2</strong> &nbsp;(2 steps from 0)<br>
+      🟣 <strong>Point B = 0.8</strong> &nbsp;(8 steps from 0)<br>
+      🟢 <strong>Point C = 1.7</strong> &nbsp;(7 steps past 1)
+    </div>
+    <div class="tip-box">💡 Each small step = <strong>0.1</strong> &nbsp;→&nbsp; Count the steps from the nearest whole number!</div>
+  </div>
+
+  <div class="lesson-card mint">
+    <h2><span class="emoji">🧭</span> How to Read a Number Line</h2>
+    <ol class="step-list">
+      <li>Find the two <strong>whole numbers</strong> on either side of the point.</li>
+      <li>Count how many <strong>equal spaces</strong> are between them (usually 10).</li>
+      <li>Count how many steps the point is from the left whole number.</li>
+      <li>Each step = 0.1 &nbsp;→&nbsp; Add that to the whole number.</li>
+    </ol>
+    <div class="example-box">
+      A point is between <strong>1 and 2</strong>, and it's <strong>4 steps</strong> from 1:<br>
+      <span class="inline-eq">1 + 4 × 0.1 = 1 + 0.4 = <strong>1.4</strong></span>
+    </div>
+  </div>
+
+  <button class="submit-all-btn" onclick="showPage('q4')">✏️ Take Quiz 4 Now!</button>
+</div>
+
+<!-- ═══════════════ LESSON 5: SIMPLEST FORM ═══════════════ -->
+<div class="page" id="page-l5">
+  <div class="lesson-card">
+    <h2><span class="emoji">✂️</span> Part 5: Simplest Form</h2>
+    <p>We can write decimals as fractions or mixed numbers in their <strong>simplest form</strong> by dividing the top and bottom by the same number.</p>
+    <div class="example-box">
+      <strong>Example: Convert 0.5 to simplest form</strong><br>
+      0.5 = <span class="frac"><span>5</span><span>10</span></span>
+      &nbsp;÷ 5 both → &nbsp;
+      <span class="frac"><span>1</span><span>2</span></span>
+      &nbsp; ✅
+    </div>
+    <div class="example-box">
+      <strong>Example: Convert 2.6 to simplest form</strong><br>
+      2.6 = 2 + 0.6 = 2 + <span class="frac"><span>6</span><span>10</span></span>
+      = 2 + <span class="frac"><span>3</span><span>5</span></span>
+      = 2<span class="frac"><span>3</span><span>5</span></span> ✅
+    </div>
+  </div>
+
+  <div class="lesson-card mint">
+    <h2><span class="emoji">🪜</span> Steps to Simplify</h2>
+    <ol class="step-list">
+      <li>Write the decimal as a fraction (put digits over 10, 100, or 1000).</li>
+      <li>Find the <strong>GCF</strong> (biggest number that divides both top and bottom).</li>
+      <li>Divide top AND bottom by the GCF.</li>
+      <li>If there's a whole number part, put it back!</li>
+    </ol>
+    <div class="example-box">
+      <strong>0.028:</strong><br>
+      = <span class="frac"><span>28</span><span>1000</span></span>
+      &nbsp;÷ 4 both → &nbsp;
+      <span class="frac"><span>7</span><span>250</span></span> ✅
+    </div>
+  </div>
+
+  <div class="lesson-card coral">
+    <h2><span class="emoji">🔁</span> Mixed Numbers as Decimals</h2>
+    <p>To go from a mixed number to a decimal: change the fraction part's denominator to 10, 100, or 1000 first!</p>
+    <ol class="step-list">
+      <li>Look at the fraction part (like <span class="frac"><span>3</span><span>4</span></span>).</li>
+      <li>Multiply to get denominator 100: 4 × 25 = 100, so 3 × 25 = 75.</li>
+      <li><span class="frac"><span>3</span><span>4</span></span> = <span class="frac"><span>75</span><span>100</span></span> = 0.75</li>
+      <li>Add the whole number: 5 + 0.75 = <strong>5.75</strong></li>
+    </ol>
+  </div>
+
+  <button class="submit-all-btn" onclick="showPage('q5')">✏️ Take Quiz 5 Now!</button>
+</div>
+
+<!-- ═══════════════ LESSON 6: COMPARING ═══════════════ -->
+<div class="page" id="page-l6">
+  <div class="lesson-card">
+    <h2><span class="emoji">⚖️</span> Part 6: Comparing Decimals</h2>
+    <p>To compare decimals, we look at the <strong>digits one by one from left to right</strong>.</p>
+    <table class="pv-table">
+      <tr><th>Number</th><th>Ones</th><th class="dot">.</th><th>Tenths</th><th>Hundredths</th></tr>
+      <tr><td><strong>4.52</strong></td><td>4</td><td class="dot">.</td><td>5</td><td>2</td></tr>
+      <tr><td><strong>5.12</strong></td><td>5</td><td class="dot">.</td><td>1</td><td>2</td></tr>
+      <tr><td><strong>4.58</strong></td><td>4</td><td class="dot">.</td><td>5</td><td>8</td></tr>
+    </table>
+    <div class="tip-box">💡 Step 1: Compare <strong>ones</strong> — 5 &gt; 4, so <strong>5.12 is greatest!</strong><br>
+    Step 2: Between 4.52 and 4.58 — same ones and tenths, compare hundredths: 8 &gt; 2, so <strong>4.58 &gt; 4.52</strong></div>
+  </div>
+
+  <div class="lesson-card mint">
+    <h2><span class="emoji">📋</span> Steps to Compare</h2>
+    <ol class="step-list">
+      <li>Line up the decimal points.</li>
+      <li>Compare <strong>ones</strong> (left of decimal) first.</li>
+      <li>If ones are equal, compare <strong>tenths</strong>.</li>
+      <li>If tenths are equal, compare <strong>hundredths</strong>.</li>
+      <li>Keep going until you find a difference!</li>
+    </ol>
+    <div class="example-box">
+      Order from smallest to greatest: <strong>3.7, 3.07, 3.70</strong><br>
+      Ones all = 3 → compare tenths: 0 &lt; 7 = 7<br>
+      <strong>Smallest to greatest: 3.07, 3.7, 3.70</strong><br>
+      <em>(Note: 3.7 = 3.70 — they're equal!)</em>
+    </div>
+  </div>
+
+  <div class="lesson-card coral">
+    <h2><span class="emoji">🔀</span> Comparing Decimals & Fractions</h2>
+    <p>If you need to compare a decimal and a fraction, <strong>convert the fraction to a decimal first!</strong></p>
+    <div class="example-box">
+      Compare 0.42, <span class="frac"><span>1</span><span>4</span></span>, and 0.412<br><br>
+      <span class="frac"><span>1</span><span>4</span></span> = <span class="frac"><span>25</span><span>100</span></span> = 0.25<br>
+      Now compare: 0.42, 0.25, 0.412<br>
+      <strong>Smallest to greatest: 0.25, 0.412, 0.42</strong>
+    </div>
+  </div>
+
+  <button class="submit-all-btn" onclick="showPage('q6')">✏️ Take Quiz 6 Now!</button>
+</div>
+
+<!-- ═══════════════ QUIZ 1 ═══════════════ -->
+<div class="page" id="page-q1"></div>
+<!-- ═══════════════ QUIZ 2 ═══════════════ -->
+<div class="page" id="page-q2"></div>
+<!-- ═══════════════ QUIZ 3 ═══════════════ -->
+<div class="page" id="page-q3"></div>
+<!-- ═══════════════ QUIZ 4 ═══════════════ -->
+<div class="page" id="page-q4"></div>
+<!-- ═══════════════ QUIZ 5 ═══════════════ -->
+<div class="page" id="page-q5"></div>
+<!-- ═══════════════ QUIZ 6 ═══════════════ -->
+<div class="page" id="page-q6"></div>
+<!-- ═══════════════ FULL EXAM ═══════════════ -->
+<div class="page" id="page-exam"></div>
+
+<script>
+// ══════════════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════════════
+const quizzes = {
+  q1: {
+    title: "Quiz 1: Tenths",
+    color: "#1A237E",
+    icon: "🔟",
+    questions: [
+      { type:'mc', q:"What decimal equals 3/10?", choices:["0.3","3.0","0.03","0.30"], answer:0, exp:"3/10 = 0.3 (3 tenths)" },
+      { type:'mc', q:"Write 7 tenths as a decimal.", choices:["7.0","70.0","0.7","0.07"], answer:2, exp:"7 tenths = 7/10 = 0.7" },
+      { type:'mc', q:"What fraction equals 0.9?", choices:["9/100","9/10","1/9","90/100"], answer:1, exp:"0.9 = 9 tenths = 9/10" },
+      { type:'mc', q:"What decimal equals 2 and 5 tenths (2 5/10)?", choices:["25.0","0.25","2.5","20.5"], answer:2, exp:"2 5/10 = 2 + 0.5 = 2.5" },
+      { type:'fill', q:"Write the decimal: 6/10 = ___", answer:"0.6", exp:"6/10 = 0.6" },
+      { type:'fill', q:"Write the decimal: 3 4/10 = ___", answer:"3.4", exp:"3 4/10 = 3 + 0.4 = 3.4" },
+      { type:'mc', q:"How many tenths are in 0.8?", choices:["0","8","80","0.8"], answer:1, exp:"0.8 = 8 tenths" },
+      { type:'mc', q:"Which is the same as 5 tenths?", choices:["0.05","50.0","5.0","0.5"], answer:3, exp:"5 tenths = 5/10 = 0.5" },
+    ]
+  },
+  q2: {
+    title: "Quiz 2: Hundredths",
+    color: "#26A69A",
+    icon: "💯",
+    questions: [
+      { type:'mc', q:"What decimal equals 37/100?", choices:["3.7","0.37","37.0","0.037"], answer:1, exp:"37/100 = 0.37 (37 hundredths)" },
+      { type:'mc', q:"Which digit is in the hundredths place in 4.52?", choices:["4","5","2","0"], answer:2, exp:"4.52 → ones=4, tenths=5, hundredths=2" },
+      { type:'fill', q:"3/4 = ___/100 = ___ (decimal). Type the decimal.", answer:"0.75", exp:"3/4 = 75/100 = 0.75" },
+      { type:'mc', q:"What is 5 3/4 as a decimal?", choices:["5.34","53.4","5.75","5.34"], answer:2, exp:"3/4 = 75/100 = 0.75 → 5.75" },
+      { type:'mc', q:"0.08 — which digit is in the hundredths place?", choices:["0","8","Both","Neither"], answer:1, exp:"0.0_8_ → the 8 is in the hundredths place" },
+      { type:'fill', q:"Write: 8/100 = ___", answer:"0.08", exp:"8/100 = 0.08 (need a 0 in tenths place!)" },
+      { type:'mc', q:"What is 11/25 as a decimal? (25 × 4 = 100)", choices:["0.11","0.44","1.1","4.4"], answer:1, exp:"11/25 = 44/100 = 0.44" },
+      { type:'mc', q:"In the number 12.65, what is in the tenths place?", choices:["1","2","6","5"], answer:2, exp:"12.65 → ones=12, tenths=6, hundredths=5" },
+    ]
+  },
+  q3: {
+    title: "Quiz 3: Thousandths",
+    color: "#E91E63",
+    icon: "🔢",
+    questions: [
+      { type:'mc', q:"What decimal equals 7/1000?", choices:["0.7","0.07","0.007","7.00"], answer:2, exp:"7/1000 = 0.007 (7 thousandths)" },
+      { type:'mc', q:"What decimal equals 39/1000?", choices:["0.39","0.039","39.0","0.0039"], answer:1, exp:"39/1000 = 0.039" },
+      { type:'fill', q:"4 39/1000 = ___", answer:"4.039", exp:"4 + 39/1000 = 4 + 0.039 = 4.039" },
+      { type:'mc', q:"In 0.007, the 7 is in which place?", choices:["Tenths","Hundredths","Thousandths","Ones"], answer:2, exp:"0.007 → 0 tenths, 0 hundredths, 7 thousandths" },
+      { type:'mc', q:"What decimal equals 172/1000?", choices:["1.72","17.2","0.172","0.0172"], answer:2, exp:"172/1000 = 0.172" },
+      { type:'fill', q:"25/1000 = ___", answer:"0.025", exp:"25/1000 = 0.025 (need 0 in tenths place)" },
+      { type:'mc', q:"Which number has 5 in the thousandths place?", choices:["0.5","0.05","0.005","5.00"], answer:2, exp:"0.005 → 0 tenths, 0 hundredths, 5 thousandths" },
+      { type:'mc', q:"18 4/1000 as a decimal = ?", choices:["18.004","18.04","18.4","184.0"], answer:0, exp:"4/1000 = 0.004 → 18.004" },
+    ]
+  },
+  q4: {
+    title: "Quiz 4: Number Lines",
+    color: "#FF7043",
+    icon: "📏",
+    questions: [
+      { type:'mc', q:"On a number line, each small space between 0 and 1 equals ___.", choices:["1","0.01","0.1","10"], answer:2, exp:"Between two whole numbers there are 10 spaces, each = 0.1" },
+      { type:'mc', q:"A point is 3 steps from 0 (with 10 steps between 0 and 1). What is its value?", choices:["3.0","0.03","0.3","30"], answer:2, exp:"3 steps × 0.1 = 0.3" },
+      { type:'fill', q:"A point is 7 steps past 1. Its value = ___", answer:"1.7", exp:"1 + 7 × 0.1 = 1.7" },
+      { type:'mc', q:"What value is halfway between 0 and 1?", choices:["0.5","5.0","0.05","50"], answer:0, exp:"Halfway = 5 steps = 0.5" },
+      { type:'mc', q:"Which decimal is between 1.2 and 1.4?", choices:["1.1","1.5","1.3","2.1"], answer:2, exp:"1.2, 1.3, 1.4 — 1.3 is in the middle" },
+      { type:'mc', q:"Count in steps of 0.1 starting from 0.5: next 3 numbers are ___", choices:["0.8, 0.9, 1.0","0.6, 0.7, 0.8","1.5, 2.5, 3.5","0.51, 0.52, 0.53"], answer:1, exp:"0.5 + 0.1 = 0.6, then 0.7, then 0.8" },
+      { type:'fill', q:"A point is 4 steps past 2. Its value = ___", answer:"2.4", exp:"2 + 4 × 0.1 = 2.4" },
+      { type:'mc', q:"What comes just before 1.0 on the number line (counting by tenths)?", choices:["0.9","0.99","0.09","1.1"], answer:0, exp:"1.0 - 0.1 = 0.9" },
+    ]
+  },
+  q5: {
+    title: "Quiz 5: Simplest Form",
+    color: "#7B1FA2",
+    icon: "✂️",
+    questions: [
+      { type:'mc', q:"Express 0.5 as a fraction in simplest form.", choices:["5/10","1/2","5/100","1/5"], answer:1, exp:"0.5 = 5/10 ÷ 5 = 1/2" },
+      { type:'mc', q:"Express 0.6 as a fraction in simplest form.", choices:["6/10","3/5","3/10","6/100"], answer:1, exp:"0.6 = 6/10 ÷ 2 = 3/5" },
+      { type:'mc', q:"Express 2.6 as a mixed number in simplest form.", choices:["26/10","2 6/10","2 3/5","2 1/6"], answer:2, exp:"2.6 = 2 + 6/10 = 2 + 3/5 = 2 3/5" },
+      { type:'fill', q:"0.8 as a fraction in simplest form = ___/5", answer:"4", exp:"0.8 = 8/10 = 4/5" },
+      { type:'mc', q:"Express 0.75 as a fraction in simplest form.", choices:["75/100","3/4","7/5","15/20"], answer:1, exp:"0.75 = 75/100 ÷ 25 = 3/4" },
+      { type:'mc', q:"Express 3 1/2 as a decimal.", choices:["3.12","31.2","3.5","0.35"], answer:2, exp:"1/2 = 5/10 = 0.5 → 3.5" },
+      { type:'mc', q:"Express 8 1/4 as a decimal.", choices:["8.14","8.25","8.4","81.4"], answer:1, exp:"1/4 = 25/100 = 0.25 → 8.25" },
+      { type:'fill', q:"6.2 as a mixed number = 6 ___/5", answer:"1", exp:"6.2 = 6 + 2/10 = 6 + 1/5 = 6 1/5" },
+    ]
+  },
+  q6: {
+    title: "Quiz 6: Comparing & Ordering",
+    color: "#1B5E20",
+    icon: "⚖️",
+    questions: [
+      { type:'mc', q:"Which is greater: 4.52 or 4.58?", choices:["4.52","4.58","They are equal","Cannot tell"], answer:1, exp:"Same ones and tenths → compare hundredths: 8 > 2, so 4.58 > 4.52" },
+      { type:'mc', q:"Arrange from smallest to greatest: 5.12, 4.52, 4.58", choices:["5.12, 4.52, 4.58","4.52, 4.58, 5.12","4.58, 4.52, 5.12","5.12, 4.58, 4.52"], answer:1, exp:"Compare ones: 4 < 5, so 5.12 is greatest. Then 4.52 < 4.58." },
+      { type:'mc', q:"Which is smaller: 0.412 or 0.42?", choices:["0.42","0.412","They are equal","Cannot tell"], answer:1, exp:"0.412 vs 0.420 → hundredths: 1 < 2, so 0.412 < 0.42" },
+      { type:'fill', q:"Fill in > or <: 3.7 ___ 3.07 (type > or <)", answer:">", exp:"3.7 = 3.70, compare tenths: 7 > 0, so 3.7 > 3.07" },
+      { type:'mc', q:"Which is the greatest: 29.88, 129.39, 129.3?", choices:["29.88","129.39","129.3","They are equal"], answer:1, exp:"129.39 has the most tens. 129.39 > 129.3 (hundredths: 9 > 0)" },
+      { type:'mc', q:"1/4 = 0.25. Which is greatest: 0.42, 1/4, 4, 0.412?", choices:["0.42","1/4","4","0.412"], answer:2, exp:"4 is a whole number, much greater than all the decimals!" },
+      { type:'mc', q:"Order from greatest: 0.5, 0.05, 5.0, 0.55", choices:["5.0, 0.55, 0.5, 0.05","0.05, 0.5, 0.55, 5.0","5.0, 0.5, 0.55, 0.05","0.55, 0.5, 0.05, 5.0"], answer:0, exp:"5.0 > 0.55 > 0.5 > 0.05" },
+      { type:'fill', q:"Fill in > or <: 0.25 ___ 0.412 (type > or <)", answer:"<", exp:"0.25 has 2 tenths, 0.412 has 4 tenths → 0.25 < 0.412" },
+    ]
+  }
+};
+
+const examQuestions = [
+  // Part 1 – Tenths (5)
+  { type:'mc', part:"Part 1: Tenths", q:"What decimal equals 8/10?", choices:["8.0","0.08","0.8","80"], answer:2, exp:"8/10 = 0.8" },
+  { type:'mc', part:"Part 1: Tenths", q:"What is 4 tenths as a decimal?", choices:["40","0.04","4.0","0.4"], answer:3, exp:"4 tenths = 4/10 = 0.4" },
+  { type:'fill', part:"Part 1: Tenths", q:"5 7/10 = ___", answer:"5.7", exp:"5 + 7/10 = 5.7" },
+  { type:'mc', part:"Part 1: Tenths", q:"0.2 = ___/10", choices:["20","200","2","0.2"], answer:2, exp:"0.2 = 2/10" },
+  { type:'mc', part:"Part 1: Tenths", q:"Which is 9 tenths?", choices:["9.0","0.09","90","0.9"], answer:3, exp:"9 tenths = 0.9" },
+  // Part 2 – Hundredths (5)
+  { type:'mc', part:"Part 2: Hundredths", q:"What decimal equals 45/100?", choices:["4.5","45.0","0.45","0.045"], answer:2, exp:"45/100 = 0.45" },
+  { type:'fill', part:"Part 2: Hundredths", q:"3/4 as a decimal = ___", answer:"0.75", exp:"3/4 = 75/100 = 0.75" },
+  { type:'mc', part:"Part 2: Hundredths", q:"In 7.08, what digit is in the hundredths place?", choices:["7","0","8","1"], answer:2, exp:"7.08 → tenths=0, hundredths=8" },
+  { type:'mc', part:"Part 2: Hundredths", q:"5 3/4 as a decimal = ?", choices:["5.34","53.4","5.075","5.75"], answer:3, exp:"3/4 = 0.75 → 5.75" },
+  { type:'fill', part:"Part 2: Hundredths", q:"11/25 = ___ (25 × 4 = 100)", answer:"0.44", exp:"11/25 = 44/100 = 0.44" },
+  // Part 3 – Thousandths (5)
+  { type:'mc', part:"Part 3: Thousandths", q:"7/1000 = ?", choices:["0.7","0.07","0.007","7.0"], answer:2, exp:"7/1000 = 0.007" },
+  { type:'fill', part:"Part 3: Thousandths", q:"172/1000 = ___", answer:"0.172", exp:"172/1000 = 0.172" },
+  { type:'mc', part:"Part 3: Thousandths", q:"4 39/1000 as a decimal = ?", choices:["4.390","4.039","43.9","4.0039"], answer:1, exp:"4 + 39/1000 = 4.039" },
+  { type:'mc', part:"Part 3: Thousandths", q:"0.005 — the 5 is in the ___ place.", choices:["Tenths","Hundredths","Thousandths","Ones"], answer:2, exp:"0.005 → thousandths" },
+  { type:'fill', part:"Part 3: Thousandths", q:"36/1000 = ___", answer:"0.036", exp:"36/1000 = 0.036" },
+  // Part 4 – Number Lines (5)
+  { type:'mc', part:"Part 4: Number Lines", q:"Each small step on a number line (between whole numbers) = ___", choices:["0.01","1","0.1","10"], answer:2, exp:"10 equal steps between whole numbers → each = 0.1" },
+  { type:'fill', part:"Part 4: Number Lines", q:"A point is 6 steps past 0. Its value = ___", answer:"0.6", exp:"6 × 0.1 = 0.6" },
+  { type:'mc', part:"Part 4: Number Lines", q:"What value is 3 steps past 2?", choices:["5.0","2.03","2.3","0.23"], answer:2, exp:"2 + 3 × 0.1 = 2.3" },
+  { type:'mc', part:"Part 4: Number Lines", q:"Which decimal is between 0.7 and 0.9?", choices:["0.6","0.8","1.0","1.8"], answer:1, exp:"0.7, 0.8, 0.9 → 0.8 is in the middle" },
+  { type:'fill', part:"Part 4: Number Lines", q:"Count by 0.1 from 1.6: next number = ___", answer:"1.7", exp:"1.6 + 0.1 = 1.7" },
+  // Part 5 – Simplest Form (5)
+  { type:'mc', part:"Part 5: Simplest Form", q:"0.5 in simplest form = ?", choices:["5/10","1/2","5/100","50/100"], answer:1, exp:"0.5 = 5/10 ÷ 5 = 1/2" },
+  { type:'mc', part:"Part 5: Simplest Form", q:"0.8 in simplest form = ?", choices:["8/10","4/5","8/100","2/5"], answer:1, exp:"0.8 = 8/10 ÷ 2 = 4/5" },
+  { type:'mc', part:"Part 5: Simplest Form", q:"3 1/2 as a decimal = ?", choices:["3.12","3.2","3.5","3.15"], answer:2, exp:"1/2 = 5/10 = 0.5 → 3.5" },
+  { type:'fill', part:"Part 5: Simplest Form", q:"0.6 in simplest form = ___/5", answer:"3", exp:"0.6 = 6/10 = 3/5" },
+  { type:'mc', part:"Part 5: Simplest Form", q:"8 1/4 as a decimal = ?", choices:["8.14","8.1","8.4","8.25"], answer:3, exp:"1/4 = 25/100 = 0.25 → 8.25" },
+  // Part 6 – Comparing (5)
+  { type:'mc', part:"Part 6: Comparing", q:"Which is greater: 3.09 or 3.9?", choices:["3.09","3.9","Equal","Cannot tell"], answer:1, exp:"Compare tenths: 9 > 0, so 3.9 > 3.09" },
+  { type:'mc', part:"Part 6: Comparing", q:"Arrange from smallest: 5.12, 4.52, 4.58", choices:["5.12, 4.52, 4.58","4.52, 4.58, 5.12","4.58, 5.12, 4.52","5.12, 4.58, 4.52"], answer:1, exp:"4.52 < 4.58 < 5.12" },
+  { type:'mc', part:"Part 6: Comparing", q:"Which is smallest: 0.412, 0.42, 0.25?", choices:["0.412","0.42","0.25","All equal"], answer:2, exp:"0.25 has only 2 tenths; 0.42 and 0.412 have 4 tenths. 0.25 is smallest." },
+  { type:'fill', part:"Part 6: Comparing", q:"Fill in > or <: 1.5 ___ 1.05 (type > or <)", answer:">", exp:"1.5 vs 1.05 → tenths: 5 > 0 → 1.5 > 1.05" },
+  { type:'mc', part:"Part 6: Comparing", q:"Order from greatest: 0.9, 0.09, 9.0, 0.99", choices:["9.0, 0.99, 0.9, 0.09","0.09, 0.9, 0.99, 9.0","9.0, 0.9, 0.99, 0.09","0.99, 9.0, 0.9, 0.09"], answer:0, exp:"9.0 > 0.99 > 0.9 > 0.09" },
+];
+
+// ══════════════════════════════════════════════
+//  RENDER ENGINE
+// ══════════════════════════════════════════════
+function renderQuiz(containerId, quizKey, questions, title, icon, color) {
+  const container = document.getElementById('page-' + containerId);
+  let html = `
+    <div class="quiz-header" style="background: linear-gradient(120deg, ${color}, ${color}CC)">
+      <h2>${icon} ${title}</h2>
+      <span class="badge">🌟 ${questions.length} Questions</span>
+    </div>
+    <div class="live-score" id="ls-${containerId}">Score: <span id="lsnum-${containerId}">0</span> / ${questions.length}</div>
+    <div class="progress-wrap"><div class="progress-fill" id="prog-${containerId}" style="width:0%"></div></div>
+  `;
+  questions.forEach((q, i) => {
+    html += `<div class="q-card" id="${containerId}-q${i}">
+      <div class="q-num">Question ${i+1} of ${questions.length}</div>
+      <div class="q-text">${q.q}</div>`;
+
+    if (q.type === 'mc') {
+      html += `<div class="choices">`;
+      q.choices.forEach((c, ci) => {
+        html += `<button class="choice-btn" onclick="checkMC('${containerId}',${i},${ci},${q.answer},'${escStr(q.exp)}')">${c}</button>`;
+      });
+      html += `</div>`;
+    } else {
+      html += `<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <input class="fill-input" id="${containerId}-inp-${i}" placeholder="?" autocomplete="off" 
+               onkeydown="if(event.key==='Enter')checkFill('${containerId}',${i},'${escStr(q.answer)}','${escStr(q.exp)}')">
+        <button class="check-btn" id="${containerId}-btn-${i}" onclick="checkFill('${containerId}',${i},'${escStr(q.answer)}','${escStr(q.exp)}')">Check ✓</button>
+      </div>`;
+    }
+    html += `<div class="feedback" id="${containerId}-fb-${i}"></div></div>`;
+  });
+
+  html += `
+    <div class="score-panel" id="${containerId}-score">
+      <div class="grade-emoji" id="${containerId}-emoji">🌟</div>
+      <div class="big-score" id="${containerId}-result">0/0</div>
+      <p id="${containerId}-msg">Great job!</p>
+      <button class="retry-btn" onclick="retryQuiz('${containerId}')">🔄 Try Again!</button>
+    </div>
+    <button class="submit-all-btn" id="${containerId}-submit" onclick="submitQuiz('${containerId}',${questions.length})">🏁 Submit Quiz!</button>
+  `;
+  container.innerHTML = html;
+}
+
+function escStr(s){ return String(s).replace(/'/g,"\\'"); }
+
+// State tracking
+const state = {};
+
+function initState(qid, len) {
+  if (!state[qid]) state[qid] = { answers: new Array(len).fill(null), correct: 0 };
+}
+
+function checkMC(qid, qi, chosen, correct, exp) {
+  initState(qid, 100);
+  if (state[qid].answers[qi] !== null) return; // already answered
+  state[qid].answers[qi] = chosen;
+  const card = document.getElementById(`${qid}-q${qi}`);
+  const btns = card.querySelectorAll('.choice-btn');
+  btns.forEach(b => b.disabled = true);
+  btns[correct].classList.add('reveal-correct');
+  const fb = document.getElementById(`${qid}-fb-${qi}`);
+  if (chosen === correct) {
+    btns[chosen].classList.add('correct');
+    state[qid].correct++;
+    fb.textContent = `✅ Correct! ${exp}`;
+    fb.className = 'feedback show correct';
+  } else {
+    btns[chosen].classList.add('wrong');
+    fb.textContent = `❌ Not quite. ${exp}`;
+    fb.className = 'feedback show wrong';
+  }
+  updateProgress(qid);
+}
+
+function checkFill(qid, qi, correct, exp) {
+  initState(qid, 100);
+  if (state[qid].answers[qi] !== null) return;
+  const inp = document.getElementById(`${qid}-inp-${qi}`);
+  const btn = document.getElementById(`${qid}-btn-${qi}`);
+  const userVal = inp.value.trim().toLowerCase().replace(/\s/g,'');
+  const correctVal = correct.trim().toLowerCase().replace(/\s/g,'');
+  state[qid].answers[qi] = userVal;
+  inp.disabled = true;
+  btn.disabled = true;
+  const fb = document.getElementById(`${qid}-fb-${qi}`);
+  if (userVal === correctVal) {
+    inp.classList.add('correct');
+    state[qid].correct++;
+    fb.textContent = `✅ Correct! ${exp}`;
+    fb.className = 'feedback show correct';
+  } else {
+    inp.classList.add('wrong');
+    fb.textContent = `❌ The answer is: ${correct}. ${exp}`;
+    fb.className = 'feedback show wrong';
+  }
+  updateProgress(qid);
+}
+
+function updateProgress(qid) {
+  const total = Object.keys(state[qid].answers).filter(k => state[qid].answers[k] !== null).length;
+  // count actual answered
+  let answered = state[qid].answers.filter(a => a !== null).length;
+  const allQ = document.querySelectorAll(`#page-${qid} .q-card`).length;
+  const pct = Math.round((answered / allQ) * 100);
+  const prog = document.getElementById(`prog-${qid}`);
+  if (prog) prog.style.width = pct + '%';
+  const ls = document.getElementById(`lsnum-${qid}`);
+  if (ls) ls.textContent = state[qid].correct;
+}
+
+function submitQuiz(qid, total) {
+  // force answer all unfilled
+  const allQ = document.querySelectorAll(`#page-${qid} .q-card`).length;
+  initState(qid, allQ);
+  const score = state[qid].correct;
+  const panel = document.getElementById(`${qid}-score`);
+  const resultEl = document.getElementById(`${qid}-result`);
+  const emojiEl = document.getElementById(`${qid}-emoji`);
+  const msgEl = document.getElementById(`${qid}-msg`);
+  const sub = document.getElementById(`${qid}-submit`);
+
+  resultEl.textContent = `${score} / ${allQ}`;
+  const pct = score / allQ;
+  if (pct === 1) { emojiEl.textContent = '🏆'; msgEl.textContent = 'PERFECT SCORE! You are amazing! 🎉'; }
+  else if (pct >= 0.75) { emojiEl.textContent = '😄'; msgEl.textContent = 'Great job! Almost perfect!'; }
+  else if (pct >= 0.5) { emojiEl.textContent = '🙂'; msgEl.textContent = 'Good effort! Review and try again!'; }
+  else { emojiEl.textContent = '💪'; msgEl.textContent = 'Keep practicing! You can do it!'; }
+
+  panel.classList.add('show');
+  if (sub) sub.style.display = 'none';
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function retryQuiz(qid) {
+  state[qid] = null;
+  // re-render by re-init
+  const page = document.getElementById('page-' + qid);
+  if (page) {
+    // find which quiz
+    if (qid.startsWith('q') && quizzes[qid]) {
+      const qd = quizzes[qid];
+      renderQuiz(qid, qid, qd.questions, qd.title, qd.icon, qd.color);
+    } else if (qid === 'exam') {
+      renderExam();
+    }
+  }
+}
+
+// ══════════════════════════════════════════════
+//  FULL EXAM
+// ══════════════════════════════════════════════
+function renderExam() {
+  const container = document.getElementById('page-exam');
+  let html = `
+    <div class="quiz-header" style="background: linear-gradient(120deg, #B71C1C, #E53935)">
+      <h2>🎓 Full Decimals Exam</h2>
+      <span class="badge">30 Questions • All Parts</span>
+    </div>
+    <div class="live-score" id="ls-exam">Score: <span id="lsnum-exam">0</span> / 30</div>
+    <div class="progress-wrap"><div class="progress-fill" id="prog-exam" style="width:0%"></div></div>
+  `;
+
+  let currentPart = '';
+  examQuestions.forEach((q, i) => {
+    if (q.part !== currentPart) {
+      currentPart = q.part;
+      html += `<div class="section-title" style="font-size:1.2rem;">${currentPart}</div>`;
+    }
+    html += `<div class="q-card" id="exam-q${i}">
+      <div class="q-num">Question ${i+1} of 30</div>
+      <div class="q-text">${q.q}</div>`;
+
+    if (q.type === 'mc') {
+      html += `<div class="choices">`;
+      q.choices.forEach((c, ci) => {
+        html += `<button class="choice-btn" onclick="checkMC('exam',${i},${ci},${q.answer},'${escStr(q.exp)}')">${c}</button>`;
+      });
+      html += `</div>`;
+    } else {
+      html += `<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <input class="fill-input" id="exam-inp-${i}" placeholder="?" autocomplete="off"
+               onkeydown="if(event.key==='Enter')checkFill('exam',${i},'${escStr(q.answer)}','${escStr(q.exp)}')">
+        <button class="check-btn" id="exam-btn-${i}" onclick="checkFill('exam',${i},'${escStr(q.answer)}','${escStr(q.exp)}')">Check ✓</button>
+      </div>`;
+    }
+    html += `<div class="feedback" id="exam-fb-${i}"></div></div>`;
+  });
+
+  html += `
+    <div class="score-panel" id="exam-score">
+      <div class="grade-emoji" id="exam-emoji">🌟</div>
+      <div class="big-score" id="exam-result">0/30</div>
+      <p id="exam-msg">Great job!</p>
+      <button class="retry-btn" onclick="retryQuiz('exam')">🔄 Try Again!</button>
+    </div>
+    <button class="submit-all-btn" id="exam-submit" onclick="submitQuiz('exam',30)">🏁 Submit Full Exam!</button>
+  `;
+  container.innerHTML = html;
+}
+
+// ══════════════════════════════════════════════
+//  INIT ALL QUIZZES
+// ══════════════════════════════════════════════
+Object.keys(quizzes).forEach(key => {
+  const qd = quizzes[key];
+  renderQuiz(key, key, qd.questions, qd.title, qd.icon, qd.color);
+});
+renderExam();
+
+// ══════════════════════════════════════════════
+//  TENTHS BLOCKS VISUAL
+// ══════════════════════════════════════════════
+(function() {
+  const wrap = document.getElementById('blocks-tenths');
+  if (!wrap) return;
+  for (let i = 0; i < 10; i++) {
+    const b = document.createElement('div');
+    b.className = 'block ' + (i < 7 ? 'filled' : 'empty');
+    wrap.appendChild(b);
+  }
+  wrap.insertAdjacentHTML('afterend', '<p style="font-weight:700;color:#FF7043;font-size:1rem;margin-top:6px;">Example: 7 out of 10 shaded = <span style="font-family:Fredoka One;font-size:1.3rem">7/10 = 0.7</span></p>');
+})();
+
+// ══════════════════════════════════════════════
+//  PAGE NAVIGATION
+// ══════════════════════════════════════════════
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  // highlight nav
+  document.querySelectorAll('.nav-btn').forEach(b => {
+    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'"+id+"'")) b.classList.add('active');
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

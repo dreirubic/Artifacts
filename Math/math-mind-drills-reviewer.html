@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math Mind Drills 🧮</title>
+<link href="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #0A1628;
+    --blue:   #1A56DB;
+    --cyan:   #06B6D4;
+    --green:  #10B981;
+    --yellow: #F59E0B;
+    --orange: #F97316;
+    --red:    #EF4444;
+    --purple: #8B5CF6;
+    --white:  #F8FAFC;
+    --card:   #FFFFFF;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--navy);
+    min-height: 100vh;
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* Animated background dots */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: radial-gradient(circle, rgba(6,182,212,0.08) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+  }
+
+  /* BANNER */
+  .banner {
+    text-align: center;
+    padding: 44px 20px 36px;
+    position: relative;
+  }
+  .banner-badge {
+    display: inline-block;
+    background: var(--yellow);
+    color: var(--navy);
+    font-family: 'Righteous', cursive;
+    font-size: 0.82rem;
+    padding: 4px 16px;
+    border-radius: 50px;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .banner h1 {
+    font-family: 'Righteous', cursive;
+    font-size: clamp(2rem, 6vw, 3.6rem);
+    color: var(--white);
+    line-height: 1.1;
+    text-shadow: 0 0 40px rgba(6,182,212,0.5);
+  }
+  .banner h1 span { color: var(--cyan); }
+  .banner p { color: #94A3B8; font-weight: 600; margin-top: 8px; font-size: 1rem; }
+
+  /* TABS */
+  .tabs {
+    display: flex; justify-content: center;
+    gap: 8px; padding: 0 12px 20px; flex-wrap: wrap;
+  }
+  .tab-btn {
+    font-family: 'Righteous', cursive;
+    font-size: 0.88rem; padding: 9px 18px;
+    border-radius: 10px; border: 2px solid #334155;
+    background: #1E293B; color: #94A3B8;
+    cursor: pointer; transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .tab-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+  .tab-btn.t-rev { background: var(--blue); color: #fff; border-color: var(--blue); }
+  .tab-btn.t-q1  { background: var(--green); color: #fff; border-color: var(--green); }
+  .tab-btn.t-q2  { background: var(--purple); color: #fff; border-color: var(--purple); }
+  .tab-btn.t-q3  { background: var(--orange); color: #fff; border-color: var(--orange); }
+
+  /* SECTIONS */
+  .sec { display: none; padding: 0 14px 80px; max-width: 880px; margin: 0 auto; }
+  .sec.active { display: block; }
+
+  /* FORMULA CARDS */
+  .formula-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px; margin: 16px 0;
+  }
+  .f-card {
+    background: #1E293B;
+    border-radius: 18px; padding: 20px;
+    border: 2px solid #334155;
+    transition: border-color 0.2s;
+    animation: fadeUp 0.4s ease both;
+  }
+  .f-card:hover { border-color: var(--cyan); }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(16px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .f-icon { font-size: 2rem; margin-bottom: 8px; }
+  .f-title {
+    font-family: 'Righteous', cursive;
+    font-size: 1rem; color: var(--cyan);
+    margin-bottom: 8px;
+  }
+  .f-formula {
+    background: #0F172A;
+    border-radius: 10px; padding: 10px 12px;
+    font-size: 0.95rem; font-weight: 800;
+    color: var(--yellow);
+    margin: 6px 0;
+    letter-spacing: 0.3px;
+  }
+  .f-note {
+    font-size: 0.85rem; color: #94A3B8;
+    margin-top: 6px; line-height: 1.6; font-weight: 600;
+  }
+
+  /* SECTION HEADERS */
+  .sec-hdr {
+    display: flex; align-items: center; gap: 12px;
+    margin: 24px 0 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #1E293B;
+  }
+  .sec-hdr h2 {
+    font-family: 'Righteous', cursive;
+    font-size: 1.4rem; color: var(--white);
+  }
+  .sec-hdr .dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* REVIEW INFO BOXES */
+  .r-box {
+    background: #1E293B; border-radius: 16px;
+    padding: 18px 20px; margin: 10px 0;
+    border-left: 4px solid var(--cyan);
+    font-size: 0.96rem; line-height: 1.85; font-weight: 600;
+    color: #CBD5E1;
+  }
+  .r-box.green  { border-color: var(--green); }
+  .r-box.yellow { border-color: var(--yellow); }
+  .r-box.purple { border-color: var(--purple); }
+  .r-box.orange { border-color: var(--orange); }
+  .r-box.red    { border-color: var(--red); }
+
+  .hi-c { color: var(--cyan); font-weight: 900; }
+  .hi-y { color: var(--yellow); font-weight: 900; }
+  .hi-g { color: var(--green); font-weight: 900; }
+  .hi-o { color: var(--orange); font-weight: 900; }
+  .hi-p { color: var(--purple); font-weight: 900; }
+
+  .ex-block {
+    background: #0F172A; border: 2px dashed #334155;
+    border-radius: 14px; padding: 14px 16px;
+    margin: 10px 0; font-size: 0.93rem;
+    line-height: 1.85; font-weight: 600; color: #CBD5E1;
+  }
+
+  .conv-table {
+    width: 100%; border-collapse: separate;
+    border-spacing: 0 6px; margin: 10px 0;
+  }
+  .conv-table th {
+    background: var(--blue);
+    color: white; font-family: 'Righteous', cursive;
+    padding: 10px 14px; font-size: 0.9rem;
+  }
+  .conv-table th:first-child { border-radius: 10px 0 0 10px; }
+  .conv-table th:last-child  { border-radius: 0 10px 10px 0; }
+  .conv-table td {
+    background: #1E293B; padding: 10px 14px;
+    font-weight: 700; color: #CBD5E1; font-size: 0.93rem;
+    border-bottom: 1px solid #334155;
+  }
+  .conv-table tr td:first-child { color: var(--yellow); border-radius: 10px 0 0 10px; }
+  .conv-table tr td:last-child  { border-radius: 0 10px 10px 0; }
+
+  /* QUIZ */
+  .quiz-hdr { text-align: center; margin: 16px 0 20px; }
+  .quiz-hdr h2 { font-family: 'Righteous', cursive; font-size: 2rem; }
+  .quiz-hdr p  { color: #94A3B8; font-weight: 600; margin-top: 4px; }
+
+  .scoreboard { display: flex; justify-content: center; gap: 14px; margin-bottom: 16px; flex-wrap: wrap; }
+  .sbox {
+    background: #1E293B; border-radius: 12px; padding: 10px 22px;
+    font-family: 'Righteous', cursive; font-size: 1rem;
+    border: 2px solid #334155; text-align: center; min-width: 100px;
+  }
+  .sbox span { font-size: 1.7rem; display: block; color: var(--cyan); }
+
+  .prog-wrap { background: #1E293B; border-radius: 50px; height: 10px; margin-bottom: 20px; overflow: hidden; }
+  .prog-fill { height: 100%; border-radius: 50px; transition: width 0.4s ease; }
+  .pf-g { background: linear-gradient(90deg, var(--green), var(--cyan)); }
+  .pf-p { background: linear-gradient(90deg, var(--purple), var(--blue)); }
+  .pf-o { background: linear-gradient(90deg, var(--orange), var(--yellow)); }
+
+  .q-card {
+    background: #1E293B; border-radius: 20px; padding: 24px;
+    border: 2px solid #334155; margin-bottom: 16px;
+  }
+  .q-label {
+    font-family: 'Righteous', cursive; font-size: 0.82rem; color: var(--navy);
+    display: inline-block; padding: 3px 14px; border-radius: 50px;
+    margin-bottom: 12px; letter-spacing: 0.5px;
+  }
+  .ql-g { background: var(--green); }
+  .ql-p { background: var(--purple); }
+  .ql-o { background: var(--orange); }
+
+  .q-emoji { font-size: 1.8rem; text-align: center; margin-bottom: 8px; }
+  .q-text  { font-size: 1.08rem; font-weight: 700; margin-bottom: 18px; line-height: 1.6; color: var(--white); }
+  .q-text .qnum { color: var(--cyan); font-family: 'Righteous', cursive; }
+
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media(max-width:480px){ .choices { grid-template-columns: 1fr; } }
+
+  .choice-btn {
+    padding: 13px 16px; border-radius: 12px;
+    border: 2px solid #334155; background: #0F172A;
+    font-family: 'Nunito', sans-serif; font-size: 0.97rem; font-weight: 700;
+    cursor: pointer; transition: all 0.15s; text-align: left; color: #CBD5E1;
+  }
+  .choice-btn:hover:not(:disabled) {
+    border-color: var(--cyan); background: #1E293B; color: var(--white);
+    transform: translateY(-2px);
+  }
+  .choice-btn.correct { background: #064E3B; border-color: var(--green); color: #6EE7B7; }
+  .choice-btn.wrong   { background: #7F1D1D; border-color: var(--red);   color: #FCA5A5; }
+  .choice-btn:disabled { cursor: default; }
+
+  .fb-msg { margin-top: 12px; padding: 12px 16px; border-radius: 12px; font-weight: 700; display: none; font-size: 0.95rem; }
+  .fb-ok  { background: #064E3B; color: #6EE7B7; border: 1px solid var(--green); display: block; }
+  .fb-no  { background: #7F1D1D; color: #FCA5A5; border: 1px solid var(--red);   display: block; }
+
+  .qctrl { display: flex; justify-content: center; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
+  .btn-go {
+    font-family: 'Righteous', cursive; font-size: 1rem;
+    padding: 12px 32px; border-radius: 12px; border: none;
+    cursor: pointer; transition: all 0.15s; letter-spacing: 0.5px;
+  }
+  .btn-go:hover { transform: translateY(-2px); }
+  .bg-g { background: var(--green);  color: var(--navy); }
+  .bg-p { background: var(--purple); color: #fff; }
+  .bg-o { background: var(--orange); color: var(--navy); }
+  .bg-b { background: var(--blue);   color: #fff; }
+  .bg-c { background: var(--cyan);   color: var(--navy); }
+
+  /* RESULT */
+  .result-box { display: none; text-align: center; padding: 44px 16px; }
+  .result-box .medal { font-size: 5rem; margin-bottom: 10px; }
+  .result-box h2 { font-family: 'Righteous', cursive; font-size: 2.4rem; margin-bottom: 8px; }
+  .result-box .big-score { font-family: 'Righteous', cursive; font-size: 4rem; color: var(--cyan); }
+  .result-box p { font-weight: 600; color: #94A3B8; font-size: 1rem; margin-top: 10px; }
+
+  /* Stars deco */
+  .star-deco { position: fixed; pointer-events: none; font-size: 1.4rem; opacity: 0.07; animation: twinkle 4s ease-in-out infinite; }
+  @keyframes twinkle { 0%,100%{opacity:0.07;}50%{opacity:0.18;} }
+  .star-deco:nth-child(1){top:8%;left:4%;animation-delay:0s;}
+  .star-deco:nth-child(2){top:22%;right:5%;animation-delay:1s;}
+  .star-deco:nth-child(3){top:60%;left:3%;animation-delay:2s;}
+  .star-deco:nth-child(4){bottom:15%;right:4%;animation-delay:0.5s;}
+  .star-deco:nth-child(5){bottom:40%;left:5%;animation-delay:1.8s;}
+</style>
+</head>
+<body>
+
+<div class="star-deco">✦</div>
+<div class="star-deco">◆</div>
+<div class="star-deco">✦</div>
+<div class="star-deco">◆</div>
+<div class="star-deco">✦</div>
+
+<div class="banner">
+  <div class="banner-badge">📐 Enfolding Mathematics — Grade 5</div>
+  <h1>Chapter <span>Mind Drills</span> 🧮</h1>
+  <p>Measurement • Area • Perimeter • Volume • Word Problems</p>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn t-rev" onclick="showTab('reviewer')">📖 Reviewer</button>
+  <button class="tab-btn" onclick="showTab('q1')">📐 Measurement Quiz</button>
+  <button class="tab-btn" onclick="showTab('q2')">🟦 Area & Perimeter Quiz</button>
+  <button class="tab-btn" onclick="showTab('q3')">🏆 Full Chapter Quiz</button>
+</div>
+
+<!-- ============ REVIEWER ============ -->
+<div id="reviewer" class="sec active">
+
+  <!-- FORMULAS OVERVIEW -->
+  <div class="sec-hdr">
+    <div class="dot" style="background:var(--cyan)"></div>
+    <h2>⚡ Key Formulas — Know These by Heart!</h2>
+  </div>
+
+  <div class="formula-grid">
+    <div class="f-card">
+      <div class="f-icon">🟦</div>
+      <div class="f-title">Area of a Rectangle</div>
+      <div class="f-formula">Area = Length × Width</div>
+      <div class="f-formula">A = L × W</div>
+      <div class="f-note">Answer is always in square units (m², cm²)</div>
+    </div>
+    <div class="f-card">
+      <div class="f-icon">⬛</div>
+      <div class="f-title">Area of a Square</div>
+      <div class="f-formula">Area = Side × Side</div>
+      <div class="f-formula">A = s²</div>
+      <div class="f-note">All sides of a square are equal!</div>
+    </div>
+    <div class="f-card">
+      <div class="f-icon">📏</div>
+      <div class="f-title">Perimeter of a Rectangle</div>
+      <div class="f-formula">P = 2 × (L + W)</div>
+      <div class="f-formula">or P = 2L + 2W</div>
+      <div class="f-note">Add all four sides!</div>
+    </div>
+    <div class="f-card">
+      <div class="f-icon">🔷</div>
+      <div class="f-title">Perimeter of a Square</div>
+      <div class="f-formula">P = 4 × Side</div>
+      <div class="f-formula">P = 4s</div>
+      <div class="f-note">Multiply one side by 4!</div>
+    </div>
+    <div class="f-card">
+      <div class="f-icon">📦</div>
+      <div class="f-title">Volume of a Box</div>
+      <div class="f-formula">V = L × W × H</div>
+      <div class="f-note">Answer is in cubic units (cm³, m³). Multiply length, width, AND height!</div>
+    </div>
+    <div class="f-card">
+      <div class="f-icon">🔺</div>
+      <div class="f-title">Perimeter of a Triangle</div>
+      <div class="f-formula">P = s + s + s</div>
+      <div class="f-note">Add all three sides! For equilateral: P = 3 × side</div>
+    </div>
+  </div>
+
+  <!-- UNIT CONVERSION -->
+  <div class="sec-hdr" style="margin-top:28px;">
+    <div class="dot" style="background:var(--yellow)"></div>
+    <h2>📏 Unit Conversions</h2>
+  </div>
+
+  <div class="r-box yellow">
+    💡 <span class="hi-y">Rule of thumb:</span> When converting from a BIGGER unit to a SMALLER unit → <span class="hi-y">MULTIPLY</span>. When converting from SMALLER to BIGGER → <span class="hi-y">DIVIDE</span>.
+  </div>
+
+  <table class="conv-table">
+    <thead><tr><th>Conversion</th><th>Rule</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td>km → m</td><td>× 1,000</td><td>2 km = 2,000 m</td></tr>
+      <tr><td>m → cm</td><td>× 100</td><td>5.25 m = 525 cm</td></tr>
+      <tr><td>m → dm</td><td>× 10</td><td>1 m = 10 dm</td></tr>
+      <tr><td>dm → cm</td><td>× 10</td><td>60 dm = 600 cm</td></tr>
+      <tr><td>cm → m</td><td>÷ 100</td><td>300 cm = 3 m</td></tr>
+      <tr><td>kg → g</td><td>× 1,000</td><td>1.5 kg = 1,500 g</td></tr>
+      <tr><td>g → kg</td><td>÷ 1,000</td><td>500 g = 0.5 kg</td></tr>
+      <tr><td>decade → years</td><td>× 10</td><td>6.5 decades = 65 years</td></tr>
+    </tbody>
+  </table>
+
+  <!-- AREA SECTION -->
+  <div class="sec-hdr" style="margin-top:28px;">
+    <div class="dot" style="background:var(--green)"></div>
+    <h2>🟩 Area</h2>
+  </div>
+
+  <div class="r-box green">
+    Area measures how much <span class="hi-g">surface is covered</span>. Think of it as how many square tiles you need to fill a floor!
+  </div>
+
+  <div class="ex-block">
+    <span class="hi-g">Example 1:</span> A grass lawn is 85 m long and 68 m wide. What is its area?<br>
+    → A = L × W = 85 × 68 = <span class="hi-y">5,780 m²</span><br><br>
+    <span class="hi-g">Example 2:</span> A lobby is 16 m by 8 m. What is its area?<br>
+    → A = 16 × 8 = <span class="hi-y">128 m²</span><br><br>
+    <span class="hi-g">Example 3:</span> A rectangular garden has an area of 162 m² and width of 9 m. Find the length.<br>
+    → Length = Area ÷ Width = 162 ÷ 9 = <span class="hi-y">18 m</span><br><br>
+    <span class="hi-g">Example 4 (Square):</span> A square has area of 36 m². Its side is doubled. Find new area.<br>
+    → Original side = √36 = 6 m → Doubled side = 12 m → New area = 12 × 12 = <span class="hi-y">144 m²</span>
+  </div>
+
+  <!-- PERIMETER SECTION -->
+  <div class="sec-hdr" style="margin-top:28px;">
+    <div class="dot" style="background:var(--purple)"></div>
+    <h2>📐 Perimeter</h2>
+  </div>
+
+  <div class="r-box purple">
+    Perimeter is the <span class="hi-p">total distance around</span> a shape. Think of it as a fence going all the way around!
+  </div>
+
+  <div class="ex-block">
+    <span class="hi-p">Example 1:</span> A town plaza is 56 m long and 48 m wide. A jogger goes around it 10 times. How many km?<br>
+    → Perimeter = 2 × (56 + 48) = 2 × 104 = 208 m<br>
+    → 10 rounds = 208 × 10 = 2,080 m = <span class="hi-y">2.08 km</span><br><br>
+    <span class="hi-p">Example 2:</span> Lito has a garden 15 m long and 9 m wide. Perimeter?<br>
+    → P = 2 × (15 + 9) = 2 × 24 = <span class="hi-y">48 m</span><br><br>
+    <span class="hi-p">Example 3:</span> Jack has a garden 12 m long and 9 m wide. Fencing costs ₱37.50/m. Total cost?<br>
+    → P = 2 × (12 + 9) = 42 m → Cost = 42 × 37.50 = <span class="hi-y">₱1,575</span><br><br>
+    <span class="hi-p">Example 4:</span> Door is 120 cm wide. Height = 120 + 80 = 200 cm. Perimeter?<br>
+    → P = 2 × (120 + 200) = 2 × 320 = <span class="hi-y">640 cm</span><br><br>
+    <span class="hi-p">Example 5:</span> Flower garden is 12 m wide. Length = 12 + 3 = 15 m. Perimeter?<br>
+    → P = 2 × (12 + 15) = 2 × 27 = <span class="hi-y">54 m</span>
+  </div>
+
+  <!-- VOLUME SECTION -->
+  <div class="sec-hdr" style="margin-top:28px;">
+    <div class="dot" style="background:var(--orange)"></div>
+    <h2>📦 Volume</h2>
+  </div>
+
+  <div class="r-box orange">
+    Volume measures <span class="hi-o">how much space</span> is inside a 3D shape. Think of it as how many cubes can fit inside a box!
+  </div>
+
+  <div class="ex-block">
+    <span class="hi-o">Example:</span> A box is 14 cm long, 11 cm wide, and 9 cm high. What is its volume?<br>
+    → V = L × W × H = 14 × 11 × 9 = <span class="hi-y">1,386 cm³</span>
+  </div>
+
+  <!-- WORD PROBLEM TIPS -->
+  <div class="sec-hdr" style="margin-top:28px;">
+    <div class="dot" style="background:var(--cyan)"></div>
+    <h2>💡 Word Problem Tips</h2>
+  </div>
+
+  <div class="formula-grid">
+    <div class="f-card">
+      <div class="f-icon">🔍</div>
+      <div class="f-title">READ carefully</div>
+      <div class="f-note">What is being asked? Perimeter, area, or volume? Look for keywords!</div>
+    </div>
+    <div class="f-card">
+      <div class="f-icon">✏️</div>
+      <div class="f-title">KEYWORDS</div>
+      <div class="f-note">"Around" = Perimeter 📏<br>"Surface / Cover" = Area 🟦<br>"Inside / Capacity" = Volume 📦</div>
+    </div>
+    <div class="f-card">
+      <div class="f-icon">🔄</div>
+      <div class="f-title">CONVERT FIRST</div>
+      <div class="f-note">Always make sure units match BEFORE calculating! 1 m = 100 cm, 1 km = 1,000 m</div>
+    </div>
+    <div class="f-card">
+      <div class="f-icon">✅</div>
+      <div class="f-title">CHECK YOUR UNITS</div>
+      <div class="f-note">Length → m, cm<br>Area → m², cm²<br>Volume → m³, cm³</div>
+    </div>
+  </div>
+
+  <!-- RIBBON / CUTTING PROBLEMS -->
+  <div class="sec-hdr" style="margin-top:28px;">
+    <div class="dot" style="background:var(--red)"></div>
+    <h2>✂️ Cutting / Pieces Problems</h2>
+  </div>
+
+  <div class="r-box red">
+    To find how many pieces can be cut: <span class="hi-y">Total length ÷ Size of each piece</span>
+  </div>
+  <div class="ex-block">
+    <span class="hi-c">Example 1:</span> A ribbon is 60 dm long. How many 2-dm pieces can be cut?<br>
+    → 60 ÷ 2 = <span class="hi-y">30 pieces</span><br><br>
+    <span class="hi-c">Example 2:</span> From 30 m of ribbon, how many 4-dm pieces?<br>
+    → Convert: 30 m = 300 dm → 300 ÷ 4 = <span class="hi-y">75 pieces</span><br><br>
+    <span class="hi-c">Example 3:</span> From a piece of cardolina 8 cm by 6 cm, how many cards 8 cm × 3 dm?<br>
+    → Convert 3 dm = 30 cm. Area of cardolina = 8×6 = 48 cm². Area of card = 8×30 = 240 cm².<br>
+    → Wait — check units! Cards per sheet = 6 ÷ 3 = <span class="hi-y">2 (per row)</span>. Think in strips!
+  </div>
+
+</div><!-- end reviewer -->
+
+<!-- ============ QUIZ 1: MEASUREMENT ============ -->
+<div id="q1" class="sec">
+  <div class="quiz-hdr">
+    <h2 style="color:var(--green);">📐 Measurement Quiz</h2>
+    <p>Unit conversions, distance & weight problems!</p>
+  </div>
+  <div class="scoreboard">
+    <div class="sbox">⭐ Score<span id="m-sc">0</span></div>
+    <div class="sbox">📋 Question<span id="m-qn">1/10</span></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill pf-g" id="m-prog" style="width:0%"></div></div>
+  <div id="m-area"></div>
+  <div id="m-result" class="result-box">
+    <div class="medal" id="m-medal"></div>
+    <h2 id="m-rtitle" style="color:var(--green);"></h2>
+    <div class="big-score" id="m-rscore"></div>
+    <p id="m-rmsg"></p>
+    <div class="qctrl" style="margin-top:24px;">
+      <button class="btn-go bg-g" onclick="restartQ('meas')">🔄 Try Again</button>
+      <button class="btn-go bg-p" onclick="showTab('q2')">Next Quiz →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ QUIZ 2: AREA & PERIMETER ============ -->
+<div id="q2" class="sec">
+  <div class="quiz-hdr">
+    <h2 style="color:var(--purple);">🟦 Area & Perimeter Quiz</h2>
+    <p>Can you solve for area, perimeter, and volume?</p>
+  </div>
+  <div class="scoreboard">
+    <div class="sbox">⭐ Score<span id="a-sc">0</span></div>
+    <div class="sbox">📋 Question<span id="a-qn">1/10</span></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill pf-p" id="a-prog" style="width:0%"></div></div>
+  <div id="a-area"></div>
+  <div id="a-result" class="result-box">
+    <div class="medal" id="a-medal"></div>
+    <h2 id="a-rtitle" style="color:var(--purple);"></h2>
+    <div class="big-score" id="a-rscore"></div>
+    <p id="a-rmsg"></p>
+    <div class="qctrl" style="margin-top:24px;">
+      <button class="btn-go bg-p" onclick="restartQ('area')">🔄 Try Again</button>
+      <button class="btn-go bg-o" onclick="showTab('q3')">Next Quiz →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ QUIZ 3: FULL CHAPTER ============ -->
+<div id="q3" class="sec">
+  <div class="quiz-hdr">
+    <h2 style="color:var(--orange);">🏆 Full Chapter Quiz</h2>
+    <p>All topics combined — show what you know! 💪</p>
+  </div>
+  <div class="scoreboard">
+    <div class="sbox">⭐ Score<span id="f-sc">0</span></div>
+    <div class="sbox">📋 Question<span id="f-qn">1/15</span></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill pf-o" id="f-prog" style="width:0%"></div></div>
+  <div id="f-area"></div>
+  <div id="f-result" class="result-box">
+    <div class="medal" id="f-medal"></div>
+    <h2 id="f-rtitle" style="color:var(--orange);"></h2>
+    <div class="big-score" id="f-rscore"></div>
+    <p id="f-rmsg"></p>
+    <div class="qctrl" style="margin-top:24px;">
+      <button class="btn-go bg-o" onclick="restartQ('full')">🔄 Try Again</button>
+      <button class="btn-go bg-b" onclick="showTab('reviewer')">📖 Review Again</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- TABS ----
+function showTab(id) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const map = {reviewer:'t-rev', q1:'t-q1', q2:'t-q2', q3:'t-q3'};
+  const ids = ['reviewer','q1','q2','q3'];
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    b.className = 'tab-btn';
+    if (ids[i] === id) b.classList.add(map[id]);
+  });
+}
+
+// ---- QUESTIONS ----
+const measQs = [
+  {e:"📏",q:"5.25 m = ___ cm",c:["525","524","527","526"],a:"525",h:"1 m = 100 cm. So 5.25 × 100 = 525 cm!"},
+  {e:"🏃",q:"A car averages 10 km per liter. How many liters (nearest whole number) for a round trip to a town 158 km away?",c:["32","30","31","29"],a:"32",h:"Round trip = 158 × 2 = 316 km. 316 ÷ 10 = 31.6 → nearest whole = 32 liters!"},
+  {e:"🏟️",q:"A grass lawn is 85 m long and 68 m wide. Walk around it 5 times. How many meters?",c:["1 530 m","1 530 m","0.153 m","3 015 m"],a:"1 530 m",h:"Perimeter = 2×(85+68) = 306 m. × 5 = 1,530 m!"},
+  {e:"🏙️",q:"A town plaza is 56 m long and 48 m wide. A jogger goes around it 10 times. How many km?",c:["2.08 km","4.08 km","1.08 km","3.08 km"],a:"2.08 km",h:"Perimeter = 2×(56+48) = 208 m. ×10 = 2,080 m = 2.08 km!"},
+  {e:"🧣",q:"Cristy makes handkerchiefs with 2.5 dm of lace on each side. How much lace for 3 handkerchiefs?",c:["P475","P175","P275","P375"],a:"P475",h:"Each hanky perimeter = 4 × 2.5 dm = 10 dm. 3 hankies = 30 dm. If 1 dm costs ₱15.83... Lace needed = 30 dm total. Cost = 30 × P475/30... Check: 3 × 4 × 2.5 = 30 dm = P475!"},
+  {e:"⚖️",q:"How much heavier is 2,000 grams than ½ kilogram?",c:["500 g or 1½ kg","1 000 g or 1 kg","750 g or ¾ kg","250 g or ¼ kg"],a:"500 g or 1½ kg",h:"½ kg = 500 g. 2,000 - 500 = 1,500 g = 1½ kg!"},
+  {e:"📅",q:"How many days were there in the year 2006?",c:["365","364","366","363"],a:"365",h:"2006 is NOT a leap year (not divisible by 4 evenly... 2006÷4=501.5). So it has 365 days!"},
+  {e:"⏰",q:"How many years are there in 6.5 decades?",c:["65","45","75","35"],a:"65",h:"1 decade = 10 years. 6.5 × 10 = 65 years!"},
+  {e:"📏",q:"How many centimeters longer is 2 meters than 120 cm?",c:["80","50","70","60"],a:"80",h:"2 m = 200 cm. 200 - 120 = 80 cm longer!"},
+  {e:"✂️",q:"A ribbon is 60 dm long. How many 2-dm pieces can be cut?",c:["30","29","28","27"],a:"30",h:"60 ÷ 2 = 30 pieces!"},
+  {e:"🎀",q:"From a 30-meter ribbon, how many 4-dm pieces can you cut?",c:["75","45","65","35"],a:"75",h:"30 m = 300 dm. 300 ÷ 4 = 75 pieces!"},
+  {e:"📅",q:"Today is Friday, February 2. What date was it last Friday?",c:["January 26","January 25","January 24","January 27"],a:"January 26",h:"Going back 7 days from Feb 2 = January 26!"},
+  {e:"📅",q:"If tomorrow is November 11, what date will it be 14 days after tomorrow?",c:["November 25","November 24","November 27","November 26"],a:"November 25",h:"Tomorrow = Nov 11. 14 days after = Nov 11 + 14 = November 25!"},
+  {e:"📚",q:"Cora reads 85 pages per day. The book has 170 pages. How many more days can she finish?",c:["2 days","5 days","4 days","6 days"],a:"2 days",h:"170 ÷ 85 = 2 days!"},
+  {e:"🃏",q:"Cards are 8 cm by 6 cm. How many can be cut from a piece 8 cm by 3 dm?",c:["5","6½","7½","2"],a:"5",h:"3 dm = 30 cm. Piece = 8×30 = 240 cm². Card = 8×6 = 48 cm². 240÷48 = 5 cards!"}
+];
+
+const areaQs = [
+  {e:"📦",q:"A box is 14 cm long, 11 cm wide, and 9 cm high. What is its volume?",c:["1 386 cm³","8 613 cm³","6 138 cm³","3 861 cm³"],a:"1 386 cm³",h:"V = L×W×H = 14×11×9 = 1,386 cm³!"},
+  {e:"🌿",q:"A lobby is 16 meters by 8 meters. What is its area?",c:["128 m²","130 m²","129 m²","127 m²"],a:"128 m²",h:"A = L×W = 16×8 = 128 m²!"},
+  {e:"🌱",q:"A grass lawn is 85 m long and 68 m wide. What is its area?",c:["5 780 m²","5 301 m²","5 530 m²","3 015 m²"],a:"5 780 m²",h:"A = 85 × 68 = 5,780 m²!"},
+  {e:"📐",q:"A rectangular garden has an area of 162 square meters. The width is 9 m. What is its length?",c:["18 m","19 m","17 m","20 m"],a:"18 m",h:"Length = Area ÷ Width = 162 ÷ 9 = 18 m!"},
+  {e:"🏫",q:"A school yard is 117 m long and 103 m wide. Run around it 5 times. How many meters?",c:["2 200","0.022","2 002","0.220"],a:"2 200",h:"Perimeter = 2×(117+103) = 440 m. ×5 = 2,200 m!"},
+  {e:"⬛",q:"A square has an area of 36 m². If each side is doubled, what is the area of the bigger square?",c:["144 m²","141 m²","143 m²","142 m²"],a:"144 m²",h:"Side = √36 = 6 m. Doubled = 12 m. New area = 12×12 = 144 m²!"},
+  {e:"🏠",q:"Lito has a garden 15 m long and 9 m wide. What is its perimeter?",c:["48 m","45 m","47 m","46 m"],a:"48 m",h:"P = 2×(15+9) = 2×24 = 48 m!"},
+  {e:"🌻",q:"Our flower garden is 12 m wide. Length is 3 m more than the width. What is the perimeter?",c:["54 m","55 m","57 m","56 m"],a:"54 m",h:"Width = 12, Length = 15. P = 2×(12+15) = 2×27 = 54 m!"},
+  {e:"🚪",q:"Our door is 120 cm wide. Height is 80 cm more than the width. What is the perimeter?",c:["640 cm","650 cm","670 cm","660 cm"],a:"640 cm",h:"Width=120, Height=120+80=200. P = 2×(120+200) = 640 cm!"},
+  {e:"🌳",q:"The perimeter of a garden is 34 m. The length is 10 m. What is the area?",c:["70 m²","50 m²","40 m²","60 m²"],a:"70 m²",h:"P=34, L=10. 2(10+W)=34 → W=7. Area=10×7=70 m²!"},
+  {e:"📐",q:"A rectangular field is 98 m long and 76 m wide. What is its area?",c:["7 448 m²","9 448 m²","10 448 m²","12 448 m²"],a:"7 448 m²",h:"A = 98 × 76 = 7,448 m²!"},
+  {e:"🏡",q:"Jack has a garden 12 m long and 9 m wide. Fencing costs ₱37.50 per meter. How much to fence it?",c:["₱1 575","₱5 157","₱5 751","₱7 515"],a:"₱1 575",h:"P = 2×(12+9) = 42 m. Cost = 42 × 37.50 = ₱1,575!"},
+  {e:"⏱️",q:"Lito started his project at 8:15 p.m. and finished at 10:00 p.m. How many minutes?",c:["105","108","107","106"],a:"105",h:"From 8:15 to 10:00 = 1 hour 45 minutes = 105 minutes!"},
+  {e:"🔺",q:"A side of an equilateral triangle is 55 m. What is its perimeter?",c:["165","168","167","166"],a:"165",h:"Equilateral triangle: all 3 sides equal. P = 3×55 = 165 m!"},
+  {e:"🏃",q:"Rico can run 1½ m per second. How many minutes will it take him to run 450 m?",c:["5 min","50","51","52"],a:"5 min",h:"Speed = 1.5 m/s. Time = 450 ÷ 1.5 = 300 seconds = 5 minutes!"}
+];
+
+function buildFull() {
+  return shuffle([...shuffle(measQs).slice(0,8), ...shuffle(areaQs).slice(0,7)]);
+}
+
+function shuffle(arr) { return [...arr].sort(() => Math.random()-0.5); }
+
+let ST = {
+  meas: {qs:[], idx:0, sc:0},
+  area: {qs:[], idx:0, sc:0},
+  full: {qs:[], idx:0, sc:0}
+};
+
+const CFG = {
+  meas: {area:'m-area', sc:'m-sc', qn:'m-qn', prog:'m-prog', result:'m-result', medal:'m-medal', rtitle:'m-rtitle', rscore:'m-rscore', rmsg:'m-rmsg', pfx:'m', ql:'ql-g', nb:'bg-g', tot:10},
+  area: {area:'a-area', sc:'a-sc', qn:'a-qn', prog:'a-prog', result:'a-result', medal:'a-medal', rtitle:'a-rtitle', rscore:'a-rscore', rmsg:'a-rmsg', pfx:'a', ql:'ql-p', nb:'bg-p', tot:10},
+  full: {area:'f-area', sc:'f-sc', qn:'f-qn', prog:'f-prog', result:'f-result', medal:'f-medal', rtitle:'f-rtitle', rscore:'f-rscore', rmsg:'f-rmsg', pfx:'f', ql:'ql-o', nb:'bg-o', tot:15}
+};
+
+function initQ(type) {
+  const st=ST[type]; const c=CFG[type];
+  st.qs  = type==='meas' ? shuffle(measQs).slice(0,c.tot) : type==='area' ? shuffle(areaQs).slice(0,c.tot) : buildFull();
+  st.idx = 0; st.sc = 0;
+  document.getElementById(c.area).style.display='block';
+  document.getElementById(c.result).style.display='none';
+  render(type);
+}
+
+function render(type) {
+  const st=ST[type]; const c=CFG[type];
+  if (st.idx >= st.qs.length) { showResult(type); return; }
+  const q=st.qs[st.idx]; const tot=st.qs.length;
+  document.getElementById(c.sc).textContent = st.sc;
+  document.getElementById(c.qn).textContent = `${st.idx+1}/${tot}`;
+  document.getElementById(c.prog).style.width = `${(st.idx/tot)*100}%`;
+  const sh = shuffle(q.c);
+  document.getElementById(c.area).innerHTML = `
+    <div class="q-card">
+      <span class="q-label ${c.ql}">Question ${st.idx+1} of ${tot}</span>
+      <div class="q-emoji">${q.e}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="choices">
+        ${sh.map(o=>`<button class="choice-btn" onclick="check('${type}','${o.replace(/'/g,"&#39;").replace(/"/g,"&quot;")}')">${o}</button>`).join('')}
+      </div>
+      <div class="fb-msg" id="${c.pfx}-fb"></div>
+    </div>
+    <div class="qctrl">
+      <button class="btn-go ${c.nb}" id="${c.pfx}-next" style="display:none" onclick="nextQ('${type}')">Next ➡️</button>
+    </div>`;
+}
+
+function check(type, chosen) {
+  const st=ST[type]; const c=CFG[type]; const q=st.qs[st.idx];
+  document.querySelectorAll(`#${c.area} .choice-btn`).forEach(b => {
+    b.disabled=true;
+    if (b.textContent===q.a) b.classList.add('correct');
+    else if (b.textContent===chosen && chosen!==q.a) b.classList.add('wrong');
+  });
+  const fb=document.getElementById(`${c.pfx}-fb`);
+  if (chosen===q.a) { st.sc++; fb.className='fb-msg fb-ok'; fb.textContent=`✅ Correct! Great job! ${q.e}`; }
+  else { fb.className='fb-msg fb-no'; fb.textContent=`❌ Answer: ${q.a} | 💡 ${q.h}`; }
+  document.getElementById(c.sc).textContent=st.sc;
+  document.getElementById(`${c.pfx}-next`).style.display='inline-block';
+}
+
+function nextQ(type) { ST[type].idx++; render(type); }
+
+function showResult(type) {
+  const c=CFG[type]; const st=ST[type];
+  document.getElementById(c.area).style.display='none';
+  const res=document.getElementById(c.result);
+  res.style.display='block';
+  const pct=Math.round(st.sc/st.qs.length*100);
+  let med,title,msg;
+  if(pct===100){med='🏆';title='PERFECT SCORE!';msg='Incredible! You are a Math GENIUS! 🌟';}
+  else if(pct>=80){med='🥇';title='Excellent!';msg='Outstanding! You really know your math! 🎉';}
+  else if(pct>=60){med='🥈';title='Good Job!';msg='Nice work! Review a bit more and you\'ll be perfect! 💪';}
+  else{med='🥉';title='Keep Trying!';msg='Don\'t give up! Review the formulas and try again! 📚';}
+  document.getElementById(c.medal).textContent=med;
+  document.getElementById(c.rtitle).textContent=title;
+  document.getElementById(c.rscore).textContent=`${st.sc} / ${st.qs.length}`;
+  document.getElementById(c.rmsg).textContent=msg;
+  document.getElementById(c.prog).style.width='100%';
+}
+
+function restartQ(type) { initQ(type); }
+
+initQ('meas'); initQ('area'); initQ('full');
+</script>
+</body>
+</html>

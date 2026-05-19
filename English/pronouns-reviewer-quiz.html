@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pronouns Fun Reviewer & Quiz 🌟</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #5BC8F5;
+    --sun: #FFD93D;
+    --grass: #6BCB77;
+    --coral: #FF6B6B;
+    --purple: #C77DFF;
+    --white: #FFFDF5;
+    --dark: #2D2D2D;
+    --card-bg: #FFFDF5;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(160deg, #e0f7ff 0%, #fff9e6 50%, #e8ffe8 100%);
+    min-height: 100vh;
+    color: var(--dark);
+  }
+
+  /* HEADER */
+  .hero {
+    text-align: center;
+    padding: 40px 20px 20px;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    color: #FF6B6B;
+    text-shadow: 3px 3px 0 #FFD93D;
+    line-height: 1.1;
+  }
+  .hero p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-top: 8px;
+    font-weight: 600;
+  }
+  .stars {
+    font-size: 1.6rem;
+    letter-spacing: 4px;
+  }
+
+  /* NAVIGATION TABS */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 20px;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    padding: 10px 24px;
+    border-radius: 50px;
+    border: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+    color: #555;
+    box-shadow: 0 4px 0 #ccc;
+  }
+  .tab-btn:hover { transform: translateY(-2px); }
+  .tab-btn.active {
+    background: var(--coral);
+    color: white;
+    border-color: #c0392b;
+    box-shadow: 0 4px 0 #c0392b;
+  }
+  .tab-btn:nth-child(2).active { background: var(--purple); border-color: #7b2fff; box-shadow: 0 4px 0 #7b2fff; }
+  .tab-btn:nth-child(3).active { background: var(--grass); border-color: #3a9a44; box-shadow: 0 4px 0 #3a9a44; }
+
+  /* SECTIONS */
+  .section { display: none; padding: 0 16px 60px; max-width: 820px; margin: 0 auto; }
+  .section.active { display: block; }
+
+  /* REVIEWER CARDS */
+  .reviewer-intro {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 0 #e0e0e0;
+    border: 3px solid #FFD93D;
+  }
+  .reviewer-intro h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.5rem;
+    color: var(--coral);
+    margin-bottom: 10px;
+  }
+
+  .card {
+    background: white;
+    border-radius: 24px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 0 #d0d0d0;
+    border: 3px solid #eee;
+    animation: popIn 0.4s ease both;
+  }
+  @keyframes popIn {
+    from { opacity:0; transform: scale(0.93) translateY(12px); }
+    to   { opacity:1; transform: scale(1)   translateY(0); }
+  }
+  .card-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .badge {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-family: 'Fredoka One', cursive;
+    color: white;
+  }
+  .badge-blue  { background: var(--sky); }
+  .badge-green { background: var(--grass); }
+  .badge-purple{ background: var(--purple); }
+
+  .pronoun-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 14px 0;
+  }
+  .pronoun-chip {
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 800;
+    color: white;
+    box-shadow: 0 3px 0 rgba(0,0,0,0.2);
+  }
+  .chip-i       { background: #FF6B6B; }
+  .chip-you     { background: #FF9F43; }
+  .chip-he      { background: #5BC8F5; }
+  .chip-she     { background: #E056A0; }
+  .chip-it      { background: #6BCB77; }
+  .chip-we      { background: #C77DFF; }
+  .chip-they    { background: #54A0FF; }
+  .chip-him     { background: #FF6348; }
+  .chip-her     { background: #EE5A95; }
+  .chip-us      { background: #A29BFE; }
+  .chip-them    { background: #26de81; }
+
+  .example-box {
+    background: #FFF9E6;
+    border-left: 5px solid #FFD93D;
+    border-radius: 0 12px 12px 0;
+    padding: 10px 14px;
+    margin: 8px 0;
+    font-size: 0.97rem;
+    line-height: 1.7;
+  }
+  .highlight { color: var(--coral); font-weight: 800; }
+  .highlight-green { color: #27ae60; font-weight: 800; }
+  .highlight-blue { color: #2980b9; font-weight: 800; }
+
+  .poss-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    margin-top: 10px;
+  }
+  .poss-table th {
+    background: var(--purple);
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 10px 10px 0 0;
+  }
+  .poss-table td {
+    background: #f8f0ff;
+    padding: 10px 14px;
+    font-weight: 700;
+    text-align: center;
+    border: 2px solid #e0c8ff;
+    font-size: 1rem;
+  }
+  .poss-table tr td:first-child { border-radius: 10px 0 0 10px; }
+  .poss-table tr td:last-child  { border-radius: 0 10px 10px 0; }
+
+  /* QUIZ */
+  #quiz-section .quiz-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  #quiz-section .quiz-header h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2rem;
+    color: var(--purple);
+  }
+
+  .scoreboard {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .score-box {
+    background: white;
+    border-radius: 16px;
+    padding: 12px 24px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 0 #ddd;
+    text-align: center;
+  }
+  .score-box span { font-size: 1.8rem; display: block; }
+
+  .q-card {
+    background: white;
+    border-radius: 24px;
+    padding: 28px;
+    box-shadow: 0 6px 0 #d0d0d0;
+    border: 3px solid #eee;
+    margin-bottom: 20px;
+  }
+  .q-label {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.9rem;
+    color: white;
+    background: var(--sky);
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 50px;
+    margin-bottom: 10px;
+  }
+  .q-text {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+  .choices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  @media(max-width:500px){ .choices { grid-template-columns: 1fr; } }
+
+  .choice-btn {
+    padding: 12px 16px;
+    border-radius: 16px;
+    border: 3px solid #e0e0e0;
+    background: #fafafa;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: left;
+  }
+  .choice-btn:hover:not(:disabled) {
+    border-color: var(--sky);
+    background: #e8f8ff;
+    transform: translateY(-2px);
+  }
+  .choice-btn.correct  { background: #d4edda; border-color: #28a745; color: #155724; }
+  .choice-btn.wrong    { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+  .choice-btn:disabled { cursor: default; }
+
+  .feedback-msg {
+    margin-top: 14px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    display: none;
+  }
+  .feedback-msg.correct { background: #d4edda; color: #155724; display: block; }
+  .feedback-msg.wrong   { background: #f8d7da; color: #721c24; display: block; }
+
+  .quiz-controls {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    padding: 12px 32px;
+    border-radius: 50px;
+    border: 3px solid #c0392b;
+    background: var(--coral);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 5px 0 #c0392b;
+    transition: all 0.15s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #c0392b; }
+  .btn-primary:active { transform: translateY(2px); box-shadow: 0 2px 0 #c0392b; }
+  .btn-secondary {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    padding: 12px 32px;
+    border-radius: 50px;
+    border: 3px solid #27ae60;
+    background: var(--grass);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 5px 0 #27ae60;
+    transition: all 0.15s;
+  }
+  .btn-secondary:hover { transform: translateY(-2px); }
+
+  /* RESULT SCREEN */
+  #result-screen {
+    display: none;
+    text-align: center;
+    padding: 40px 20px;
+  }
+  #result-screen h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+  #result-screen .big-score {
+    font-family: 'Fredoka One', cursive;
+    font-size: 4rem;
+    color: var(--coral);
+  }
+  .medal { font-size: 4rem; margin: 10px 0; }
+  #result-screen p { font-size: 1.1rem; color: #555; margin-top: 8px; font-weight: 600; }
+
+  /* Progress bar */
+  .progress-bar-wrap {
+    background: #e0e0e0;
+    border-radius: 50px;
+    height: 14px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #FF6B6B, #FFD93D);
+    border-radius: 50px;
+    transition: width 0.4s ease;
+  }
+
+  /* Fun floating decorations */
+  .deco {
+    position: fixed;
+    font-size: 2rem;
+    opacity: 0.12;
+    pointer-events: none;
+    user-select: none;
+    animation: float 6s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-18px); }
+  }
+  .deco:nth-child(1){ top:8%; left:3%; animation-delay:0s; }
+  .deco:nth-child(2){ top:20%; right:4%; animation-delay:1.2s; }
+  .deco:nth-child(3){ top:60%; left:2%; animation-delay:2.5s; }
+  .deco:nth-child(4){ bottom:15%; right:3%; animation-delay:0.7s; }
+</style>
+</head>
+<body>
+
+<div class="deco">📚</div>
+<div class="deco">✏️</div>
+<div class="deco">⭐</div>
+<div class="deco">🌈</div>
+
+<div class="hero">
+  <div class="stars">⭐ ⭐ ⭐</div>
+  <h1>Pronouns Super Reviewer!</h1>
+  <p>Grade 3 English • Better English for Global Communication 3</p>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('reviewer')">📖 Reviewer</button>
+  <button class="tab-btn" onclick="showTab('quiz1')">🎯 Personal Quiz</button>
+  <button class="tab-btn" onclick="showTab('quiz2')">💜 Possessive Quiz</button>
+</div>
+
+<!-- ===================== REVIEWER ===================== -->
+<div id="reviewer" class="section active">
+
+  <div class="reviewer-intro">
+    <h2>🧠 What are Pronouns?</h2>
+    <p>Pronouns are words that take the place of nouns (names of people, places, or things). Instead of saying a name over and over again, we use a pronoun!</p>
+    <div class="example-box">
+      <b>Example:</b><br>
+      ❌ "Maria went to the park. <span style="color:#e74c3c">Maria</span> played there all day."<br>
+      ✅ "Maria went to the park. <span class="highlight">She</span> played there all day."
+    </div>
+  </div>
+
+  <!-- PERSONAL PRONOUNS -->
+  <div class="card">
+    <div class="card-title">
+      👤 Personal Pronouns
+      <span class="badge badge-blue">Pages 274–275</span>
+    </div>
+    <p style="margin-bottom:12px; font-weight:600;">Personal pronouns are used as simple substitutes for the names of persons.</p>
+
+    <div class="pronoun-grid">
+      <span class="pronoun-chip chip-i">I</span>
+      <span class="pronoun-chip chip-you">you</span>
+      <span class="pronoun-chip chip-he">he</span>
+      <span class="pronoun-chip chip-she">she</span>
+      <span class="pronoun-chip chip-it">it</span>
+      <span class="pronoun-chip chip-we">we</span>
+      <span class="pronoun-chip chip-they">they</span>
+      <span class="pronoun-chip chip-him">him</span>
+      <span class="pronoun-chip chip-her">her</span>
+      <span class="pronoun-chip chip-us">us</span>
+      <span class="pronoun-chip chip-them">them</span>
+    </div>
+
+    <p style="margin-top:14px; font-weight:700; color:#555;">📌 When do we use each pronoun?</p>
+    <div class="example-box">
+      🔴 <b class="highlight">He / Him</b> — for a <b>boy or man</b><br>
+      &nbsp;&nbsp;&nbsp;→ Mr. Gonzales teaches Math. <b class="highlight">He</b> teaches in a public school.
+    </div>
+    <div class="example-box">
+      🩷 <b style="color:#E056A0; font-weight:800;">She / Her</b> — for a <b>girl or woman</b><br>
+      &nbsp;&nbsp;&nbsp;→ Aling Andrea went to the market. <span style="color:#E056A0; font-weight:800;">She</span> bought fish and vegetables.
+    </div>
+    <div class="example-box">
+      🟢 <b class="highlight-green">It</b> — for a <b>thing, animal, or place</b><br>
+      &nbsp;&nbsp;&nbsp;→ Mr. Santos bought a new car. <b class="highlight-green">It</b> is colored white.
+    </div>
+    <div class="example-box">
+      🔵 <b class="highlight-blue">We / Us</b> — for <b>me + other people</b><br>
+      &nbsp;&nbsp;&nbsp;→ My classmate and I are going on a picnic. <b class="highlight-blue">We</b> are going on a picnic.
+    </div>
+    <div class="example-box">
+      🟣 <b style="color:#C77DFF; font-weight:800;">They / Them</b> — for <b>more than one person or thing</b><br>
+      &nbsp;&nbsp;&nbsp;→ Cristy and Trishia are cleaning their room. <span style="color:#C77DFF; font-weight:800;">They</span> are cleaning their room.
+    </div>
+    <div class="example-box">
+      🟠 <b style="color:#FF9F43; font-weight:800;">You</b> — when <b>talking directly to someone</b><br>
+      &nbsp;&nbsp;&nbsp;→ Come here, Erin. <span style="color:#FF9F43; font-weight:800;">You</span> better be ready for school.
+    </div>
+    <div class="example-box">
+      🔴 <b class="highlight">I</b> — when <b>talking about yourself</b><br>
+      &nbsp;&nbsp;&nbsp;→ I am a Bulakeño. <b class="highlight">I</b> speak Tagalog and English.
+    </div>
+  </div>
+
+  <!-- POSSESSIVE PRONOUNS -->
+  <div class="card">
+    <div class="card-title">
+      🏷️ Possessive Pronouns
+      <span class="badge badge-purple">Page 285</span>
+    </div>
+    <p style="margin-bottom:14px; font-weight:600;">Possessive pronouns are special pronouns that show <b>ownership</b> — who something belongs to!</p>
+
+    <table class="poss-table">
+      <thead>
+        <tr>
+          <th>Pronoun</th>
+          <th>Possessive Form</th>
+          <th>Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>I</td><td style="color:#9b59b6;font-weight:800;">my</td><td>My new dress is a gift.</td></tr>
+        <tr><td>you</td><td style="color:#9b59b6;font-weight:800;">your</td><td>You look good in your pink blouse.</td></tr>
+        <tr><td>he</td><td style="color:#9b59b6;font-weight:800;">his</td><td>Raul takes care of his puppy.</td></tr>
+        <tr><td>she</td><td style="color:#9b59b6;font-weight:800;">her</td><td>Rona brought her new umbrella.</td></tr>
+        <tr><td>it</td><td style="color:#9b59b6;font-weight:800;">its</td><td>The dog wagged its tail.</td></tr>
+        <tr><td>we</td><td style="color:#9b59b6;font-weight:800;">our</td><td>Our house is small but clean.</td></tr>
+        <tr><td>they</td><td style="color:#9b59b6;font-weight:800;">their</td><td>The boys submitted their projects.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="example-box" style="margin-top:14px;">
+      💡 <b>Tip:</b> Ask yourself — <i>"Who owns it?"</i> Then pick the right possessive pronoun!<br><br>
+      → <b>Janice and Precious</b> kept (our, <b class="highlight-green">their</b>, your) own money in the bank.<br>
+      (Janice and Precious = they → possessive = <b>their</b> ✅)
+    </div>
+  </div>
+
+  <!-- QUICK CHEAT SHEET -->
+  <div class="card" style="border-color:#FFD93D;">
+    <div class="card-title">⚡ Quick Cheat Sheet</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+      <div class="example-box">1 person = <b class="highlight">he / she / it</b></div>
+      <div class="example-box">Many people = <b style="color:#C77DFF;font-weight:800;">they</b></div>
+      <div class="example-box">Me + others = <b class="highlight-blue">we</b></div>
+      <div class="example-box">Talking to someone = <b style="color:#FF9F43;font-weight:800;">you</b></div>
+      <div class="example-box">Thing / animal / place = <b class="highlight-green">it</b></div>
+      <div class="example-box">About yourself = <b class="highlight">I</b></div>
+    </div>
+  </div>
+
+</div><!-- end reviewer -->
+
+<!-- ===================== PERSONAL QUIZ ===================== -->
+<div id="quiz1" class="section">
+  <div class="quiz-header">
+    <h2>🎯 Personal Pronouns Quiz</h2>
+    <p style="font-weight:600;color:#666;">Choose the correct personal pronoun!</p>
+  </div>
+  <div class="scoreboard">
+    <div class="score-box">⭐ Score<span id="p-score">0</span></div>
+    <div class="score-box">📋 Question<span id="p-qnum">1 / 10</span></div>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="p-progress" style="width:0%"></div>
+  </div>
+  <div id="p-quiz-area"></div>
+  <div id="p-result-screen" style="display:none;text-align:center;padding:30px 10px;">
+    <div class="medal" id="p-medal"></div>
+    <h2 style="font-family:'Fredoka One',cursive;font-size:2rem;" id="p-result-title"></h2>
+    <div class="big-score" id="p-final-score"></div>
+    <p id="p-result-msg"></p>
+    <div class="quiz-controls" style="margin-top:24px;">
+      <button class="btn-primary" onclick="restartQuiz('personal')">🔄 Try Again!</button>
+      <button class="btn-secondary" onclick="showTab('quiz2')">Next Quiz →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== POSSESSIVE QUIZ ===================== -->
+<div id="quiz2" class="section">
+  <div class="quiz-header">
+    <h2>💜 Possessive Pronouns Quiz</h2>
+    <p style="font-weight:600;color:#666;">Choose the correct possessive pronoun!</p>
+  </div>
+  <div class="scoreboard">
+    <div class="score-box">⭐ Score<span id="o-score">0</span></div>
+    <div class="score-box">📋 Question<span id="o-qnum">1 / 10</span></div>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="o-progress" style="width:0%"></div>
+  </div>
+  <div id="o-quiz-area"></div>
+  <div id="o-result-screen" style="display:none;text-align:center;padding:30px 10px;">
+    <div class="medal" id="o-medal"></div>
+    <h2 style="font-family:'Fredoka One',cursive;font-size:2rem;" id="o-result-title"></h2>
+    <div class="big-score" id="o-final-score"></div>
+    <p id="o-result-msg"></p>
+    <div class="quiz-controls" style="margin-top:24px;">
+      <button class="btn-primary" onclick="restartQuiz('possessive')">🔄 Try Again!</button>
+      <button class="btn-secondary" onclick="showTab('reviewer')">📖 Review Again</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- TAB NAVIGATION ----
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id === 'quiz1' ? 'quiz1' : id === 'quiz2' ? 'quiz2' : 'reviewer').classList.add('active');
+  const idx = id === 'reviewer' ? 0 : id === 'quiz1' ? 1 : 2;
+  document.querySelectorAll('.tab-btn')[idx].classList.add('active');
+}
+
+// ---- PERSONAL PRONOUN QUESTIONS ----
+const personalQs = [
+  { q:"Mr. Gonzales teaches in a public school. ___ teaches Mathematics.", choices:["He","She","They","It"], ans:"He", hint:"Mr. Gonzales is a man." },
+  { q:"Aling Andrea went to the market. ___ bought some fish and vegetables.", choices:["He","She","They","We"], ans:"She", hint:"Aling Andrea is a woman." },
+  { q:"Can you see the big round moon? ___ looks reddish in color.", choices:["They","It","We","She"], ans:"It", hint:"The moon is a thing." },
+  { q:"Mother said, '___ will bake some cookies for our visitors tomorrow.'", choices:["She","I","It","They"], ans:"She", hint:"Mother is a woman." },
+  { q:"The children's parents are waiting for them. ___ are outside the school gate.", choices:["We","You","They","It"], ans:"They", hint:"Parents = more than one person." },
+  { q:"Come here, Erin. ___ better be ready for school.", choices:["She","You","I","We"], ans:"You", hint:"We say 'you' when talking directly to someone." },
+  { q:"Janice and I met at the mall. ___ had a nice dinner at a fastfood restaurant.", choices:["She","They","We","He"], ans:"We", hint:"Janice + I = we!" },
+  { q:"Mr. Santos bought a new car. ___ is colored white.", choices:["He","It","She","They"], ans:"It", hint:"A car is a thing." },
+  { q:"I am a Bulakeño. ___ speak Tagalog and English.", choices:["He","We","I","You"], ans:"I", hint:"Talking about yourself = I." },
+  { q:"Reading is fun. ___ can also bring us to other places.", choices:["They","You","It","We"], ans:"It", hint:"Reading is a thing/activity." },
+  { q:"Cristy and Trishia are cleaning their room. ___ are cleaning their room.", choices:["She","He","They","It"], ans:"They", hint:"Two girls = they." },
+  { q:"Children love cakes and ice cream. ___ love cakes and ice cream.", choices:["He","She","It","They"], ans:"They", hint:"Children = more than one person." },
+  { q:"Nenita makes dresses for a living. ___ makes dresses for a living.", choices:["He","She","They","It"], ans:"She", hint:"Nenita is a girl's name." },
+  { q:"Manila is the capital of the Philippines. ___ is the capital of the Philippines.", choices:["He","She","It","They"], ans:"It", hint:"Manila is a place." },
+  { q:"Flowers bloom in May. ___ bloom in May.", choices:["I","It","They","She"], ans:"They", hint:"Flowers = many things." }
+];
+
+// ---- POSSESSIVE PRONOUN QUESTIONS ----
+const possessiveQs = [
+  { q:"Cora has a new umbrella. (His, Her, Their) mother bought it for her.", choices:["His","Her","Their"], ans:"Her", hint:"Cora is a girl → her mother." },
+  { q:"I found (our, their, my) missing book inside my drawer.", choices:["our","their","my"], ans:"my", hint:"It is MY drawer, so MY book." },
+  { q:"Robert is fond of ball games. (Her, His, Your) favorite is basketball.", choices:["Her","His","Your"], ans:"His", hint:"Robert is a boy → his favorite." },
+  { q:"Janice and Precious kept (our, their, your) own money in the bank.", choices:["our","their","your"], ans:"their", hint:"Two girls = they → their money." },
+  { q:"Mother and I love watching movies. (Their, Your, Our) favorites are comedy and drama.", choices:["Their","Your","Our"], ans:"Our", hint:"Mother + I = we → our favorites." },
+  { q:"You should always follow the rules in (his, her, your) school.", choices:["his","her","your"], ans:"your", hint:"Talking to the reader → your school." },
+  { q:"I love (your, their, my) own country.", choices:["your","their","my"], ans:"my", hint:"I → my country." },
+  { q:"Robert takes care of (my, her, his) pet hamster.", choices:["my","her","his"], ans:"his", hint:"Robert is a boy → his hamster." },
+  { q:"The Philippines is (their, mine, our) native land.", choices:["their","mine","our"], ans:"our", hint:"'Our' because it includes all of us Filipinos." },
+  { q:"Our heroes sacrificed (his, her, their) lives for freedom.", choices:["his","her","their"], ans:"their", hint:"Heroes = many people → their lives." },
+  { q:"Raul takes care of (his, her, their) brown pet puppy.", choices:["his","her","their"], ans:"his", hint:"Raul is a boy → his puppy." },
+  { q:"(My, Your, Her) new dress is a gift from my aunt.", choices:["My","Your","Her"], ans:"My", hint:"It's my aunt → My dress." },
+  { q:"Rona brought (his, her, their) new umbrella.", choices:["his","her","their"], ans:"her", hint:"Rona is a girl → her umbrella." },
+  { q:"(Our, Their, His) house is small but clean.", choices:["Our","Their","His"], ans:"Our", hint:"'Our' shows we own it together." },
+  { q:"The boys submitted (their, his, her) projects on time.", choices:["their","his","her"], ans:"their", hint:"Boys = many people → their projects." }
+];
+
+// ---- QUIZ ENGINE ----
+function shuffle(arr) { return [...arr].sort(()=>Math.random()-0.5); }
+
+let pState = {}, oState = {};
+
+function initQuiz(type) {
+  const questions = type === 'personal' ? shuffle(personalQs).slice(0,10) : shuffle(possessiveQs).slice(0,10);
+  const state = { questions, current:0, score:0 };
+  if(type==='personal') pState = state;
+  else oState = state;
+  renderQuestion(type);
+}
+
+function renderQuestion(type) {
+  const state = type==='personal' ? pState : oState;
+  const prefix = type==='personal' ? 'p' : 'o';
+  const area = document.getElementById(`${prefix}-quiz-area`);
+  const resultScreen = document.getElementById(`${prefix}-result-screen`);
+
+  if(state.current >= state.questions.length) {
+    area.style.display = 'none';
+    resultScreen.style.display = 'block';
+    const pct = Math.round((state.score / state.questions.length) * 100);
+    document.getElementById(`${prefix}-final-score`).textContent = `${state.score} / ${state.questions.length}`;
+    let medal, title, msg;
+    if(pct===100){medal='🏆';title='PERFECT!';msg='You are a Pronoun SUPERSTAR! Amazing job! 🌟';}
+    else if(pct>=80){medal='🥇';title='Excellent!';msg='Wow, great work! You really know your pronouns! 🎉';}
+    else if(pct>=60){medal='🥈';title='Good Job!';msg='Nice effort! Review a little more and you\'ll be perfect! 💪';}
+    else{medal='🥉';title='Keep Trying!';msg='Don\'t give up! Review the lesson and try again! 📚';}
+    document.getElementById(`${prefix}-medal`).textContent = medal;
+    document.getElementById(`${prefix}-result-title`).textContent = title;
+    document.getElementById(`${prefix}-result-msg`).textContent = msg;
+    return;
+  }
+
+  const q = state.questions[state.current];
+  const qNum = state.current + 1;
+  const total = state.questions.length;
+
+  document.getElementById(`${prefix}-score`).textContent = state.score;
+  document.getElementById(`${prefix}-qnum`).textContent = `${qNum} / ${total}`;
+  document.getElementById(`${prefix}-progress`).style.width = `${((qNum-1)/total)*100}%`;
+
+  const shuffledChoices = shuffle(q.choices);
+
+  area.innerHTML = `
+    <div class="q-card">
+      <div class="q-label">Question ${qNum} of ${total}</div>
+      <div class="q-text">${q.q.replace('___','<span style="color:#e74c3c;font-size:1.3em;font-weight:900;">___</span>')}</div>
+      <div class="choices">
+        ${shuffledChoices.map(c=>`<button class="choice-btn" onclick="checkAnswer('${type}','${c}')">${c}</button>`).join('')}
+      </div>
+      <div class="feedback-msg" id="${prefix}-feedback"></div>
+    </div>
+    <div class="quiz-controls">
+      <button class="btn-primary" id="${prefix}-next-btn" onclick="nextQuestion('${type}')" style="display:none;">Next ➡️</button>
+    </div>
+  `;
+}
+
+function checkAnswer(type, chosen) {
+  const state = type==='personal' ? pState : oState;
+  const prefix = type==='personal' ? 'p' : 'o';
+  const q = state.questions[state.current];
+  const btns = document.querySelectorAll(`#${prefix}-quiz-area .choice-btn`);
+  const feedback = document.getElementById(`${prefix}-feedback`);
+  const nextBtn = document.getElementById(`${prefix}-next-btn`);
+
+  btns.forEach(b => {
+    b.disabled = true;
+    if(b.textContent === q.ans) b.classList.add('correct');
+    else if(b.textContent === chosen && chosen !== q.ans) b.classList.add('wrong');
+  });
+
+  if(chosen === q.ans) {
+    state.score++;
+    feedback.className = 'feedback-msg correct';
+    feedback.textContent = '✅ Correct! Great job! 🎉';
+  } else {
+    feedback.className = 'feedback-msg wrong';
+    feedback.textContent = `❌ The correct answer is "${q.ans}". 💡 Hint: ${q.hint}`;
+  }
+  document.getElementById(`${prefix}-score`).textContent = state.score;
+  nextBtn.style.display = 'inline-block';
+}
+
+function nextQuestion(type) {
+  const state = type==='personal' ? pState : oState;
+  state.current++;
+  renderQuestion(type);
+}
+
+function restartQuiz(type) {
+  const prefix = type==='personal' ? 'p' : 'o';
+  document.getElementById(`${prefix}-quiz-area`).style.display = 'block';
+  document.getElementById(`${prefix}-result-screen`).style.display = 'none';
+  initQuiz(type);
+}
+
+// ---- INIT ----
+initQuiz('personal');
+initQuiz('possessive');
+</script>
+</body>
+</html>

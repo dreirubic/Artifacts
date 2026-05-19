@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ang Lihim ng Bundok 🏔️</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --mt1: #f0d080;
+    --mt2: #c8a035;
+    --forest: #4caf50;
+    --forest-dark: #2e7d32;
+    --sky: #fceabb;
+    --sky2: #f8b500;
+    --mist: #e0f7fa;
+    --peak: #b0bec5;
+    --flower: #e91e8c;
+    --cream: #fffdf0;
+    --dark: #1b2614;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--cream);
+    min-height: 100vh;
+    padding-bottom: 50px;
+    color: var(--dark);
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(180deg, #fff3b0 0%, #ffe066 30%, #b8dba0 65%, #4caf50 100%);
+    padding: 28px 20px 0;
+    overflow: hidden;
+    position: relative;
+    min-height: 200px;
+    text-align: center;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: var(--forest-dark);
+    color: white;
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.82rem;
+    letter-spacing: 2px;
+    padding: 4px 18px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  .hero h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(1.9rem, 6vw, 3rem);
+    color: var(--forest-dark);
+    text-shadow: 2px 2px 0 rgba(255,255,255,0.5);
+    line-height: 1.1;
+  }
+  .hero .tagline { font-size: 1rem; font-weight: 700; color: #7b5e00; margin-top: 6px; }
+
+  .mountain-scene {
+    position: relative;
+    height: 100px;
+    margin-top: 10px;
+  }
+
+  /* SVG mountains */
+  .mt-svg {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+
+  .floater { position: absolute; font-size: 2.4rem; }
+  .bird1 { top: 5px; left: 15%; animation: fly 6s ease-in-out infinite; }
+  .bird2 { top: 18px; right: 20%; animation: fly 8s ease-in-out infinite 1s; }
+  @keyframes fly { 0%,100%{transform:translateX(0) translateY(0)} 50%{transform:translateX(14px) translateY(-8px)} }
+
+  .cloud {
+    position: absolute;
+    background: rgba(255,255,255,0.85);
+    border-radius: 60px;
+  }
+  .cl1{width:70px;height:24px;top:12px;left:5%;animation:drift 10s ease-in-out infinite alternate;}
+  .cl2{width:50px;height:18px;top:22px;right:8%;animation:drift 13s ease-in-out infinite alternate-reverse;}
+  @keyframes drift{from{transform:translateX(0)}to{transform:translateX(16px)}}
+
+  /* grass strip */
+  .grass-strip {
+    background: linear-gradient(180deg, #66bb6a 0%, #388e3c 100%);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    overflow: hidden;
+    font-size: 1.4rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .bounce { animation: pb 1.6s ease-in-out infinite; }
+  .bounce:nth-child(2){animation-delay:.2s}
+  .bounce:nth-child(3){animation-delay:.4s}
+  .bounce:nth-child(4){animation-delay:.6s}
+  .bounce:nth-child(5){animation-delay:.8s}
+  .bounce:nth-child(6){animation-delay:1s}
+  @keyframes pb{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+  /* CONTAINER */
+  .container { max-width: 820px; margin: 0 auto; padding: 30px 20px; }
+
+  .page-title {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .page-title h2 {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(1.7rem,5vw,2.7rem);
+    color: var(--forest-dark);
+    line-height: 1.2;
+  }
+  .page-title p { font-size: 1rem; font-weight: 700; color: var(--mt2); margin-top: 5px; }
+
+  /* Story card */
+  .story-card {
+    background: white;
+    border-radius: 28px;
+    box-shadow: 0 8px 32px rgba(76,175,80,0.13);
+    overflow: hidden;
+    margin-bottom: 34px;
+    border: 3px solid #c8e6c9;
+    animation: rise 0.6s ease both;
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+  .story-card-top {
+    background: linear-gradient(135deg, #4caf50, #2e7d32);
+    padding: 16px 26px;
+    display: flex; align-items: center; gap: 12px;
+    color: white;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.2rem;
+    letter-spacing: 0.5px;
+  }
+
+  .story-body { padding: 28px 32px; }
+  .story-body p {
+    font-size: 1.15rem;
+    line-height: 2.1;
+    font-weight: 600;
+    color: #263238;
+    margin-bottom: 16px;
+  }
+
+  .hw {
+    background: #c8e6c9;
+    border-radius: 6px;
+    padding: 1px 6px;
+    font-weight: 800;
+    color: var(--forest-dark);
+  }
+
+  /* Vocab */
+  .vocab-box {
+    background: white;
+    border: 3px dashed var(--flower);
+    border-radius: 22px;
+    padding: 22px 26px;
+    margin-bottom: 34px;
+    animation: rise 0.5s ease 0.15s both;
+  }
+  .vocab-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.2rem;
+    color: #880e4f;
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(185px,1fr)); gap: 10px; }
+  .vocab-item {
+    background: #fce4ec;
+    border: 2px solid #f48fb1;
+    border-radius: 12px;
+    padding: 9px 13px;
+  }
+  .vocab-tl { font-weight: 800; font-size: 0.98rem; color: var(--dark); }
+  .vocab-def { font-size: 0.85rem; font-weight: 600; color: #555; margin-top: 2px; }
+
+  /* Questions */
+  .q-section-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.55rem;
+    color: var(--forest-dark);
+    text-align: center;
+    margin-bottom: 22px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+
+  .q-block {
+    background: white;
+    border-radius: 22px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+    margin-bottom: 18px;
+    border-left: 6px solid;
+    overflow: hidden;
+    animation: rise 0.5s ease both;
+  }
+  .q-block:nth-child(1){border-color:#4caf50;animation-delay:.05s}
+  .q-block:nth-child(2){border-color:#f9ca24;animation-delay:.1s}
+  .q-block:nth-child(3){border-color:#e91e8c;animation-delay:.15s}
+  .q-block:nth-child(4){border-color:#26c6da;animation-delay:.2s}
+  .q-block:nth-child(5){border-color:#ff7043;animation-delay:.25s}
+
+  .q-head {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 16px 20px;
+    cursor: pointer; user-select: none;
+    transition: background 0.2s;
+  }
+  .q-head:hover { background: #f9fffe; }
+
+  .q-num {
+    width: 34px; height: 34px;
+    border-radius: 50%; color: white;
+    font-family: 'Baloo 2', cursive; font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .q-block:nth-child(1) .q-num{background:#4caf50}
+  .q-block:nth-child(2) .q-num{background:#f9ca24; color:#333}
+  .q-block:nth-child(3) .q-num{background:#e91e8c}
+  .q-block:nth-child(4) .q-num{background:#26c6da}
+  .q-block:nth-child(5) .q-num{background:#ff7043}
+
+  .q-text { flex:1; font-size: 1.05rem; font-weight: 700; color: var(--dark); line-height:1.5; }
+  .q-arrow { font-size: 1rem; color: #b2bec3; transition: transform 0.3s; margin-top: 4px; }
+  .q-block.open .q-arrow { transform: rotate(180deg); }
+
+  .choices { display: none; padding: 0 20px 18px 66px; }
+  .q-block.open .choices { display: block; }
+
+  .feedback {
+    display: none; margin-bottom: 10px;
+    padding: 9px 14px; border-radius: 12px;
+    font-size: 0.95rem; font-weight: 700; text-align: center;
+  }
+  .feedback.show { display: block; }
+  .feedback.great { background: #d4edda; color: #155724; }
+  .feedback.try-again { background: #fff3cd; color: #856404; }
+
+  .choice-btn {
+    display: flex; align-items: center; gap: 12px;
+    width: 100%; background: #f8f9fa;
+    border: 2.5px solid #e9ecef; border-radius: 14px;
+    padding: 10px 16px; margin-bottom: 10px; cursor: pointer;
+    font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 700;
+    color: var(--dark); text-align: left; transition: all 0.2s;
+  }
+  .choice-btn:hover { border-color: #4caf50; background: #f1f8f1; transform: translateX(4px); }
+  .choice-btn.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+  .choice-btn.wrong   { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+
+  .choice-letter {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: #4caf50; color: white;
+    font-size: 0.85rem; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: background 0.2s;
+  }
+  .choice-btn.correct .choice-letter{background:#28a745}
+  .choice-btn.wrong   .choice-letter{background:#dc3545}
+
+  /* Score */
+  .score-panel {
+    background: linear-gradient(135deg, #4caf50, #f9ca24);
+    border-radius: 26px; padding: 28px;
+    text-align: center; color: white;
+    box-shadow: 0 10px 32px rgba(76,175,80,0.32);
+    margin-bottom: 20px;
+    animation: rise 0.5s ease 0.4s both;
+  }
+  .score-panel h2 { font-family: 'Baloo 2', cursive; font-size: 1.5rem; margin-bottom: 10px; }
+  .score-big { font-family: 'Baloo 2', cursive; font-size: 4rem; line-height: 1; }
+  .score-msg { font-size: 1.1rem; font-weight: 700; margin-top: 8px; opacity: 0.93; }
+
+  .reset-btn {
+    margin-top: 14px; background: white; color: #2e7d32;
+    border: none; border-radius: 22px; padding: 10px 30px;
+    font-family: 'Baloo 2', cursive; font-size: 1.05rem;
+    cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    transition: transform 0.2s;
+  }
+  .reset-btn:hover { transform: scale(1.06); }
+
+  footer {
+    text-align: center; padding: 16px;
+    font-size: 0.82rem; color: #95aab4; font-weight: 600;
+  }
+
+  @media(max-width:600px){
+    .story-body{padding:20px}
+    .choices{padding-left:20px}
+    .score-big{font-size:3rem}
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="cloud cl1"></div>
+  <div class="cloud cl2"></div>
+  <span class="floater bird1">🦅</span>
+  <span class="floater bird2">🐦</span>
+  <div class="mountain-scene">
+    <svg class="mt-svg" viewBox="0 0 800 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="0,100 120,10 240,100" fill="#8d6e63" opacity="0.5"/>
+      <polygon points="100,100 280,5 460,100" fill="#78909c"/>
+      <polygon points="300,100 500,20 700,100" fill="#90a4ae"/>
+      <polygon points="500,100 650,35 800,100" fill="#8d6e63" opacity="0.6"/>
+    </svg>
+  </div>
+</div>
+<div class="grass-strip">
+  <span class="bounce">🌸</span>
+  <span class="bounce">🦋</span>
+  <span class="bounce">🌼</span>
+  <span class="bounce">🐝</span>
+  <span class="bounce">🌺</span>
+  <span class="bounce">🍃</span>
+  <span class="bounce">🌸</span>
+  <span class="bounce">🦋</span>
+  <span class="bounce">🌼</span>
+</div>
+
+<div class="container">
+  <div class="page-title">
+    <div style="display:inline-block;background:#2e7d32;color:white;font-family:'Baloo 2',cursive;font-size:0.82rem;letter-spacing:2px;padding:4px 18px;border-radius:20px;text-transform:uppercase;margin-bottom:10px;">🇵🇭 Filipino · Grade 2 Pagbabasa</div>
+    <h2>Ang Lihim ng Bundok</h2>
+    <p>Isang Kwento tungkol sa Kalikasan 🌿🏔️</p>
+  </div>
+
+  <!-- STORY -->
+  <div class="story-card">
+    <div class="story-card-top">
+      <span>📖</span>
+      <span>Basahin ang Kwento</span>
+    </div>
+    <div class="story-body">
+      <p>Isang maliwanag na umaga, ang isang batang lalaki na nagngangalang <span class="hw">Andoy</span> ay umakyat sa bundok kasama ang kanyang ama. Malamig ang hangin at amoy-lupa ang paligid. Natutuwa si Andoy!</p>
+
+      <p>"Itay, bakit malamig dito sa bundok?" tanong ni Andoy habang humihinga nang malalim. Nakita niya ang kanyang hininga na parang <span class="hw">usok</span> sa malamig na hangin.</p>
+
+      <p>"Dahil mataas tayo," sagot ng kanyang ama. "Mas mataas ang lugar, mas <span class="hw">malamig</span> ang hangin. Ganyan ang bundok — iba ang pakiramdam dito kaysa sa ibaba."</p>
+
+      <p>Habang naglalakad sila, nakakita si Andoy ng mga <span class="hw">bulaklak</span> na kulay pula at dilaw sa tabi ng landas. Lumilipad ang mga makulay na <span class="hw">paruparo</span>. Kumakanta ang mga ibon sa mga puno. Naramdaman ni Andoy na parang siya ay nasa loob ng isang magandang kwento.</p>
+
+      <p>Nang makarating sila sa itaas, humanga si Andoy. Nakita niya ang malawak na kagubatan sa ibaba, ang maliwanag na langit sa itaas, at ang marahang gumagalaw na mga ulap.</p>
+
+      <p>"Ito ang <span class="hw">lihim</span> ng bundok, Andoy," sabi ng kanyang ama. "Kailangang umakyat ka bago mo makita ang ganda ng mundo mula sa itaas."</p>
+
+      <p>Ngumiti si Andoy nang malawak. "Gusto ko pong bumalik ulit dito, Itay. Ang kalikasan ay talagang kahanga-hanga!" 🏔️🌸🦋</p>
+    </div>
+  </div>
+
+  <!-- VOCAB -->
+  <div class="vocab-box">
+    <div class="vocab-title">📚 Talasalitaan</div>
+    <div class="vocab-grid">
+      <div class="vocab-item"><div class="vocab-tl">💨 Usok</div><div class="vocab-def">ang parang usok na hininga sa malamig na hangin</div></div>
+      <div class="vocab-item"><div class="vocab-tl">❄️ Malamig</div><div class="vocab-def">may mababang temperatura; hindi mainit</div></div>
+      <div class="vocab-item"><div class="vocab-tl">🌸 Bulaklak</div><div class="vocab-def">ang colorful na bahagi ng halaman</div></div>
+      <div class="vocab-item"><div class="vocab-tl">🦋 Paruparo</div><div class="vocab-def">makulay na insekto na may malaking pakpak</div></div>
+      <div class="vocab-item"><div class="vocab-tl">🔐 Lihim</div><div class="vocab-def">isang bagay na hindi agad nakikita o nalalaman</div></div>
+      <div class="vocab-item"><div class="vocab-tl">🏔️ Bundok</div><div class="vocab-def">mataas na lupain na may matulis na tuktok</div></div>
+    </div>
+  </div>
+
+  <!-- QUESTIONS -->
+  <div class="q-section-title">❓ Mga Tanong sa Kwento</div>
+
+  <div class="q-block" id="q1">
+    <div class="q-head" onclick="toggleQ('q1')">
+      <div class="q-num">1</div>
+      <div class="q-text">Saan pumunta si Andoy kasama ang kanyang ama?</div>
+      <div class="q-arrow">▼</div>
+    </div>
+    <div class="choices">
+      <div class="feedback" id="fb1"></div>
+      <button class="choice-btn" onclick="answer(this,'q1',false)"><span class="choice-letter">A</span> Sa dagat</button>
+      <button class="choice-btn" onclick="answer(this,'q1',true)"><span class="choice-letter">B</span> Sa bundok ✓</button>
+      <button class="choice-btn" onclick="answer(this,'q1',false)"><span class="choice-letter">C</span> Sa lungsod</button>
+      <button class="choice-btn" onclick="answer(this,'q1',false)"><span class="choice-letter">D</span> Sa palengke</button>
+    </div>
+  </div>
+
+  <div class="q-block" id="q2">
+    <div class="q-head" onclick="toggleQ('q2')">
+      <div class="q-num">2</div>
+      <div class="q-text">Bakit malamig ang hangin sa bundok?</div>
+      <div class="q-arrow">▼</div>
+    </div>
+    <div class="choices">
+      <div class="feedback" id="fb2"></div>
+      <button class="choice-btn" onclick="answer(this,'q2',false)"><span class="choice-letter">A</span> Dahil malapit ito sa dagat</button>
+      <button class="choice-btn" onclick="answer(this,'q2',false)"><span class="choice-letter">B</span> Dahil maraming yelo doon</button>
+      <button class="choice-btn" onclick="answer(this,'q2',true)"><span class="choice-letter">C</span> Dahil mas mataas ang lugar, mas malamig ang hangin ✓</button>
+      <button class="choice-btn" onclick="answer(this,'q2',false)"><span class="choice-letter">D</span> Dahil maaga pa ang umaga</button>
+    </div>
+  </div>
+
+  <div class="q-block" id="q3">
+    <div class="q-head" onclick="toggleQ('q3')">
+      <div class="q-num">3</div>
+      <div class="q-text">Ano-ano ang nakita ni Andoy sa tabi ng landas?</div>
+      <div class="q-arrow">▼</div>
+    </div>
+    <div class="choices">
+      <div class="feedback" id="fb3"></div>
+      <button class="choice-btn" onclick="answer(this,'q3',true)"><span class="choice-letter">A</span> Mga bulaklak na pula at dilaw, at mga paruparo ✓</button>
+      <button class="choice-btn" onclick="answer(this,'q3',false)"><span class="choice-letter">B</span> Mga isda at palaka</button>
+      <button class="choice-btn" onclick="answer(this,'q3',false)"><span class="choice-letter">C</span> Mga bahay at tindahan</button>
+      <button class="choice-btn" onclick="answer(this,'q3',false)"><span class="choice-letter">D</span> Mga bato at yelo</button>
+    </div>
+  </div>
+
+  <div class="q-block" id="q4">
+    <div class="q-head" onclick="toggleQ('q4')">
+      <div class="q-num">4</div>
+      <div class="q-text">Ano ang nakita ni Andoy nang makarating sila sa tuktok ng bundok?</div>
+      <div class="q-arrow">▼</div>
+    </div>
+    <div class="choices">
+      <div class="feedback" id="fb4"></div>
+      <button class="choice-btn" onclick="answer(this,'q4',false)"><span class="choice-letter">A</span> Isang malaking ilog at mga hayop</button>
+      <button class="choice-btn" onclick="answer(this,'q4',false)"><span class="choice-letter">B</span> Isang lungsod at mga sasakyan</button>
+      <button class="choice-btn" onclick="answer(this,'q4',true)"><span class="choice-letter">C</span> Ang malawak na kagubatan, maliwanag na langit, at mga ulap ✓</button>
+      <button class="choice-btn" onclick="answer(this,'q4',false)"><span class="choice-letter">D</span> Isang malaking bahay at bakuran</button>
+    </div>
+  </div>
+
+  <div class="q-block" id="q5">
+    <div class="q-head" onclick="toggleQ('q5')">
+      <div class="q-num">5</div>
+      <div class="q-text">Ano ang aral ng kwento?</div>
+      <div class="q-arrow">▼</div>
+    </div>
+    <div class="choices">
+      <div class="feedback" id="fb5"></div>
+      <button class="choice-btn" onclick="answer(this,'q5',false)"><span class="choice-letter">A</span> Mapanganib ang umakyat sa bundok.</button>
+      <button class="choice-btn" onclick="answer(this,'q5',false)"><span class="choice-letter">B</span> Mas maganda ang lungsod kaysa sa bundok.</button>
+      <button class="choice-btn" onclick="answer(this,'q5',true)"><span class="choice-letter">C</span> Kapag sinubukan nating tuklasin ang kalikasan, makikita natin ang kahanga-hangang ganda nito. ✓</button>
+      <button class="choice-btn" onclick="answer(this,'q5',false)"><span class="choice-letter">D</span> Dapat laging magdala ng payong sa bundok.</button>
+    </div>
+  </div>
+
+  <!-- SCORE -->
+  <div class="score-panel">
+    <h2>⭐ Ang Iyong Iskor ⭐</h2>
+    <div class="score-big" id="scoreDisplay">0 / 5</div>
+    <div class="score-msg" id="scoreMsg">I-click ang tanong para magsimula! 🌿</div>
+    <br>
+    <button class="reset-btn" onclick="resetAll()">🔄 Subukan Ulit</button>
+  </div>
+</div>
+
+<footer>🌿 Grade 2 Filipino Reading Comprehension · Kalikasan at Kapaligiran 🏔️</footer>
+
+<script>
+  const answered = {}, correct = {};
+  let score = 0;
+
+  function toggleQ(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+
+  function answer(btn, qid, isCorrect) {
+    if (answered[qid]) return;
+    answered[qid] = true;
+    correct[qid] = isCorrect;
+    if (isCorrect) score++;
+
+    const siblings = btn.parentElement.querySelectorAll('.choice-btn');
+    siblings.forEach(b => b.style.pointerEvents = 'none');
+    const fb = document.getElementById('fb' + qid.replace('q',''));
+    fb.classList.add('show');
+
+    if (isCorrect) {
+      btn.classList.add('correct');
+      fb.textContent = '🌟 Tama! Magaling ka!';
+      fb.classList.add('great');
+    } else {
+      btn.classList.add('wrong');
+      fb.textContent = '💪 Hindi tama. Basahin ulit ang kwento!';
+      fb.classList.add('try-again');
+      siblings.forEach(b => { if (b.textContent.includes('✓')) b.classList.add('correct'); });
+    }
+    updateScore();
+  }
+
+  function updateScore() {
+    document.getElementById('scoreDisplay').textContent = score + ' / 5';
+    const msgs = ['Kaya mo iyan! 😊','Magandang simula! 🙂','Magaling! 😃','Halos na! 🤩','Isang sagot na lang! 🌟','PERPEKTO! 🏆🎉'];
+    document.getElementById('scoreMsg').textContent = msgs[score];
+  }
+
+  function resetAll() {
+    score = 0;
+    Object.keys(answered).forEach(k => { delete answered[k]; delete correct[k]; });
+    document.querySelectorAll('.q-block').forEach(b => b.classList.remove('open'));
+    document.querySelectorAll('.choice-btn').forEach(b => {
+      b.classList.remove('correct','wrong');
+      b.style.pointerEvents = '';
+    });
+    document.querySelectorAll('.feedback').forEach(f => {
+      f.className = 'feedback';
+      f.textContent = '';
+    });
+    document.getElementById('scoreDisplay').textContent = '0 / 5';
+    document.getElementById('scoreMsg').textContent = 'I-click ang tanong para magsimula! 🌿';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+</script>
+</body>
+</html>

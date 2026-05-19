@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reading Adventures – Grade 5</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #2d5016;
+    --moss: #4a7c2f;
+    --leaf: #6aaa3a;
+    --sky: #d4ecd4;
+    --cream: #faf7f0;
+    --amber: #e8a020;
+    --earth: #7a5c38;
+    --bark: #3d2c18;
+    --mist: #eef6e8;
+    --correct: #3a8c4a;
+    --wrong: #c0392b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--cream);
+    color: var(--bark);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--forest);
+    padding: 28px 24px 22px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, #3d6b1e55 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 50%, #1a3a0a55 0%, transparent 60%);
+  }
+  .header-leaves {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none; overflow: hidden;
+  }
+  .leaf-deco {
+    position: absolute;
+    font-size: 40px;
+    opacity: 0.12;
+  }
+  .leaf-deco:nth-child(1) { top: -5px; left: 8%; transform: rotate(-20deg); }
+  .leaf-deco:nth-child(2) { top: 10px; right: 10%; transform: rotate(30deg); font-size: 56px; }
+  .leaf-deco:nth-child(3) { bottom: -8px; left: 25%; transform: rotate(15deg); font-size: 48px; }
+  .leaf-deco:nth-child(4) { bottom: -4px; right: 30%; transform: rotate(-10deg); }
+
+  header h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    color: #fff;
+    position: relative;
+    letter-spacing: -0.5px;
+  }
+  header p {
+    color: #a8d48a;
+    font-size: 0.95rem;
+    margin-top: 6px;
+    position: relative;
+  }
+
+  /* ── NAV TABS ── */
+  .story-nav {
+    display: flex;
+    overflow-x: auto;
+    background: var(--forest);
+    border-top: 1px solid #3d6b1e;
+    gap: 2px;
+    padding: 0 8px 8px;
+    scrollbar-width: none;
+  }
+  .story-nav::-webkit-scrollbar { display: none; }
+
+  .nav-btn {
+    flex: 0 0 auto;
+    padding: 10px 18px;
+    background: #3d6b1e;
+    color: #a8d48a;
+    border: none;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .nav-btn:hover { background: #4d8426; color: #fff; }
+  .nav-btn.active { background: var(--amber); color: var(--bark); }
+
+  /* ── MAIN LAYOUT ── */
+  main {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 28px 16px 60px;
+  }
+
+  /* ── STORY CARD ── */
+  .story-panel { display: none; animation: fadeIn 0.35s ease; }
+  .story-panel.active { display: block; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  .story-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px #2d501614;
+    margin-bottom: 28px;
+  }
+
+  .story-header {
+    background: linear-gradient(135deg, var(--moss), var(--forest));
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .story-icon {
+    font-size: 48px;
+    line-height: 1;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  }
+  .story-meta h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    color: #fff;
+    line-height: 1.2;
+  }
+  .story-meta .tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.18);
+    color: #c8eaaa;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-top: 6px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .story-body {
+    padding: 28px;
+    line-height: 1.85;
+    font-size: 1.05rem;
+    color: #3d2c18;
+    border-bottom: 2px solid var(--mist);
+  }
+  .story-body p { margin-bottom: 14px; }
+  .story-body p:last-child { margin-bottom: 0; }
+
+  /* highlight key words */
+  .kw {
+    background: linear-gradient(120deg, #c8eaaa88 0%, #a8d48a44 100%);
+    border-radius: 3px;
+    padding: 0 2px;
+    font-weight: 600;
+    color: var(--forest);
+  }
+
+  /* ── QUESTIONS ── */
+  .questions-section { padding: 28px; }
+
+  .q-section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    color: var(--forest);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .q-section-title::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: var(--sky);
+    border-radius: 2px;
+  }
+
+  .question-block {
+    background: var(--mist);
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 16px;
+    border-left: 4px solid var(--leaf);
+    transition: border-color 0.3s;
+  }
+  .question-block.answered-correct { border-left-color: var(--correct); background: #eef8f0; }
+  .question-block.answered-wrong { border-left-color: var(--wrong); background: #fdf0ef; }
+
+  .question-text {
+    font-weight: 600;
+    font-size: 0.98rem;
+    margin-bottom: 14px;
+    color: var(--bark);
+    line-height: 1.5;
+  }
+  .q-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px; height: 24px;
+    background: var(--leaf);
+    color: white;
+    border-radius: 50%;
+    font-size: 0.78rem;
+    font-weight: 700;
+    margin-right: 8px;
+    flex-shrink: 0;
+    vertical-align: middle;
+  }
+
+  /* True/False */
+  .tf-options {
+    display: flex;
+    gap: 10px;
+  }
+  .tf-btn {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #c8e4b0;
+    border-radius: 10px;
+    background: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s;
+    color: var(--bark);
+  }
+  .tf-btn:hover:not(:disabled) { background: var(--sky); border-color: var(--leaf); }
+  .tf-btn.selected-correct { background: #d4f0da; border-color: var(--correct); color: var(--correct); }
+  .tf-btn.selected-wrong { background: #fde0de; border-color: var(--wrong); color: var(--wrong); }
+  .tf-btn.reveal-correct { background: #d4f0da; border-color: var(--correct); color: var(--correct); }
+
+  /* Multiple Choice */
+  .mc-options { display: flex; flex-direction: column; gap: 8px; }
+  .mc-btn {
+    padding: 10px 14px;
+    border: 2px solid #c8e4b0;
+    border-radius: 10px;
+    background: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.93rem;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.18s;
+    color: var(--bark);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .mc-btn:hover:not(:disabled) { background: var(--sky); border-color: var(--leaf); }
+  .mc-letter {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    background: var(--sky);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    color: var(--forest);
+  }
+  .mc-btn.selected-correct { background: #d4f0da; border-color: var(--correct); }
+  .mc-btn.selected-correct .mc-letter { background: var(--correct); color: white; }
+  .mc-btn.selected-wrong { background: #fde0de; border-color: var(--wrong); }
+  .mc-btn.selected-wrong .mc-letter { background: var(--wrong); color: white; }
+  .mc-btn.reveal-correct { background: #d4f0da; border-color: var(--correct); }
+  .mc-btn.reveal-correct .mc-letter { background: var(--correct); color: white; }
+
+  /* Short Answer */
+  .sa-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #c8e4b0;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--bark);
+    background: white;
+    resize: vertical;
+    min-height: 70px;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .sa-input:focus { border-color: var(--leaf); }
+  .sa-input:disabled { background: var(--mist); color: #6a8a5a; }
+
+  .check-sa-btn {
+    margin-top: 10px;
+    padding: 8px 18px;
+    background: var(--leaf);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: background 0.18s;
+  }
+  .check-sa-btn:hover:not(:disabled) { background: var(--moss); }
+  .check-sa-btn:disabled { background: #a0b890; cursor: default; }
+
+  /* Feedback */
+  .feedback {
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: none;
+    line-height: 1.5;
+  }
+  .feedback.correct { background: #d4f0da; color: #1f5c2a; display: block; }
+  .feedback.wrong { background: #fde0de; color: #8c1a14; display: block; }
+  .feedback.info { background: #e8f4d4; color: #2d5016; display: block; }
+
+  /* ── SCORE PANEL ── */
+  .score-panel {
+    margin-top: 8px;
+    padding: 20px 24px;
+    background: linear-gradient(135deg, var(--forest), var(--moss));
+    border-radius: 16px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .score-label { font-size: 0.9rem; opacity: 0.8; }
+  .score-val {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  .score-bar-wrap {
+    flex: 1 1 100%;
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+    height: 8px;
+    overflow: hidden;
+  }
+  .score-bar {
+    height: 100%;
+    background: var(--amber);
+    border-radius: 10px;
+    transition: width 0.6s ease;
+    width: 0%;
+  }
+
+  .reset-btn {
+    padding: 10px 22px;
+    background: var(--amber);
+    color: var(--bark);
+    border: none;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .reset-btn:hover { opacity: 0.85; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 500px) {
+    .story-header { flex-direction: column; text-align: center; }
+    .story-body, .questions-section { padding: 20px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-leaves">
+    <span class="leaf-deco">🌿</span>
+    <span class="leaf-deco">🍃</span>
+    <span class="leaf-deco">🌱</span>
+    <span class="leaf-deco">🍀</span>
+  </div>
+  <h1>🌿 Reading Adventures</h1>
+  <p>Grade 5 · Nature & Animals · Reading Comprehension</p>
+</header>
+
+<nav class="story-nav" id="storyNav"></nav>
+
+<main id="mainContent"></main>
+
+<script>
+const stories = [
+  {
+    id: 1,
+    icon: "🦋",
+    title: "The Butterfly's Long Journey",
+    tag: "Insects & Migration",
+    story: `
+      <p>Every year, millions of <span class="kw">monarch butterflies</span> travel thousands of kilometers across North America. This incredible trip is called <span class="kw">migration</span>. The butterflies fly from Canada and the United States all the way to the forests of central Mexico, where the weather is warmer and the trees shelter them from the cold.</p>
+      <p>What makes this journey so amazing is that no single butterfly makes the full round trip. The butterflies that leave Mexico in spring are not the same ones that return in autumn. It takes several <span class="kw">generations</span> — or groups of offspring — to complete the cycle. Yet somehow, each new generation finds its way back to the same forests its great-great-grandparents visited.</p>
+      <p>Scientists believe monarchs use the <span class="kw">position of the sun</span> and the Earth's magnetic field as their guides. During migration, they can fly up to 150 kilometers in a single day. They rest on trees at night, sometimes covering the branches so thickly that the trees seem to be draped in orange and black cloth.</p>
+      <p>Sadly, monarch butterfly populations have dropped sharply in recent decades. Loss of <span class="kw">milkweed plants</span> — the only plant their caterpillars eat — and destruction of their forest homes are the biggest threats. Many scientists and volunteers work hard to plant milkweed and protect their habitat.</p>
+    `,
+    questions: [
+      {
+        type: "tf",
+        text: "Monarch butterflies migrate from Mexico to Canada every winter.",
+        answer: false,
+        explanation: "It is the opposite. They migrate from Canada and the US to Mexico for the winter warmth."
+      },
+      {
+        type: "tf",
+        text: "No single monarch butterfly completes the full round trip of migration.",
+        answer: true,
+        explanation: "Correct! It takes several generations of butterflies to complete the full migration cycle."
+      },
+      {
+        type: "mc",
+        text: "What do monarch butterfly caterpillars need to survive?",
+        options: ["Oak leaves", "Milkweed plants", "Pine needles", "Bamboo shoots"],
+        answer: 1,
+        explanation: "Milkweed plants are the only plant that monarch caterpillars eat, making them essential for survival."
+      },
+      {
+        type: "mc",
+        text: "How do scientists think monarchs find their way during migration?",
+        options: [
+          "By following rivers and mountains",
+          "By listening to sounds in the air",
+          "By using the sun's position and Earth's magnetic field",
+          "By following older butterflies"
+        ],
+        answer: 2,
+        explanation: "Scientists believe monarchs navigate using the position of the sun and the Earth's magnetic field."
+      },
+      {
+        type: "sa",
+        text: "Why is the monarch butterfly's migration described as 'amazing'? Use details from the story in your answer.",
+        sampleAnswer: "milkweed / migration / generation / sun / magnetic"
+      }
+    ]
+  },
+  {
+    id: 2,
+    icon: "🐘",
+    title: "The Memory of Elephants",
+    tag: "Mammals & Behavior",
+    story: `
+      <p>People often say, "An elephant never forgets," and scientists have found that this saying holds a lot of truth. <span class="kw">African elephants</span> have the largest brains of any land animal, and they use those big brains to remember things for years — even decades.</p>
+      <p>Elephants live in close family groups led by the oldest female, called the <span class="kw">matriarch</span>. She remembers the locations of water sources, safe migration routes, and even the calls of elephants she has not seen for many years. When a drought hits, she leads her family to a watering hole she visited long ago. This memory can mean the difference between life and death.</p>
+      <p>Elephants also remember individual humans and other animals. Studies show they can recognize over 200 different elephant voices and calls. They react with excitement when they meet a long-lost family member and with <span class="kw">grief</span> when one of their group dies. They have been seen gently touching the bones of deceased elephants with their trunks, as if paying their respects.</p>
+      <p>Elephants communicate using low-frequency sounds called <span class="kw">infrasound</span>, which humans cannot hear. These rumbles travel through the ground and can be felt by other elephants kilometers away. This long-distance communication helps families stay connected across vast landscapes.</p>
+    `,
+    questions: [
+      {
+        type: "tf",
+        text: "The oldest male elephant leads the family group.",
+        answer: false,
+        explanation: "The oldest female, called the matriarch, leads the elephant family group."
+      },
+      {
+        type: "tf",
+        text: "Elephants can communicate using sounds that humans cannot hear.",
+        answer: true,
+        explanation: "Correct! Elephants use infrasound — low-frequency rumbles below human hearing — to communicate across long distances."
+      },
+      {
+        type: "mc",
+        text: "What is a 'matriarch' as used in the story?",
+        options: [
+          "The youngest and fastest female elephant",
+          "The oldest female elephant who leads the group",
+          "A scientist who studies elephants",
+          "A baby elephant still learning to walk"
+        ],
+        answer: 1,
+        explanation: "A matriarch is the oldest female elephant who leads the family group using her knowledge and memory."
+      },
+      {
+        type: "mc",
+        text: "How do elephants likely survive during a drought?",
+        options: [
+          "They dig underground pools with their tusks",
+          "They stop drinking water for weeks",
+          "The matriarch leads them to a remembered watering hole",
+          "They follow birds to find water"
+        ],
+        answer: 2,
+        explanation: "The matriarch uses her long memory to lead the family to a watering hole she visited in the past."
+      },
+      {
+        type: "sa",
+        text: "How does a good memory help elephants survive? Give at least two examples from the story.",
+        sampleAnswer: "water / drought / matriarch / family / migration / routes"
+      }
+    ]
+  },
+  {
+    id: 3,
+    icon: "🌊",
+    title: "Secrets of the Coral Reef",
+    tag: "Ocean Life",
+    story: `
+      <p><span class="kw">Coral reefs</span> are often called the rainforests of the sea. Although they cover less than one percent of the ocean floor, they are home to about 25 percent of all marine species. These underwater cities burst with color and life, from tiny shrimp to enormous sea turtles.</p>
+      <p>Coral may look like colorful rocks or plants, but it is actually made up of thousands of tiny animals called <span class="kw">polyps</span>. Each polyp builds a hard shell around itself using calcium from the seawater. Over thousands of years, these shells pile up to create the massive structures we call reefs.</p>
+      <p>Many reef creatures have extraordinary partnerships. The <span class="kw">clownfish</span> lives safely among the stinging tentacles of sea anemones — tentacles that would paralyze most other fish. In return, the clownfish chases away other fish that would eat the anemone. This kind of relationship, where both animals benefit, is called <span class="kw">mutualism</span>.</p>
+      <p>Unfortunately, coral reefs are in danger. Rising ocean temperatures cause a process called <span class="kw">coral bleaching</span>, where corals expel the tiny algae living inside them and turn completely white. Without algae, corals lose their food source and can die. Pollution, overfishing, and coastal development also damage reefs. Scientists estimate that if nothing changes, most of the world's coral reefs could be gone by the end of this century.</p>
+    `,
+    questions: [
+      {
+        type: "tf",
+        text: "Coral reefs are actually made up of tiny animals called polyps.",
+        answer: true,
+        explanation: "Correct! Coral looks like rock or plants, but it is made up of thousands of tiny animals called polyps."
+      },
+      {
+        type: "tf",
+        text: "Coral reefs cover about half of the ocean floor.",
+        answer: false,
+        explanation: "Coral reefs actually cover less than one percent of the ocean floor, though they support 25% of marine species."
+      },
+      {
+        type: "mc",
+        text: "What is 'mutualism' as described in the story?",
+        options: [
+          "When one animal helps another and gets nothing in return",
+          "When two animals compete for the same food",
+          "When a relationship benefits both animals involved",
+          "When a larger animal protects a smaller one from danger"
+        ],
+        answer: 2,
+        explanation: "Mutualism is a relationship where both animals benefit — like the clownfish and sea anemone protecting each other."
+      },
+      {
+        type: "mc",
+        text: "What causes coral bleaching?",
+        options: [
+          "Too much sunlight during the day",
+          "Rising ocean temperatures",
+          "Too many fish swimming near the coral",
+          "Chemical cleaning of the ocean water"
+        ],
+        answer: 1,
+        explanation: "Rising ocean temperatures cause corals to expel their algae and turn white, a process called coral bleaching."
+      },
+      {
+        type: "sa",
+        text: "Why are coral reefs compared to rainforests? Do you think it is a good comparison? Explain your answer.",
+        sampleAnswer: "biodiversity / many species / quarter / life / important / habitat"
+      }
+    ]
+  },
+  {
+    id: 4,
+    icon: "🦅",
+    title: "The Hunters of the Sky",
+    tag: "Birds of Prey",
+    story: `
+      <p><span class="kw">Birds of prey</span>, also called raptors, are among the most skilled hunters in the animal kingdom. Eagles, hawks, owls, and falcons all belong to this group. What sets them apart from other birds is their combination of sharp talons, hooked beaks, and incredibly powerful eyesight.</p>
+      <p>The <span class="kw">peregrine falcon</span> is the fastest animal on Earth. When it dives toward its prey — a movement called a <span class="kw">stoop</span> — it can reach speeds of over 320 kilometers per hour. Its specially shaped nostrils prevent the rushing air from damaging its lungs. At this speed, it strikes its prey in mid-air with tremendous force.</p>
+      <p>Owls are built for nighttime hunting. Their large eyes are fixed in their skulls, so they cannot move them the way humans do. To compensate, an owl can rotate its head up to <span class="kw">270 degrees</span> — that is three-quarters of a full circle! Their feathers are designed to muffle the sound of their wings, allowing them to glide silently toward prey.</p>
+      <p>Many raptors play an important role in <span class="kw">controlling pest populations</span>. A single barn owl family can eat up to 3,000 mice and rats in a year. Farmers sometimes place nest boxes on their land to attract owls, using them as natural pest control instead of chemical poisons.</p>
+    `,
+    questions: [
+      {
+        type: "tf",
+        text: "The peregrine falcon is the fastest animal on Earth when diving.",
+        answer: true,
+        explanation: "Correct! The peregrine falcon can reach speeds over 320 km/h during its dive, called a stoop, making it the fastest animal on Earth."
+      },
+      {
+        type: "tf",
+        text: "Owls can move their eyes in any direction like humans do.",
+        answer: false,
+        explanation: "Owls' eyes are fixed in their skulls. To see in different directions, they rotate their heads up to 270 degrees instead."
+      },
+      {
+        type: "mc",
+        text: "Why do some farmers put nest boxes on their land for owls?",
+        options: [
+          "To decorate their farmland with beautiful birds",
+          "To scare away larger predators like foxes",
+          "To use owls as natural pest control for mice and rats",
+          "To study owl behavior up close"
+        ],
+        answer: 2,
+        explanation: "Farmers attract barn owls because a single owl family can eat up to 3,000 mice and rats per year — a natural alternative to chemical poisons."
+      },
+      {
+        type: "mc",
+        text: "What is a 'stoop' as used in the story?",
+        options: [
+          "The owl's method of silent gliding",
+          "A structure built for birds to land on",
+          "The peregrine falcon's high-speed dive toward prey",
+          "The way raptors sharpen their talons"
+        ],
+        answer: 2,
+        explanation: "A stoop is the high-speed dive a peregrine falcon makes when attacking its prey in mid-air."
+      },
+      {
+        type: "sa",
+        text: "Choose one raptor from the story. Describe what makes it a successful hunter.",
+        sampleAnswer: "talons / speed / stoop / silent / eyesight / rotate / nocturnal / falcon / owl"
+      }
+    ]
+  },
+  {
+    id: 5,
+    icon: "🌳",
+    title: "How Trees Talk to Each Other",
+    tag: "Plants & Forests",
+    story: `
+      <p>For a long time, people thought of trees as silent, separate beings — rooted in the ground, growing alone. But scientists have made a remarkable discovery: trees in a forest are actually deeply <span class="kw">connected</span> to one another, and they communicate and share resources in ways we never imagined.</p>
+      <p>Beneath the forest floor, the roots of trees are linked to a vast network of <span class="kw">fungi</span> — microscopic threads called <span class="kw">mycelium</span>. This web is so widespread that scientists have nicknamed it the "Wood Wide Web." Through this network, trees exchange water, sugar, carbon, and even chemical signals with their neighbors.</p>
+      <p>Mother trees — the oldest, largest trees in a forest — act as hubs in this network. They send extra sugar through the fungal threads to support younger seedlings growing in their shade, where sunlight is scarce. When a tree is under attack by insects, it can release chemical warnings through the network, prompting nearby trees to produce more <span class="kw">defensive chemicals</span> in their leaves before the insects even reach them.</p>
+      <p>Researchers have also found that when a tree is dying, it floods the network with its stored carbon and nutrients, essentially giving its resources away to its neighbors. Some scientists describe this as a kind of <span class="kw">generosity</span> — a last gift from an old tree to the forest it was part of.</p>
+    `,
+    questions: [
+      {
+        type: "tf",
+        text: "Trees in a forest are completely separate and do not share resources with each other.",
+        answer: false,
+        explanation: "This is false. Trees are connected through a fungal network called mycelium and actively share water, sugar, carbon, and chemical signals."
+      },
+      {
+        type: "tf",
+        text: "The 'Wood Wide Web' refers to the underground fungal network connecting trees.",
+        answer: true,
+        explanation: "Correct! Scientists nicknamed the underground mycelium network the 'Wood Wide Web' because it connects trees like the internet connects computers."
+      },
+      {
+        type: "mc",
+        text: "What role do 'mother trees' play in the forest network?",
+        options: [
+          "They block sunlight to stop other trees from growing too fast",
+          "They act as hubs and send nutrients to younger seedlings",
+          "They release chemicals that kill insects in the entire forest",
+          "They store all water underground and keep it from other trees"
+        ],
+        answer: 1,
+        explanation: "Mother trees are the oldest, largest trees and act as hubs — sending sugar and nutrients through the fungal network to younger, shaded seedlings."
+      },
+      {
+        type: "mc",
+        text: "How can trees warn each other about an insect attack?",
+        options: [
+          "By shaking their branches to signal nearby trees",
+          "By releasing loud sounds into the soil",
+          "By sending chemical warnings through the mycelium network",
+          "By dropping leaves on the ground as a signal"
+        ],
+        answer: 2,
+        explanation: "Trees send chemical warnings through the underground fungal network, prompting nearby trees to produce defensive chemicals in their leaves."
+      },
+      {
+        type: "sa",
+        text: "The story calls a dying tree's final act a 'kind of generosity.' Do you agree with this description? Explain your thinking.",
+        sampleAnswer: "nutrients / carbon / network / share / neighbors / resources / gift / dying"
+      }
+    ]
+  }
+];
+
+// ── State ──
+const state = {};
+stories.forEach(s => {
+  state[s.id] = { answers: {}, score: 0, total: s.questions.length };
+});
+
+// ── Build UI ──
+const nav = document.getElementById('storyNav');
+const main = document.getElementById('mainContent');
+
+stories.forEach((story, idx) => {
+  // Nav button
+  const btn = document.createElement('button');
+  btn.className = 'nav-btn' + (idx === 0 ? ' active' : '');
+  btn.textContent = `${story.icon} Story ${story.id}`;
+  btn.onclick = () => switchStory(story.id);
+  nav.appendChild(btn);
+
+  // Panel
+  const panel = document.createElement('div');
+  panel.className = 'story-panel' + (idx === 0 ? ' active' : '');
+  panel.id = `panel-${story.id}`;
+  panel.innerHTML = buildPanel(story);
+  main.appendChild(panel);
+});
+
+function switchStory(id) {
+  document.querySelectorAll('.story-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`panel-${id}`).classList.add('active');
+  nav.querySelectorAll('.nav-btn')[id - 1].classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function buildPanel(story) {
+  let qHtml = '';
+  let qNum = 0;
+
+  // Group by type in order: TF first, then MC, then SA
+  const tfs = story.questions.filter(q => q.type === 'tf');
+  const mcs = story.questions.filter(q => q.type === 'mc');
+  const sas = story.questions.filter(q => q.type === 'sa');
+
+  if (tfs.length) {
+    qHtml += `<div class="q-section-title">🔵 True or False</div>`;
+    tfs.forEach(q => { qNum++; qHtml += buildTF(story.id, q, qNum); });
+  }
+  if (mcs.length) {
+    qHtml += `<div class="q-section-title" style="margin-top:24px;">🟢 Multiple Choice</div>`;
+    mcs.forEach(q => { qNum++; qHtml += buildMC(story.id, q, qNum); });
+  }
+  if (sas.length) {
+    qHtml += `<div class="q-section-title" style="margin-top:24px;">✏️ Short Answer</div>`;
+    sas.forEach(q => { qNum++; qHtml += buildSA(story.id, q, qNum); });
+  }
+
+  return `
+    <div class="story-card">
+      <div class="story-header">
+        <div class="story-icon">${story.icon}</div>
+        <div class="story-meta">
+          <h2>${story.title}</h2>
+          <span class="tag">${story.tag}</span>
+        </div>
+      </div>
+      <div class="story-body">${story.story}</div>
+      <div class="questions-section">
+        <div class="q-section-title" style="font-size:1.2rem; margin-bottom:22px;">📝 Comprehension Questions</div>
+        ${qHtml}
+        <div class="score-panel" id="score-${story.id}" style="display:none;">
+          <div>
+            <div class="score-label">Your Score</div>
+            <div class="score-val" id="scoreVal-${story.id}">0 / ${story.questions.length}</div>
+          </div>
+          <button class="reset-btn" onclick="resetStory(${story.id})">🔄 Try Again</button>
+          <div class="score-bar-wrap">
+            <div class="score-bar" id="scoreBar-${story.id}"></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function buildTF(sid, q, num) {
+  const qid = `${sid}-tf-${num}`;
+  return `
+    <div class="question-block" id="qblock-${qid}">
+      <div class="question-text"><span class="q-num">${num}</span>${q.text}</div>
+      <div class="tf-options">
+        <button class="tf-btn" id="tf-true-${qid}" onclick="checkTF('${sid}','${qid}',true,${q.answer},this)">✅ True</button>
+        <button class="tf-btn" id="tf-false-${qid}" onclick="checkTF('${sid}','${qid}',false,${q.answer},this)">❌ False</button>
+      </div>
+      <div class="feedback" id="fb-${qid}"></div>
+    </div>`;
+}
+
+function buildMC(sid, q, num) {
+  const qid = `${sid}-mc-${num}`;
+  const letters = ['A','B','C','D'];
+  const opts = q.options.map((o,i) => `
+    <button class="mc-btn" id="mc-${qid}-${i}" onclick="checkMC('${sid}','${qid}',${i},${q.answer},this)">
+      <span class="mc-letter">${letters[i]}</span>${o}
+    </button>`).join('');
+  return `
+    <div class="question-block" id="qblock-${qid}">
+      <div class="question-text"><span class="q-num">${num}</span>${q.text}</div>
+      <div class="mc-options">${opts}</div>
+      <div class="feedback" id="fb-${qid}"></div>
+    </div>`;
+}
+
+function buildSA(sid, q, num) {
+  const qid = `${sid}-sa-${num}`;
+  return `
+    <div class="question-block" id="qblock-${qid}">
+      <div class="question-text"><span class="q-num">${num}</span>${q.text}</div>
+      <textarea class="sa-input" id="sa-${qid}" placeholder="Write your answer here..."></textarea>
+      <button class="check-sa-btn" id="sabtn-${qid}" onclick="checkSA('${sid}','${qid}','${q.sampleAnswer}')">Submit Answer</button>
+      <div class="feedback" id="fb-${qid}"></div>
+    </div>`;
+}
+
+// ── Check functions ──
+function checkTF(sid, qid, chosen, correct, btn) {
+  if (state[sid].answers[qid] !== undefined) return;
+  state[sid].answers[qid] = chosen;
+
+  const trueBtn = document.getElementById(`tf-true-${qid}`);
+  const falseBtn = document.getElementById(`tf-false-${qid}`);
+  const fb = document.getElementById(`fb-${qid}`);
+  const block = document.getElementById(`qblock-${qid}`);
+
+  trueBtn.disabled = falseBtn.disabled = true;
+
+  const isCorrect = chosen === correct;
+  btn.classList.add(isCorrect ? 'selected-correct' : 'selected-wrong');
+
+  // Reveal correct answer
+  const correctBtn = correct ? trueBtn : falseBtn;
+  if (!isCorrect) correctBtn.classList.add('reveal-correct');
+
+  // Find question for explanation
+  const story = stories.find(s => s.id == sid);
+  const q = story.questions.find(q => q.type === 'tf' && (state[sid].answers[qid] !== undefined));
+
+  // Get explanation from matching question
+  const allQ = story.questions.filter(q => q.type === 'tf');
+  const qIdx = parseInt(qid.split('-').pop()) - 1 - story.questions.filter(q=>q.type!=='tf').length;
+  // simpler: match by answer value
+  const matchQ = allQ.find(q2 => q2.answer === correct && !q2._used);
+  let explanation = '';
+  if (matchQ) { matchQ._used = true; explanation = matchQ.explanation; }
+
+  fb.className = `feedback ${isCorrect ? 'correct' : 'wrong'}`;
+  fb.textContent = isCorrect ? `✅ Correct! ${explanation}` : `❌ The answer is ${correct ? 'True' : 'False'}. ${explanation}`;
+
+  block.classList.add(isCorrect ? 'answered-correct' : 'answered-wrong');
+  if (isCorrect) state[sid].score++;
+  checkAllDone(sid);
+}
+
+function checkMC(sid, qid, chosen, correct, btn) {
+  if (state[sid].answers[qid] !== undefined) return;
+  state[sid].answers[qid] = chosen;
+
+  const fb = document.getElementById(`fb-${qid}`);
+  const block = document.getElementById(`qblock-${qid}`);
+
+  // Disable all options
+  const story = stories.find(s => s.id == sid);
+  [0,1,2,3].forEach(i => {
+    const b = document.getElementById(`mc-${qid}-${i}`);
+    if (b) b.disabled = true;
+  });
+
+  const isCorrect = chosen === correct;
+  btn.classList.add(isCorrect ? 'selected-correct' : 'selected-wrong');
+
+  const correctBtn = document.getElementById(`mc-${qid}-${correct}`);
+  if (!isCorrect && correctBtn) correctBtn.classList.add('reveal-correct');
+
+  const mcQs = story.questions.filter(q => q.type === 'mc');
+  const num = parseInt(qid.split('-').pop());
+  const tfCount = story.questions.filter(q=>q.type==='tf').length;
+  const mcIdx = num - tfCount - 1;
+  const explanation = mcQs[mcIdx] ? mcQs[mcIdx].explanation : '';
+
+  fb.className = `feedback ${isCorrect ? 'correct' : 'wrong'}`;
+  const letters = ['A','B','C','D'];
+  fb.textContent = isCorrect
+    ? `✅ Correct! ${explanation}`
+    : `❌ The correct answer is ${letters[correct]}. ${explanation}`;
+
+  block.classList.add(isCorrect ? 'answered-correct' : 'answered-wrong');
+  if (isCorrect) state[sid].score++;
+  checkAllDone(sid);
+}
+
+function checkSA(sid, qid, keywords) {
+  const input = document.getElementById(`sa-${qid}`);
+  const btn = document.getElementById(`sabtn-${qid}`);
+  const fb = document.getElementById(`fb-${qid}`);
+  const block = document.getElementById(`qblock-${qid}`);
+
+  const answer = input.value.trim();
+  if (!answer) { fb.className = 'feedback info'; fb.textContent = '💬 Please write your answer before submitting.'; return; }
+
+  if (state[sid].answers[qid] !== undefined) return;
+  state[sid].answers[qid] = answer;
+
+  input.disabled = true;
+  btn.disabled = true;
+
+  // Simple keyword check
+  const kws = keywords.split('/').map(k => k.trim().toLowerCase());
+  const ansLower = answer.toLowerCase();
+  const found = kws.filter(k => ansLower.includes(k));
+  const hit = found.length >= 2;
+
+  if (hit) state[sid].score++;
+  block.classList.add(hit ? 'answered-correct' : 'answered-wrong');
+
+  fb.className = `feedback ${hit ? 'correct' : 'info'}`;
+  fb.textContent = hit
+    ? `✅ Great answer! You mentioned key ideas from the story.`
+    : `💬 Good try! Make sure to include specific details from the story, such as: ${kws.slice(0,3).join(', ')}, etc.`;
+
+  checkAllDone(sid);
+}
+
+function checkAllDone(sid) {
+  const story = stories.find(s => s.id == sid);
+  const total = story.questions.length;
+  const done = Object.keys(state[sid].answers).length;
+  if (done >= total) showScore(sid);
+}
+
+function showScore(sid) {
+  const story = stories.find(s => s.id == sid);
+  const total = story.questions.length;
+  const score = state[sid].score;
+  const pct = Math.round((score / total) * 100);
+
+  const panel = document.getElementById(`score-${sid}`);
+  const val = document.getElementById(`scoreVal-${sid}`);
+  const bar = document.getElementById(`scoreBar-${sid}`);
+
+  val.textContent = `${score} / ${total} (${pct}%)`;
+  panel.style.display = 'flex';
+  setTimeout(() => { bar.style.width = pct + '%'; }, 100);
+}
+
+function resetStory(sid) {
+  state[sid].answers = {};
+  state[sid].score = 0;
+
+  // Reset _used flags on TF questions
+  const story = stories.find(s => s.id == sid);
+  story.questions.forEach(q => { delete q._used; });
+
+  // Rebuild panel
+  const panel = document.getElementById(`panel-${sid}`);
+  panel.innerHTML = buildPanel(story);
+}
+</script>
+</body>
+</html>

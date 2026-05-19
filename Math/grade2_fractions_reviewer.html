@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 2 Math Reviewer 🌟</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow: #FFD93D;
+    --pink: #FF6B9D;
+    --blue: #4ECDC4;
+    --purple: #A855F7;
+    --green: #6BCB77;
+    --orange: #FF9A3C;
+    --red: #FF4757;
+    --bg: #FFF8F0;
+    --card: #FFFFFF;
+    --dark: #2D2D44;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    background-image: radial-gradient(circle at 20% 20%, #FFD93D22 0%, transparent 50%),
+                      radial-gradient(circle at 80% 80%, #FF6B9D22 0%, transparent 50%),
+                      radial-gradient(circle at 60% 10%, #4ECDC422 0%, transparent 40%);
+    color: var(--dark);
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  /* ---- HEADER ---- */
+  .header {
+    text-align: center;
+    padding: 30px 20px 20px;
+    animation: bounceIn 0.8s ease;
+  }
+  .header .stars {
+    font-size: 2rem;
+    letter-spacing: 8px;
+    animation: twinkle 2s infinite alternate;
+  }
+  @keyframes twinkle { from { opacity: 0.6; transform: scale(1); } to { opacity: 1; transform: scale(1.1); } }
+
+  .header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    color: var(--pink);
+    text-shadow: 4px 4px 0 #FFD93D, 6px 6px 0 #FF9A3C;
+    margin: 8px 0;
+    line-height: 1.1;
+  }
+  .header .subtitle {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--purple);
+    background: white;
+    display: inline-block;
+    padding: 6px 20px;
+    border-radius: 20px;
+    border: 3px solid var(--purple);
+    margin-top: 8px;
+  }
+  .test-badge {
+    background: var(--red);
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    padding: 8px 24px;
+    border-radius: 30px;
+    display: inline-block;
+    margin-top: 12px;
+    box-shadow: 0 4px 0 #c0392b;
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse { 0%,100%{transform:scale(1)}50%{transform:scale(1.05)} }
+
+  /* ---- NAV TABS ---- */
+  .nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 24px 0 10px;
+  }
+  .tab-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.15);
+    color: white;
+  }
+  .tab-btn:nth-child(1) { background: var(--orange); }
+  .tab-btn:nth-child(2) { background: var(--blue); }
+  .tab-btn:nth-child(3) { background: var(--green); }
+  .tab-btn:nth-child(4) { background: var(--purple); }
+  .tab-btn.active { transform: translateY(-3px); box-shadow: 0 7px 0 rgba(0,0,0,0.15); filter: brightness(1.1); }
+  .tab-btn:hover { transform: translateY(-2px); }
+
+  /* ---- SECTIONS ---- */
+  .section { display: none; animation: slideUp 0.4s ease; }
+  .section.active { display: block; }
+  @keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes bounceIn { from { opacity:0; transform:scale(0.8); } to { opacity:1; transform:scale(1); } }
+
+  /* ---- CARDS ---- */
+  .card {
+    background: var(--card);
+    border-radius: 24px;
+    padding: 24px;
+    margin: 16px auto;
+    max-width: 800px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    border: 3px solid transparent;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    border-radius: 24px 24px 0 0;
+  }
+  .card.orange::before { background: var(--orange); }
+  .card.blue::before { background: var(--blue); }
+  .card.green::before { background: var(--green); }
+  .card.purple::before { background: var(--purple); }
+  .card.pink::before { background: var(--pink); }
+  .card.yellow::before { background: var(--yellow); }
+
+  .card h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.6rem;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card h2.orange { color: var(--orange); }
+  .card h2.blue { color: var(--blue); }
+  .card h2.green { color: var(--green); }
+  .card h2.purple { color: var(--purple); }
+  .card h2.pink { color: var(--pink); }
+
+  .card p { font-size: 1.05rem; line-height: 1.7; margin-bottom: 10px; }
+  .card .note {
+    background: #FFF3E0;
+    border-left: 5px solid var(--orange);
+    border-radius: 0 12px 12px 0;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-weight: 700;
+  }
+  .card .note.blue { background: #E0F7FA; border-color: var(--blue); }
+  .card .note.green { background: #E8F5E9; border-color: var(--green); }
+  .card .note.purple { background: #F3E5F5; border-color: var(--purple); }
+
+  /* ---- FRACTION VISUALS ---- */
+  .fraction-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin: 16px 0;
+  }
+  .frac-box {
+    text-align: center;
+  }
+  .frac-box .frac-label {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    margin-bottom: 8px;
+    color: var(--dark);
+  }
+  .frac-visual {
+    display: flex;
+    gap: 3px;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+  .frac-piece {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 3px solid rgba(0,0,0,0.2);
+  }
+  .frac-piece.filled { opacity: 1; }
+  .frac-piece.empty { opacity: 0.2; }
+  .frac-number {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+  }
+  .frac-number span { display: block; }
+  .frac-line { width: 30px; height: 4px; background: var(--dark); border-radius: 2px; margin: 4px 0; }
+
+  /* ---- PIZZA / PIE VISUALS ---- */
+  .pizza-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 16px 0;
+  }
+  .pizza-item {
+    text-align: center;
+  }
+  .pizza-item svg {
+    width: 90px;
+    height: 90px;
+  }
+  .pizza-item p {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    margin-top: 6px;
+  }
+
+  /* ---- STEP BOXES ---- */
+  .steps { counter-reset: step; }
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin: 12px 0;
+    padding: 14px 16px;
+    background: #F8F9FF;
+    border-radius: 16px;
+  }
+  .step-num {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.4rem;
+    color: white;
+    background: var(--purple);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-num.orange { background: var(--orange); }
+  .step-num.blue { background: var(--blue); }
+  .step-num.green { background: var(--green); }
+  .step p { margin: 0; font-size: 1rem; }
+
+  /* ---- COMPARISON ---- */
+  .compare-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin: 16px 0;
+  }
+  .compare-card {
+    background: #F8F9FF;
+    border-radius: 16px;
+    padding: 16px 20px;
+    text-align: center;
+    min-width: 120px;
+  }
+  .symbol-box {
+    font-family: 'Fredoka One', cursive;
+    font-size: 3rem;
+    color: var(--pink);
+    background: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid var(--pink);
+    box-shadow: 0 4px 12px rgba(255,107,157,0.3);
+  }
+
+  /* ---- REMEMBER BOXES ---- */
+  .remember {
+    background: linear-gradient(135deg, #FFD93D22, #FF6B9D22);
+    border: 3px dashed var(--yellow);
+    border-radius: 20px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    text-align: center;
+  }
+  .remember .emoji { font-size: 2rem; }
+  .remember p { font-size: 1.05rem; font-weight: 700; margin-top: 6px; }
+
+  /* ---- EXAMPLE PROBLEMS ---- */
+  .example {
+    background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin: 12px 0;
+  }
+  .example .ex-label {
+    font-family: 'Fredoka One', cursive;
+    color: var(--green);
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+
+  /* ---- FRACTION BAR ---- */
+  .frac-bar-container { margin: 16px 0; }
+  .frac-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 8px 0;
+  }
+  .frac-bar-label {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    min-width: 50px;
+    color: var(--dark);
+  }
+  .frac-bar {
+    display: flex;
+    height: 38px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 3px solid rgba(0,0,0,0.15);
+    flex: 1;
+    max-width: 400px;
+  }
+  .frac-bar-seg {
+    flex: 1;
+    border-right: 2px solid rgba(0,0,0,0.1);
+    transition: all 0.3s;
+  }
+  .frac-bar-seg:last-child { border-right: none; }
+
+  /* ---- QUIZ SECTION ---- */
+  .quiz-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 14px auto;
+    max-width: 700px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.07);
+    border: 2px solid #eee;
+  }
+  .quiz-q {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: 14px;
+    color: var(--dark);
+  }
+  .choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .choice-btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 10px 20px;
+    border: 3px solid #ddd;
+    border-radius: 50px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .choice-btn:hover { background: #f0f0f0; transform: translateY(-2px); }
+  .choice-btn.correct { background: var(--green); color: white; border-color: var(--green); }
+  .choice-btn.wrong { background: var(--red); color: white; border-color: var(--red); }
+  .feedback {
+    margin-top: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 8px 14px;
+    border-radius: 10px;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct { background: #E8F5E9; color: #2E7D32; }
+  .feedback.wrong { background: #FFEBEE; color: #C62828; }
+
+  /* ---- SCORE ---- */
+  .score-bar {
+    max-width: 700px;
+    margin: 0 auto 20px;
+    background: white;
+    border-radius: 16px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+  .score-label { font-family: 'Fredoka One', cursive; font-size: 1.1rem; color: var(--purple); }
+  .score-num { font-family: 'Fredoka One', cursive; font-size: 2rem; color: var(--green); }
+  .reset-btn {
+    margin-left: auto;
+    font-family: 'Fredoka One', cursive;
+    background: var(--orange);
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    box-shadow: 0 4px 0 #c0392b;
+    transition: all 0.2s;
+  }
+  .reset-btn:hover { transform: translateY(-2px); }
+
+  /* ---- FOOTER ---- */
+  .footer {
+    text-align: center;
+    padding: 30px;
+    font-size: 0.9rem;
+    color: #999;
+    font-weight: 600;
+  }
+
+  /* ---- HIGHLIGHT ---- */
+  .hl { 
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 6px;
+    font-weight: 800;
+  }
+  .hl.yellow { background: #FFF9C4; color: #F57F17; }
+  .hl.pink { background: #FCE4EC; color: #C62828; }
+  .hl.blue { background: #E3F2FD; color: #1565C0; }
+  .hl.green { background: #E8F5E9; color: #2E7D32; }
+
+  /* ---- WORD PROBLEM BOX ---- */
+  .word-prob {
+    background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin: 12px 0;
+    border-left: 6px solid var(--blue);
+  }
+  .word-prob .wp-label {
+    font-family: 'Fredoka One', cursive;
+    color: #1565C0;
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+
+  /* Decorative background circles */
+  .deco-circle {
+    position: fixed;
+    border-radius: 50%;
+    opacity: 0.04;
+    z-index: -1;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<!-- Decorative circles -->
+<div class="deco-circle" style="width:300px;height:300px;background:var(--pink);top:-100px;right:-80px;"></div>
+<div class="deco-circle" style="width:200px;height:200px;background:var(--blue);bottom:100px;left:-60px;"></div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="stars">⭐ ⭐ ⭐</div>
+  <h1>Math Reviewer! 🍕</h1>
+  <div class="subtitle">Grade 2 · Fractions &amp; Problem Solving</div>
+  <div class="test-badge">📅 Long Test: March 24, 2026 (Tuesday)</div>
+</div>
+
+<!-- TABS -->
+<nav class="nav">
+  <button class="tab-btn active" onclick="showTab('topic1')">1️⃣ Multi-step</button>
+  <button class="tab-btn" onclick="showTab('topic2')">2️⃣ Fractions</button>
+  <button class="tab-btn" onclick="showTab('topic3')">3️⃣ Parts of a Set</button>
+  <button class="tab-btn" onclick="showTab('topic4')">4️⃣ Comparing</button>
+</nav>
+
+<!-- ==============================
+     TOPIC 1: MULTI-STEP PROBLEMS
+     ============================== -->
+<div id="topic1" class="section active">
+
+  <div class="card orange">
+    <h2 class="orange">🧩 What is a Multi-step Problem?</h2>
+    <p>A multi-step problem needs <strong>more than one math step</strong> to find the answer. You have to solve it <em>one step at a time!</em></p>
+    <div class="note">
+      💡 Think of it like climbing stairs — you go up one step, then the next!
+    </div>
+  </div>
+
+  <div class="card orange">
+    <h2 class="orange">🪜 How to Solve It (4 Steps!)</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num orange">1</div>
+        <p><strong>UNDERSTAND</strong> — Read the problem carefully. What is being asked? What do you know?</p>
+      </div>
+      <div class="step">
+        <div class="step-num orange">2</div>
+        <p><strong>PLAN</strong> — What operations will you use? (+, −, ×, ÷) How many steps do you need?</p>
+      </div>
+      <div class="step">
+        <div class="step-num orange">3</div>
+        <p><strong>SOLVE</strong> — Do the math! Solve Step 1 first, then use that answer for Step 2.</p>
+      </div>
+      <div class="step">
+        <div class="step-num orange">4</div>
+        <p><strong>CHECK</strong> — Does your answer make sense? Go back and review!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card orange">
+    <h2 class="orange">✏️ Let's Try an Example!</h2>
+    <div class="word-prob">
+      <div class="wp-label">📖 Word Problem:</div>
+      <p>Ana has <strong>8 apples</strong>. She gave <strong>3</strong> to her friend. Then she bought <strong>5 more</strong>. How many apples does Ana have now?</p>
+    </div>
+
+    <div class="example">
+      <div class="ex-label">✅ Step 1:</div>
+      <p>8 − 3 = <strong>5</strong> apples left after giving some away</p>
+    </div>
+    <div class="example">
+      <div class="ex-label">✅ Step 2:</div>
+      <p>5 + 5 = <strong>10</strong> apples in all!</p>
+    </div>
+
+    <div class="remember">
+      <div class="emoji">🌟</div>
+      <p>Ana has <span class="hl yellow">10 apples</span> now! Always write your final answer clearly.</p>
+    </div>
+  </div>
+
+  <div class="card orange">
+    <h2 class="orange">📝 Key Words to Watch For</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;">
+      <span class="hl yellow">in all / altogether → Add ➕</span>
+      <span class="hl pink">left / remaining → Subtract ➖</span>
+      <span class="hl blue">each / groups of → Multiply ✖️</span>
+      <span class="hl green">shared equally → Divide ➗</span>
+    </div>
+    <p style="margin-top:14px;">Sometimes a problem has <strong>two</strong> of these words — that means two steps! 👀</p>
+  </div>
+
+</div>
+
+<!-- ==============================
+     TOPIC 2: FRACTIONS
+     ============================== -->
+<div id="topic2" class="section">
+
+  <div class="card blue">
+    <h2 class="blue">🍕 What is a Fraction?</h2>
+    <p>A fraction shows a <strong>part of a whole</strong>. When we cut something into equal pieces and take some of them, we use a fraction!</p>
+    <div class="note blue">
+      🍕 Imagine cutting a pizza into equal slices and eating some!
+    </div>
+  </div>
+
+  <div class="card blue">
+    <h2 class="blue">🔢 Parts of a Fraction</h2>
+    <div class="fraction-display">
+      <div style="text-align:center;">
+        <div class="frac-number" style="font-size:3.5rem;">
+          <span style="color:var(--pink);">2</span>
+          <div class="frac-line" style="width:50px;height:5px;background:var(--dark);"></div>
+          <span style="color:var(--blue);">4</span>
+        </div>
+        <p style="margin-top:10px;font-size:0.95rem;">
+          <span class="hl pink">2 = Numerator</span><br>
+          <span class="hl blue">4 = Denominator</span>
+        </p>
+      </div>
+      <div style="max-width:300px;">
+        <div class="note" style="margin:8px 0;">
+          ⬆️ <span class="hl pink">Numerator</span> — how many parts you <strong>have</strong> or <strong>took</strong>
+        </div>
+        <div class="note blue" style="margin:8px 0;">
+          ⬇️ <span class="hl blue">Denominator</span> — how many <strong>equal parts</strong> in all
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card blue">
+    <h2 class="blue">🍕 Pizza Fractions!</h2>
+    <div class="pizza-row">
+      <!-- 1/2 -->
+      <div class="pizza-item">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="46" fill="#FF6B9D" stroke="#333" stroke-width="3"/>
+          <path d="M50 50 L50 4" stroke="#333" stroke-width="3"/>
+          <path d="M50 50 L50 96" stroke="#333" stroke-width="3"/>
+          <path d="M50 50 L96 50" stroke="#333" stroke-width="0"/>
+          <!-- shaded half -->
+          <path d="M50 50 L50 4 A46 46 0 0 1 96 50 Z" fill="#FF9A3C" opacity="0.8"/>
+          <text x="30" y="58" font-size="20" font-family="Arial" fill="white" font-weight="bold">1</text>
+          <text x="60" y="58" font-size="20" font-family="Arial" fill="white" font-weight="bold">1</text>
+        </svg>
+        <div class="frac-number" style="font-size:1.8rem;margin-top:6px;">
+          <span style="color:var(--orange);">1</span>
+          <div class="frac-line" style="width:30px;"></div>
+          <span style="color:var(--blue);">2</span>
+        </div>
+        <p>one-half</p>
+      </div>
+      <!-- 1/3 -->
+      <div class="pizza-item">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="46" fill="#A855F7" stroke="#333" stroke-width="3"/>
+          <line x1="50" y1="4" x2="50" y2="50" stroke="#333" stroke-width="3"/>
+          <line x1="50" y1="50" x2="10" y2="82" stroke="#333" stroke-width="3"/>
+          <line x1="50" y1="50" x2="90" y2="82" stroke="#333" stroke-width="3"/>
+          <path d="M50 50 L50 4 A46 46 0 0 1 90 82 Z" fill="#6BCB77" opacity="0.85"/>
+        </svg>
+        <div class="frac-number" style="font-size:1.8rem;margin-top:6px;">
+          <span style="color:var(--green);">1</span>
+          <div class="frac-line" style="width:30px;"></div>
+          <span style="color:var(--purple);">3</span>
+        </div>
+        <p>one-third</p>
+      </div>
+      <!-- 3/4 -->
+      <div class="pizza-item">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="46" fill="#4ECDC4" stroke="#333" stroke-width="3"/>
+          <line x1="50" y1="4" x2="50" y2="96" stroke="#333" stroke-width="3"/>
+          <line x1="4" y1="50" x2="96" y2="50" stroke="#333" stroke-width="3"/>
+          <!-- 3 shaded quarters -->
+          <path d="M50 50 L50 4 A46 46 0 0 1 96 50 Z" fill="#FFD93D" opacity="0.9"/>
+          <path d="M50 50 L96 50 A46 46 0 0 1 50 96 Z" fill="#FFD93D" opacity="0.9"/>
+          <path d="M50 50 L50 96 A46 46 0 0 1 4 50 Z" fill="#FFD93D" opacity="0.9"/>
+        </svg>
+        <div class="frac-number" style="font-size:1.8rem;margin-top:6px;">
+          <span style="color:var(--yellow);">3</span>
+          <div class="frac-line" style="width:30px;"></div>
+          <span style="color:var(--blue);">4</span>
+        </div>
+        <p>three-fourths</p>
+      </div>
+    </div>
+    <div class="remember">
+      <div class="emoji">🍕</div>
+      <p>All pieces must be the <span class="hl yellow">SAME SIZE</span> for it to be a fraction!</p>
+    </div>
+  </div>
+
+  <div class="card blue">
+    <h2 class="blue">📏 Fraction Bars</h2>
+    <p>Fraction bars help us see fractions! The colored parts show how many pieces we have.</p>
+    <div class="frac-bar-container">
+      <div class="frac-bar-row">
+        <div class="frac-bar-label">1/2</div>
+        <div class="frac-bar">
+          <div class="frac-bar-seg" style="background:#FF6B9D;"></div>
+          <div class="frac-bar-seg" style="background:#eee;"></div>
+        </div>
+      </div>
+      <div class="frac-bar-row">
+        <div class="frac-bar-label">2/3</div>
+        <div class="frac-bar">
+          <div class="frac-bar-seg" style="background:#A855F7;"></div>
+          <div class="frac-bar-seg" style="background:#A855F7;"></div>
+          <div class="frac-bar-seg" style="background:#eee;"></div>
+        </div>
+      </div>
+      <div class="frac-bar-row">
+        <div class="frac-bar-label">3/4</div>
+        <div class="frac-bar">
+          <div class="frac-bar-seg" style="background:#FF9A3C;"></div>
+          <div class="frac-bar-seg" style="background:#FF9A3C;"></div>
+          <div class="frac-bar-seg" style="background:#FF9A3C;"></div>
+          <div class="frac-bar-seg" style="background:#eee;"></div>
+        </div>
+      </div>
+      <div class="frac-bar-row">
+        <div class="frac-bar-label">2/5</div>
+        <div class="frac-bar">
+          <div class="frac-bar-seg" style="background:#4ECDC4;"></div>
+          <div class="frac-bar-seg" style="background:#4ECDC4;"></div>
+          <div class="frac-bar-seg" style="background:#eee;"></div>
+          <div class="frac-bar-seg" style="background:#eee;"></div>
+          <div class="frac-bar-seg" style="background:#eee;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==============================
+     TOPIC 3: FRACTIONAL PART OF A SET
+     ============================== -->
+<div id="topic3" class="section">
+
+  <div class="card green">
+    <h2 class="green">🌟 Fractional Part of a Set</h2>
+    <p>A <strong>set</strong> is a group of objects! A fraction can also describe <strong>part of a group</strong> — not just one object.</p>
+    <div class="note green">
+      🍎 Example: 2 out of 5 apples are red → <strong>2/5</strong> of the set are red apples!
+    </div>
+  </div>
+
+  <div class="card green">
+    <h2 class="green">👉 How to Find Fractional Part of a Set</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num green">1</div>
+        <p><strong>Count</strong> the total number of objects in the set. This is your <span class="hl blue">Denominator</span>.</p>
+      </div>
+      <div class="step">
+        <div class="step-num green">2</div>
+        <p><strong>Count</strong> the objects that match what the problem is asking. This is your <span class="hl pink">Numerator</span>.</p>
+      </div>
+      <div class="step">
+        <div class="step-num green">3</div>
+        <p><strong>Write</strong> the fraction: <span class="hl pink">matching</span> on top, <span class="hl blue">total</span> on bottom!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card green">
+    <h2 class="green">🌈 Let's Try!</h2>
+    <div class="word-prob">
+      <div class="wp-label">📖 Example:</div>
+      <p>There are <strong>8 balloons</strong>. <strong>3</strong> are yellow. What fraction of the balloons are yellow?</p>
+    </div>
+    <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:16px 0;">
+      <span style="font-size:2.2rem;">🟡</span>
+      <span style="font-size:2.2rem;">🟡</span>
+      <span style="font-size:2.2rem;">🟡</span>
+      <span style="font-size:2.2rem;">🔴</span>
+      <span style="font-size:2.2rem;">🔴</span>
+      <span style="font-size:2.2rem;">🔵</span>
+      <span style="font-size:2.2rem;">🔵</span>
+      <span style="font-size:2.2rem;">🟢</span>
+    </div>
+    <div class="example">
+      <div class="ex-label">✅ Answer:</div>
+      <p>Yellow balloons = 3 → <span class="hl pink">Numerator = 3</span></p>
+      <p>Total balloons = 8 → <span class="hl blue">Denominator = 8</span></p>
+      <p style="margin-top:8px;font-size:1.15rem;">So: <strong>3/8 of the balloons are yellow! 🟡</strong></p>
+    </div>
+
+    <div class="word-prob" style="margin-top:14px;">
+      <div class="wp-label">📖 Another Example:</div>
+      <p>There are <strong>10 stars</strong>. <strong>6</strong> are gold. What fraction are gold?</p>
+    </div>
+    <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:6px;margin:12px 0;">
+      <span style="font-size:2rem;">⭐</span><span style="font-size:2rem;">⭐</span><span style="font-size:2rem;">⭐</span>
+      <span style="font-size:2rem;">⭐</span><span style="font-size:2rem;">⭐</span><span style="font-size:2rem;">⭐</span>
+      <span style="font-size:2rem;">🌟</span><span style="font-size:2rem;">🌟</span><span style="font-size:2rem;">🌟</span><span style="font-size:2rem;">🌟</span>
+    </div>
+    <div class="example">
+      <div class="ex-label">✅ Answer: <strong>6/10</strong> of the stars are gold! ⭐</div>
+    </div>
+  </div>
+
+  <div class="card green">
+    <h2 class="green">🧮 Finding a Fractional Part (How Many?)</h2>
+    <p>Sometimes the problem gives you the fraction and total, and asks <em>"how many?"</em></p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num green">1</div>
+        <p><strong>Divide</strong> the total by the denominator to find <em>one part</em>.</p>
+      </div>
+      <div class="step">
+        <div class="step-num green">2</div>
+        <p><strong>Multiply</strong> that by the numerator to get your answer!</p>
+      </div>
+    </div>
+    <div class="example" style="margin-top:12px;">
+      <div class="ex-label">📖 Example: What is 3/4 of 8?</div>
+      <p>Step 1: 8 ÷ 4 = <strong>2</strong> (one part)</p>
+      <p>Step 2: 2 × 3 = <strong>6</strong></p>
+      <p><strong>3/4 of 8 = 6! 🎉</strong></p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==============================
+     TOPIC 4: COMPARING FRACTIONS
+     ============================== -->
+<div id="topic4" class="section">
+
+  <div class="card purple">
+    <h2 class="purple">⚖️ Comparing Fractions</h2>
+    <p>We use special symbols to compare fractions — just like we do with regular numbers!</p>
+    <div class="compare-row">
+      <div class="compare-card">
+        <div class="symbol-box" style="margin:0 auto 8px;">＜</div>
+        <p style="font-weight:800;color:var(--pink);">Less Than</p>
+        <p style="font-size:0.9rem;">1/4 ＜ 3/4</p>
+      </div>
+      <div class="compare-card">
+        <div class="symbol-box" style="margin:0 auto 8px;border-color:var(--green);color:var(--green);">＝</div>
+        <p style="font-weight:800;color:var(--green);">Equal To</p>
+        <p style="font-size:0.9rem;">2/4 = 1/2</p>
+      </div>
+      <div class="compare-card">
+        <div class="symbol-box" style="margin:0 auto 8px;border-color:var(--orange);color:var(--orange);">＞</div>
+        <p style="font-weight:800;color:var(--orange);">Greater Than</p>
+        <p style="font-size:0.9rem;">3/4 ＞ 1/4</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card purple">
+    <h2 class="purple">🍰 Similar Fractions (Same Denominator)</h2>
+    <p><strong>Similar fractions</strong> have the <span class="hl blue">same denominator</span> (same bottom number)!</p>
+    <div class="note purple">
+      👉 When the denominator is the same — just compare the <strong>numerators</strong>! Bigger numerator = bigger fraction!
+    </div>
+    <div class="frac-bar-container">
+      <p style="font-weight:700;margin-bottom:10px;">Which is bigger: 1/5 or 3/5?</p>
+      <div class="frac-bar-row">
+        <div class="frac-bar-label">1/5</div>
+        <div class="frac-bar">
+          <div class="frac-bar-seg" style="background:#A855F7;"></div>
+          <div class="frac-bar-seg" style="background:#eee;"></div>
+          <div class="frac-bar-seg" style="background:#eee;"></div>
+          <div class="frac-bar-seg" style="background:#eee;"></div>
+          <div class="frac-bar-seg" style="background:#eee;"></div>
+        </div>
+      </div>
+      <div class="frac-bar-row">
+        <div class="frac-bar-label">3/5</div>
+        <div class="frac-bar">
+          <div class="frac-bar-seg" style="background:#FF9A3C;"></div>
+          <div class="frac-bar-seg" style="background:#FF9A3C;"></div>
+          <div class="frac-bar-seg" style="background:#FF9A3C;"></div>
+          <div class="frac-bar-seg" style="background:#eee;"></div>
+          <div class="frac-bar-seg" style="background:#eee;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="example">
+      <div class="ex-label">✅ Answer:</div>
+      <p>3 > 1, so <strong>3/5 > 1/5</strong>! The orange bar is longer! 🟠</p>
+    </div>
+  </div>
+
+  <div class="card purple">
+    <h2 class="purple">🍫 Dissimilar Fractions (Different Denominator)</h2>
+    <p><strong>Dissimilar fractions</strong> have <span class="hl pink">different denominators</span>!</p>
+    <div class="note purple">
+      👉 Use drawings or fraction bars to compare! Bigger piece of the same whole = bigger fraction.
+    </div>
+    <div class="frac-bar-container">
+      <p style="font-weight:700;margin-bottom:10px;">Which is bigger: 1/2 or 1/4?</p>
+      <div class="frac-bar-row">
+        <div class="frac-bar-label">1/2</div>
+        <div class="frac-bar">
+          <div class="frac-bar-seg" style="background:#FF6B9D;"></div>
+          <div class="frac-bar-seg" style="background:#eee;"></div>
+        </div>
+      </div>
+      <div class="frac-bar-row">
+        <div class="frac-bar-label">1/4</div>
+        <div class="frac-bar">
+          <div class="frac-bar-seg" style="background:#4ECDC4;"></div>
+          <div class="frac-bar-seg" style="background:#eee;"></div>
+          <div class="frac-bar-seg" style="background:#eee;"></div>
+          <div class="frac-bar-seg" style="background:#eee;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="example">
+      <div class="ex-label">✅ Answer:</div>
+      <p><strong>1/2 > 1/4</strong> because 1/2 takes up more space! Pink bar is longer! 🩷</p>
+    </div>
+  </div>
+
+  <div class="card purple">
+    <h2 class="purple">📋 Ordering Fractions</h2>
+    <p>We can also put fractions in order from <strong>smallest to biggest</strong> (Ascending) or <strong>biggest to smallest</strong> (Descending)!</p>
+    <div class="example">
+      <div class="ex-label">📖 Example — Order from smallest to biggest:</div>
+      <p>3/8 &nbsp; 1/8 &nbsp; 5/8 &nbsp; 2/8</p>
+      <p style="margin-top:8px;">Same denominator → compare numerators: 1 &lt; 2 &lt; 3 &lt; 5</p>
+      <p><strong>Answer: 1/8, 2/8, 3/8, 5/8 🎉</strong></p>
+    </div>
+    <div class="remember">
+      <div class="emoji">🐜🐝🦋🦅</div>
+      <p>Smallest → Biggest = <span class="hl yellow">Ascending Order</span> &nbsp;|&nbsp; Biggest → Smallest = <span class="hl pink">Descending Order</span></p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==============================
+     MINI QUIZ
+     ============================== -->
+<div style="margin-top:30px;">
+  <div style="text-align:center;margin-bottom:10px;">
+    <button class="tab-btn" style="background:var(--pink);font-size:1.1rem;padding:12px 30px;" onclick="showQuiz()">
+      🎯 Take the Mini Quiz!
+    </button>
+  </div>
+
+  <div id="quizSection" style="display:none;">
+    <div class="score-bar">
+      <span class="score-label">⭐ Score:</span>
+      <span class="score-num" id="scoreDisplay">0 / 6</span>
+      <button class="reset-btn" onclick="resetQuiz()">🔄 Reset</button>
+    </div>
+
+    <!-- Q1 -->
+    <div class="quiz-card" id="q1">
+      <div class="quiz-q">1️⃣ Lily has 5 stickers. She gave 2 to her friend, then got 4 more. How many stickers does she have now?</div>
+      <div class="choices">
+        <button class="choice-btn" onclick="check(this,'q1',false)">5</button>
+        <button class="choice-btn" onclick="check(this,'q1',true)">7</button>
+        <button class="choice-btn" onclick="check(this,'q1',false)">9</button>
+        <button class="choice-btn" onclick="check(this,'q1',false)">3</button>
+      </div>
+      <div class="feedback" id="fb1"></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-card" id="q2">
+      <div class="quiz-q">2️⃣ In the fraction 3/8 — what is the denominator?</div>
+      <div class="choices">
+        <button class="choice-btn" onclick="check(this,'q2',false)">3</button>
+        <button class="choice-btn" onclick="check(this,'q2',true)">8</button>
+        <button class="choice-btn" onclick="check(this,'q2',false)">38</button>
+        <button class="choice-btn" onclick="check(this,'q2',false)">0</button>
+      </div>
+      <div class="feedback" id="fb2"></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-card" id="q3">
+      <div class="quiz-q">3️⃣ There are 10 flowers. 4 are red. What fraction of the flowers are red?</div>
+      <div class="choices">
+        <button class="choice-btn" onclick="check(this,'q3',false)">1/4</button>
+        <button class="choice-btn" onclick="check(this,'q3',false)">4/6</button>
+        <button class="choice-btn" onclick="check(this,'q3',true)">4/10</button>
+        <button class="choice-btn" onclick="check(this,'q3',false)">10/4</button>
+      </div>
+      <div class="feedback" id="fb3"></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-card" id="q4">
+      <div class="quiz-q">4️⃣ Which fraction is BIGGER: 2/6 or 5/6?</div>
+      <div class="choices">
+        <button class="choice-btn" onclick="check(this,'q4',false)">2/6</button>
+        <button class="choice-btn" onclick="check(this,'q4',true)">5/6</button>
+        <button class="choice-btn" onclick="check(this,'q4',false)">They are equal</button>
+      </div>
+      <div class="feedback" id="fb4"></div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-card" id="q5">
+      <div class="quiz-q">5️⃣ What is 1/2 of 10?</div>
+      <div class="choices">
+        <button class="choice-btn" onclick="check(this,'q5',false)">2</button>
+        <button class="choice-btn" onclick="check(this,'q5',false)">4</button>
+        <button class="choice-btn" onclick="check(this,'q5',true)">5</button>
+        <button class="choice-btn" onclick="check(this,'q5',false)">10</button>
+      </div>
+      <div class="feedback" id="fb5"></div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="quiz-card" id="q6">
+      <div class="quiz-q">6️⃣ Order these fractions from SMALLEST to BIGGEST: 3/10, 7/10, 1/10, 5/10</div>
+      <div class="choices">
+        <button class="choice-btn" onclick="check(this,'q6',false)">7/10, 5/10, 3/10, 1/10</button>
+        <button class="choice-btn" onclick="check(this,'q6',true)">1/10, 3/10, 5/10, 7/10</button>
+        <button class="choice-btn" onclick="check(this,'q6',false)">3/10, 1/10, 7/10, 5/10</button>
+      </div>
+      <div class="feedback" id="fb6"></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  ✨ Study hard and do your best! You've got this! 🌈 &nbsp;|&nbsp; Long Test: March 24, 2026
+</div>
+
+<script>
+  let score = 0;
+  const answered = {};
+
+  function showTab(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function showQuiz() {
+    const qs = document.getElementById('quizSection');
+    qs.style.display = qs.style.display === 'none' ? 'block' : 'none';
+    qs.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function check(btn, qid, correct) {
+    if (answered[qid]) return;
+    answered[qid] = true;
+
+    const fb = document.getElementById('fb' + qid.replace('q',''));
+    const allBtns = btn.closest('.choices').querySelectorAll('.choice-btn');
+    allBtns.forEach(b => b.disabled = true);
+
+    if (correct) {
+      btn.classList.add('correct');
+      fb.textContent = '🎉 Correct! Great job!';
+      fb.className = 'feedback correct show';
+      score++;
+    } else {
+      btn.classList.add('wrong');
+      fb.textContent = '❌ Not quite! Try reviewing the notes and try again next time!';
+      fb.className = 'feedback wrong show';
+    }
+    document.getElementById('scoreDisplay').textContent = score + ' / 6';
+  }
+
+  function resetQuiz() {
+    score = 0;
+    Object.keys(answered).forEach(k => delete answered[k]);
+    document.getElementById('scoreDisplay').textContent = '0 / 6';
+    document.querySelectorAll('.choice-btn').forEach(b => {
+      b.classList.remove('correct','wrong');
+      b.disabled = false;
+    });
+    document.querySelectorAll('.feedback').forEach(f => {
+      f.className = 'feedback';
+      f.textContent = '';
+    });
+  }
+</script>
+
+</body>
+</html>

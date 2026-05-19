@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Decimals Practice Sheet – Grade 4</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #e0f4ff;
+    --blue: #3b9edd;
+    --deep: #1a5fa8;
+    --yellow: #ffe066;
+    --orange: #ff8c42;
+    --green: #52c97e;
+    --pink: #ff6b9d;
+    --purple: #a678f5;
+    --white: #ffffff;
+    --dark: #1e2a3a;
+    --gray: #6b7a8d;
+    --light: #f5faff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--sky);
+    background-image:
+      radial-gradient(circle at 10% 15%, #c8e9ff 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, #d8f0ff 0%, transparent 40%);
+    min-height: 100vh;
+    padding: 20px;
+    color: var(--dark);
+  }
+
+  /* FLOATING STARS */
+  .stars {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .star {
+    position: absolute;
+    font-size: 1.4rem;
+    animation: floatStar 6s ease-in-out infinite;
+    opacity: 0.18;
+  }
+  .star:nth-child(1) { left: 5%; top: 10%; animation-delay: 0s; }
+  .star:nth-child(2) { left: 85%; top: 8%; animation-delay: 1s; }
+  .star:nth-child(3) { left: 15%; top: 80%; animation-delay: 2s; }
+  .star:nth-child(4) { left: 75%; top: 75%; animation-delay: 3s; }
+  .star:nth-child(5) { left: 50%; top: 5%; animation-delay: 0.5s; }
+  .star:nth-child(6) { left: 92%; top: 45%; animation-delay: 1.5s; }
+  @keyframes floatStar {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-18px) rotate(20deg); }
+  }
+
+  .wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    background: linear-gradient(135deg, var(--deep) 0%, var(--blue) 100%);
+    border-radius: 28px;
+    padding: 28px 24px 22px;
+    margin-bottom: 24px;
+    box-shadow: 0 8px 32px rgba(59,158,221,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 140px; height: 140px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 50%;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -20px;
+    width: 160px; height: 160px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+  }
+  .mascot { font-size: 3.2rem; margin-bottom: 6px; display: block; animation: bounce 2s ease-in-out infinite; }
+  @keyframes bounce {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.4rem;
+    color: var(--yellow);
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+    line-height: 1.1;
+  }
+  .header p {
+    color: rgba(255,255,255,0.85);
+    font-size: 1rem;
+    margin-top: 6px;
+    font-weight: 600;
+  }
+  .name-row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .name-field {
+    background: rgba(255,255,255,0.15);
+    border: 2px dashed rgba(255,255,255,0.5);
+    border-radius: 12px;
+    padding: 6px 16px;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-align: center;
+    min-width: 180px;
+  }
+  .name-field input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    width: 140px;
+    text-align: center;
+  }
+  .name-field input::placeholder { color: rgba(255,255,255,0.55); }
+
+  /* SCORE BAR */
+  .score-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border-radius: 18px;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .score-display {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    color: var(--deep);
+  }
+  .score-display span { color: var(--orange); font-size: 1.6rem; }
+  .btn {
+    padding: 10px 22px;
+    border: none;
+    border-radius: 14px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .btn-check {
+    background: linear-gradient(135deg, var(--green), #38b869);
+    color: white;
+    box-shadow: 0 4px 12px rgba(82,201,126,0.4);
+  }
+  .btn-check:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(82,201,126,0.5); }
+  .btn-reset {
+    background: linear-gradient(135deg, var(--orange), #e87320);
+    color: white;
+    box-shadow: 0 4px 12px rgba(255,140,66,0.4);
+  }
+  .btn-reset:hover { transform: translateY(-2px); }
+  .progress-wrap {
+    width: 100%;
+    background: #e8eef4;
+    border-radius: 20px;
+    height: 10px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--blue), var(--purple));
+    border-radius: 20px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+
+  /* SECTION */
+  .section {
+    background: white;
+    border-radius: 24px;
+    padding: 22px 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    border-top: 5px solid var(--blue);
+  }
+  .section.yellow-top { border-top-color: var(--yellow); }
+  .section.green-top  { border-top-color: var(--green);  }
+  .section.pink-top   { border-top-color: var(--pink);   }
+  .section.purple-top { border-top-color: var(--purple); }
+  .section.orange-top { border-top-color: var(--orange); }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .section-title h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    color: var(--deep);
+  }
+  .badge {
+    background: var(--sky);
+    border-radius: 20px;
+    padding: 2px 12px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--blue);
+    border: 2px solid var(--blue);
+    white-space: nowrap;
+  }
+  .section-note {
+    font-size: 0.88rem;
+    color: var(--gray);
+    margin-bottom: 14px;
+    background: #f0f8ff;
+    border-radius: 10px;
+    padding: 8px 12px;
+    border-left: 4px solid var(--blue);
+    font-weight: 600;
+  }
+  .section-note.yellow { border-left-color: var(--orange); background: #fffbf0; }
+  .section-note.green  { border-left-color: var(--green);  background: #f0fff6; }
+  .section-note.pink   { border-left-color: var(--pink);   background: #fff0f6; }
+  .section-note.purple { border-left-color: var(--purple); background: #f8f0ff; }
+  .section-note.orange { border-left-color: var(--orange); background: #fff5ee; }
+
+  /* GRID */
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+
+  /* ITEM CARD */
+  .item {
+    background: var(--light);
+    border-radius: 16px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .item:hover { border-color: #c8e0f4; }
+  .item-num {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .item-problem {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.15rem;
+    color: var(--dark);
+    line-height: 1.3;
+  }
+  .item-input-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .ans-label {
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: var(--gray);
+    white-space: nowrap;
+  }
+  .ans-box {
+    border: 2px solid #c8dff0;
+    border-radius: 10px;
+    padding: 5px 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    width: 100%;
+    outline: none;
+    background: white;
+    color: var(--dark);
+    transition: border-color 0.2s;
+  }
+  .ans-box:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,158,221,0.15); }
+  .ans-box.correct { border-color: var(--green); background: #efffed; color: #1a8a4a; }
+  .ans-box.wrong   { border-color: var(--pink);  background: #fff0f4; color: #c0183d; }
+
+  /* Two-row estimate item */
+  .est-item {
+    background: var(--light);
+    border-radius: 16px;
+    padding: 12px 14px;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .est-item:hover { border-color: #c8e0f4; }
+  .est-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+  .est-problem {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.05rem;
+    color: var(--dark);
+    flex: 1;
+    min-width: 120px;
+  }
+  .est-inputs { display: flex; flex-direction: column; gap: 5px; }
+  .est-line { display: flex; align-items: center; gap: 6px; }
+  .est-label {
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--gray);
+    width: 80px;
+    white-space: nowrap;
+  }
+
+  /* REWARD */
+  .reward-box {
+    display: none;
+    text-align: center;
+    background: linear-gradient(135deg, #fff8dc, #ffe9a0);
+    border: 3px solid var(--yellow);
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 20px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.5rem;
+    color: var(--deep);
+    box-shadow: 0 6px 20px rgba(255,200,0,0.25);
+    animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  @keyframes popIn {
+    from { transform: scale(0.7); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
+  .reward-box p { font-size: 0.95rem; color: var(--gray); font-family: 'Nunito', sans-serif; margin-top: 4px; font-weight: 700; }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.8rem; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 420px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stars">
+  <div class="star">⭐</div><div class="star">🌟</div>
+  <div class="star">✨</div><div class="star">💫</div>
+  <div class="star">⭐</div><div class="star">🌟</div>
+</div>
+
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <div class="header">
+    <span class="mascot">🐱</span>
+    <h1>Decimals Practice Sheet</h1>
+    <p>Grade 4 · Addition & Subtraction of Decimals</p>
+    <div class="name-row">
+      <div class="name-field">Name: <input id="student-name" type="text" placeholder="Your name here"></div>
+      <div class="name-field">Date: <input id="student-date" type="text" placeholder="________"></div>
+      <div class="name-field">Score: <input id="student-score" type="text" placeholder="___/50" readonly style="width:80px;"></div>
+    </div>
+  </div>
+
+  <!-- SCORE BAR -->
+  <div class="score-bar">
+    <div class="score-display">Score: <span id="live-score">0</span> / <span id="total-q">50</span> ⭐</div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn btn-check" onclick="checkAll()">✅ Check Answers</button>
+      <button class="btn btn-reset" onclick="resetAll()">🔄 Try Again</button>
+    </div>
+    <div class="progress-wrap" style="width:100%;">
+      <div class="progress-bar" id="prog-bar"></div>
+    </div>
+  </div>
+
+  <!-- SECTION A: ROUNDING TO ESTIMATE -->
+  <div class="section yellow-top">
+    <div class="section-title">
+      <h2>🔢 Part A: Round to Estimate</h2>
+      <span class="badge">10 items</span>
+    </div>
+    <div class="section-note yellow">
+      💡 Round each decimal to the <strong>nearest whole number</strong>, then add or subtract to get your estimate.
+      <br>Example: 3.7 + 2.1 → Round → 4 + 2 = <strong>6</strong>
+    </div>
+    <div class="grid-2" id="section-a"></div>
+  </div>
+
+  <!-- SECTION B: ESTIMATE THEN SOLVE -->
+  <div class="section green-top">
+    <div class="section-title">
+      <h2>🧮 Part B: Estimate, Then Solve!</h2>
+      <span class="badge">10 items</span>
+    </div>
+    <div class="section-note green">
+      💡 First write your <strong>estimate</strong> (rounded), then find the <strong>exact answer</strong>!
+    </div>
+    <div class="grid-3" id="section-b"></div>
+  </div>
+
+  <!-- SECTION C: ADD DECIMALS -->
+  <div class="section">
+    <div class="section-title">
+      <h2>➕ Part C: Add the Decimals</h2>
+      <span class="badge">10 items</span>
+    </div>
+    <div class="section-note">
+      💡 Line up the decimal points, then add carefully!
+    </div>
+    <div class="grid-2" id="section-c"></div>
+  </div>
+
+  <!-- SECTION D: SUBTRACT DECIMALS -->
+  <div class="section pink-top">
+    <div class="section-title">
+      <h2>➖ Part D: Subtract the Decimals</h2>
+      <span class="badge">10 items</span>
+    </div>
+    <div class="section-note pink">
+      💡 Remember to regroup (borrow) when needed! Keep the decimal point in place.
+    </div>
+    <div class="grid-2" id="section-d"></div>
+  </div>
+
+  <!-- SECTION E: MIXED OPERATIONS -->
+  <div class="section purple-top">
+    <div class="section-title">
+      <h2>🌈 Part E: Add or Subtract?</h2>
+      <span class="badge">10 items</span>
+    </div>
+    <div class="section-note purple">
+      💡 Mixed practice — some are addition, some are subtraction. Read the sign carefully!
+    </div>
+    <div class="grid-2" id="section-e"></div>
+  </div>
+
+  <!-- REWARD BOX -->
+  <div class="reward-box" id="reward-box">
+    <div id="reward-emoji">🏆</div>
+    <div id="reward-msg">Amazing work!</div>
+    <p id="reward-sub"></p>
+  </div>
+
+</div>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+const sectionA = [
+  { prob: "2.3 + 4.6",   est: 7,  key: "secA" },
+  { prob: "5.8 + 1.2",   est: 7,  key: "secA" },
+  { prob: "7.4 + 3.9",   est: 11, key: "secA" },
+  { prob: "9.6 – 4.3",   est: 5,  key: "secA" },
+  { prob: "8.1 – 2.7",   est: 5,  key: "secA" },
+  { prob: "6.5 + 2.4",   est: 9,  key: "secA" },
+  { prob: "11.8 – 5.2",  est: 7,  key: "secA" },
+  { prob: "3.6 + 7.1",   est: 11, key: "secA" },
+  { prob: "14.4 – 6.8",  est: 7,  key: "secA" },
+  { prob: "12.3 + 4.5",  est: 17, key: "secA" },
+];
+
+const sectionB = [
+  { prob: "3.45 + 2.51",  est: 6,  exact: 5.96 },
+  { prob: "7.82 + 1.14",  est: 9,  exact: 8.96 },
+  { prob: "6.73 – 3.21",  est: 4,  exact: 3.52 },
+  { prob: "9.60 – 4.25",  est: 5,  exact: 5.35 },
+  { prob: "4.38 + 5.47",  est: 9,  exact: 9.85 },
+  { prob: "8.90 – 2.65",  est: 6,  exact: 6.25 },
+  { prob: "5.12 + 3.74",  est: 9,  exact: 8.86 },
+  { prob: "10.55 – 4.30", est: 6,  exact: 6.25 },
+  { prob: "6.08 + 2.91",  est: 9,  exact: 8.99 },
+  { prob: "11.70 – 5.45", est: 6,  exact: 6.25 },
+];
+
+const sectionC = [
+  { prob: "1.2 + 3.5",    ans: 4.7  },
+  { prob: "4.56 + 2.31",  ans: 6.87 },
+  { prob: "7.08 + 1.42",  ans: 8.5  },
+  { prob: "3.75 + 4.25",  ans: 8.0  },
+  { prob: "5.60 + 2.14",  ans: 7.74 },
+  { prob: "9.07 + 0.93",  ans: 10.0 },
+  { prob: "2.48 + 6.52",  ans: 9.0  },
+  { prob: "11.25 + 3.50", ans: 14.75},
+  { prob: "6.33 + 4.67",  ans: 11.0 },
+  { prob: "8.15 + 1.75",  ans: 9.9  },
+];
+
+const sectionD = [
+  { prob: "9.8 – 3.5",    ans: 6.3  },
+  { prob: "7.45 – 2.30",  ans: 5.15 },
+  { prob: "6.00 – 1.75",  ans: 4.25 },
+  { prob: "10.5 – 4.8",   ans: 5.7  },
+  { prob: "8.30 – 3.55",  ans: 4.75 },
+  { prob: "12.00 – 5.25", ans: 6.75 },
+  { prob: "5.42 – 2.18",  ans: 3.24 },
+  { prob: "9.10 – 4.65",  ans: 4.45 },
+  { prob: "15.50 – 8.25", ans: 7.25 },
+  { prob: "20.00 – 12.75",ans: 7.25 },
+];
+
+const sectionE = [
+  { prob: "4.5 + 3.2",    ans: 7.7  },
+  { prob: "9.60 – 4.35",  ans: 5.25 },
+  { prob: "2.78 + 5.12",  ans: 7.9  },
+  { prob: "13.00 – 6.50", ans: 6.5  },
+  { prob: "7.25 + 2.75",  ans: 10.0 },
+  { prob: "11.80 – 4.95", ans: 6.85 },
+  { prob: "3.06 + 8.14",  ans: 11.2 },
+  { prob: "16.00 – 9.45", ans: 6.55 },
+  { prob: "5.88 + 4.12",  ans: 10.0 },
+  { prob: "18.30 – 7.80", ans: 10.5 },
+];
+
+// ─── RENDER ──────────────────────────────────────────────────────────────────
+
+function round(n, d=2) {
+  return Math.round(n * Math.pow(10,d)) / Math.pow(10,d);
+}
+
+function buildA() {
+  const el = document.getElementById('section-a');
+  sectionA.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = `
+      <div class="item-num">A${i+1}</div>
+      <div class="item-problem">${item.prob}</div>
+      <div class="item-input-row">
+        <span class="ans-label">Estimate:</span>
+        <input class="ans-box" type="number" id="a${i}" placeholder="≈ ?">
+      </div>`;
+    el.appendChild(div);
+  });
+}
+
+function buildB() {
+  const el = document.getElementById('section-b');
+  sectionB.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'est-item';
+    div.innerHTML = `
+      <div class="item-num" style="margin-bottom:4px">B${i+1}</div>
+      <div class="est-row">
+        <div class="est-problem">${item.prob}</div>
+        <div class="est-inputs">
+          <div class="est-line">
+            <span class="est-label">Estimate ≈</span>
+            <input class="ans-box" type="number" id="b_est${i}" placeholder="?">
+          </div>
+          <div class="est-line">
+            <span class="est-label">Exact =</span>
+            <input class="ans-box" type="number" id="b_ex${i}" placeholder="?">
+          </div>
+        </div>
+      </div>`;
+    el.appendChild(div);
+  });
+}
+
+function buildSection(id, data, prefix) {
+  const el = document.getElementById(id);
+  data.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = `
+      <div class="item-num">${prefix}${i+1}</div>
+      <div class="item-problem">${item.prob}</div>
+      <div class="item-input-row">
+        <span class="ans-label">Answer:</span>
+        <input class="ans-box" type="number" id="${prefix.toLowerCase()}${i}" step="0.01" placeholder="?">
+      </div>`;
+    el.appendChild(div);
+  });
+}
+
+buildA();
+buildB();
+buildSection('section-c', sectionC, 'C');
+buildSection('section-d', sectionD, 'D');
+buildSection('section-e', sectionE, 'E');
+
+// Count total questions
+const totalQ = sectionA.length + sectionB.length * 2 + sectionC.length + sectionD.length + sectionE.length;
+document.getElementById('total-q').textContent = totalQ;
+
+// ─── CHECK ────────────────────────────────────────────────────────────────────
+
+function near(a, b, tol=0.015) {
+  return Math.abs(a - b) < tol;
+}
+
+function checkAll() {
+  let score = 0;
+
+  // Section A
+  sectionA.forEach((item, i) => {
+    const el = document.getElementById(`a${i}`);
+    const val = parseFloat(el.value);
+    if (!isNaN(val) && near(val, item.est)) { el.classList.add('correct'); score++; }
+    else if (el.value !== '') el.classList.add('wrong');
+    el.classList.remove(near(val,item.est) ? 'wrong' : 'correct');
+    if (!isNaN(val)) {
+      if (near(val,item.est)) { el.classList.remove('wrong'); el.classList.add('correct'); }
+      else { el.classList.remove('correct'); el.classList.add('wrong'); }
+    }
+  });
+
+  // Section B - estimate
+  sectionB.forEach((item, i) => {
+    const eEl = document.getElementById(`b_est${i}`);
+    const xEl = document.getElementById(`b_ex${i}`);
+    const ev = parseFloat(eEl.value);
+    const xv = parseFloat(xEl.value);
+    if (!isNaN(ev)) {
+      if (near(ev, item.est)) { eEl.classList.add('correct'); score++; eEl.classList.remove('wrong'); }
+      else { eEl.classList.add('wrong'); eEl.classList.remove('correct'); }
+    }
+    if (!isNaN(xv)) {
+      if (near(xv, item.exact)) { xEl.classList.add('correct'); score++; xEl.classList.remove('wrong'); }
+      else { xEl.classList.add('wrong'); xEl.classList.remove('correct'); }
+    }
+  });
+
+  // Sections C, D, E
+  [
+    { data: sectionC, pfx: 'c' },
+    { data: sectionD, pfx: 'd' },
+    { data: sectionE, pfx: 'e' },
+  ].forEach(({ data, pfx }) => {
+    data.forEach((item, i) => {
+      const el = document.getElementById(`${pfx}${i}`);
+      const val = parseFloat(el.value);
+      if (!isNaN(val)) {
+        if (near(val, item.ans)) { el.classList.add('correct'); el.classList.remove('wrong'); score++; }
+        else { el.classList.add('wrong'); el.classList.remove('correct'); }
+      }
+    });
+  });
+
+  document.getElementById('live-score').textContent = score;
+  document.getElementById('student-score').value = `${score}/${totalQ}`;
+  document.getElementById('prog-bar').style.width = `${(score/totalQ)*100}%`;
+
+  // Reward
+  const pct = score / totalQ;
+  const rewEl = document.getElementById('reward-box');
+  const emoEl = document.getElementById('reward-emoji');
+  const msgEl = document.getElementById('reward-msg');
+  const subEl = document.getElementById('reward-sub');
+
+  rewEl.style.display = 'block';
+  if (pct === 1) {
+    emoEl.textContent = '🏆🎉'; msgEl.textContent = 'PERFECT SCORE! You are a Decimal Champion!';
+    subEl.textContent = `You got all ${totalQ} correct! Outstanding work! 🌟`;
+  } else if (pct >= 0.85) {
+    emoEl.textContent = '⭐😊'; msgEl.textContent = 'Excellent Job!';
+    subEl.textContent = `${score} out of ${totalQ}! Almost perfect — keep it up!`;
+  } else if (pct >= 0.70) {
+    emoEl.textContent = '👍😀'; msgEl.textContent = 'Great Work!';
+    subEl.textContent = `${score} out of ${totalQ}! You're getting really good at decimals!`;
+  } else if (pct >= 0.50) {
+    emoEl.textContent = '💪🙂'; msgEl.textContent = 'Good Try!';
+    subEl.textContent = `${score} out of ${totalQ}. Practice a little more — you can do it!`;
+  } else {
+    emoEl.textContent = '📚😊'; msgEl.textContent = 'Keep Practicing!';
+    subEl.textContent = `${score} out of ${totalQ}. Review decimals and try again — you're getting there!`;
+  }
+}
+
+function resetAll() {
+  document.querySelectorAll('.ans-box').forEach(el => {
+    el.value = '';
+    el.classList.remove('correct', 'wrong');
+  });
+  document.getElementById('live-score').textContent = '0';
+  document.getElementById('student-score').value = '';
+  document.getElementById('prog-bar').style.width = '0%';
+  document.getElementById('reward-box').style.display = 'none';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🚀 Math Word Blast!</title>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:    #07071a;
+  --panel: rgba(255,255,255,0.06);
+  --rim:   rgba(255,255,255,0.12);
+  --gold:  #FFD700;
+  --amber: #FF9500;
+  --red:   #FF3B5C;
+  --cyan:  #00E5FF;
+  --lime:  #76FF03;
+  --purple:#C77DFF;
+  --white: #FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Nunito',sans-serif;
+  background:var(--bg);
+  color:var(--white);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:100vh;
+}
+
+/* ─── STAR FIELD ─── */
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.sd{position:absolute;border-radius:50%;background:#fff;animation:tw ease-in-out infinite}
+@keyframes tw{0%,100%{opacity:.08}50%{opacity:.85}}
+
+/* ─── SCREENS ─── */
+.scr{display:none;flex-direction:column;align-items:center;justify-content:center;
+     width:100%;max-width:640px;padding:16px;position:relative;z-index:1;min-height:100vh}
+.scr.on{display:flex}
+
+/* ════ START ════ */
+#s0{gap:14px;text-align:center}
+.rocketSpin{font-size:4.5rem;animation:rSpin 3s ease-in-out infinite alternate;display:block}
+@keyframes rSpin{0%{transform:translateY(0) rotate(-15deg)}100%{transform:translateY(-14px) rotate(15deg)}}
+.bigTitle{
+  font-family:'Boogaloo',cursive;font-size:clamp(2.4rem,7vw,3.8rem);line-height:1;
+  background:linear-gradient(130deg,var(--gold),var(--amber),var(--red),var(--purple));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 18px rgba(255,180,0,.6));
+  animation:glow 2s ease-in-out infinite;
+}
+@keyframes glow{0%,100%{filter:drop-shadow(0 0 12px rgba(255,180,0,.4))}50%{filter:drop-shadow(0 0 30px rgba(255,180,0,.9))}}
+.sub{font-size:.95rem;color:rgba(255,255,255,.6);font-weight:700;letter-spacing:.5px}
+
+.info-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;
+}
+.info-cell{
+  background:var(--panel);border:1.5px solid var(--rim);border-radius:14px;
+  padding:12px;font-size:.88rem;font-weight:800;line-height:1.6;
+  backdrop-filter:blur(8px);
+}
+.info-cell .ic-head{font-size:1.1rem;color:var(--gold);margin-bottom:4px}
+
+.playBtn{
+  padding:16px 50px;
+  background:linear-gradient(135deg,#FF3B5C,#FF9500);
+  border:none;border-radius:50px;
+  font-family:'Boogaloo',cursive;font-size:1.7rem;color:#fff;cursor:pointer;
+  box-shadow:0 0 30px rgba(255,59,92,.5),0 7px 0 rgba(160,20,40,.5);
+  transition:all .18s;animation:btnBob 2s ease-in-out infinite;
+}
+@keyframes btnBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.playBtn:hover{transform:scale(1.07)!important}
+.hsBadge{font-size:.85rem;color:var(--cyan);font-weight:900;letter-spacing:1px}
+
+/* ════ GAME ════ */
+#s1{justify-content:flex-start;padding:10px 14px;gap:0}
+
+/* HUD */
+.hud{
+  width:100%;display:flex;justify-content:space-between;align-items:center;
+  padding:6px 4px 4px;gap:8px;
+}
+.hv{display:flex;flex-direction:column;align-items:center;gap:1px}
+.hl{font-size:.62rem;color:rgba(255,255,255,.4);font-weight:900;letter-spacing:1px;text-transform:uppercase}
+.hd{font-family:'Boogaloo',cursive;font-size:1.55rem;color:var(--gold);text-shadow:0 0 12px var(--gold)}
+.lives{display:flex;gap:3px;font-size:1.1rem}
+
+/* TIMER */
+.tWrap{width:100%;padding:3px 0 5px}
+.tBg{height:10px;background:rgba(255,255,255,.08);border-radius:8px;overflow:hidden}
+.tFill{height:100%;border-radius:8px;transition:width .12s linear,background .3s;
+       background:linear-gradient(90deg,var(--lime),var(--cyan))}
+
+/* CATEGORY BANNER */
+.catBanner{
+  width:100%;display:flex;align-items:center;gap:8px;
+  padding:7px 14px;border-radius:12px;margin-bottom:6px;
+  font-family:'Boogaloo',cursive;font-size:1rem;
+  background:var(--panel);border:1.5px solid var(--rim);
+  backdrop-filter:blur(6px);
+}
+.catDot{width:10px;height:10px;border-radius:50%}
+
+/* QUESTION CARD */
+.qCard{
+  width:100%;background:var(--panel);border:2px solid var(--rim);
+  border-radius:20px;padding:14px 16px;backdrop-filter:blur(10px);
+  margin-bottom:8px;position:relative;overflow:hidden;
+}
+.qCard::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--red),var(--amber),var(--lime),var(--cyan),var(--purple))}
+.qLabel{
+  font-size:.72rem;font-weight:900;letter-spacing:1.5px;
+  color:rgba(255,255,255,.5);margin-bottom:6px;text-transform:uppercase;
+}
+.qText{font-size:1.05rem;font-weight:800;line-height:1.55;color:#fff}
+.qText strong{color:var(--gold)}
+.qText em{color:var(--cyan);font-style:normal}
+
+/* CHOICES */
+.choiceGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin-bottom:6px}
+.cBtn{
+  background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.18);
+  border-radius:14px;padding:12px 8px;
+  font-family:'Nunito',sans-serif;font-size:.92rem;font-weight:800;
+  color:#fff;cursor:pointer;text-align:center;
+  transition:all .15s cubic-bezier(.34,1.56,.64,1);
+  line-height:1.3;
+  box-shadow:0 3px 0 rgba(0,0,0,.4);
+}
+.cBtn:hover{transform:translateY(-4px) scale(1.04);border-color:var(--cyan);
+            background:rgba(0,229,255,.1);box-shadow:0 7px 0 rgba(0,0,0,.4),0 0 18px rgba(0,229,255,.25)}
+.cBtn.hit {border-color:var(--lime);background:rgba(118,255,3,.14);
+           box-shadow:0 0 22px rgba(118,255,3,.4);animation:pop .45s ease}
+.cBtn.miss{border-color:var(--red);background:rgba(255,59,92,.14);animation:shk .38s ease}
+@keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.12)}100%{transform:scale(1)}}
+@keyframes shk{0%,100%{transform:translateX(0)}25%{transform:translateX(-9px)}75%{transform:translateX(9px)}}
+
+/* FILL */
+.fillRow{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  flex-wrap:wrap;font-size:1.1rem;font-weight:800;margin-bottom:8px;
+}
+.fillIn{
+  width:70px;height:48px;
+  background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.25);
+  border-radius:12px;font-family:'Boogaloo',cursive;font-size:1.45rem;
+  color:#fff;text-align:center;outline:none;transition:all .2s;
+}
+.fillIn:focus{border-color:var(--cyan);box-shadow:0 0 14px rgba(0,229,255,.35)}
+.fillIn.hit {border-color:var(--lime);box-shadow:0 0 14px rgba(118,255,3,.35)}
+.fillIn.miss{border-color:var(--red); box-shadow:0 0 14px rgba(255,59,92,.35)}
+
+.checkBtn{
+  width:100%;padding:12px;
+  background:linear-gradient(135deg,var(--cyan),#0080ff);
+  border:none;border-radius:13px;
+  font-family:'Boogaloo',cursive;font-size:1.25rem;color:var(--bg);cursor:pointer;
+  box-shadow:0 5px 0 rgba(0,60,160,.5);transition:all .18s;margin-bottom:6px;
+}
+.checkBtn:hover{transform:translateY(-2px);box-shadow:0 8px 0 rgba(0,60,160,.5)}
+
+/* HINT */
+.hintRow{text-align:center}
+.hintBtn{
+  background:none;border:1.5px dashed rgba(199,125,255,.4);color:rgba(199,125,255,.7);
+  padding:5px 14px;border-radius:20px;font-family:'Nunito',sans-serif;
+  font-size:.8rem;font-weight:800;cursor:pointer;transition:all .18s;
+}
+.hintBtn:hover{background:rgba(199,125,255,.1);border-color:var(--purple);color:var(--purple)}
+.hintBox{
+  display:none;background:rgba(199,125,255,.08);border:1.5px solid rgba(199,125,255,.3);
+  border-radius:12px;padding:9px 14px;font-size:.88rem;font-weight:700;
+  color:rgba(255,255,255,.85);margin-top:6px;animation:fdIn .25s ease;line-height:1.5;
+}
+@keyframes fdIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+
+/* TOAST */
+.toast{
+  position:fixed;top:72px;left:50%;transform:translateX(-50%) scale(0);
+  background:rgba(0,0,0,.88);border-radius:50px;padding:11px 26px;
+  font-family:'Boogaloo',cursive;font-size:1.35rem;
+  z-index:400;pointer-events:none;white-space:nowrap;backdrop-filter:blur(12px);
+  border:2px solid rgba(255,255,255,.15);transition:transform .28s cubic-bezier(.34,1.56,.64,1);
+}
+.toast.on{transform:translateX(-50%) scale(1)}
+.toast.g{border-color:var(--lime);color:var(--lime)}
+.toast.r{border-color:var(--red);color:var(--red)}
+
+/* COMBO */
+.combo{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);
+  font-family:'Boogaloo',cursive;font-size:2.8rem;
+  color:var(--gold);text-shadow:0 0 30px var(--gold);
+  z-index:500;pointer-events:none;animation:cPop .85s ease forwards;
+}
+@keyframes cPop{0%{transform:translate(-50%,-50%) scale(0);opacity:1}
+                50%{transform:translate(-50%,-50%) scale(1.25);opacity:1}
+                100%{transform:translate(-50%,-65%) scale(1);opacity:0}}
+
+/* LEVEL FLASH */
+.lvlFlash{
+  position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+  font-family:'Boogaloo',cursive;font-size:3.2rem;
+  color:var(--gold);text-shadow:0 0 40px var(--gold);
+  background:rgba(255,215,0,.06);animation:lvFl 1.1s ease forwards;
+}
+@keyframes lvFl{0%{opacity:0;transform:scale(.4)}30%{opacity:1;transform:scale(1.05)}70%{opacity:1}100%{opacity:0;transform:scale(1.2)}}
+
+/* CONFETTI */
+.conf{position:fixed;pointer-events:none;z-index:999;border-radius:3px;animation:cfD linear forwards}
+@keyframes cfD{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(105vh) rotate(800deg);opacity:0}}
+
+/* ════ END ════ */
+#s2{gap:14px;text-align:center}
+.trophy{font-size:4.5rem;animation:tBnc 1s ease infinite alternate}
+@keyframes tBnc{from{transform:translateY(0) rotate(-7deg)}to{transform:translateY(-12px) rotate(7deg)}}
+.endTitle{font-family:'Boogaloo',cursive;font-size:2.6rem;
+          background:linear-gradient(135deg,var(--gold),var(--amber));
+          -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.endScore{font-family:'Boogaloo',cursive;font-size:4.5rem;color:var(--cyan);
+          text-shadow:0 0 30px var(--cyan);display:block}
+.endStars{font-size:2.2rem;letter-spacing:5px}
+.endMsg{font-size:1rem;font-weight:700;color:rgba(255,255,255,.75);max-width:340px;line-height:1.55}
+.endBtns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.replayBtn{
+  padding:14px 36px;
+  background:linear-gradient(135deg,var(--lime),#3a9900);
+  border:none;border-radius:50px;font-family:'Boogaloo',cursive;font-size:1.35rem;
+  color:var(--bg);cursor:pointer;
+  box-shadow:0 0 22px rgba(118,255,3,.4),0 5px 0 rgba(0,80,0,.4);transition:all .18s;
+}
+.replayBtn:hover{transform:scale(1.06) translateY(-3px)}
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+<div class="toast" id="toast"></div>
+
+<!-- ════ START SCREEN ════ -->
+<div class="scr on" id="s0">
+  <span class="rocketSpin">🚀</span>
+  <h1 class="bigTitle">Math Word<br>Blast!</h1>
+  <p class="sub">⭐ Keywords + Word Problems · Grade 2 ⭐</p>
+
+  <div class="info-grid">
+    <div class="info-cell">
+      <div class="ic-head">➕ Addition</div>
+      <em style="color:#76FF03">sum · total · more · in all · added to · increased by</em>
+    </div>
+    <div class="info-cell">
+      <div class="ic-head">➖ Subtraction</div>
+      <em style="color:#00E5FF">are left · fewer · remain · difference · less · are not</em>
+    </div>
+    <div class="info-cell">
+      <div class="ic-head">✖️ Multiplication</div>
+      <em style="color:#FFD700">times · each · every · groups of · product · per</em>
+    </div>
+    <div class="info-cell">
+      <div class="ic-head">➗ Division</div>
+      <em style="color:#C77DFF">half · in each · separate · shared equally · split · divided</em>
+    </div>
+  </div>
+
+  <button class="playBtn" onclick="startGame()">🚀 BLAST OFF!</button>
+  <p class="hsBadge" id="hsDisplay">🏆 BEST: 0 pts</p>
+</div>
+
+<!-- ════ GAME SCREEN ════ -->
+<div class="scr" id="s1">
+
+  <div class="hud">
+    <div class="hv"><span class="hl">SCORE</span><span class="hd" id="hScore">0</span></div>
+    <div class="hv"><span class="hl">ROUND</span><span class="hd" id="hRound">1/12</span></div>
+    <div class="hv"><span class="hl">LIVES</span><div class="lives" id="hLives">❤️❤️❤️</div></div>
+    <div class="hv"><span class="hl">STREAK</span><span class="hd" id="hStreak">0</span></div>
+  </div>
+
+  <div class="tWrap"><div class="tBg"><div class="tFill" id="tFill" style="width:100%"></div></div></div>
+
+  <div class="catBanner" id="catBanner">
+    <div class="catDot" id="catDot"></div>
+    <span id="catLabel">Loading…</span>
+  </div>
+
+  <div class="qCard">
+    <div class="qLabel" id="qLabel">QUESTION</div>
+    <div class="qText"  id="qText"></div>
+  </div>
+
+  <div id="ansArea"></div>
+
+  <div id="checkWrap"></div>
+
+  <div class="hintRow">
+    <button class="hintBtn" id="hintBtn" onclick="toggleHint()">💡 Hint (−15 pts)</button>
+    <div class="hintBox" id="hintBox"></div>
+  </div>
+</div>
+
+<!-- ════ END SCREEN ════ -->
+<div class="scr" id="s2">
+  <div class="trophy" id="endTrophy">🏆</div>
+  <h2 class="endTitle" id="endTitle">Great Job!</h2>
+  <span class="endScore" id="endScore">0</span>
+  <div class="endStars" id="endStars">⭐⭐⭐</div>
+  <p class="endMsg" id="endMsg"></p>
+  <div class="endBtns">
+    <button class="replayBtn" onclick="resetGame()">🔄 Play Again!</button>
+  </div>
+</div>
+
+<script>
+/* ── STAR FIELD ── */
+const sf=document.getElementById('stars');
+for(let i=0;i<90;i++){
+  const d=document.createElement('div');d.className='sd';
+  const s=Math.random()*2.5+.5;
+  d.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${2+Math.random()*5}s;animation-delay:${Math.random()*5}s`;
+  sf.appendChild(d);
+}
+
+/* ── CATEGORY CONFIG ── */
+const CAT={
+  addition:    {label:'➕ Addition Keywords',    color:'#76FF03', bg:'rgba(118,255,3,.08)'},
+  subtraction: {label:'➖ Subtraction Keywords', color:'#00E5FF', bg:'rgba(0,229,255,.08)'},
+  multiply:    {label:'✖️ Multiplication Keywords', color:'#FFD700', bg:'rgba(255,215,0,.08)'},
+  division:    {label:'➗ Division Keywords',    color:'#C77DFF', bg:'rgba(199,125,255,.08)'},
+  wordproblem: {label:'📖 Word Problem Challenge', color:'#FF9500', bg:'rgba(255,149,0,.08)'},
+};
+
+/* ── ALL QUESTIONS ── */
+const QUESTIONS=[
+
+  /* ── ADDITION KEYWORDS ── */
+  {cat:'addition',
+   label:'KEYWORD HUNT',
+   q:'Which word tells you to <strong>ADD</strong>? 🔍',
+   type:'choice',
+   choices:[
+     {t:'📦 fewer',c:false},{t:'⬆️ sum',c:true},
+     {t:'🔪 separate',c:false},{t:'➖ remain',c:false}],
+   pts:100,hint:'When we find the sum, we put numbers together!'},
+
+  {cat:'addition',
+   label:'KEYWORD HUNT',
+   q:'Maria has 12 stickers. She gets 9 <em>more</em>. The word "more" means we should…',
+   type:'choice',
+   choices:[
+     {t:'➕ Add',c:true},{t:'➖ Subtract',c:false},
+     {t:'✖️ Multiply',c:false},{t:'➗ Divide',c:false}],
+   pts:100,hint:'"More" means we are putting a bigger amount together!'},
+
+  {cat:'addition',
+   label:'SOLVE IT!',
+   q:'There are 36 apples and 48 more apples are bought. <strong>In all</strong>, how many apples are there? <em>(36 + 48 = ?)</em>',
+   type:'fill',answer:84,
+   pts:150,hint:'Just add 36 and 48 together! 36+48 = ?'},
+
+  /* ── SUBTRACTION KEYWORDS ── */
+  {cat:'subtraction',
+   label:'KEYWORD HUNT',
+   q:'Which word tells you to <strong>SUBTRACT</strong>? 🕵️',
+   type:'choice',
+   choices:[
+     {t:'➕ total',c:false},{t:'✖️ per',c:false},
+     {t:'➖ are left',c:true},{t:'➗ shared equally',c:false}],
+   pts:100,hint:'"Are left" means something was taken away!'},
+
+  {cat:'subtraction',
+   label:'KEYWORD HUNT',
+   q:'Which of these is NOT a subtraction keyword?',
+   type:'choice',
+   choices:[
+     {t:'fewer',c:false},{t:'remain',c:false},
+     {t:'in all',c:true},{t:'are not',c:false}],
+   pts:120,hint:'"In all" means the total — that\'s addition!'},
+
+  {cat:'subtraction',
+   label:'SOLVE IT!',
+   q:'A pizzeria made 40 slices. 26 slices were eaten. How many slices <em>remain</em>? <em>(40 − 26 = ?)</em>',
+   type:'fill',answer:14,
+   pts:150,hint:'The word "remain" means subtract! 40 take away 26.'},
+
+  /* ── MULTIPLICATION KEYWORDS ── */
+  {cat:'multiply',
+   label:'KEYWORD HUNT',
+   q:'Which keyword tells you to <strong>MULTIPLY</strong>? 🔢',
+   type:'choice',
+   choices:[
+     {t:'➕ added to',c:false},{t:'✖️ each',c:true},
+     {t:'➖ difference',c:false},{t:'➗ half',c:false}],
+   pts:100,hint:'"Each" means every group has the same amount — multiply!'},
+
+  {cat:'multiply',
+   label:'KEYWORD HUNT',
+   q:'"5 pizzas, 8 slices <em>each</em>" — what operation do we use?',
+   type:'choice',
+   choices:[
+     {t:'➕ Addition',c:false},{t:'➖ Subtraction',c:false},
+     {t:'✖️ Multiplication',c:true},{t:'➗ Division',c:false}],
+   pts:100,hint:'When we have equal groups, we multiply!'},
+
+  {cat:'multiply',
+   label:'SOLVE IT!',
+   q:'A factory has 25 boxes, with 8 toys in <em>each</em> box. How many toys in total? <em>(25 × 8 = ?)</em>',
+   type:'fill',answer:200,
+   pts:180,hint:'25 groups of 8. Multiply: 25 × 8 = ?'},
+
+  /* ── DIVISION KEYWORDS ── */
+  {cat:'division',
+   label:'KEYWORD HUNT',
+   q:'Which keyword tells you to <strong>DIVIDE</strong>? 🍰',
+   type:'choice',
+   choices:[
+     {t:'➕ more',c:false},{t:'➖ fewer',c:false},
+     {t:'✖️ groups of',c:false},{t:'➗ shared equally',c:true}],
+   pts:100,hint:'"Shared equally" means split into equal parts — division!'},
+
+  {cat:'division',
+   label:'KEYWORD HUNT',
+   q:'Which word is a <strong>division</strong> keyword? 🤔',
+   type:'choice',
+   choices:[
+     {t:'total',c:false},{t:'in all',c:false},
+     {t:'half',c:true},{t:'sum',c:false}],
+   pts:100,hint:'"Half" means split into 2 equal parts!'},
+
+  {cat:'division',
+   label:'SOLVE IT!',
+   q:'84 apples are <em>divided equally</em> among 7 baskets. How many apples in <em>each</em> basket? <em>(84 ÷ 7 = ?)</em>',
+   type:'fill',answer:12,
+   pts:180,hint:'"Divided equally" = division! 84 ÷ 7 = ?'},
+
+  /* ── WORD PROBLEM CHALLENGES ── */
+  {cat:'wordproblem',
+   label:'STEP 1 — UNDERSTAND',
+   q:'<em>"A gardener plants 5 rows of flowers with 6 flowers in each row. Later, 8 flowers wilt. How many flowers are left?"</em><br><br>Which operation do we do FIRST?',
+   type:'choice',
+   choices:[
+     {t:'✖️ Multiply 5×6',c:true},{t:'➖ Subtract 6−5',c:false},
+     {t:'➕ Add 5+6+8',c:false},{t:'➗ Divide 8÷2',c:false}],
+   pts:150,hint:'"5 rows with 6 in each" — equal groups means multiply first!'},
+
+  {cat:'wordproblem',
+   label:'STEP 2 — SOLVE',
+   q:'Gardener problem: <strong>5 rows × 6 flowers = ?</strong><br>How many flowers were planted in total?',
+   type:'fill',answer:30,
+   pts:150,hint:'5 groups of 6. Count by 6: 6, 12, 18, 24, 30!'},
+
+  {cat:'wordproblem',
+   label:'STEP 3 — FINISH IT',
+   q:'The gardener had 30 flowers. Then 8 flowers wilt. How many flowers are <em>left</em>?<br><em>(30 − 8 = ?)</em>',
+   type:'fill',answer:22,
+   pts:150,hint:'"Left" = subtract! 30 take away 8.'},
+
+  {cat:'wordproblem',
+   label:'STEP 1 — UNDERSTAND',
+   q:'<em>"40 balloons at a party. 15 balloons pop. The remaining balloons are divided equally into 5 groups."</em><br><br>What do we do FIRST?',
+   type:'choice',
+   choices:[
+     {t:'➗ Divide 40÷5',c:false},{t:'➖ Subtract 40−15',c:true},
+     {t:'➕ Add 40+15',c:false},{t:'✖️ Multiply 40×5',c:false}],
+   pts:150,hint:'First, 15 pop — that means take away! Then divide what\'s left.'},
+
+  {cat:'wordproblem',
+   label:'STEP 2 — SOLVE',
+   q:'Balloon problem: <strong>40 − 15 = ?</strong><br>How many balloons are remaining?',
+   type:'fill',answer:25,
+   pts:150,hint:'40 take away 15. Count back from 40!'},
+
+  {cat:'wordproblem',
+   label:'STEP 3 — FINISH IT',
+   q:'25 balloons are split into <em>5 equal groups</em>. How many balloons are in <em>each</em> group?<br><em>(25 ÷ 5 = ?)</em>',
+   type:'fill',answer:5,
+   pts:180,hint:'"Divided equally" and "each" = division! 25 ÷ 5 = ?'},
+
+  {cat:'wordproblem',
+   label:'LOOK BACK — CHECK!',
+   q:'Toys: Factory made <strong>200 toys</strong>. 150 were sent to a store. How many toys <em>remain</em> in the factory?',
+   type:'fill',answer:50,
+   pts:200,hint:'"Remain" = subtract! 200 − 150 = ?'},
+
+  {cat:'wordproblem',
+   label:'MIXED KEYWORDS',
+   q:'Marie has 72 candies. She gives away 24. She <em>divides</em> the rest equally among 8 children.<br>First step: <strong>72 − 24 = ?</strong>',
+   type:'fill',answer:48,
+   pts:150,hint:'Subtraction first! 72 minus 24.'},
+
+  {cat:'wordproblem',
+   label:'FINAL BOSS 🏆',
+   q:'Marie now has 48 candies divided equally among 8 children.<br>How many candies does <em>each</em> child get? <em>(48 ÷ 8 = ?)</em>',
+   type:'fill',answer:6,
+   pts:250,hint:'"Each" + "equally" = DIVIDE! 48 ÷ 8 = ?'},
+];
+
+/* ── STATE ── */
+let idx=0,score=0,lives=3,streak=0,timerPct=100,timerIv=null,answered=false;
+let hs=parseInt(localStorage.getItem('mwbHS')||'0');
+document.getElementById('hsDisplay').textContent=`🏆 BEST: ${hs} pts`;
+
+/* ── HELPERS ── */
+function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on')}
+function updHUD(){
+  document.getElementById('hScore').textContent=score;
+  document.getElementById('hRound').textContent=(idx+1)+'/'+QUESTIONS.length;
+  document.getElementById('hStreak').textContent=streak+(streak>=3?'🔥':'');
+  const lv=document.getElementById('hLives');
+  lv.innerHTML=[0,1,2].map(i=>i<lives?'❤️':'🖤').join('');
+}
+
+/* ── TIMER ── */
+function startTimer(sec){
+  clearInterval(timerIv);timerPct=100;updTimer();
+  const step=100/(sec*10);
+  timerIv=setInterval(()=>{
+    timerPct-=step;if(timerPct<=0){timerPct=0;clearInterval(timerIv);if(!answered)timeUp();}
+    updTimer();
+  },100);
+}
+function updTimer(){
+  const f=document.getElementById('tFill');
+  f.style.width=timerPct+'%';
+  if(timerPct<25)f.style.background='linear-gradient(90deg,#FF3B5C,#FF9500)';
+  else if(timerPct<55)f.style.background='linear-gradient(90deg,var(--gold),#FF9500)';
+  else f.style.background='linear-gradient(90deg,var(--lime),var(--cyan))';
+}
+function timeUp(){
+  if(answered)return;answered=true;streak=0;loseLife();
+  toast('⏰ Too slow!','r');
+  setTimeout(()=>lives>0?nextQ():endGame(),1200);
+}
+
+/* ── RENDER ── */
+function renderQ(){
+  if(idx>=QUESTIONS.length){endGame();return;}
+  answered=false;
+  const q=QUESTIONS[idx];
+  const cat=CAT[q.cat];
+
+  // category banner
+  const cb=document.getElementById('catBanner');
+  cb.style.background=cat.bg;cb.style.borderColor=cat.color+'44';
+  document.getElementById('catDot').style.background=cat.color;
+  document.getElementById('catLabel').textContent=cat.label;
+
+  document.getElementById('qLabel').textContent=q.label||'QUESTION';
+  document.getElementById('qText').innerHTML=q.q;
+
+  document.getElementById('hintBox').style.display='none';
+  document.getElementById('hintBox').textContent='💡 '+q.hint;
+
+  const aa=document.getElementById('ansArea');
+  const cw=document.getElementById('checkWrap');
+  aa.innerHTML='';cw.innerHTML='';
+
+  if(q.type==='choice'){
+    const g=document.createElement('div');g.className='choiceGrid';
+    q.choices.forEach((c,i)=>{
+      const b=document.createElement('button');b.className='cBtn';b.id='c'+i;
+      b.innerHTML=c.t;b.onclick=()=>doChoice(b,c.c,q);g.appendChild(b);
+    });
+    aa.appendChild(g);startTimer(18);
+  } else {
+    const row=document.createElement('div');row.className='fillRow';
+    row.innerHTML=`<span style="color:var(--cyan);font-size:1.2rem;font-weight:900;">Answer =</span>`;
+    const inp=document.createElement('input');
+    inp.type='number';inp.className='fillIn';inp.id='fi';
+    inp.placeholder='?';inp.min=0;inp.max=9999;
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter')doFill(q);});
+    row.appendChild(inp);aa.appendChild(row);
+    const cb2=document.createElement('button');cb2.className='checkBtn';
+    cb2.textContent='✅ Check!';cb2.onclick=()=>doFill(q);cw.appendChild(cb2);
+    setTimeout(()=>inp.focus(),80);
+    startTimer(22);
+  }
+  updHUD();
+  if(idx>0&&QUESTIONS[idx].cat!==QUESTIONS[idx-1].cat) lvlFlash('✨ NEW ROUND!');
+}
+
+function doChoice(btn,correct,q){
+  if(answered)return;answered=true;clearInterval(timerIv);
+  q.choices.forEach((_,i)=>{
+    const b=document.getElementById('c'+i);
+    b.onclick=null;
+    if(q.choices[i].c) b.classList.add('hit');
+    else if(b===btn&&!correct) b.classList.add('miss');
+  });
+  correct?goodAnswer(q):badAnswer();
+}
+function doFill(q){
+  if(answered)return;
+  const inp=document.getElementById('fi');if(!inp)return;
+  const v=parseInt(inp.value);answered=true;clearInterval(timerIv);
+  inp.readOnly=true;
+  document.querySelector('.checkBtn')&&(document.querySelector('.checkBtn').disabled=true);
+  if(v===q.answer){inp.classList.add('hit');goodAnswer(q);}
+  else{inp.classList.add('miss');badAnswer();setTimeout(()=>{inp.value=q.answer;},200);}
+}
+
+function goodAnswer(q){
+  let pts=q.pts+Math.floor(timerPct*.4);streak++;
+  if(streak>=3){pts=Math.floor(pts*1.5);showCombo('🔥 x'+streak+' COMBO!');}
+  score+=pts;updHUD();
+  toast('✅ Correct! +'+pts,'g');confetti();
+  setTimeout(nextQ,1100);
+}
+function badAnswer(){
+  streak=0;loseLife();
+  toast('❌ Oops! Keep going!','r');
+  setTimeout(()=>lives>0?nextQ():endGame(),1300);
+}
+function loseLife(){
+  lives=Math.max(0,lives-1);updHUD();
+  document.getElementById('hLives').animate([{filter:'brightness(3)'},{filter:'brightness(1)'}],{duration:400});
+}
+function nextQ(){idx++;idx>=QUESTIONS.length?endGame():renderQ();}
+
+/* ── HINT ── */
+let hintUsed=false;
+function toggleHint(){
+  const hb=document.getElementById('hintBox');
+  if(hb.style.display==='block'){hb.style.display='none';return;}
+  if(!hintUsed){score=Math.max(0,score-15);hintUsed=true;updHUD();}
+  hb.textContent='💡 '+QUESTIONS[idx].hint;
+  hb.style.display='block';
+}
+
+/* ── TOAST ── */
+let tTimer;
+function toast(msg,cls){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className='toast on '+cls;
+  clearTimeout(tTimer);tTimer=setTimeout(()=>t.className='toast',1600);
+}
+
+/* ── COMBO ── */
+function showCombo(txt){
+  const el=document.createElement('div');el.className='combo';el.textContent=txt;
+  document.body.appendChild(el);setTimeout(()=>el.remove(),900);
+}
+
+/* ── LEVEL FLASH ── */
+function lvlFlash(txt){
+  const el=document.createElement('div');el.className='lvlFlash';el.textContent=txt;
+  document.body.appendChild(el);setTimeout(()=>el.remove(),1200);
+}
+
+/* ── CONFETTI ── */
+function confetti(){
+  const cols=['#FFD700','#FF9500','#FF3B5C','#00E5FF','#76FF03','#C77DFF','#fff'];
+  for(let i=0;i<28;i++){
+    setTimeout(()=>{
+      const c=document.createElement('div');c.className='conf';
+      const s=7+Math.random()*8;
+      c.style.cssText=`left:${10+Math.random()*80}%;top:-10px;width:${s}px;height:${s}px;background:${cols[Math.floor(Math.random()*cols.length)]};animation-duration:${1+Math.random()*.8}s;animation-delay:${Math.random()*.35}s;border-radius:${Math.random()>.5?'50%':'3px'}`;
+      document.body.appendChild(c);setTimeout(()=>c.remove(),2200);
+    },i*28);
+  }
+}
+
+/* ── START / END ── */
+function startGame(){
+  idx=0;score=0;lives=3;streak=0;answered=false;hintUsed=false;
+  show('s1');updHUD();renderQ();
+}
+
+function endGame(){
+  clearInterval(timerIv);
+  if(score>hs){hs=score;localStorage.setItem('mwbHS',hs);}
+  confetti();confetti();
+  const pct=idx/QUESTIONS.length;
+  let stars='⭐',title='Keep Trying! 💪',msg='Practice makes perfect! Play again!',trophy='🌟';
+  if(pct>=1&&lives>0){stars='⭐⭐⭐⭐⭐';title='PERFECT!! 🎉';msg='You got everything right! You are a MATH SUPERSTAR! 🚀🏆';trophy='🏆';}
+  else if(pct>=.8){stars='⭐⭐⭐⭐';title='Amazing! 🌟';msg='Almost perfect! You know your math keywords so well!';}
+  else if(pct>=.6){stars='⭐⭐⭐';title='Great Job! 😊';msg='You solved most of it! Play again to get more stars!';}
+  else if(pct>=.4){stars='⭐⭐';title='Good Try! 🌈';msg='You\'re learning! Try again — you\'ll get better!';}
+
+  document.getElementById('endTrophy').textContent=trophy;
+  document.getElementById('endTitle').textContent=title;
+  document.getElementById('endScore').textContent=score+' pts';
+  document.getElementById('endStars').textContent=stars;
+  document.getElementById('endMsg').textContent=msg;
+  document.getElementById('hsDisplay').textContent=`🏆 BEST: ${hs} pts`;
+  setTimeout(()=>show('s2'),600);
+}
+
+function resetGame(){show('s0');}
+</script>
+</body>
+</html>

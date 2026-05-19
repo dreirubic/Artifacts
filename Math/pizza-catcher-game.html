@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍕 Pizza Catcher: Math Quest!</title>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Quicksand:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f0c29;
+  --bg2: #302b63;
+  --bg3: #24243e;
+  --yellow: #FFD700;
+  --orange: #FF6B2B;
+  --pink: #FF3CAC;
+  --cyan: #00F5FF;
+  --green: #39FF14;
+  --white: #FFFFFF;
+  --card: rgba(255,255,255,0.07);
+  --border: rgba(255,255,255,0.15);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  background: linear-gradient(135deg, var(--bg), var(--bg2), var(--bg3));
+  min-height: 100vh;
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+/* ── STARS BACKGROUND ── */
+.stars {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(ellipse at 20% 50%, rgba(120,40,200,.15) 0, transparent 60%),
+              radial-gradient(ellipse at 80% 20%, rgba(0,200,255,.1) 0, transparent 50%);
+}
+.star-dot {
+  position: absolute; border-radius: 50%; background: white;
+  animation: twinkle linear infinite;
+}
+@keyframes twinkle {
+  0%,100% { opacity: 0.1; transform: scale(1); }
+  50%      { opacity: 0.9; transform: scale(1.4); }
+}
+
+/* ── SCREENS ── */
+.screen { display: none; position: relative; z-index: 1; }
+.screen.active { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+
+/* ══════════ START SCREEN ══════════ */
+#startScreen {
+  text-align: center;
+  gap: 18px;
+}
+.game-title {
+  font-family: 'Boogaloo', cursive;
+  font-size: clamp(2.6rem, 8vw, 4.5rem);
+  line-height: 1;
+  background: linear-gradient(135deg, var(--yellow), var(--orange), var(--pink));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 20px rgba(255,180,0,.5));
+  animation: titlePulse 2s ease-in-out infinite;
+}
+@keyframes titlePulse {
+  0%,100% { filter: drop-shadow(0 0 15px rgba(255,180,0,.4)); }
+  50%      { filter: drop-shadow(0 0 35px rgba(255,180,0,.9)); }
+}
+.game-subtitle { font-size: 1.1rem; color: rgba(255,255,255,.7); font-weight: 700; }
+
+.pizza-spin {
+  font-size: 5rem;
+  animation: spin 3s linear infinite;
+  display: block;
+}
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.story-panel {
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: 20px;
+  padding: 20px 28px;
+  max-width: 500px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.7;
+  backdrop-filter: blur(10px);
+  color: rgba(255,255,255,.9);
+}
+.story-panel strong { color: var(--yellow); }
+
+.start-btn {
+  padding: 18px 50px;
+  background: linear-gradient(135deg, var(--pink), var(--orange));
+  border: none; border-radius: 50px;
+  font-family: 'Boogaloo', cursive;
+  font-size: 1.6rem; color: white; cursor: pointer;
+  box-shadow: 0 0 30px rgba(255,60,172,.6), 0 8px 0 rgba(180,20,100,.6);
+  transition: all .2s;
+  animation: btnFloat 2s ease-in-out infinite;
+}
+@keyframes btnFloat {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+.start-btn:hover { transform: scale(1.06) translateY(-4px); }
+
+.high-score-display {
+  font-size: .9rem; color: var(--cyan); font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* ══════════ GAME SCREEN ══════════ */
+#gameScreen {
+  justify-content: flex-start;
+  padding: 0;
+  gap: 0;
+}
+
+/* HUD */
+.hud {
+  width: 100%; max-width: 700px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 20px 8px;
+  gap: 10px;
+}
+.hud-item {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 2px;
+}
+.hud-label { font-size: .7rem; color: rgba(255,255,255,.5); font-weight: 800; letter-spacing: 1px; }
+.hud-val {
+  font-family: 'Boogaloo', cursive; font-size: 1.6rem;
+  color: var(--yellow);
+  text-shadow: 0 0 15px var(--yellow);
+}
+.lives-row { display: flex; gap: 4px; font-size: 1.2rem; }
+
+/* TIMER BAR */
+.timer-wrap {
+  width: 100%; max-width: 700px; margin: 0 auto;
+  padding: 0 20px 8px;
+}
+.timer-bar-bg {
+  height: 12px; background: rgba(255,255,255,.1);
+  border-radius: 10px; overflow: hidden;
+}
+.timer-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), var(--cyan));
+  border-radius: 10px;
+  transition: width .1s linear, background .3s;
+}
+
+/* PIZZA ZONE */
+.pizza-zone {
+  width: 100%; max-width: 700px; margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  height: 120px;
+  overflow: hidden;
+}
+.falling-item {
+  position: absolute;
+  font-size: 2rem;
+  animation: fall linear forwards;
+  cursor: default;
+  user-select: none;
+}
+@keyframes fall {
+  from { top: -60px; }
+  to   { top: 130px; }
+}
+
+/* QUESTION CARD */
+.q-card {
+  width: 100%; max-width: 700px; margin: 4px auto 0;
+  padding: 0 16px;
+  flex: 1;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.step-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: linear-gradient(90deg, var(--pink), var(--orange));
+  padding: 6px 18px; border-radius: 50px;
+  font-family: 'Boogaloo', cursive; font-size: 1rem;
+  box-shadow: 0 0 12px rgba(255,60,172,.4);
+  align-self: flex-start;
+}
+.q-text {
+  font-size: 1.1rem; font-weight: 800;
+  background: var(--card); border: 2px solid var(--border);
+  border-radius: 16px; padding: 14px 18px;
+  backdrop-filter: blur(8px);
+  line-height: 1.5;
+}
+.q-text strong { color: var(--yellow); }
+
+/* ANSWER GRID */
+.answer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.ans-btn {
+  padding: 14px 10px;
+  background: rgba(255,255,255,.06);
+  border: 2px solid rgba(255,255,255,.2);
+  border-radius: 16px;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1rem; font-weight: 800;
+  color: white; cursor: pointer;
+  transition: all .15s cubic-bezier(.34,1.56,.64,1);
+  text-align: center;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 0 rgba(0,0,0,.3);
+}
+.ans-btn:hover {
+  transform: translateY(-4px) scale(1.04);
+  border-color: var(--cyan);
+  background: rgba(0,245,255,.1);
+  box-shadow: 0 8px 0 rgba(0,0,0,.3), 0 0 20px rgba(0,245,255,.3);
+}
+.ans-btn.correct {
+  border-color: var(--green); background: rgba(57,255,20,.15);
+  box-shadow: 0 0 25px rgba(57,255,20,.5);
+  animation: correctFlash .5s ease;
+}
+.ans-btn.wrong {
+  border-color: var(--pink); background: rgba(255,60,172,.15);
+  animation: wrongShake .4s ease;
+}
+@keyframes correctFlash {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+@keyframes wrongShake {
+  0%,100% { transform: translateX(0); }
+  25%      { transform: translateX(-10px); }
+  75%      { transform: translateX(10px); }
+}
+
+/* FILL INPUT ROW */
+.fill-row {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; flex-wrap: wrap;
+  font-size: 1.1rem; font-weight: 800;
+}
+.fill-in {
+  width: 75px; height: 52px;
+  background: rgba(255,255,255,.08);
+  border: 2px solid rgba(255,255,255,.3);
+  border-radius: 12px;
+  font-family: 'Boogaloo', cursive; font-size: 1.5rem;
+  color: white; text-align: center;
+  outline: none; transition: all .2s;
+}
+.fill-in:focus { border-color: var(--cyan); box-shadow: 0 0 15px rgba(0,245,255,.4); }
+.fill-in.correct { border-color: var(--green); box-shadow: 0 0 15px rgba(57,255,20,.4); }
+.fill-in.wrong   { border-color: var(--pink);  box-shadow: 0 0 15px rgba(255,60,172,.4); }
+
+.check-btn {
+  width: 100%; padding: 14px;
+  background: linear-gradient(135deg, var(--cyan), #0080ff);
+  border: none; border-radius: 14px;
+  font-family: 'Boogaloo', cursive; font-size: 1.3rem;
+  color: var(--bg); cursor: pointer;
+  box-shadow: 0 6px 0 rgba(0,80,180,.5);
+  transition: all .2s;
+}
+.check-btn:hover { transform: translateY(-3px); box-shadow: 0 9px 0 rgba(0,80,180,.5); }
+
+/* FEEDBACK TOAST */
+.toast {
+  position: fixed; top: 80px; left: 50%; transform: translateX(-50%) scale(0);
+  background: rgba(0,0,0,.85); border-radius: 50px;
+  padding: 12px 28px;
+  font-family: 'Boogaloo', cursive; font-size: 1.4rem;
+  z-index: 100; pointer-events: none;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+  white-space: nowrap;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255,255,255,.2);
+}
+.toast.show { transform: translateX(-50%) scale(1); }
+.toast.green { border-color: var(--green); color: var(--green); }
+.toast.red   { border-color: var(--pink);  color: var(--pink);  }
+
+/* ══════════ END SCREEN ══════════ */
+#endScreen {
+  text-align: center;
+  gap: 16px;
+}
+.trophy { font-size: 5rem; animation: trophyBounce 1s ease infinite alternate; }
+@keyframes trophyBounce { from { transform: translateY(0) rotate(-8deg); } to { transform: translateY(-12px) rotate(8deg); } }
+.end-title {
+  font-family: 'Boogaloo', cursive; font-size: 2.8rem;
+  background: linear-gradient(135deg, var(--yellow), var(--orange));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.score-big {
+  font-family: 'Boogaloo', cursive; font-size: 5rem;
+  color: var(--cyan); text-shadow: 0 0 30px var(--cyan);
+}
+.stars-end { font-size: 2.5rem; letter-spacing: 6px; }
+.end-msg { font-size: 1.1rem; font-weight: 700; color: rgba(255,255,255,.8); max-width: 350px; line-height: 1.5; }
+.end-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.play-again-btn {
+  padding: 16px 36px;
+  background: linear-gradient(135deg, var(--green), #00aa00);
+  border: none; border-radius: 50px;
+  font-family: 'Boogaloo', cursive; font-size: 1.4rem;
+  color: var(--bg); cursor: pointer;
+  box-shadow: 0 0 25px rgba(57,255,20,.5), 0 6px 0 rgba(0,100,0,.5);
+  transition: all .2s;
+}
+.play-again-btn:hover { transform: scale(1.05) translateY(-3px); }
+
+/* LEVEL UP FLASH */
+.levelup-flash {
+  position: fixed; inset: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,215,0,.15);
+  pointer-events: none; opacity: 0;
+  font-family: 'Boogaloo', cursive; font-size: 4rem;
+  color: var(--yellow); text-shadow: 0 0 40px var(--yellow);
+  animation: levelFlash 1.2s ease forwards;
+}
+@keyframes levelFlash {
+  0%   { opacity: 0; transform: scale(0.5); }
+  30%  { opacity: 1; transform: scale(1.1); }
+  70%  { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.2); }
+}
+
+/* CONFETTI */
+.conf { position: fixed; pointer-events: none; z-index: 999;
+  animation: confDrop linear forwards; border-radius: 3px; }
+@keyframes confDrop {
+  0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* COMBO badge */
+.combo-badge {
+  position: fixed; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-family: 'Boogaloo', cursive; font-size: 3rem;
+  color: var(--yellow); text-shadow: 0 0 30px var(--yellow);
+  z-index: 300; pointer-events: none;
+  animation: comboPop .8s ease forwards;
+}
+@keyframes comboPop {
+  0%   { transform: translate(-50%,-50%) scale(0); opacity: 1; }
+  50%  { transform: translate(-50%,-50%) scale(1.3); opacity: 1; }
+  100% { transform: translate(-50%,-60%) scale(1); opacity: 0; }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: rgba(255,255,255,.05); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,.2); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="stars" id="starsLayer"></div>
+<div class="toast" id="toast"></div>
+
+<!-- ══ START SCREEN ══ -->
+<div class="screen active" id="startScreen">
+  <span class="pizza-spin">🍕</span>
+  <h1 class="game-title">Pizza Catcher<br>Math Quest!</h1>
+  <p class="game-subtitle">⭐ A Word Problem Adventure for Grade 2 ⭐</p>
+
+  <div class="story-panel">
+    🍕 A pizzeria makes <strong>5 pizzas</strong>, each cut into <strong>8 slices</strong>.<br>
+    😋 <strong>26 slices</strong> are eaten.<br>
+    ❓ How many slices are <strong>left</strong>?<br><br>
+    Solve it step by step to save the pizza! 🦸
+  </div>
+
+  <button class="start-btn" onclick="startGame()">🚀 START GAME!</button>
+  <p class="high-score-display" id="highScoreDisplay">🏆 BEST: 0 pts</p>
+</div>
+
+<!-- ══ GAME SCREEN ══ -->
+<div class="screen" id="gameScreen">
+
+  <!-- HUD -->
+  <div class="hud">
+    <div class="hud-item">
+      <span class="hud-label">SCORE</span>
+      <span class="hud-val" id="scoreVal">0</span>
+    </div>
+    <div class="hud-item">
+      <span class="hud-label">LEVEL</span>
+      <span class="hud-val" id="levelVal">1</span>
+    </div>
+    <div class="hud-item">
+      <span class="hud-label">LIVES</span>
+      <div class="lives-row" id="livesRow">❤️❤️❤️</div>
+    </div>
+    <div class="hud-item">
+      <span class="hud-label">STREAK</span>
+      <span class="hud-val" id="streakVal">0🔥</span>
+    </div>
+  </div>
+
+  <!-- TIMER -->
+  <div class="timer-wrap">
+    <div class="timer-bar-bg">
+      <div class="timer-bar" id="timerBar" style="width:100%"></div>
+    </div>
+  </div>
+
+  <!-- FALLING PIZZA ZONE -->
+  <div class="pizza-zone" id="pizzaZone"></div>
+
+  <!-- QUESTION CARD -->
+  <div class="q-card" id="qCard">
+    <div class="step-chip" id="stepChip">📖 Step 1</div>
+    <div class="q-text" id="qText"></div>
+    <div id="answerArea"></div>
+    <div id="checkArea"></div>
+  </div>
+</div>
+
+<!-- ══ END SCREEN ══ -->
+<div class="screen" id="endScreen">
+  <div class="trophy" id="trophy">🏆</div>
+  <h2 class="end-title" id="endTitle">Amazing!</h2>
+  <span class="score-big" id="endScore">0</span>
+  <div class="stars-end" id="endStars">⭐⭐⭐</div>
+  <p class="end-msg" id="endMsg"></p>
+  <div class="end-btns">
+    <button class="play-again-btn" onclick="resetGame()">🔄 Play Again!</button>
+  </div>
+</div>
+
+<script>
+// ── STARS ──
+const sl = document.getElementById('starsLayer');
+for (let i = 0; i < 80; i++) {
+  const s = document.createElement('div');
+  s.className = 'star-dot';
+  const sz = Math.random() * 3 + 1;
+  s.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*4}s`;
+  sl.appendChild(s);
+}
+
+// ── QUESTIONS ──
+const questions = [
+  {
+    level: 1, stepLabel: '📖 Step 1: Understand!',
+    text: 'How many <strong>pizzas</strong> does the pizzeria make?',
+    type: 'choice',
+    choices: [
+      { label: '🍕 5 pizzas', correct: true },
+      { label: '🍕 8 pizzas', correct: false },
+      { label: '🍕 26 pizzas', correct: false },
+      { label: '🍕 3 pizzas', correct: false },
+    ],
+    points: 100,
+    hint: 'Read the story! Look for the number of pizzas.'
+  },
+  {
+    level: 1, stepLabel: '📖 Step 1: Understand!',
+    text: 'How many <strong>slices</strong> are in each pizza?',
+    type: 'choice',
+    choices: [
+      { label: '🔪 5 slices', correct: false },
+      { label: '🔪 8 slices', correct: true },
+      { label: '🔪 26 slices', correct: false },
+      { label: '🔪 14 slices', correct: false },
+    ],
+    points: 100,
+    hint: 'Each pizza is cut into how many slices?'
+  },
+  {
+    level: 2, stepLabel: '🗺️ Step 2: Plan!',
+    text: 'To find the <strong>total slices</strong>, what should we do with 5 and 8?',
+    type: 'choice',
+    choices: [
+      { label: '➕ Add them: 5+8', correct: false },
+      { label: '✖️ Multiply: 5×8', correct: true },
+      { label: '➗ Divide: 8÷5', correct: false },
+      { label: '➖ Subtract: 8−5', correct: false },
+    ],
+    points: 150,
+    hint: 'We have 5 groups of 8. That means... multiply!'
+  },
+  {
+    level: 2, stepLabel: '🗺️ Step 2: Plan!',
+    text: 'After finding total slices, what do we do with 26?',
+    type: 'choice',
+    choices: [
+      { label: '➕ Add 26', correct: false },
+      { label: '✖️ Multiply by 26', correct: false },
+      { label: '➖ Subtract 26', correct: true },
+      { label: '➗ Divide by 26', correct: false },
+    ],
+    points: 150,
+    hint: '26 slices were EATEN... so we take them away!'
+  },
+  {
+    level: 3, stepLabel: '⚙️ Step 3: Solve!',
+    text: 'What is <strong>5 × 8</strong>? 🍕×8️⃣',
+    type: 'fill',
+    answer: 40,
+    points: 200,
+    hint: '5 groups of 8... count by 8s: 8, 16, 24, 32, 40!'
+  },
+  {
+    level: 3, stepLabel: '⚙️ Step 3: Solve!',
+    text: 'We have <strong>40 slices</strong> total. 26 are eaten. What is <strong>40 − 26</strong>?',
+    type: 'fill',
+    answer: 14,
+    points: 200,
+    hint: 'Count back from 40... 40 minus 26. You can count up from 26 to 40!'
+  },
+  {
+    level: 4, stepLabel: '🔍 Step 4: Check!',
+    text: 'We said 14 slices are left. Does <strong>26 + 14 = 40</strong>? Pick the right answer!',
+    type: 'choice',
+    choices: [
+      { label: '✅ YES! 26+14=40', correct: true },
+      { label: '❌ No, it doesn\'t', correct: false },
+      { label: '🤔 I don\'t know', correct: false },
+      { label: '❌ No, 26+14=36', correct: false },
+    ],
+    points: 250,
+    hint: 'Just add them up: 26 + 14 = ?'
+  },
+  {
+    level: 4, stepLabel: '🔍 Step 4: Check!',
+    text: 'So the final answer is... how many slices are <strong>left</strong>? 🍕',
+    type: 'choice',
+    choices: [
+      { label: '🍕 40 slices', correct: false },
+      { label: '🍕 26 slices', correct: false },
+      { label: '🍕 14 slices ✅', correct: true },
+      { label: '🍕 5 slices', correct: false },
+    ],
+    points: 300,
+    hint: 'Total slices minus eaten slices equals... ?'
+  },
+];
+
+// ── STATE ──
+let qIndex = 0, score = 0, lives = 3, streak = 0;
+let timerInterval = null, timerPct = 100;
+let fallingItems = [], fallingTimer = null;
+let answered = false;
+let highScore = parseInt(localStorage.getItem('pizzaHS') || '0');
+
+document.getElementById('highScoreDisplay').textContent = `🏆 BEST: ${highScore} pts`;
+
+// ── FALLING ITEMS ──
+const items = ['🍕','🌟','⭐','🎈','🍭','💎','🔥'];
+function spawnFalling() {
+  const zone = document.getElementById('pizzaZone');
+  const el = document.createElement('div');
+  el.className = 'falling-item';
+  el.textContent = items[Math.floor(Math.random() * items.length)];
+  el.style.left = (5 + Math.random() * 85) + '%';
+  const dur = 2.5 + Math.random() * 1.5;
+  el.style.animationDuration = dur + 's';
+  zone.appendChild(el);
+  setTimeout(() => el.remove(), dur * 1000);
+}
+function startFalling() {
+  spawnFalling();
+  fallingTimer = setInterval(spawnFalling, 900);
+}
+function stopFalling() {
+  clearInterval(fallingTimer);
+  document.getElementById('pizzaZone').innerHTML = '';
+}
+
+// ── TIMER ──
+function startTimer(seconds) {
+  clearInterval(timerInterval);
+  timerPct = 100;
+  updateTimerBar();
+  const step = 100 / (seconds * 10);
+  timerInterval = setInterval(() => {
+    timerPct -= step;
+    if (timerPct <= 0) {
+      timerPct = 0;
+      clearInterval(timerInterval);
+      if (!answered) timeUp();
+    }
+    updateTimerBar();
+  }, 100);
+}
+function updateTimerBar() {
+  const bar = document.getElementById('timerBar');
+  bar.style.width = timerPct + '%';
+  if (timerPct < 30) bar.style.background = 'linear-gradient(90deg, #ff4444, #ff9900)';
+  else if (timerPct < 60) bar.style.background = 'linear-gradient(90deg, #FFD700, #ff9900)';
+  else bar.style.background = 'linear-gradient(90deg, var(--green), var(--cyan))';
+}
+function timeUp() {
+  if (answered) return;
+  answered = true;
+  streak = 0;
+  loseLife();
+  showToast('⏰ Time\'s up!', 'red');
+  setTimeout(() => { if (lives > 0) nextQuestion(); else endGame(); }, 1200);
+}
+
+// ── GAME START ──
+function startGame() {
+  qIndex = 0; score = 0; lives = 3; streak = 0; answered = false;
+  showScreen('gameScreen');
+  updateHUD();
+  startFalling();
+  renderQuestion();
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function updateHUD() {
+  document.getElementById('scoreVal').textContent = score;
+  document.getElementById('levelVal').textContent = (questions[Math.min(qIndex, questions.length-1)].level || 1);
+  document.getElementById('streakVal').textContent = streak + (streak >= 3 ? '🔥' : '');
+  const lv = document.getElementById('livesRow');
+  lv.innerHTML = ['❤️','❤️','❤️'].map((h,i) => i < lives ? '❤️' : '🖤').join('');
+}
+
+function loseLife() {
+  lives = Math.max(0, lives - 1);
+  updateHUD();
+  document.getElementById('livesRow').animate([
+    {filter:'brightness(3) saturate(2)'},{filter:'brightness(1)'}
+  ], { duration: 400 });
+}
+
+// ── RENDER QUESTION ──
+function renderQuestion() {
+  if (qIndex >= questions.length) { endGame(); return; }
+  answered = false;
+  const q = questions[qIndex];
+
+  document.getElementById('stepChip').innerHTML = q.stepLabel;
+  document.getElementById('qText').innerHTML = q.text;
+
+  const aa = document.getElementById('answerArea');
+  const ca = document.getElementById('checkArea');
+  aa.innerHTML = ''; ca.innerHTML = '';
+
+  if (q.type === 'choice') {
+    const grid = document.createElement('div');
+    grid.className = 'answer-grid';
+    q.choices.forEach((c, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'ans-btn';
+      btn.innerHTML = c.label;
+      btn.onclick = () => handleChoice(btn, c.correct, i);
+      grid.appendChild(btn);
+    });
+    aa.appendChild(grid);
+    startTimer(15);
+  } else {
+    const row = document.createElement('div');
+    row.className = 'fill-row';
+    row.innerHTML = `<span style="color:var(--cyan);font-size:1.3rem;font-weight:800;">Answer =</span>`;
+    const inp = document.createElement('input');
+    inp.type = 'number'; inp.className = 'fill-in'; inp.id = 'fillIn';
+    inp.min = 0; inp.max = 999; inp.placeholder = '?';
+    inp.addEventListener('keydown', e => { if(e.key==='Enter') checkFill(); });
+    row.appendChild(inp);
+    aa.appendChild(row);
+    const cbtn = document.createElement('button');
+    cbtn.className = 'check-btn';
+    cbtn.textContent = '✅ Check Answer!';
+    cbtn.onclick = checkFill;
+    ca.appendChild(cbtn);
+    setTimeout(() => inp.focus(), 100);
+    startTimer(20);
+  }
+
+  // add hint
+  const hb = document.createElement('div');
+  hb.style.cssText = 'text-align:center;margin-top:4px;';
+  const hbtn = document.createElement('button');
+  hbtn.style.cssText = 'background:none;border:1.5px dashed rgba(255,255,255,.3);color:rgba(255,255,255,.6);padding:6px 14px;border-radius:20px;font-family:Quicksand,sans-serif;font-weight:800;font-size:.85rem;cursor:pointer;';
+  hbtn.textContent = '💡 Hint (-20 pts)';
+  hbtn.onclick = () => { score = Math.max(0, score - 20); updateHUD(); showToast('💡 ' + q.hint, 'green'); hbtn.disabled = true; hbtn.style.opacity='.4'; };
+  hb.appendChild(hbtn);
+  ca.appendChild(hb);
+
+  updateHUD();
+  // Level change flash
+  if (qIndex > 0 && q.level > questions[qIndex-1].level) levelUpFlash(q.level);
+}
+
+function handleChoice(btn, correct, idx) {
+  if (answered) return;
+  answered = true;
+  clearInterval(timerInterval);
+  const q = questions[qIndex];
+  document.querySelectorAll('.ans-btn').forEach((b, i) => {
+    b.onclick = null;
+    if (q.choices[i].correct) b.classList.add('correct');
+    else if (b === btn && !correct) b.classList.add('wrong');
+  });
+  if (correct) handleCorrect(q);
+  else handleWrong();
+}
+
+function checkFill() {
+  if (answered) return;
+  const inp = document.getElementById('fillIn');
+  if (!inp) return;
+  const val = parseInt(inp.value);
+  const q = questions[qIndex];
+  answered = true;
+  clearInterval(timerInterval);
+  inp.readOnly = true;
+  document.querySelector('.check-btn').disabled = true;
+  if (val === q.answer) { inp.classList.add('correct'); handleCorrect(q); }
+  else { inp.classList.add('wrong'); handleWrong(); inp.value = q.answer; }
+}
+
+function handleCorrect(q) {
+  streak++;
+  let pts = q.points;
+  const timBonus = Math.floor(timerPct * 0.5);
+  pts += timBonus;
+  if (streak >= 3) { pts = Math.floor(pts * 1.5); showComboBadge('🔥 COMBO x' + streak + '!'); }
+  score += pts;
+  updateHUD();
+  showToast('✅ Correct! +' + pts + ' pts', 'green');
+  confetti();
+  setTimeout(() => nextQuestion(), 1100);
+}
+
+function handleWrong() {
+  streak = 0;
+  loseLife();
+  showToast('❌ Oops! Try the next one!', 'red');
+  setTimeout(() => { if (lives > 0) nextQuestion(); else endGame(); }, 1200);
+}
+
+function nextQuestion() {
+  qIndex++;
+  if (qIndex >= questions.length) { endGame(); return; }
+  document.getElementById('qCard').style.animation = 'none';
+  requestAnimationFrame(() => {
+    document.getElementById('qCard').style.animation = '';
+    renderQuestion();
+  });
+}
+
+// ── LEVEL UP FLASH ──
+function levelUpFlash(lvl) {
+  const el = document.createElement('div');
+  el.className = 'levelup-flash';
+  el.textContent = '⬆️ LEVEL ' + lvl + '!';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1300);
+}
+
+// ── COMBO BADGE ──
+function showComboBadge(txt) {
+  const el = document.createElement('div');
+  el.className = 'combo-badge';
+  el.textContent = txt;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 900);
+}
+
+// ── TOAST ──
+let toastTimer;
+function showToast(msg, cls) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + cls;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.className = 'toast', 1500);
+}
+
+// ── CONFETTI ──
+function confetti() {
+  const colors = ['#FFD700','#FF6B2B','#FF3CAC','#00F5FF','#39FF14','#fff'];
+  for (let i = 0; i < 25; i++) {
+    setTimeout(() => {
+      const c = document.createElement('div');
+      c.className = 'conf';
+      c.style.cssText = `left:${15+Math.random()*70}%;top:0;width:${8+Math.random()*8}px;height:${8+Math.random()*8}px;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${1+Math.random()*.8}s;animation-delay:${Math.random()*.3}s;border-radius:${Math.random()>.5?'50%':'3px'};`;
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 2000);
+    }, i * 25);
+  }
+}
+
+// ── END GAME ──
+function endGame() {
+  clearInterval(timerInterval);
+  stopFalling();
+  confetti(); confetti();
+  if (score > highScore) {
+    highScore = score;
+    localStorage.setItem('pizzaHS', highScore);
+  }
+  const pct = qIndex / questions.length;
+  let stars = '⭐', title = 'Nice Try!', msg = 'Keep practicing! You can do it! 💪';
+  if (pct >= 1 && lives > 0) { stars = '⭐⭐⭐⭐⭐'; title = 'PERFECT! 🎉'; msg = 'You solved the whole pizza problem! You are a MATH HERO! 🦸‍♀️🍕'; }
+  else if (pct >= 0.75) { stars = '⭐⭐⭐⭐'; title = 'Amazing!'; msg = 'So close to perfect! Great math skills! 🌟'; }
+  else if (pct >= 0.5) { stars = '⭐⭐⭐'; title = 'Good Job!'; msg = 'You\'re getting better! Try again to get more stars! 😊'; }
+  else if (pct >= 0.25) { stars = '⭐⭐'; title = 'Keep Going!'; msg = 'Math takes practice. Play again — you\'ll get it! 🌈'; }
+
+  document.getElementById('trophy').textContent = pct >= 0.75 ? '🏆' : '🌟';
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endScore').textContent = score + ' pts';
+  document.getElementById('endStars').textContent = stars;
+  document.getElementById('endMsg').textContent = msg;
+  document.getElementById('highScoreDisplay').textContent = `🏆 BEST: ${highScore} pts`;
+
+  setTimeout(() => showScreen('endScreen'), 600);
+}
+
+function resetGame() {
+  document.getElementById('highScoreDisplay').textContent = `🏆 BEST: ${highScore} pts`;
+  showScreen('startScreen');
+}
+</script>
+</body>
+</html>

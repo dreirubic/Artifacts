@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multiplying Decimals – Practice Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Baloo+2:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #e0f4ff;
+    --blue: #3b9ede;
+    --dark-blue: #1a5f8a;
+    --yellow: #ffd84d;
+    --orange: #ff8c2a;
+    --green: #34c97a;
+    --red: #ff4f6b;
+    --purple: #9b59b6;
+    --teal: #1abc9c;
+    --white: #ffffff;
+    --soft: #f0f8ff;
+    --text: #1a2a3a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--sky);
+    background-image: radial-gradient(circle at 15% 20%, #b3e5fc44 0%, transparent 40%), radial-gradient(circle at 85% 80%, #ffe08244 0%, transparent 40%);
+    min-height: 100vh;
+    color: var(--text);
+    padding: 24px 16px 60px;
+  }
+  header { text-align: center; margin-bottom: 28px; }
+  .badge {
+    display: inline-block; background: var(--yellow); color: var(--dark-blue);
+    font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 12px;
+    letter-spacing: 1px; padding: 4px 14px; border-radius: 20px;
+    margin-bottom: 8px; text-transform: uppercase; box-shadow: 0 2px 8px #ffd84d66;
+  }
+  h1 { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: clamp(24px, 5vw, 40px); color: var(--dark-blue); margin-bottom: 4px; }
+  h1 span { color: var(--orange); }
+  .subtitle { font-size: 14px; color: #4a7a99; font-weight: 600; }
+  .progress-bar-wrap { max-width: 500px; margin: 14px auto 0; background: #c8e8f8; border-radius: 20px; height: 10px; overflow: hidden; }
+  .progress-bar { height: 100%; background: linear-gradient(90deg, var(--blue), var(--orange)); border-radius: 20px; transition: width 0.4s ease; width: 0%; }
+  .progress-label { text-align: center; font-size: 12px; font-weight: 700; color: #4a7a99; margin-top: 4px; }
+
+  /* TABS */
+  .tabs { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+  .tab-btn {
+    font-family: 'Baloo 2', cursive; font-weight: 700; font-size: 13px;
+    padding: 7px 16px; border-radius: 30px; border: 2.5px solid #c5dff0;
+    cursor: pointer; transition: all 0.2s; background: var(--white); color: var(--dark-blue);
+  }
+  .tab-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); box-shadow: 0 4px 14px #3b9ede44; }
+  .tab-btn:hover:not(.active) { border-color: var(--blue); color: var(--blue); }
+
+  /* SECTIONS */
+  .quiz-section { display: none; }
+  .quiz-section.active { display: block; }
+  .section-title {
+    font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 19px;
+    color: var(--dark-blue); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+  }
+  .section-title .icon {
+    background: var(--yellow); width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 2px 8px #ffd84d55;
+  }
+
+  /* QUESTION CARDS */
+  .questions { display: flex; flex-direction: column; gap: 16px; }
+  .q-card {
+    background: var(--white); border-radius: 18px; padding: 20px 22px;
+    box-shadow: 0 4px 18px #1a5f8a0f; border: 2px solid #daeef8; transition: border-color 0.2s;
+  }
+  .q-card.correct { border-color: var(--green); background: #f0fff6; }
+  .q-card.wrong { border-color: var(--red); background: #fff3f5; }
+  .q-num { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--blue); margin-bottom: 5px; }
+  .q-text { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 14px; line-height: 1.4; }
+  .q-text .math { font-family: 'Baloo 2', cursive; font-size: 18px; color: var(--dark-blue); }
+  .difficulty { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-left: 8px; vertical-align: middle; }
+  .easy { background: #d4f7e6; color: #1a7a4a; }
+  .medium { background: #fff3d4; color: #7a5a10; }
+  .hard { background: #ffd4da; color: #7a1a2a; }
+
+  /* CHOICES */
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  .choice-btn {
+    font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700;
+    padding: 10px 12px; border-radius: 13px; border: 2.5px solid #c5dff0;
+    background: var(--soft); color: var(--text); cursor: pointer; transition: all 0.18s; text-align: center;
+  }
+  .choice-btn:hover:not(:disabled) { border-color: var(--blue); background: #e8f5ff; color: var(--dark-blue); }
+  .choice-btn.selected-correct { background: var(--green); border-color: var(--green); color: #fff; }
+  .choice-btn.selected-wrong { background: var(--red); border-color: var(--red); color: #fff; }
+  .choice-btn.reveal-correct { background: #d4f7e6; border-color: var(--green); color: #1a7a4a; }
+  .choice-btn:disabled { cursor: default; }
+
+  /* FILL-IN */
+  .fill-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .fill-input {
+    font-family: 'Baloo 2', cursive; font-size: 17px; font-weight: 700;
+    width: 100px; padding: 7px 12px; border-radius: 12px; border: 2.5px solid #c5dff0;
+    background: var(--soft); color: var(--dark-blue); outline: none; text-align: center; transition: border-color 0.2s;
+  }
+  .fill-input:focus { border-color: var(--blue); }
+  .fill-input.correct-input { border-color: var(--green); background: #f0fff6; }
+  .fill-input.wrong-input { border-color: var(--red); background: #fff3f5; }
+  .check-btn {
+    font-family: 'Baloo 2', cursive; font-weight: 700; font-size: 13px;
+    padding: 8px 18px; border-radius: 12px; border: none; background: var(--blue); color: #fff;
+    cursor: pointer; transition: background 0.18s, transform 0.1s;
+  }
+  .check-btn:hover { background: var(--dark-blue); transform: scale(1.04); }
+  .check-btn:disabled { background: #aacfe8; cursor: default; transform: none; }
+
+  /* FEEDBACK */
+  .feedback { margin-top: 10px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+  .feedback.ok { color: var(--green); }
+  .feedback.no { color: var(--red); }
+
+  /* WORD PROBLEM */
+  .word-box {
+    background: #fffbea; border: 2px dashed var(--yellow); border-radius: 13px;
+    padding: 12px 15px; font-size: 14px; line-height: 1.6; margin-bottom: 12px;
+    color: #5a4010; font-weight: 600;
+  }
+  .hint-tag { font-size: 11px; color: #7aa5c0; margin-bottom: 12px; font-weight: 700; }
+
+  /* MENTAL MATH */
+  .mental-box {
+    background: #f4f0ff; border: 2px solid #d4c5f7; border-radius: 13px;
+    padding: 12px 15px; margin-bottom: 12px; font-size: 14px; color: #4a2a7a; font-weight: 600;
+  }
+
+  /* SCORE PANEL */
+  .score-panel {
+    background: var(--white); border-radius: 18px; padding: 20px 22px; margin-top: 24px;
+    border: 2.5px solid var(--yellow); box-shadow: 0 4px 20px #ffd84d22;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  }
+  .score-label { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 17px; color: var(--dark-blue); }
+  .score-value { font-family: 'Baloo 2', cursive; font-size: 30px; font-weight: 800; color: var(--orange); }
+  .score-msg { font-size: 13px; font-weight: 700; color: #5a7a8a; }
+  .reset-btn {
+    font-family: 'Baloo 2', cursive; font-weight: 700; font-size: 13px;
+    padding: 9px 20px; border-radius: 13px; border: none; background: var(--yellow);
+    color: var(--dark-blue); cursor: pointer; box-shadow: 0 2px 10px #ffd84d55;
+    transition: transform 0.15s; margin-top: 8px;
+  }
+  .reset-btn:hover { transform: scale(1.05); }
+
+  .container { max-width: 760px; margin: 0 auto; }
+  @media (max-width: 480px) { .choices { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="badge">⭐ Grade 5 Math — Multiplication of Decimals</div>
+    <h1>Multiplying <span>Decimals</span> 🔢</h1>
+    <p class="subtitle">5 quiz types • 60+ questions • Instant feedback</p>
+    <div class="progress-bar-wrap"><div class="progress-bar" id="prog-bar"></div></div>
+    <div class="progress-label" id="prog-label">0 answered</div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('mc',this)">🧠 Multiple Choice</button>
+    <button class="tab-btn" onclick="switchTab('fill',this)">✏️ Fill in the Blank</button>
+    <button class="tab-btn" onclick="switchTab('word',this)">📖 Word Problems</button>
+    <button class="tab-btn" onclick="switchTab('mental',this)">⚡ Mental Math</button>
+    <button class="tab-btn" onclick="switchTab('error',this)">🔍 Error Analysis</button>
+  </div>
+
+  <!-- MULTIPLE CHOICE -->
+  <div class="quiz-section active" id="tab-mc">
+    <div class="section-title"><div class="icon">🧠</div> Multiple Choice</div>
+    <div class="questions" id="mc-questions"></div>
+    <div class="score-panel" id="mc-score" style="display:none">
+      <div><div class="score-label">Your Score</div><div class="score-msg" id="mc-msg"></div></div>
+      <div class="score-value" id="mc-val"></div>
+      <button class="reset-btn" onclick="resetSection('mc')">🔄 Try Again</button>
+    </div>
+  </div>
+
+  <!-- FILL IN THE BLANK -->
+  <div class="quiz-section" id="tab-fill">
+    <div class="section-title"><div class="icon">✏️</div> Fill in the Blank</div>
+    <div class="questions" id="fill-questions"></div>
+    <div style="text-align:center;margin-top:20px;">
+      <button class="reset-btn" onclick="resetSection('fill')">🔄 Reset</button>
+    </div>
+  </div>
+
+  <!-- WORD PROBLEMS -->
+  <div class="quiz-section" id="tab-word">
+    <div class="section-title"><div class="icon">📖</div> Word Problems</div>
+    <div class="questions" id="word-questions"></div>
+    <div class="score-panel" id="word-score" style="display:none">
+      <div><div class="score-label">Your Score</div><div class="score-msg" id="word-msg"></div></div>
+      <div class="score-value" id="word-val"></div>
+      <button class="reset-btn" onclick="resetSection('word')">🔄 Try Again</button>
+    </div>
+  </div>
+
+  <!-- MENTAL MATH -->
+  <div class="quiz-section" id="tab-mental">
+    <div class="section-title"><div class="icon">⚡</div> Mental Math Challenge</div>
+    <div class="questions" id="mental-questions"></div>
+    <div class="score-panel" id="mental-score" style="display:none">
+      <div><div class="score-label">Your Score</div><div class="score-msg" id="mental-msg"></div></div>
+      <div class="score-value" id="mental-val"></div>
+      <button class="reset-btn" onclick="resetSection('mental')">🔄 Try Again</button>
+    </div>
+  </div>
+
+  <!-- ERROR ANALYSIS -->
+  <div class="quiz-section" id="tab-error">
+    <div class="section-title"><div class="icon">🔍</div> Error Analysis — Find the Mistake!</div>
+    <div class="questions" id="error-questions"></div>
+    <div class="score-panel" id="error-score" style="display:none">
+      <div><div class="score-label">Your Score</div><div class="score-msg" id="error-msg"></div></div>
+      <div class="score-value" id="error-val"></div>
+      <button class="reset-btn" onclick="resetSection('error')">🔄 Try Again</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============ DATA ============
+
+const mcData = [
+  // Easy
+  { q:"0.5 × 2 = ?", choices:["0.10","1.0","10","1.5"], answer:1, diff:"easy" },
+  { q:"3.4 × 2 = ?", choices:["5.4","6.8","6.4","7.2"], answer:1, diff:"easy" },
+  { q:"0.7 × 9 = ?", choices:["0.63","7.0","6.3","63"], answer:2, diff:"easy" },
+  { q:"1.2 × 5 = ?", choices:["6.0","5.2","7.2","6.2"], answer:0, diff:"easy" },
+  { q:"2.5 × 4 = ?", choices:["8.2","9.0","10.0","10.5"], answer:2, diff:"easy" },
+  // Medium
+  { q:"4.6 × 3 = ?", choices:["12.8","13.6","13.8","14.2"], answer:2, diff:"medium" },
+  { q:"7.409 × 6 = ?", choices:["44.454","44.45","42.409","44.054"], answer:0, diff:"medium" },
+  { q:"1.5 × 1.5 = ?", choices:["2.25","2.5","3.0","2.0"], answer:0, diff:"medium" },
+  { q:"6.3 × 0.1 = ?", choices:["6.30","0.63","63","0.063"], answer:1, diff:"medium" },
+  { q:"8.4 × 0.5 = ?", choices:["42","4.20","0.42","4.02"], answer:1, diff:"medium" },
+  { q:"3.75 × 4 = ?", choices:["15.00","14.75","15.75","13.00"], answer:0, diff:"medium" },
+  { q:"9.2 × 3 = ?", choices:["27.6","27.2","28.0","26.6"], answer:0, diff:"medium" },
+  // Hard
+  { q:"0.8 × 0.4 = ?", choices:["3.2","0.032","0.32","32"], answer:2, diff:"hard" },
+  { q:"2.3 × 1.4 = ?", choices:["3.22","3.20","3.02","2.94"], answer:0, diff:"hard" },
+  { q:"5.06 × 7 = ?", choices:["35.42","35.32","35.052","35.40"], answer:0, diff:"hard" },
+  { q:"0.12 × 0.3 = ?", choices:["0.36","3.6","0.036","0.0036"], answer:2, diff:"hard" },
+];
+
+const fillData = [
+  { q:"2.7 × 3 = ___", answer:"8.1", diff:"easy" },
+  { q:"5.0 × 0.6 = ___", answer:"3", diff:"easy" },
+  { q:"4.2 × 5 = ___", answer:"21", diff:"easy" },
+  { q:"0.9 × 7 = ___", answer:"6.3", diff:"easy" },
+  { q:"3.6 × 4 = ___", answer:"14.4", diff:"medium" },
+  { q:"1.8 × 0.5 = ___", answer:"0.9", diff:"medium" },
+  { q:"9.1 × 2 = ___", answer:"18.2", diff:"medium" },
+  { q:"0.3 × 0.3 = ___", answer:"0.09", diff:"medium" },
+  { q:"6.25 × 8 = ___", answer:"50", diff:"medium" },
+  { q:"4.07 × 5 = ___", answer:"20.35", diff:"medium" },
+  { q:"0.45 × 6 = ___", answer:"2.7", diff:"medium" },
+  { q:"7.8 × 1.5 = ___", answer:"11.7", diff:"hard" },
+  { q:"2.04 × 9 = ___", answer:"18.36", diff:"hard" },
+  { q:"0.06 × 0.7 = ___", answer:"0.042", diff:"hard" },
+];
+
+const wordData = [
+  { story:"Maria buys 3 meters of ribbon. Each meter costs ₱12.50. How much does she pay in all?", choices:["₱36.00","₱37.00","₱37.50","₱38.00"], answer:2, hint:"12.50 × 3" },
+  { story:"A bottle holds 1.5 liters of water. Carlo has 4 bottles. How many liters of water does he have in total?", choices:["5.0 L","6.0 L","5.5 L","6.5 L"], answer:1, hint:"1.5 × 4" },
+  { story:"Ana walks 2.4 km every day. How far does she walk in 5 days?", choices:["10.0 km","11.0 km","12.0 km","12.4 km"], answer:2, hint:"2.4 × 5" },
+  { story:"A pack of pencils costs ₱8.75. Teacher Joy buys 6 packs. How much does she spend?", choices:["₱52.00","₱52.50","₱53.50","₱52.75"], answer:1, hint:"8.75 × 6" },
+  { story:"One kilo of rice costs ₱55.50. Lolo Narding buys 3 kilos. How much does he pay?", choices:["₱155.50","₱165.50","₱166.50","₱166.00"], answer:2, hint:"55.50 × 3" },
+  { story:"A rectangle has a length of 4.5 cm and a width of 2 cm. What is its area?", choices:["6.5 cm²","8.0 cm²","9.0 cm²","9.5 cm²"], answer:2, hint:"4.5 × 2" },
+  { story:"Each student needs 0.75 meters of cloth for a project. There are 8 students. How many meters of cloth are needed in all?", choices:["5.0 m","5.5 m","6.0 m","6.75 m"], answer:2, hint:"0.75 × 8" },
+  { story:"A car uses 7.2 liters of gasoline per hour. How much gasoline does it use in 3 hours?", choices:["21.0 L","21.2 L","21.6 L","22.0 L"], answer:2, hint:"7.2 × 3" },
+  { story:"Ate Rosa earns ₱95.50 per hour. She worked for 4 hours today. How much did she earn?", choices:["₱380.00","₱381.00","₱382.00","₱382.50"], answer:2, hint:"95.50 × 4" },
+  { story:"A box of mangoes weighs 2.35 kg. A sari-sari store ordered 6 boxes. What is the total weight?", choices:["14.0 kg","14.1 kg","14.10 kg","14.15 kg"], answer:1, hint:"2.35 × 6" },
+];
+
+const mentalData = [
+  { tip:"To multiply a decimal by 10, move the decimal point one place to the RIGHT.", q:"0.5 × 10 = ?", choices:["0.50","5.0","50","500"], answer:1, diff:"easy" },
+  { tip:"To multiply a decimal by 100, move the decimal point two places to the RIGHT.", q:"0.35 × 100 = ?", choices:["3.5","35","350","0.035"], answer:1, diff:"easy" },
+  { tip:"Think of 0.1 as 1/10. Multiply by 0.1 = divide by 10.", q:"8 × 0.1 = ?", choices:["80","0.08","0.8","8.1"], answer:2, diff:"easy" },
+  { tip:"Think: 2.5 × 2 = 5.0 because 25 × 2 = 50, then place the decimal.", q:"2.5 × 2 = ?", choices:["4.5","5.0","50","0.5"], answer:1, diff:"easy" },
+  { tip:"Count decimal places: 0.3 (1 place) × 0.2 (1 place) = answer has 2 decimal places.", q:"0.3 × 0.2 = ?", choices:["0.6","0.06","6.0","0.006"], answer:1, diff:"medium" },
+  { tip:"Use rounding to check: 4.9 × 5 ≈ 5 × 5 = 25. Answer should be close to 25.", q:"4.9 × 5 = ?", choices:["24.5","24.0","25.0","20.45"], answer:0, diff:"medium" },
+  { tip:"Multiply 15 × 6 = 90, then place decimal: 1.5 × 6 = 9.0.", q:"1.5 × 6 = ?", choices:["7.5","8.0","9.0","9.5"], answer:2, diff:"medium" },
+  { tip:"Think of 0.25 as 1/4. So 0.25 × 8 = 8 ÷ 4 = 2.", q:"0.25 × 8 = ?", choices:["0.2","2.0","20","0.02"], answer:1, diff:"medium" },
+  { tip:"Move decimal in your head: 3.14 × 10 = 31.4.", q:"3.14 × 10 = ?", choices:["31.4","314","0.314","3.14"], answer:0, diff:"hard" },
+  { tip:"Count places: 0.04 (2 places) × 0.5 (1 place) = 3 decimal places in answer.", q:"0.04 × 0.5 = ?", choices:["0.2","0.02","0.002","0.0020"], answer:1, diff:"hard" },
+];
+
+const errorData = [
+  { q:"Nena solved: 3.2 × 4 = 1.28\nWhat is the mistake?", choices:["She forgot to add decimal places correctly.","She multiplied wrong: 32 × 4 = 128, but forgot to place decimal correctly. Answer should be 12.8.","She should have gotten 3.28.","There is no mistake."], answer:1 },
+  { q:"Roel solved: 0.5 × 0.5 = 2.5\nWhat is the mistake?", choices:["He should multiply 5 × 5 = 25, then count 2 decimal places → 0.25, not 2.5.","He forgot to borrow.","He added instead of multiplied.","There is no mistake."], answer:0 },
+  { q:"Anna solved: 7.4 × 10 = 7.40\nWhat is the mistake?", choices:["She should have gotten 74.0, not 7.40. Multiplying by 10 moves the decimal one place right.","She should have gotten 740.","She added a zero incorrectly.","There is no mistake."], answer:0 },
+  { q:"Ben solved: 1.2 × 1.2 = 2.4\nWhat is the mistake?", choices:["He forgot to regroup.","He added instead of multiplied.","He forgot to count decimal places: 12 × 12 = 144, so 1.2 × 1.2 = 1.44, not 2.4.","There is no mistake."], answer:2 },
+  { q:"Lea solved: 0.6 × 0.3 = 1.8\nWhat is the mistake?", choices:["She placed the decimal wrong. 6 × 3 = 18, but with 2 decimal places total → 0.18, not 1.8.","She multiplied correctly.","She added instead of multiplied.","She should have gotten 18."], answer:0 },
+  { q:"Carlo solved: 4.05 × 2 = 8.10\nIs this correct?", choices:["No, the answer should be 8.05.","No, the answer should be 8.005.","Yes, 4.05 × 2 = 8.10 is correct.","No, the answer should be 4.10."], answer:2 },
+  { q:"Mira solved: 2.5 × 0.1 = 25\nWhat is the mistake?", choices:["Multiplying by 0.1 moves the decimal LEFT one place. Answer should be 0.25.","She forgot to regroup.","She should have gotten 2.50.","There is no mistake."], answer:0 },
+];
+
+// ============ TRACKING ============
+let totalAnswered = 0;
+const totalQuestions = mcData.length + fillData.length + wordData.length + mentalData.length + errorData.length;
+
+function updateProgress() {
+  const pct = Math.round((totalAnswered / totalQuestions) * 100);
+  document.getElementById('prog-bar').style.width = pct + '%';
+  document.getElementById('prog-label').textContent = `${totalAnswered} of ${totalQuestions} answered`;
+}
+
+// ============ RENDER MC ============
+function renderMC() {
+  const c = document.getElementById('mc-questions'); c.innerHTML = '';
+  mcData.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card'; card.id = `mc-card-${i}`;
+    card.innerHTML = `
+      <div class="q-num">Question ${i+1} <span class="difficulty ${item.diff}">${item.diff.toUpperCase()}</span></div>
+      <div class="q-text"><span class="math">${item.q}</span></div>
+      <div class="choices">
+        ${item.choices.map((c,ci)=>`<button class="choice-btn" id="mc-${i}-${ci}" onclick="answerMC(${i},${ci})">${c}</button>`).join('')}
+      </div>
+      <div class="feedback" id="mc-fb-${i}" style="display:none"></div>`;
+    c.appendChild(card);
+  });
+}
+
+function answerMC(qi, ci) {
+  const item = mcData[qi];
+  const fb = document.getElementById(`mc-fb-${qi}`);
+  const card = document.getElementById(`mc-card-${qi}`);
+  item.choices.forEach((_,idx) => {
+    const btn = document.getElementById(`mc-${qi}-${idx}`);
+    btn.disabled = true;
+    if (idx === item.answer) btn.classList.add('reveal-correct');
+  });
+  const chosen = document.getElementById(`mc-${qi}-${ci}`);
+  if (ci === item.answer) {
+    chosen.classList.remove('reveal-correct'); chosen.classList.add('selected-correct');
+    card.classList.add('correct'); fb.innerHTML='✅ Correct! Great job!'; fb.className='feedback ok';
+  } else {
+    chosen.classList.add('selected-wrong'); card.classList.add('wrong');
+    fb.innerHTML=`❌ The correct answer is <strong>${item.choices[item.answer]}</strong>.`; fb.className='feedback no';
+  }
+  fb.style.display='flex'; totalAnswered++; updateProgress(); checkMCScore();
+}
+
+function checkMCScore() {
+  let ans=0, cor=0;
+  mcData.forEach((_,i) => { const c=document.getElementById(`mc-card-${i}`); if(c.classList.contains('correct')||c.classList.contains('wrong')){ans++;} if(c.classList.contains('correct'))cor++; });
+  if (ans===mcData.length) { showScore('mc', cor, mcData.length); }
+}
+
+// ============ RENDER FILL ============
+function renderFill() {
+  const c = document.getElementById('fill-questions'); c.innerHTML = '';
+  fillData.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.innerHTML = `
+      <div class="q-num">Question ${i+1} <span class="difficulty ${item.diff}">${item.diff.toUpperCase()}</span></div>
+      <div class="q-text"><span class="math">${item.q}</span></div>
+      <div class="fill-row">
+        <input class="fill-input" id="fill-inp-${i}" placeholder="?" type="text" onkeydown="if(event.key==='Enter')checkFill(${i})"/>
+        <button class="check-btn" id="fill-btn-${i}" onclick="checkFill(${i})">Check ✓</button>
+      </div>
+      <div class="feedback" id="fill-fb-${i}" style="display:none"></div>`;
+    c.appendChild(card);
+  });
+}
+
+function checkFill(i) {
+  const inp = document.getElementById(`fill-inp-${i}`);
+  const btn = document.getElementById(`fill-btn-${i}`);
+  const fb = document.getElementById(`fill-fb-${i}`);
+  if (inp.disabled) return;
+  const val = inp.value.trim();
+  const isCorrect = Math.abs(parseFloat(val) - parseFloat(fillData[i].answer)) < 0.0001;
+  inp.disabled = true; btn.disabled = true;
+  if (isCorrect) { inp.classList.add('correct-input'); fb.innerHTML='✅ Correct!'; fb.className='feedback ok'; }
+  else { inp.classList.add('wrong-input'); fb.innerHTML=`❌ Correct answer: <strong>${fillData[i].answer}</strong>`; fb.className='feedback no'; }
+  fb.style.display='flex'; totalAnswered++; updateProgress();
+}
+
+// ============ RENDER WORD ============
+function renderWord() {
+  const c = document.getElementById('word-questions'); c.innerHTML = '';
+  wordData.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card'; card.id = `word-card-${i}`;
+    card.innerHTML = `
+      <div class="q-num">Problem ${i+1}</div>
+      <div class="word-box">${item.story}</div>
+      <div class="hint-tag">💡 Hint: ${item.hint}</div>
+      <div class="choices">
+        ${item.choices.map((ch,ci)=>`<button class="choice-btn" id="word-${i}-${ci}" onclick="answerWord(${i},${ci})">${ch}</button>`).join('')}
+      </div>
+      <div class="feedback" id="word-fb-${i}" style="display:none"></div>`;
+    c.appendChild(card);
+  });
+}
+
+function answerWord(qi, ci) {
+  const item = wordData[qi];
+  const fb = document.getElementById(`word-fb-${qi}`);
+  const card = document.getElementById(`word-card-${qi}`);
+  item.choices.forEach((_,idx) => {
+    const btn = document.getElementById(`word-${qi}-${idx}`);
+    btn.disabled = true;
+    if (idx === item.answer) btn.classList.add('reveal-correct');
+  });
+  const chosen = document.getElementById(`word-${qi}-${ci}`);
+  if (ci === item.answer) {
+    chosen.classList.remove('reveal-correct'); chosen.classList.add('selected-correct');
+    card.classList.add('correct'); fb.innerHTML='✅ Correct!'; fb.className='feedback ok';
+  } else {
+    chosen.classList.add('selected-wrong'); card.classList.add('wrong');
+    fb.innerHTML=`❌ Correct answer: <strong>${item.choices[item.answer]}</strong>`; fb.className='feedback no';
+  }
+  fb.style.display='flex'; totalAnswered++; updateProgress(); checkWordScore();
+}
+
+function checkWordScore() {
+  let ans=0, cor=0;
+  wordData.forEach((_,i) => { const c=document.getElementById(`word-card-${i}`); if(c.classList.contains('correct')||c.classList.contains('wrong')){ans++;} if(c.classList.contains('correct'))cor++; });
+  if(ans===wordData.length) showScore('word', cor, wordData.length);
+}
+
+// ============ RENDER MENTAL ============
+function renderMental() {
+  const c = document.getElementById('mental-questions'); c.innerHTML = '';
+  mentalData.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card'; card.id = `mental-card-${i}`;
+    card.innerHTML = `
+      <div class="q-num">Question ${i+1} <span class="difficulty ${item.diff}">${item.diff.toUpperCase()}</span></div>
+      <div class="mental-box">💡 <strong>Tip:</strong> ${item.tip}</div>
+      <div class="q-text"><span class="math">${item.q}</span></div>
+      <div class="choices">
+        ${item.choices.map((ch,ci)=>`<button class="choice-btn" id="mental-${i}-${ci}" onclick="answerMental(${i},${ci})">${ch}</button>`).join('')}
+      </div>
+      <div class="feedback" id="mental-fb-${i}" style="display:none"></div>`;
+    c.appendChild(card);
+  });
+}
+
+function answerMental(qi, ci) {
+  const item = mentalData[qi];
+  const fb = document.getElementById(`mental-fb-${qi}`);
+  const card = document.getElementById(`mental-card-${qi}`);
+  item.choices.forEach((_,idx) => {
+    const btn = document.getElementById(`mental-${qi}-${idx}`);
+    btn.disabled = true;
+    if (idx === item.answer) btn.classList.add('reveal-correct');
+  });
+  const chosen = document.getElementById(`mental-${qi}-${ci}`);
+  if (ci === item.answer) {
+    chosen.classList.remove('reveal-correct'); chosen.classList.add('selected-correct');
+    card.classList.add('correct'); fb.innerHTML='✅ Correct!'; fb.className='feedback ok';
+  } else {
+    chosen.classList.add('selected-wrong'); card.classList.add('wrong');
+    fb.innerHTML=`❌ Correct answer: <strong>${item.choices[item.answer]}</strong>`; fb.className='feedback no';
+  }
+  fb.style.display='flex'; totalAnswered++; updateProgress(); checkMentalScore();
+}
+
+function checkMentalScore() {
+  let ans=0, cor=0;
+  mentalData.forEach((_,i) => { const c=document.getElementById(`mental-card-${i}`); if(c.classList.contains('correct')||c.classList.contains('wrong')){ans++;} if(c.classList.contains('correct'))cor++; });
+  if(ans===mentalData.length) showScore('mental', cor, mentalData.length);
+}
+
+// ============ RENDER ERROR ============
+function renderError() {
+  const c = document.getElementById('error-questions'); c.innerHTML = '';
+  errorData.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card'; card.id = `error-card-${i}`;
+    card.innerHTML = `
+      <div class="q-num">Error ${i+1}</div>
+      <div class="word-box" style="white-space:pre-line">${item.q}</div>
+      <div class="choices" style="grid-template-columns:1fr">
+        ${item.choices.map((ch,ci)=>`<button class="choice-btn" id="error-${i}-${ci}" onclick="answerError(${i},${ci})">${ch}</button>`).join('')}
+      </div>
+      <div class="feedback" id="error-fb-${i}" style="display:none"></div>`;
+    c.appendChild(card);
+  });
+}
+
+function answerError(qi, ci) {
+  const item = errorData[qi];
+  const fb = document.getElementById(`error-fb-${qi}`);
+  const card = document.getElementById(`error-card-${qi}`);
+  item.choices.forEach((_,idx) => {
+    const btn = document.getElementById(`error-${qi}-${idx}`);
+    btn.disabled = true;
+    if (idx === item.answer) btn.classList.add('reveal-correct');
+  });
+  const chosen = document.getElementById(`error-${qi}-${ci}`);
+  if (ci === item.answer) {
+    chosen.classList.remove('reveal-correct'); chosen.classList.add('selected-correct');
+    card.classList.add('correct'); fb.innerHTML='✅ Correct! You found the mistake!'; fb.className='feedback ok';
+  } else {
+    chosen.classList.add('selected-wrong'); card.classList.add('wrong');
+    fb.innerHTML=`❌ Look again: <strong>${item.choices[item.answer]}</strong>`; fb.className='feedback no';
+  }
+  fb.style.display='flex'; totalAnswered++; updateProgress(); checkErrorScore();
+}
+
+function checkErrorScore() {
+  let ans=0, cor=0;
+  errorData.forEach((_,i) => { const c=document.getElementById(`error-card-${i}`); if(c.classList.contains('correct')||c.classList.contains('wrong')){ans++;} if(c.classList.contains('correct'))cor++; });
+  if(ans===errorData.length) showScore('error', cor, errorData.length);
+}
+
+// ============ SHARED ============
+function showScore(id, correct, total) {
+  const panel = document.getElementById(`${id}-score`);
+  panel.style.display = 'flex';
+  document.getElementById(`${id}-val`).textContent = `${correct}/${total}`;
+  const pct = correct/total;
+  const msg = pct===1 ? '🌟 Perfect! Absolutely amazing!' : pct>=0.8 ? '🎉 Excellent work!' : pct>=0.6 ? '👍 Good job! Keep practicing!' : '💪 Review the lesson and try again!';
+  document.getElementById(`${id}-msg`).textContent = msg;
+}
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.quiz-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(`tab-${name}`).classList.add('active');
+  btn.classList.add('active');
+}
+
+function resetSection(name) {
+  const map = { mc: [renderMC,'mc-score'], fill: [renderFill,null], word: [renderWord,'word-score'], mental: [renderMental,'mental-score'], error: [renderError,'error-score'] };
+  map[name][0]();
+  if (map[name][1]) document.getElementById(map[name][1]).style.display='none';
+}
+
+// INIT
+renderMC(); renderFill(); renderWord(); renderMental(); renderError(); updateProgress();
+</script>
+</body>
+</html>

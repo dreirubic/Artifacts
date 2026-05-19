@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 2 Math Quiz 🌟</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow: #FFD93D;
+    --pink: #FF6B9D;
+    --blue: #4ECDC4;
+    --purple: #A855F7;
+    --green: #6BCB77;
+    --orange: #FF9A3C;
+    --red: #FF4757;
+    --bg: #F0F4FF;
+    --card: #FFFFFF;
+    --dark: #2D2D44;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle at 10% 15%, #FFD93D1A 0%, transparent 45%),
+      radial-gradient(circle at 90% 85%, #FF6B9D1A 0%, transparent 45%),
+      radial-gradient(circle at 75% 10%, #4ECDC41A 0%, transparent 40%);
+    color: var(--dark);
+    min-height: 100vh;
+    padding: 20px 16px 40px;
+  }
+
+  /* ---- HEADER ---- */
+  .header {
+    text-align: center;
+    padding: 28px 20px 16px;
+    animation: bounceIn 0.7s ease;
+  }
+  @keyframes bounceIn {
+    from { opacity: 0; transform: scale(0.85); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  .header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    color: var(--purple);
+    text-shadow: 4px 4px 0 #FFD93D, 6px 6px 0 #FF9A3C;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .header .meta {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .badge {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.95rem;
+    padding: 6px 18px;
+    border-radius: 30px;
+    color: white;
+  }
+  .badge.blue   { background: var(--blue); }
+  .badge.orange { background: var(--orange); }
+  .badge.pink   { background: var(--pink); }
+
+  /* ---- PROGRESS BAR ---- */
+  .progress-wrap {
+    max-width: 720px;
+    margin: 18px auto 6px;
+    background: white;
+    border-radius: 50px;
+    padding: 6px 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .progress-track {
+    flex: 1;
+    background: #EEE;
+    border-radius: 50px;
+    height: 16px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--blue), var(--purple));
+    border-radius: 50px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+  .progress-label {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    color: var(--purple);
+    white-space: nowrap;
+  }
+
+  /* ---- QUIZ CONTAINER ---- */
+  .quiz-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  /* ---- QUESTION CARD ---- */
+  .q-card {
+    background: white;
+    border-radius: 24px;
+    padding: 26px 24px 22px;
+    margin: 16px 0;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.07);
+    border-top: 6px solid var(--purple);
+    animation: slideUp 0.4s ease;
+    position: relative;
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Alternating accent colors */
+  .q-card:nth-child(1)  { border-top-color: var(--orange); }
+  .q-card:nth-child(2)  { border-top-color: var(--blue); }
+  .q-card:nth-child(3)  { border-top-color: var(--green); }
+  .q-card:nth-child(4)  { border-top-color: var(--pink); }
+  .q-card:nth-child(5)  { border-top-color: var(--purple); }
+  .q-card:nth-child(6)  { border-top-color: var(--orange); }
+  .q-card:nth-child(7)  { border-top-color: var(--blue); }
+  .q-card:nth-child(8)  { border-top-color: var(--green); }
+  .q-card:nth-child(9)  { border-top-color: var(--pink); }
+  .q-card:nth-child(10) { border-top-color: var(--yellow); border-top-width: 8px; }
+
+  .q-number {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.85rem;
+    color: #aaa;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .q-topic-tag {
+    display: inline-block;
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.75rem;
+    padding: 3px 12px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    color: white;
+  }
+  .tag-multistep  { background: var(--orange); }
+  .tag-fraction   { background: var(--blue); }
+  .tag-set        { background: var(--green); }
+  .tag-compare    { background: var(--purple); }
+
+  .q-text {
+    font-size: 1.1rem;
+    font-weight: 800;
+    line-height: 1.55;
+    margin-bottom: 16px;
+    color: var(--dark);
+  }
+
+  /* Visual aids */
+  .visual-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+    justify-content: flex-start;
+  }
+  .frac-bar-mini {
+    display: flex;
+    height: 30px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 2px solid rgba(0,0,0,0.12);
+    width: 200px;
+  }
+  .frac-bar-mini .seg {
+    flex: 1;
+    border-right: 1.5px solid rgba(0,0,0,0.08);
+  }
+  .frac-bar-mini .seg:last-child { border-right: none; }
+
+  /* ---- CHOICES ---- */
+  .choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .choice-btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 10px 22px;
+    border: 3px solid #E0E0E0;
+    border-radius: 50px;
+    background: #FAFAFA;
+    cursor: pointer;
+    transition: all 0.18s;
+    color: var(--dark);
+  }
+  .choice-btn:hover:not(:disabled) {
+    background: #F0F0FF;
+    border-color: var(--purple);
+    transform: translateY(-2px);
+  }
+  .choice-btn.correct {
+    background: var(--green);
+    color: white;
+    border-color: var(--green);
+    transform: scale(1.04);
+  }
+  .choice-btn.wrong {
+    background: var(--red);
+    color: white;
+    border-color: var(--red);
+  }
+  .choice-btn.reveal {
+    background: #C8E6C9;
+    color: #1B5E20;
+    border-color: var(--green);
+  }
+
+  /* ---- FEEDBACK ---- */
+  .feedback {
+    margin-top: 14px;
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-size: 1rem;
+    font-weight: 700;
+    display: none;
+    line-height: 1.5;
+  }
+  .feedback.show    { display: block; animation: fadeIn 0.3s ease; }
+  .feedback.correct { background: #E8F5E9; color: #2E7D32; border-left: 5px solid var(--green); }
+  .feedback.wrong   { background: #FFEBEE; color: #C62828; border-left: 5px solid var(--red); }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ---- SUBMIT BUTTON ---- */
+  .submit-wrap {
+    text-align: center;
+    margin: 28px 0 10px;
+  }
+  .submit-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    padding: 14px 42px;
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 6px 0 #7B1FA2;
+    transition: all 0.2s;
+  }
+  .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 9px 0 #7B1FA2; }
+  .submit-btn:active { transform: translateY(1px); box-shadow: 0 3px 0 #7B1FA2; }
+
+  /* ---- RESULTS PANEL ---- */
+  .results {
+    display: none;
+    background: white;
+    border-radius: 28px;
+    padding: 32px 28px;
+    text-align: center;
+    margin: 20px auto;
+    max-width: 720px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+    animation: bounceIn 0.6s ease;
+  }
+  .results.show { display: block; }
+  .results .big-emoji { font-size: 4rem; margin-bottom: 10px; }
+  .results h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.2rem;
+    margin-bottom: 8px;
+  }
+  .score-circle {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 16px auto;
+    box-shadow: 0 8px 24px rgba(168,85,247,0.35);
+  }
+  .score-circle .sc-num {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.8rem;
+    line-height: 1;
+  }
+  .score-circle .sc-denom {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    opacity: 0.85;
+  }
+  .score-message {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #555;
+    margin: 10px 0 20px;
+    line-height: 1.6;
+  }
+  .breakdown {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 14px 0 20px;
+  }
+  .breakdown-item {
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+  .retry-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    padding: 12px 32px;
+    background: var(--orange);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 5px 0 #c0392b;
+    transition: all 0.2s;
+    margin-top: 6px;
+  }
+  .retry-btn:hover { transform: translateY(-2px); }
+
+  /* Inline fraction notation */
+  .frac-inline {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    line-height: 1.1;
+    vertical-align: middle;
+    margin: 0 4px;
+  }
+  .frac-inline hr {
+    width: 100%;
+    border: 2px solid var(--dark);
+    margin: 1px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div style="font-size:2.2rem;margin-bottom:6px;">🍕 📐 ⭐</div>
+  <h1>Grade 2 Math Quiz!</h1>
+  <div class="meta">
+    <span class="badge blue">10 Questions</span>
+    <span class="badge orange">All 4 Topics</span>
+    <span class="badge pink">📅 Long Test Prep</span>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-wrap">
+  <span class="progress-label" id="progressLabel">0 / 10</span>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="quiz-wrap" id="quizWrap">
+
+  <!-- Q1 -->
+  <div class="q-card">
+    <div class="q-number">Question 1 of 10</div>
+    <div class="q-topic-tag tag-multistep">🧩 Multi-step Problem</div>
+    <div class="q-text">Marco had 12 crayons. He lost 4, then his teacher gave him 6 more. How many crayons does Marco have now?</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="check(this,1,false,'Step 1: 12 − 4 = 8. Step 2: 8 + 6 = 14. The answer is 14! 🖍️')">10</button>
+      <button class="choice-btn" onclick="check(this,1,true, 'Step 1: 12 − 4 = 8. Step 2: 8 + 6 = 14. The answer is 14! 🖍️')">14</button>
+      <button class="choice-btn" onclick="check(this,1,false,'Step 1: 12 − 4 = 8. Step 2: 8 + 6 = 14. The answer is 14! 🖍️')">22</button>
+      <button class="choice-btn" onclick="check(this,1,false,'Step 1: 12 − 4 = 8. Step 2: 8 + 6 = 14. The answer is 14! 🖍️')">16</button>
+    </div>
+    <div class="feedback" id="fb1"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-card">
+    <div class="q-number">Question 2 of 10</div>
+    <div class="q-topic-tag tag-fraction">🍕 Fractions</div>
+    <div class="q-text">A chocolate bar is cut into 8 equal pieces. Sofia eats 3 pieces. What fraction of the chocolate bar did she eat?</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="check(this,2,false,'The bar has 8 equal pieces (denominator = 8) and Sofia ate 3 (numerator = 3). So the answer is 3/8! 🍫')">8/3</button>
+      <button class="choice-btn" onclick="check(this,2,false,'The bar has 8 equal pieces (denominator = 8) and Sofia ate 3 (numerator = 3). So the answer is 3/8! 🍫')">5/8</button>
+      <button class="choice-btn" onclick="check(this,2,true, 'The bar has 8 equal pieces (denominator = 8) and Sofia ate 3 (numerator = 3). So the answer is 3/8! 🍫')">3/8</button>
+      <button class="choice-btn" onclick="check(this,2,false,'The bar has 8 equal pieces (denominator = 8) and Sofia ate 3 (numerator = 3). So the answer is 3/8! 🍫')">3/5</button>
+    </div>
+    <div class="feedback" id="fb2"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-card">
+    <div class="q-number">Question 3 of 10</div>
+    <div class="q-topic-tag tag-set">🌸 Fractional Part of a Set</div>
+    <div class="q-text">Look at the fruits below. What fraction of the fruits are 🍊 oranges?</div>
+    <div class="visual-row" style="font-size:2rem;gap:6px;">
+      <span>🍊</span><span>🍊</span><span>🍊</span>
+      <span>🍎</span><span>🍎</span>
+      <span>🍇</span><span>🍇</span>
+    </div>
+    <div class="choices">
+      <button class="choice-btn" onclick="check(this,3,false,'There are 7 fruits in total (denominator = 7) and 3 are oranges (numerator = 3). So 3/7 are oranges! 🍊')">3/4</button>
+      <button class="choice-btn" onclick="check(this,3,true, 'There are 7 fruits in total (denominator = 7) and 3 are oranges (numerator = 3). So 3/7 are oranges! 🍊')">3/7</button>
+      <button class="choice-btn" onclick="check(this,3,false,'There are 7 fruits in total (denominator = 7) and 3 are oranges (numerator = 3). So 3/7 are oranges! 🍊')">4/7</button>
+      <button class="choice-btn" onclick="check(this,3,false,'There are 7 fruits in total (denominator = 7) and 3 are oranges (numerator = 3). So 3/7 are oranges! 🍊')">2/7</button>
+    </div>
+    <div class="feedback" id="fb3"></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-card">
+    <div class="q-number">Question 4 of 10</div>
+    <div class="q-topic-tag tag-compare">⚖️ Comparing Fractions</div>
+    <div class="q-text">Which fraction is SMALLER? Look at the fraction bars to help you!</div>
+    <div style="margin-bottom:14px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <span style="font-family:'Fredoka One';font-size:1.1rem;min-width:40px;">4/6</span>
+        <div class="frac-bar-mini">
+          <div class="seg" style="background:#FF6B9D;"></div>
+          <div class="seg" style="background:#FF6B9D;"></div>
+          <div class="seg" style="background:#FF6B9D;"></div>
+          <div class="seg" style="background:#FF6B9D;"></div>
+          <div class="seg" style="background:#eee;"></div>
+          <div class="seg" style="background:#eee;"></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-family:'Fredoka One';font-size:1.1rem;min-width:40px;">2/6</span>
+        <div class="frac-bar-mini">
+          <div class="seg" style="background:#4ECDC4;"></div>
+          <div class="seg" style="background:#4ECDC4;"></div>
+          <div class="seg" style="background:#eee;"></div>
+          <div class="seg" style="background:#eee;"></div>
+          <div class="seg" style="background:#eee;"></div>
+          <div class="seg" style="background:#eee;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="choices">
+      <button class="choice-btn" onclick="check(this,4,false,'Both have the same denominator (6), so we compare the numerators: 2 < 4. That means 2/6 is smaller! 🔵')">4/6</button>
+      <button class="choice-btn" onclick="check(this,4,true, 'Both have the same denominator (6), so we compare the numerators: 2 < 4. That means 2/6 is smaller! 🔵')">2/6</button>
+      <button class="choice-btn" onclick="check(this,4,false,'Both have the same denominator (6), so we compare the numerators: 2 < 4. That means 2/6 is smaller! 🔵')">They are equal</button>
+    </div>
+    <div class="feedback" id="fb4"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-card">
+    <div class="q-number">Question 5 of 10</div>
+    <div class="q-topic-tag tag-multistep">🧩 Multi-step Problem</div>
+    <div class="q-text">A baker made 20 cupcakes. He sold 8 in the morning and 5 in the afternoon. How many cupcakes does he have left?</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="check(this,5,false,'Step 1: 8 + 5 = 13 cupcakes sold in total. Step 2: 20 − 13 = 7 cupcakes left! 🧁')">13</button>
+      <button class="choice-btn" onclick="check(this,5,true, 'Step 1: 8 + 5 = 13 cupcakes sold in total. Step 2: 20 − 13 = 7 cupcakes left! 🧁')">7</button>
+      <button class="choice-btn" onclick="check(this,5,false,'Step 1: 8 + 5 = 13 cupcakes sold in total. Step 2: 20 − 13 = 7 cupcakes left! 🧁')">12</button>
+      <button class="choice-btn" onclick="check(this,5,false,'Step 1: 8 + 5 = 13 cupcakes sold in total. Step 2: 20 − 13 = 7 cupcakes left! 🧁')">3</button>
+    </div>
+    <div class="feedback" id="fb5"></div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-card">
+    <div class="q-number">Question 6 of 10</div>
+    <div class="q-topic-tag tag-fraction">🍕 Fractions</div>
+    <div class="q-text">In the fraction 5/9, what does the number 9 tell us?</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="check(this,6,false,'The bottom number is the denominator. It tells us how many EQUAL parts the whole is divided into — which is 9! 🔢')">How many parts we have</button>
+      <button class="choice-btn" onclick="check(this,6,false,'The bottom number is the denominator. It tells us how many EQUAL parts the whole is divided into — which is 9! 🔢')">The numerator</button>
+      <button class="choice-btn" onclick="check(this,6,true, 'The bottom number is the denominator. It tells us how many EQUAL parts the whole is divided into — which is 9! 🔢')">How many equal parts in all</button>
+      <button class="choice-btn" onclick="check(this,6,false,'The bottom number is the denominator. It tells us how many EQUAL parts the whole is divided into — which is 9! 🔢')">The total score</button>
+    </div>
+    <div class="feedback" id="fb6"></div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-card">
+    <div class="q-number">Question 7 of 10</div>
+    <div class="q-topic-tag tag-set">🌸 Fractional Part of a Set</div>
+    <div class="q-text">There are 12 cookies. 1/4 of them have sprinkles 🍪. How many cookies have sprinkles?</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="check(this,7,false,'Divide first: 12 ÷ 4 = 3. Then multiply: 3 × 1 = 3. So 3 cookies have sprinkles! 🍪')">4</button>
+      <button class="choice-btn" onclick="check(this,7,true, 'Divide first: 12 ÷ 4 = 3. Then multiply: 3 × 1 = 3. So 3 cookies have sprinkles! 🍪')">3</button>
+      <button class="choice-btn" onclick="check(this,7,false,'Divide first: 12 ÷ 4 = 3. Then multiply: 3 × 1 = 3. So 3 cookies have sprinkles! 🍪')">6</button>
+      <button class="choice-btn" onclick="check(this,7,false,'Divide first: 12 ÷ 4 = 3. Then multiply: 3 × 1 = 3. So 3 cookies have sprinkles! 🍪')">1</button>
+    </div>
+    <div class="feedback" id="fb7"></div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-card">
+    <div class="q-number">Question 8 of 10</div>
+    <div class="q-topic-tag tag-compare">⚖️ Comparing Fractions</div>
+    <div class="q-text">Put these fractions in order from SMALLEST to BIGGEST: &nbsp; 5/10 &nbsp; 2/10 &nbsp; 8/10 &nbsp; 1/10</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="check(this,8,false,'Same denominator (10), so compare the top numbers: 1 < 2 < 5 < 8. The correct order is 1/10, 2/10, 5/10, 8/10! ⬆️')">8/10, 5/10, 2/10, 1/10</button>
+      <button class="choice-btn" onclick="check(this,8,true, 'Same denominator (10), so compare the top numbers: 1 < 2 < 5 < 8. The correct order is 1/10, 2/10, 5/10, 8/10! ⬆️')">1/10, 2/10, 5/10, 8/10</button>
+      <button class="choice-btn" onclick="check(this,8,false,'Same denominator (10), so compare the top numbers: 1 < 2 < 5 < 8. The correct order is 1/10, 2/10, 5/10, 8/10! ⬆️')">2/10, 1/10, 8/10, 5/10</button>
+      <button class="choice-btn" onclick="check(this,8,false,'Same denominator (10), so compare the top numbers: 1 < 2 < 5 < 8. The correct order is 1/10, 2/10, 5/10, 8/10! ⬆️')">5/10, 8/10, 1/10, 2/10</button>
+    </div>
+    <div class="feedback" id="fb8"></div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="q-card">
+    <div class="q-number">Question 9 of 10</div>
+    <div class="q-topic-tag tag-multistep">🧩 Multi-step Problem</div>
+    <div class="q-text">Lena had ₱50. She bought a pencil for ₱12 and an eraser for ₱8. How much money does she have left?</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="check(this,9,false,'Step 1: 12 + 8 = ₱20 spent in total. Step 2: 50 − 20 = ₱30 left! 💰')">₱20</button>
+      <button class="choice-btn" onclick="check(this,9,false,'Step 1: 12 + 8 = ₱20 spent in total. Step 2: 50 − 20 = ₱30 left! 💰')">₱38</button>
+      <button class="choice-btn" onclick="check(this,9,true, 'Step 1: 12 + 8 = ₱20 spent in total. Step 2: 50 − 20 = ₱30 left! 💰')">₱30</button>
+      <button class="choice-btn" onclick="check(this,9,false,'Step 1: 12 + 8 = ₱20 spent in total. Step 2: 50 − 20 = ₱30 left! 💰')">₱42</button>
+    </div>
+    <div class="feedback" id="fb9"></div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="q-card" style="border: 3px solid var(--yellow); background: linear-gradient(135deg, #FFFDE7, #FFFFFF);">
+    <div class="q-number" style="color:var(--orange);">⭐ Question 10 of 10 — CHALLENGE!</div>
+    <div class="q-topic-tag tag-compare">⚖️ Comparing Fractions</div>
+    <div class="q-text">Which fraction is GREATER: 1/2 or 1/4? Think carefully — the denominators are different!</div>
+    <div style="margin-bottom:14px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <span style="font-family:'Fredoka One';font-size:1.1rem;min-width:40px;">1/2</span>
+        <div class="frac-bar-mini" style="width:240px;">
+          <div class="seg" style="background:#FF6B9D;"></div>
+          <div class="seg" style="background:#eee;"></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-family:'Fredoka One';font-size:1.1rem;min-width:40px;">1/4</span>
+        <div class="frac-bar-mini" style="width:240px;">
+          <div class="seg" style="background:#A855F7;"></div>
+          <div class="seg" style="background:#eee;"></div>
+          <div class="seg" style="background:#eee;"></div>
+          <div class="seg" style="background:#eee;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="choices">
+      <button class="choice-btn" onclick="check(this,10,true, 'Look at the bars — 1/2 fills up MORE space than 1/4. When the numerators are the same, the SMALLER denominator means a BIGGER piece! So 1/2 > 1/4! 🩷')">1/2</button>
+      <button class="choice-btn" onclick="check(this,10,false,'Look at the bars — 1/2 fills up MORE space than 1/4. When the numerators are the same, the SMALLER denominator means a BIGGER piece! So 1/2 > 1/4! 🩷')">1/4</button>
+      <button class="choice-btn" onclick="check(this,10,false,'Look at the bars — 1/2 fills up MORE space than 1/4. When the numerators are the same, the SMALLER denominator means a BIGGER piece! So 1/2 > 1/4! 🩷')">They are equal</button>
+    </div>
+    <div class="feedback" id="fb10"></div>
+  </div>
+
+</div>
+
+<!-- SUBMIT -->
+<div class="submit-wrap">
+  <button class="submit-btn" onclick="submitQuiz()">🎯 See My Score!</button>
+</div>
+
+<!-- RESULTS -->
+<div class="results" id="resultsPanel">
+  <div class="big-emoji" id="resultEmoji">🌟</div>
+  <h2 id="resultTitle" style="color:var(--purple);">Amazing!</h2>
+  <div class="score-circle">
+    <span class="sc-num" id="scoreNum">0</span>
+    <span class="sc-denom">out of 10</span>
+  </div>
+  <div class="score-message" id="scoreMsg"></div>
+  <div class="breakdown" id="breakdown"></div>
+  <button class="retry-btn" onclick="resetQuiz()">🔄 Try Again!</button>
+</div>
+
+<div style="text-align:center;padding:24px;font-size:0.9rem;color:#aaa;font-weight:600;">
+  ✨ You can do it! Study hard and believe in yourself! 🌈
+</div>
+
+<script>
+  let score = 0;
+  let answered = {};
+  const topicLabels = {
+    1: 'Multi-step', 2: 'Fractions', 3: 'Fractional Set',
+    4: 'Comparing', 5: 'Multi-step', 6: 'Fractions',
+    7: 'Fractional Set', 8: 'Comparing', 9: 'Multi-step', 10: 'Comparing'
+  };
+
+  function check(btn, qNum, correct, explanation) {
+    if (answered[qNum]) return;
+    answered[qNum] = true;
+
+    const allBtns = btn.closest('.choices').querySelectorAll('.choice-btn');
+    allBtns.forEach(b => b.disabled = true);
+
+    const fb = document.getElementById('fb' + qNum);
+
+    if (correct) {
+      btn.classList.add('correct');
+      fb.innerHTML = '🎉 <strong>Correct!</strong> ' + explanation;
+      fb.className = 'feedback correct show';
+      score++;
+    } else {
+      btn.classList.add('wrong');
+      // Highlight the correct button
+      allBtns.forEach(b => {
+        const evAttr = b.getAttribute('onclick');
+        if (evAttr && evAttr.includes(',true,')) b.classList.add('reveal');
+      });
+      fb.innerHTML = '❌ <strong>Not quite!</strong> ' + explanation;
+      fb.className = 'feedback wrong show';
+    }
+
+    // Update progress
+    const done = Object.keys(answered).length;
+    document.getElementById('progressLabel').textContent = done + ' / 10';
+    document.getElementById('progressFill').style.width = (done * 10) + '%';
+  }
+
+  function submitQuiz() {
+    // Auto-answer unanswered questions as wrong
+    for (let i = 1; i <= 10; i++) {
+      if (!answered[i]) {
+        const fb = document.getElementById('fb' + i);
+        fb.innerHTML = '⏭️ <strong>Skipped.</strong> Make sure to answer every question!';
+        fb.className = 'feedback wrong show';
+        answered[i] = false;
+        const allBtns = document.querySelectorAll(`#quizWrap .q-card:nth-child(${i}) .choice-btn`);
+        allBtns.forEach(b => {
+          b.disabled = true;
+          const evAttr = b.getAttribute('onclick');
+          if (evAttr && evAttr.includes(',true,')) b.classList.add('reveal');
+        });
+      }
+    }
+
+    document.getElementById('progressLabel').textContent = '10 / 10';
+    document.getElementById('progressFill').style.width = '100%';
+
+    // Show results
+    const panel = document.getElementById('resultsPanel');
+    panel.classList.add('show');
+    panel.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('scoreNum').textContent = score;
+
+    let emoji, title, msg;
+    if (score === 10) {
+      emoji = '🏆'; title = 'PERFECT SCORE!';
+      msg = 'You got everything right! You are SO ready for the long test tomorrow! Keep it up! 🌟';
+    } else if (score >= 8) {
+      emoji = '🌟'; title = 'Excellent Work!';
+      msg = 'Almost perfect! Review the ones you missed and you\'ll be totally ready for tomorrow! 💪';
+    } else if (score >= 6) {
+      emoji = '😊'; title = 'Good Job!';
+      msg = 'You\'re on the right track! Go back to the reviewer and review the tricky topics. You can do it! 📚';
+    } else if (score >= 4) {
+      emoji = '📚'; title = 'Keep Studying!';
+      msg = 'Don\'t give up! Read through the reviewer again carefully and try the quiz once more. Practice makes perfect! 🌈';
+    } else {
+      emoji = '💪'; title = 'Don\'t Give Up!';
+      msg = 'It\'s okay! Every mistake is a chance to learn. Go back to the reviewer, take your time, and try again! You got this! ❤️';
+    }
+
+    document.getElementById('resultEmoji').textContent = emoji;
+    document.getElementById('resultTitle').textContent = title;
+    document.getElementById('scoreMsg').textContent = msg;
+
+    // Breakdown by topic
+    const topicScore = { 'Multi-step': [0,0], 'Fractions': [0,0], 'Fractional Set': [0,0], 'Comparing': [0,0] };
+    const correctMap = {1:true,2:true,3:true,4:true,5:true,6:true,7:true,8:true,9:true,10:true};
+    // We track which were correct by comparing answered vs correctMap
+    // Use a simpler approach: score per topic
+    const topicColors = { 'Multi-step': '#FF9A3C', 'Fractions': '#4ECDC4', 'Fractional Set': '#6BCB77', 'Comparing': '#A855F7' };
+    // Not able to track per-topic from outside, so show overall breakdown text
+    const bd = document.getElementById('breakdown');
+    bd.innerHTML = `
+      <div class="breakdown-item" style="background:#FFF3E0;color:#E65100;">🧩 Multi-step (Q1,5,9)</div>
+      <div class="breakdown-item" style="background:#E0F7FA;color:#00695C;">🍕 Fractions (Q2,6)</div>
+      <div class="breakdown-item" style="background:#E8F5E9;color:#2E7D32;">🌸 Sets (Q3,7)</div>
+      <div class="breakdown-item" style="background:#F3E5F5;color:#6A1B9A;">⚖️ Comparing (Q4,8,10)</div>
+    `;
+  }
+
+  function resetQuiz() {
+    score = 0;
+    answered = {};
+    document.getElementById('progressLabel').textContent = '0 / 10';
+    document.getElementById('progressFill').style.width = '0%';
+    document.querySelectorAll('.choice-btn').forEach(b => {
+      b.classList.remove('correct','wrong','reveal');
+      b.disabled = false;
+    });
+    document.querySelectorAll('.feedback').forEach(f => {
+      f.className = 'feedback';
+      f.textContent = '';
+    });
+    document.getElementById('resultsPanel').classList.remove('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>

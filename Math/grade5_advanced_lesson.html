@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 5 Advanced Lesson</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a237e;
+    --blue: #1565c0;
+    --sky: #42a5f5;
+    --gold: #ffd600;
+    --green: #00c853;
+    --red: #f44336;
+    --orange: #ff6f00;
+    --soft-bg: #f0f4ff;
+    --white: #ffffff;
+    --card: #ffffff;
+    --text: #1a237e;
+    --muted: #5c6bc0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--soft-bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 60%, var(--sky) 100%);
+    padding: 28px 24px 22px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 80% 20%, rgba(255,214,0,0.18) 0%, transparent 60%);
+  }
+  header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2rem;
+    color: var(--white);
+    letter-spacing: 1px;
+    position: relative;
+  }
+  header p {
+    color: #b3c4ff;
+    font-size: 0.95rem;
+    margin-top: 4px;
+    position: relative;
+  }
+  .badge-row {
+    display: flex; justify-content: center; gap: 10px;
+    margin-top: 14px; flex-wrap: wrap; position: relative;
+  }
+  .badge {
+    background: rgba(255,255,255,0.15);
+    border: 1.5px solid rgba(255,255,255,0.3);
+    color: #fff;
+    border-radius: 20px;
+    padding: 4px 16px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  /* NAV TABS */
+  .tabs {
+    display: flex;
+    background: var(--white);
+    border-bottom: 2px solid #e3e8ff;
+    overflow-x: auto;
+    position: sticky; top: 0; z-index: 10;
+    box-shadow: 0 2px 10px rgba(26,35,126,0.07);
+  }
+  .tab-btn {
+    flex: 1; min-width: 120px;
+    padding: 14px 8px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.88rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--muted);
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+  }
+  .tab-btn.active {
+    color: var(--navy);
+    border-bottom-color: var(--gold);
+    background: #f5f7ff;
+  }
+  .tab-btn:hover:not(.active) { background: #f0f4ff; }
+  .tab-icon { display: block; font-size: 1.3rem; margin-bottom: 2px; }
+
+  /* CONTENT */
+  .content { padding: 20px 16px 40px; max-width: 700px; margin: 0 auto; }
+  .section { display: none; }
+  .section.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+  /* LESSON CARD */
+  .lesson-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 12px rgba(26,35,126,0.08);
+    border-left: 5px solid var(--sky);
+  }
+  .lesson-card.gold { border-left-color: var(--gold); }
+  .lesson-card.green { border-left-color: var(--green); }
+  .lesson-card.orange { border-left-color: var(--orange); }
+
+  .lesson-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    color: var(--navy);
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .lesson-body { font-size: 0.93rem; line-height: 1.7; color: #333; }
+  .lesson-body p { margin-bottom: 8px; }
+  .lesson-body ul, .lesson-body ol { padding-left: 20px; margin-bottom: 8px; }
+  .lesson-body li { margin-bottom: 4px; }
+
+  .highlight-box {
+    background: #e8f4fd;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin: 10px 0;
+    font-size: 0.9rem;
+    border: 1px solid #b3d9f7;
+  }
+  .highlight-box.yellow { background: #fffde7; border-color: #ffe082; }
+  .highlight-box.green { background: #e8f5e9; border-color: #a5d6a7; }
+
+  .example-block {
+    background: #f5f0ff;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin: 10px 0;
+    border: 1.5px dashed #9575cd;
+    font-size: 0.9rem;
+  }
+  .example-block strong { color: #512da8; }
+
+  /* QUIZ */
+  .quiz-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.4rem;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+  .quiz-subtitle { color: var(--muted); font-size: 0.88rem; margin-bottom: 18px; }
+
+  .question-card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 10px rgba(26,35,126,0.07);
+  }
+  .question-text {
+    font-weight: 800;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+    color: var(--navy);
+    line-height: 1.5;
+  }
+  .passage-text {
+    background: #f8f9ff;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: #333;
+    margin-bottom: 12px;
+    border-left: 3px solid var(--sky);
+    font-style: italic;
+  }
+  .choices { display: flex; flex-direction: column; gap: 8px; }
+  .choice-btn {
+    background: #f0f4ff;
+    border: 2px solid #c5cae9;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--navy);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.18s;
+  }
+  .choice-btn:hover:not(:disabled) { background: #e3e8ff; border-color: var(--sky); }
+  .choice-btn.correct { background: #e8f5e9; border-color: var(--green); color: #1b5e20; }
+  .choice-btn.wrong { background: #ffebee; border-color: var(--red); color: #b71c1c; }
+  .choice-btn:disabled { cursor: default; }
+
+  .feedback {
+    margin-top: 10px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct { background: #e8f5e9; color: #1b5e20; }
+  .feedback.wrong { background: #ffebee; color: #b71c1c; }
+
+  /* SCORE */
+  .score-bar {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 2px 10px rgba(26,35,126,0.07);
+  }
+  .score-label { font-weight: 800; color: var(--navy); font-size: 0.9rem; }
+  .score-number { font-family: 'Fredoka One', cursive; font-size: 1.6rem; color: var(--blue); }
+
+  .submit-btn {
+    display: block; width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--blue), var(--navy));
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    border: none; border-radius: 12px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    margin-top: 8px;
+    transition: opacity 0.2s;
+  }
+  .submit-btn:hover { opacity: 0.9; }
+  .reset-btn {
+    display: block; width: 100%;
+    padding: 12px;
+    background: #fff;
+    color: var(--navy);
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    border: 2px solid var(--navy);
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.2s;
+  }
+  .reset-btn:hover { background: #f0f4ff; }
+
+  .result-card {
+    background: linear-gradient(135deg, var(--navy), var(--blue));
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    color: white;
+    margin-top: 20px;
+    display: none;
+  }
+  .result-card.show { display: block; }
+  .result-emoji { font-size: 3rem; margin-bottom: 8px; }
+  .result-score { font-family: 'Fredoka One', cursive; font-size: 2.5rem; }
+  .result-msg { font-size: 0.95rem; opacity: 0.9; margin-top: 6px; }
+
+  .progress-track {
+    background: #e3e8ff;
+    border-radius: 20px;
+    height: 8px;
+    margin: 8px 0 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--sky), var(--green));
+    border-radius: 20px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .q-number {
+    display: inline-block;
+    background: var(--navy);
+    color: white;
+    border-radius: 50%;
+    width: 26px; height: 26px;
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-align: center;
+    line-height: 26px;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+
+  table.vocab-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    margin: 10px 0;
+  }
+  table.vocab-table th {
+    background: var(--navy);
+    color: white;
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 700;
+  }
+  table.vocab-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #e3e8ff;
+  }
+  table.vocab-table tr:nth-child(even) td { background: #f5f7ff; }
+
+  .topic-chip {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    border-radius: 20px;
+    padding: 2px 12px;
+    font-size: 0.78rem;
+    font-weight: 900;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📚 Grade 5 Advanced Lesson</h1>
+  <p>English Reading & Mathematics</p>
+  <div class="badge-row">
+    <span class="badge">📖 Reading Comprehension</span>
+    <span class="badge">➗ Fractions & Decimals</span>
+    <span class="badge">🧩 Practice Quizzes</span>
+  </div>
+</header>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('english-lesson')">
+    <span class="tab-icon">📖</span>English Lesson
+  </button>
+  <button class="tab-btn" onclick="showTab('english-quiz')">
+    <span class="tab-icon">✏️</span>English Quiz
+  </button>
+  <button class="tab-btn" onclick="showTab('math-lesson')">
+    <span class="tab-icon">🔢</span>Math Lesson
+  </button>
+  <button class="tab-btn" onclick="showTab('math-quiz')">
+    <span class="tab-icon">🧮</span>Math Quiz
+  </button>
+</div>
+
+<div class="content">
+
+<!-- ======================== ENGLISH LESSON ======================== -->
+<div id="english-lesson" class="section active">
+
+  <div class="lesson-card">
+    <div class="topic-chip">📖 ENGLISH READING</div>
+    <div class="lesson-title">📝 Topic: Reading Comprehension — Finding the Main Idea</div>
+    <div class="lesson-body">
+      <p>When we read a passage, we need to understand <strong>what it is mostly about</strong>. That "mostly about" part is called the <strong>main idea</strong>.</p>
+      <div class="highlight-box yellow">
+        💡 <strong>Main Idea</strong> = The most important point the author wants you to know. It is <em>not</em> just one detail — it covers the whole passage.
+      </div>
+      <p>Supporting details are the facts, examples, or reasons that <strong>prove or explain</strong> the main idea.</p>
+    </div>
+  </div>
+
+  <div class="lesson-card gold">
+    <div class="lesson-title">🔍 How to Find the Main Idea</div>
+    <div class="lesson-body">
+      <ol>
+        <li><strong>Read the whole passage</strong> — don't stop at one sentence.</li>
+        <li><strong>Ask yourself:</strong> "What is this mostly about?"</li>
+        <li><strong>Check the first and last sentences</strong> — the main idea is often there.</li>
+        <li><strong>Test your idea:</strong> Do the other sentences support it?</li>
+      </ol>
+      <div class="highlight-box">
+        🚫 Trap! A <em>detail</em> is not the main idea. If a sentence only talks about one small part, it's a supporting detail.
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-card green">
+    <div class="lesson-title">📄 Sample Passage</div>
+    <div class="lesson-body">
+      <div class="example-block">
+        <strong>Read this:</strong><br><br>
+        Dogs are one of the most popular pets in the world. They are loyal and enjoy spending time with their owners. Dogs can be trained to do many helpful things, such as guiding blind people, detecting danger, and even helping police officers. Because of their intelligence and friendly nature, dogs are often called "man's best friend."
+      </div>
+      <p><strong>Main Idea:</strong> Dogs make great pets and helpers because they are loyal and intelligent.</p>
+      <p><strong>Supporting Details:</strong></p>
+      <ul>
+        <li>They guide blind people.</li>
+        <li>They can detect danger.</li>
+        <li>They help police officers.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="lesson-card">
+    <div class="lesson-title">📚 Vocabulary Builder</div>
+    <div class="lesson-body">
+      <p>Strong readers know how to figure out word meanings from context. Look at the words around an unfamiliar word — they give you clues!</p>
+      <table class="vocab-table">
+        <tr><th>Word</th><th>Meaning</th><th>Clue Strategy</th></tr>
+        <tr><td><strong>loyal</strong></td><td>faithful, always there for you</td><td>Look at what comes after: "enjoy spending time with owners"</td></tr>
+        <tr><td><strong>detect</strong></td><td>to discover or notice something</td><td>Connected to "danger" — finding it before it happens</td></tr>
+        <tr><td><strong>intelligence</strong></td><td>the ability to learn and understand</td><td>Root word: "intellect" = brain</td></tr>
+      </table>
+      <div class="highlight-box green">
+        ✅ <strong>Tip:</strong> When you see an unfamiliar word, re-read the sentence before it and after it. The context gives you clues!
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-card orange">
+    <div class="lesson-title">🌟 Types of Text</div>
+    <div class="lesson-body">
+      <p>Knowing the <strong>type of text</strong> helps you understand it better.</p>
+      <ul>
+        <li><strong>Narrative</strong> — tells a story with characters and events.</li>
+        <li><strong>Informational / Expository</strong> — explains facts about a topic (like the dog passage above).</li>
+        <li><strong>Persuasive</strong> — tries to convince you to agree with an opinion.</li>
+        <li><strong>Descriptive</strong> — paints a picture with words.</li>
+      </ul>
+      <div class="highlight-box yellow">
+        🎯 The dog passage is <strong>informational</strong> — it gives facts. No story, no opinions. Just facts and explanations.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ======================== ENGLISH QUIZ ======================== -->
+<div id="english-quiz" class="section">
+  <div class="quiz-title">✏️ English Quiz</div>
+  <div class="quiz-subtitle">Reading Comprehension — 8 questions · Choose the best answer</div>
+
+  <div class="score-bar">
+    <div>
+      <div class="score-label">Your Score</div>
+      <div class="progress-track"><div class="progress-fill" id="eq-progress"></div></div>
+    </div>
+    <div class="score-number" id="eq-score">0 / 8</div>
+  </div>
+
+  <!-- Passage for Q1-Q5 -->
+  <div class="question-card">
+    <div class="question-text">📄 Read this passage then answer questions 1–5:</div>
+    <div class="passage-text">
+      The ocean is full of amazing creatures. One of the most fascinating is the octopus. Octopuses have eight arms lined with suckers, which they use to grab food and explore their surroundings. They are very intelligent animals and can solve puzzles, open jars, and even escape from tanks. Octopuses protect themselves by squirting ink at predators and by changing the color of their skin to blend in with their environment. Despite their strange appearance, octopuses are gentle animals that rarely harm humans.
+    </div>
+  </div>
+
+  <div class="question-card" id="eq-q1">
+    <div class="question-text"><span class="q-number">1</span>What is the main idea of the passage?</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="checkEQ(1, this, false)">A. Octopuses have eight arms with suckers.</button>
+      <button class="choice-btn" onclick="checkEQ(1, this, true)">B. Octopuses are fascinating and intelligent ocean creatures.</button>
+      <button class="choice-btn" onclick="checkEQ(1, this, false)">C. The ocean is full of many different animals.</button>
+      <button class="choice-btn" onclick="checkEQ(1, this, false)">D. Octopuses are dangerous to humans.</button>
+    </div>
+    <div class="feedback" id="eq-fb1"></div>
+  </div>
+
+  <div class="question-card" id="eq-q2">
+    <div class="question-text"><span class="q-number">2</span>How do octopuses protect themselves?</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="checkEQ(2, this, false)">A. By biting with sharp teeth.</button>
+      <button class="choice-btn" onclick="checkEQ(2, this, false)">B. By hiding in coral reefs.</button>
+      <button class="choice-btn" onclick="checkEQ(2, this, true)">C. By squirting ink and changing skin color.</button>
+      <button class="choice-btn" onclick="checkEQ(2, this, false)">D. By swimming away very fast.</button>
+    </div>
+    <div class="feedback" id="eq-fb2"></div>
+  </div>
+
+  <div class="question-card" id="eq-q3">
+    <div class="question-text"><span class="q-number">3</span>Which detail is a SUPPORTING DETAIL, not the main idea?</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="checkEQ(3, this, true)">A. Octopuses can open jars and solve puzzles.</button>
+      <button class="choice-btn" onclick="checkEQ(3, this, false)">B. Octopuses are amazing ocean creatures.</button>
+      <button class="choice-btn" onclick="checkEQ(3, this, false)">C. Octopuses are intelligent animals.</button>
+      <button class="choice-btn" onclick="checkEQ(3, this, false)">D. Octopuses rarely harm humans.</button>
+    </div>
+    <div class="feedback" id="eq-fb3"></div>
+  </div>
+
+  <div class="question-card" id="eq-q4">
+    <div class="question-text"><span class="q-number">4</span>What does the word "predators" most likely mean based on the passage?</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="checkEQ(4, this, false)">A. Friends of the octopus</button>
+      <button class="choice-btn" onclick="checkEQ(4, this, true)">B. Animals that hunt other animals</button>
+      <button class="choice-btn" onclick="checkEQ(4, this, false)">C. A type of fish in the ocean</button>
+      <button class="choice-btn" onclick="checkEQ(4, this, false)">D. Rocks near the sea</button>
+    </div>
+    <div class="feedback" id="eq-fb4"></div>
+  </div>
+
+  <div class="question-card" id="eq-q5">
+    <div class="question-text"><span class="q-number">5</span>What type of text is the octopus passage?</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="checkEQ(5, this, false)">A. Narrative (story)</button>
+      <button class="choice-btn" onclick="checkEQ(5, this, true)">B. Informational (expository)</button>
+      <button class="choice-btn" onclick="checkEQ(5, this, false)">C. Persuasive</button>
+      <button class="choice-btn" onclick="checkEQ(5, this, false)">D. Descriptive poetry</button>
+    </div>
+    <div class="feedback" id="eq-fb5"></div>
+  </div>
+
+  <!-- General reading questions -->
+  <div class="question-card" id="eq-q6">
+    <div class="question-text"><span class="q-number">6</span>Where is the main idea of a paragraph MOST LIKELY found?</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="checkEQ(6, this, false)">A. Always in the middle of the paragraph</button>
+      <button class="choice-btn" onclick="checkEQ(6, this, true)">B. Often in the first or last sentence</button>
+      <button class="choice-btn" onclick="checkEQ(6, this, false)">C. Never written — you must always guess it</button>
+      <button class="choice-btn" onclick="checkEQ(6, this, false)">D. Only in the title</button>
+    </div>
+    <div class="feedback" id="eq-fb6"></div>
+  </div>
+
+  <div class="question-card" id="eq-q7">
+    <div class="question-text"><span class="q-number">7</span>A student reads: "Maria trained for months. She woke up early every day to practice. On race day, she ran faster than ever before." What is the main idea?</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="checkEQ(7, this, false)">A. Maria woke up early every day.</button>
+      <button class="choice-btn" onclick="checkEQ(7, this, false)">B. Maria ran a race.</button>
+      <button class="choice-btn" onclick="checkEQ(7, this, true)">C. Maria's hard work and training led to success.</button>
+      <button class="choice-btn" onclick="checkEQ(7, this, false)">D. Maria is a fast runner.</button>
+    </div>
+    <div class="feedback" id="eq-fb7"></div>
+  </div>
+
+  <div class="question-card" id="eq-q8">
+    <div class="question-text"><span class="q-number">8</span>Which strategy helps you figure out a word's meaning?</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="checkEQ(8, this, false)">A. Skip the word and keep reading without thinking about it.</button>
+      <button class="choice-btn" onclick="checkEQ(8, this, false)">B. Always look it up in the dictionary immediately.</button>
+      <button class="choice-btn" onclick="checkEQ(8, this, true)">C. Use context clues — read the sentences around the word.</button>
+      <button class="choice-btn" onclick="checkEQ(8, this, false)">D. Ask a classmate for the answer.</button>
+    </div>
+    <div class="feedback" id="eq-fb8"></div>
+  </div>
+
+  <div class="result-card" id="eq-result">
+    <div class="result-emoji" id="eq-emoji">🌟</div>
+    <div class="result-score" id="eq-final-score"></div>
+    <div class="result-msg" id="eq-result-msg"></div>
+  </div>
+  <button class="reset-btn" onclick="resetQuiz('eq')">🔄 Try Again</button>
+</div>
+
+<!-- ======================== MATH LESSON ======================== -->
+<div id="math-lesson" class="section">
+
+  <div class="lesson-card">
+    <div class="topic-chip">🔢 MATHEMATICS</div>
+    <div class="lesson-title">➕ Topic: Fractions & Decimals</div>
+    <div class="lesson-body">
+      <p>A <strong>fraction</strong> shows a part of a whole. A <strong>decimal</strong> is another way to write a fraction — using a decimal point instead.</p>
+      <div class="highlight-box yellow">
+        💡 <strong>Remember:</strong> The <em>numerator</em> is on top (the part you have). The <em>denominator</em> is on the bottom (the total parts).
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-card gold">
+    <div class="lesson-title">🔄 Converting Fractions to Decimals</div>
+    <div class="lesson-body">
+      <p>To convert a fraction to a decimal, <strong>divide the numerator by the denominator</strong>.</p>
+      <div class="example-block">
+        <strong>Example 1:</strong> ½ → 1 ÷ 2 = <strong>0.5</strong><br>
+        <strong>Example 2:</strong> ¾ → 3 ÷ 4 = <strong>0.75</strong><br>
+        <strong>Example 3:</strong> ⅖ → 2 ÷ 5 = <strong>0.4</strong>
+      </div>
+      <div class="highlight-box">
+        📌 Common ones to memorize:<br>
+        ½ = 0.5 &nbsp;|&nbsp; ¼ = 0.25 &nbsp;|&nbsp; ¾ = 0.75 &nbsp;|&nbsp; ⅕ = 0.2 &nbsp;|&nbsp; ⅖ = 0.4
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-card green">
+    <div class="lesson-title">➕ Adding & Subtracting Fractions</div>
+    <div class="lesson-body">
+      <p><strong>Same denominator</strong> → Just add/subtract the numerators!</p>
+      <div class="example-block">
+        <strong>Example:</strong> 2/7 + 3/7 = 5/7 &nbsp; ✅ Easy!
+      </div>
+      <p><strong>Different denominators</strong> → Find the Least Common Denominator (LCD) first.</p>
+      <div class="example-block">
+        <strong>Example:</strong> 1/3 + 1/4<br>
+        → LCD of 3 and 4 = <strong>12</strong><br>
+        → 1/3 = 4/12 &nbsp;&nbsp; 1/4 = 3/12<br>
+        → 4/12 + 3/12 = <strong>7/12</strong> ✅
+      </div>
+      <div class="highlight-box green">
+        🔑 <strong>Finding LCD:</strong> List the multiples of each denominator. The smallest number on both lists is the LCD.
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-card orange">
+    <div class="lesson-title">✖️ Multiplying Fractions</div>
+    <div class="lesson-body">
+      <p>Multiplying fractions is actually easier — <strong>multiply straight across!</strong></p>
+      <div class="example-block">
+        <strong>Example 1:</strong> 2/3 × 3/5<br>
+        → Numerators: 2 × 3 = 6<br>
+        → Denominators: 3 × 5 = 15<br>
+        → Answer: 6/15 → Simplify → <strong>2/5</strong> ✅
+      </div>
+      <div class="example-block">
+        <strong>Example 2:</strong> 1/2 × 4/7<br>
+        → 1 × 4 = 4 &nbsp;|&nbsp; 2 × 7 = 14<br>
+        → Answer: 4/14 → Simplify → <strong>2/7</strong> ✅
+      </div>
+      <div class="highlight-box yellow">
+        🧹 <strong>Simplify!</strong> Always reduce your answer to its simplest form. Divide numerator and denominator by their GCF (Greatest Common Factor).
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-card">
+    <div class="lesson-title">📊 Comparing Fractions & Decimals</div>
+    <div class="lesson-body">
+      <p>To compare fractions easily, <strong>convert them to decimals first</strong>.</p>
+      <div class="example-block">
+        <strong>Which is bigger: 3/5 or 5/8?</strong><br>
+        3/5 = 0.60<br>
+        5/8 = 0.625<br>
+        → 0.625 &gt; 0.60, so <strong>5/8 is bigger</strong> ✅
+      </div>
+      <p>You can also use cross-multiplication:</p>
+      <div class="example-block">
+        Compare 2/3 and 3/4:<br>
+        → 2 × 4 = 8 &nbsp; | &nbsp; 3 × 3 = 9<br>
+        → 9 &gt; 8, so <strong>3/4 &gt; 2/3</strong> ✅
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ======================== MATH QUIZ ======================== -->
+<div id="math-quiz" class="section">
+  <div class="quiz-title">🧮 Math Quiz</div>
+  <div class="quiz-subtitle">Fractions & Decimals — 8 questions · Choose the correct answer</div>
+
+  <div class="score-bar">
+    <div>
+      <div class="score-label">Your Score</div>
+      <div class="progress-track"><div class="progress-fill" id="mq-progress"></div></div>
+    </div>
+    <div class="score-number" id="mq-score">0 / 8</div>
+  </div>
+
+  <div class="question-card" id="mq-q1">
+    <div class="question-text"><span class="q-number">1</span>What is ¾ as a decimal?</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="checkMQ(1, this, false)">A. 0.34</button>
+      <button class="choice-btn" onclick="checkMQ(1, this, false)">B. 3.4</button>
+      <button class="choice-btn" onclick="checkMQ(1, this, true)">C. 0.75</button>
+      <button class="choice-btn" onclick="checkMQ(1, this, false)">D. 0.7</button>
+    </div>
+    <div class="feedback" id="mq-fb1"></div>
+  </div>
+
+  <div class="question-card" id="mq-q2">
+    <div class="question-text"><span class="q-number">2</span>What is 2/5 + 1/5?</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="checkMQ(2, this, false)">A. 3/10</button>
+      <button class="choice-btn" onclick="checkMQ(2, this, true)">B. 3/5</button>
+      <button class="choice-btn" onclick="checkMQ(2, this, false)">C. 2/5</button>
+      <button class="choice-btn" onclick="checkMQ(2, this, false)">D. 1/5</button>
+    </div>
+    <div class="feedback" id="mq-fb2"></div>
+  </div>
+
+  <div class="question-card" id="mq-q3">
+    <div class="question-text"><span class="q-number">3</span>What is 1/4 + 1/2? (Hint: Find the LCD first!)</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="checkMQ(3, this, false)">A. 2/6</button>
+      <button class="choice-btn" onclick="checkMQ(3, this, false)">B. 1/2</button>
+      <button class="choice-btn" onclick="checkMQ(3, this, true)">C. 3/4</button>
+      <button class="choice-btn" onclick="checkMQ(3, this, false)">D. 2/4</button>
+    </div>
+    <div class="feedback" id="mq-fb3"></div>
+  </div>
+
+  <div class="question-card" id="mq-q4">
+    <div class="question-text"><span class="q-number">4</span>Multiply: 1/3 × 3/4 = ?</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="checkMQ(4, this, false)">A. 4/12</button>
+      <button class="choice-btn" onclick="checkMQ(4, this, true)">B. 1/4</button>
+      <button class="choice-btn" onclick="checkMQ(4, this, false)">C. 3/7</button>
+      <button class="choice-btn" onclick="checkMQ(4, this, false)">D. 3/12</button>
+    </div>
+    <div class="feedback" id="mq-fb4"></div>
+  </div>
+
+  <div class="question-card" id="mq-q5">
+    <div class="question-text"><span class="q-number">5</span>Which decimal is the same as 2/5?</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="checkMQ(5, this, false)">A. 0.25</button>
+      <button class="choice-btn" onclick="checkMQ(5, this, true)">B. 0.4</button>
+      <button class="choice-btn" onclick="checkMQ(5, this, false)">C. 0.5</button>
+      <button class="choice-btn" onclick="checkMQ(5, this, false)">D. 0.2</button>
+    </div>
+    <div class="feedback" id="mq-fb5"></div>
+  </div>
+
+  <div class="question-card" id="mq-q6">
+    <div class="question-text"><span class="q-number">6</span>Which fraction is GREATER: 2/3 or 3/5?</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="checkMQ(6, this, true)">A. 2/3</button>
+      <button class="choice-btn" onclick="checkMQ(6, this, false)">B. 3/5</button>
+      <button class="choice-btn" onclick="checkMQ(6, this, false)">C. They are equal</button>
+      <button class="choice-btn" onclick="checkMQ(6, this, false)">D. Cannot be compared</button>
+    </div>
+    <div class="feedback" id="mq-fb6"></div>
+  </div>
+
+  <div class="question-card" id="mq-q7">
+    <div class="question-text"><span class="q-number">7</span>Lisa ate 3/8 of a pizza. Ramon ate 1/4. Who ate more?</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="checkMQ(7, this, true)">A. Lisa ate more (3/8 &gt; 2/8)</button>
+      <button class="choice-btn" onclick="checkMQ(7, this, false)">B. Ramon ate more</button>
+      <button class="choice-btn" onclick="checkMQ(7, this, false)">C. They ate the same amount</button>
+      <button class="choice-btn" onclick="checkMQ(7, this, false)">D. Not enough information</button>
+    </div>
+    <div class="feedback" id="mq-fb7"></div>
+  </div>
+
+  <div class="question-card" id="mq-q8">
+    <div class="question-text"><span class="q-number">8</span>What is 5/6 − 1/3? (Simplify your answer.)</div>
+    <div class="choices">
+      <button class="choice-btn" onclick="checkMQ(8, this, false)">A. 4/3</button>
+      <button class="choice-btn" onclick="checkMQ(8, this, false)">B. 4/6</button>
+      <button class="choice-btn" onclick="checkMQ(8, this, true)">C. 1/2</button>
+      <button class="choice-btn" onclick="checkMQ(8, this, false)">D. 2/3</button>
+    </div>
+    <div class="feedback" id="mq-fb8"></div>
+  </div>
+
+  <div class="result-card" id="mq-result">
+    <div class="result-emoji" id="mq-emoji">🌟</div>
+    <div class="result-score" id="mq-final-score"></div>
+    <div class="result-msg" id="mq-result-msg"></div>
+  </div>
+  <button class="reset-btn" onclick="resetQuiz('mq')">🔄 Try Again</button>
+</div>
+
+</div><!-- end .content -->
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// Quiz state
+const state = {
+  eq: { score: 0, total: 8, answered: {} },
+  mq: { score: 0, total: 8, answered: {} }
+};
+
+const feedbacks = {
+  correct: ["✅ Excellent! That's correct!", "🌟 Great job!", "✅ You got it!", "🎉 Perfect answer!", "✅ That's right!"],
+  wrong: ["❌ Not quite. Review the lesson and try again.", "❌ Incorrect. Think carefully!", "❌ That's not right. Check the lesson notes."]
+};
+
+function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function checkAnswer(prefix, qNum, btn, correct) {
+  const s = state[prefix];
+  if (s.answered[qNum]) return;
+  s.answered[qNum] = true;
+
+  const card = document.getElementById(`${prefix}-q${qNum}`);
+  const fb = document.getElementById(`${prefix}-fb${qNum}`);
+  const btns = card.querySelectorAll('.choice-btn');
+  btns.forEach(b => b.disabled = true);
+
+  if (correct) {
+    btn.classList.add('correct');
+    s.score++;
+    fb.textContent = getRandom(feedbacks.correct);
+    fb.className = 'feedback show correct';
+  } else {
+    btn.classList.add('wrong');
+    fb.textContent = getRandom(feedbacks.wrong);
+    fb.className = 'feedback show wrong';
+    // highlight correct
+    btns.forEach(b => {
+      if (b.onclick.toString().includes('true')) b.classList.add('correct');
+    });
+  }
+
+  updateScore(prefix);
+}
+
+function checkEQ(q, btn, correct) { checkAnswer('eq', q, btn, correct); }
+function checkMQ(q, btn, correct) { checkAnswer('mq', q, btn, correct); }
+
+function updateScore(prefix) {
+  const s = state[prefix];
+  const answered = Object.keys(s.answered).length;
+  document.getElementById(`${prefix}-score`).textContent = `${s.score} / ${s.total}`;
+  const pct = (s.score / s.total) * 100;
+  document.getElementById(`${prefix}-progress`).style.width = pct + '%';
+
+  if (answered === s.total) showResult(prefix);
+}
+
+function showResult(prefix) {
+  const s = state[prefix];
+  const pct = Math.round((s.score / s.total) * 100);
+  const r = document.getElementById(`${prefix}-result`);
+  r.classList.add('show');
+
+  let emoji, msg;
+  if (pct === 100) { emoji = '🏆'; msg = 'Perfect score! Outstanding work!'; }
+  else if (pct >= 75) { emoji = '🌟'; msg = 'Great job! Keep it up!'; }
+  else if (pct >= 50) { emoji = '👍'; msg = 'Good effort! Review the lesson and try again.'; }
+  else { emoji = '📚'; msg = 'Keep studying! You can do it!'; }
+
+  document.getElementById(`${prefix}-emoji`).textContent = emoji;
+  document.getElementById(`${prefix}-final-score`).textContent = `${s.score} out of ${s.total} (${pct}%)`;
+  document.getElementById(`${prefix}-result-msg`).textContent = msg;
+}
+
+function resetQuiz(prefix) {
+  state[prefix] = { score: 0, total: 8, answered: {} };
+  document.getElementById(`${prefix}-score`).textContent = `0 / 8`;
+  document.getElementById(`${prefix}-progress`).style.width = '0%';
+  document.getElementById(`${prefix}-result`).classList.remove('show');
+
+  for (let i = 1; i <= 8; i++) {
+    const card = document.getElementById(`${prefix}-q${i}`);
+    if (!card) continue;
+    card.querySelectorAll('.choice-btn').forEach(b => {
+      b.disabled = false;
+      b.classList.remove('correct', 'wrong');
+    });
+    const fb = document.getElementById(`${prefix}-fb${i}`);
+    if (fb) { fb.className = 'feedback'; fb.textContent = ''; }
+  }
+}
+</script>
+</body>
+</html>

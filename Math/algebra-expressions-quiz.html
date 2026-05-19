@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Algebraic Expressions Quiz – Grade 7</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a1f4e;
+    --teal: #00b4a6;
+    --yellow: #ffd93d;
+    --coral: #ff6b6b;
+    --green: #6bcb77;
+    --light: #f0f4ff;
+    --white: #ffffff;
+    --card: #ffffff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--navy);
+    color: var(--navy);
+    min-height: 100vh;
+    padding: 20px;
+    background-image: radial-gradient(circle at 20% 20%, #2d3480 0%, transparent 50%),
+                      radial-gradient(circle at 80% 80%, #0d3b5e 0%, transparent 50%);
+  }
+
+  h1.main-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: var(--yellow);
+    text-align: center;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+  }
+
+  .subtitle {
+    text-align: center;
+    color: #a0b4d6;
+    font-size: 0.95rem;
+    margin-bottom: 28px;
+    font-weight: 600;
+  }
+
+  .section {
+    max-width: 780px;
+    margin: 0 auto 28px;
+    background: var(--white);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  }
+
+  .section-header {
+    padding: 14px 22px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-header.lesson { background: var(--teal); color: white; }
+  .section-header.quiz-header { background: var(--coral); color: white; }
+
+  .section-body { padding: 20px 24px; }
+
+  /* LESSON */
+  .lesson-intro {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 16px;
+    color: #333;
+  }
+
+  .keyword-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    margin-bottom: 16px;
+  }
+  .keyword-table th {
+    background: var(--navy);
+    color: white;
+    padding: 8px 12px;
+    text-align: left;
+  }
+  .keyword-table td {
+    padding: 7px 12px;
+    border-bottom: 1px solid #e8eef8;
+    vertical-align: top;
+  }
+  .keyword-table tr:nth-child(even) td { background: #f5f8ff; }
+  .keyword-table .op-label {
+    display: inline-block;
+    background: var(--teal);
+    color: white;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-bottom: 4px;
+  }
+
+  .example-box {
+    background: #fff8e1;
+    border-left: 4px solid var(--yellow);
+    border-radius: 0 10px 10px 0;
+    padding: 12px 16px;
+    margin-bottom: 14px;
+  }
+  .example-box .ex-label {
+    font-family: 'Fredoka One', cursive;
+    color: #c8860a;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+  }
+  .example-box table { width: 100%; font-size: 0.88rem; }
+  .example-box td { padding: 3px 8px; }
+  .example-box td:first-child { color: #555; width: 65%; }
+  .example-box td:last-child { font-weight: 800; color: var(--navy); }
+
+  .note-box {
+    background: #fff0f0;
+    border: 1.5px dashed var(--coral);
+    border-radius: 10px;
+    padding: 11px 15px;
+    font-size: 0.88rem;
+    color: #c0392b;
+    margin-top: 10px;
+  }
+  .note-box strong { color: var(--coral); }
+
+  /* QUIZ */
+  .progress-bar-wrap {
+    background: #e8eef8;
+    border-radius: 20px;
+    height: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--green));
+    border-radius: 20px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+
+  .q-card {
+    display: none;
+    animation: fadeIn 0.35s ease;
+  }
+  .q-card.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .q-number {
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--coral);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .q-text {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  .choices { display: flex; flex-direction: column; gap: 10px; }
+
+  .choice-btn {
+    background: var(--light);
+    border: 2.5px solid #d0daf0;
+    border-radius: 12px;
+    padding: 11px 16px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--navy);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+  }
+  .choice-btn:hover:not(:disabled) {
+    border-color: var(--teal);
+    background: #e0f7f5;
+    transform: translateX(4px);
+  }
+  .choice-btn.correct {
+    background: #d4f8dc;
+    border-color: var(--green);
+    color: #1a5e28;
+  }
+  .choice-btn.wrong {
+    background: #ffe0e0;
+    border-color: var(--coral);
+    color: #8b1a1a;
+  }
+  .choice-btn:disabled { cursor: default; }
+
+  .feedback {
+    margin-top: 14px;
+    padding: 11px 15px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct { background: #d4f8dc; color: #1a5e28; border-left: 4px solid var(--green); }
+  .feedback.wrong { background: #ffe0e0; color: #8b1a1a; border-left: 4px solid var(--coral); }
+
+  .next-btn {
+    display: none;
+    margin-top: 14px;
+    background: var(--navy);
+    color: white;
+    border: none;
+    padding: 11px 28px;
+    border-radius: 30px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .next-btn:hover { background: #2d3480; }
+  .next-btn.show { display: inline-block; }
+
+  /* RESULTS */
+  #results {
+    display: none;
+    text-align: center;
+    padding: 30px 20px;
+  }
+  #results.show { display: block; }
+  .score-circle {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fredoka One', cursive;
+  }
+  .score-circle .big-num { font-size: 2.8rem; line-height: 1; }
+  .score-circle .out-of { font-size: 0.85rem; }
+  .result-msg {
+    font-size: 1.3rem;
+    font-weight: 900;
+    margin-bottom: 10px;
+  }
+  .result-sub { color: #666; font-size: 0.9rem; margin-bottom: 20px; }
+  .retry-btn {
+    background: var(--coral);
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 30px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .retry-btn:hover { opacity: 0.85; }
+
+  .divider {
+    border: none;
+    border-top: 2px dashed #d0daf0;
+    margin: 18px 0;
+  }
+
+  @media (max-width: 500px) {
+    .section-body { padding: 16px; }
+    .keyword-table { font-size: 0.82rem; }
+  }
+</style>
+</head>
+<body>
+
+<h1 class="main-title">📐 Algebraic Expressions</h1>
+<p class="subtitle">Grade 7 Math &nbsp;•&nbsp; Translating Phrases to Algebra</p>
+
+<!-- LESSON SECTION -->
+<div class="section">
+  <div class="section-header lesson">📖 Quick Review</div>
+  <div class="section-body">
+    <p class="lesson-intro">
+      An <strong>algebraic expression</strong> uses numbers, variables (letters), and operation symbols to represent a value.
+      To translate a <em>verbal phrase</em> into an algebraic expression, look for <strong>keywords</strong> that tell you which operation to use.
+    </p>
+
+    <div class="example-box">
+      <div class="ex-label">Key Words by Operation</div>
+      <table class="keyword-table" style="margin:0">
+        <tr>
+          <th>Operation</th>
+          <th>Keywords / Phrases</th>
+          <th>Example Expression</th>
+        </tr>
+        <tr>
+          <td><span class="op-label">+</span> Addition</td>
+          <td>sum, plus, added to, increased by, more than, total, exceeds by</td>
+          <td><em>n</em> + 7</td>
+        </tr>
+        <tr>
+          <td><span class="op-label">−</span> Subtraction</td>
+          <td>difference, minus, less than, subtracted from, decreased by, take away, reduced by</td>
+          <td>8 − <em>m</em></td>
+        </tr>
+        <tr>
+          <td><span class="op-label">×</span> Multiplication</td>
+          <td>product, times, multiplied by, twice (×2), thrice (×3), of</td>
+          <td>7<em>b</em></td>
+        </tr>
+        <tr>
+          <td><span class="op-label">÷</span> Division</td>
+          <td>quotient, divided by, divided into, ratio of, split into equal parts</td>
+          <td><em>a</em>/7</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="note-box">
+      <strong>⚠️ Subtraction Order Matters!</strong><br>
+      "1 000 less than <em>f</em>" → <em>f</em> − 1 000 &nbsp;(NOT 1 000 − <em>f</em>)<br>
+      "10 subtracted <em>from c</em>" → <em>c</em> − 10
+    </div>
+
+    <hr class="divider">
+
+    <div class="example-box">
+      <div class="ex-label">✏️ Example 1 – Verbal Phrase → Algebraic Expression</div>
+      <table>
+        <tr><td>The sum of <em>m</em> and 8</td><td>m + 8</td></tr>
+        <tr><td>7 plus <em>a</em></td><td>a + 7</td></tr>
+        <tr><td>10 added to <em>c</em></td><td>c + 10</td></tr>
+        <tr><td>11 greater than <em>n</em></td><td>n + 11</td></tr>
+        <tr><td><em>r</em> exceeds 20 by</td><td>r − 20</td></tr>
+        <tr><td>The difference of 8 and <em>m</em></td><td>8 − m</td></tr>
+        <tr><td>18 reduced by <em>n</em></td><td>18 − n</td></tr>
+        <tr><td>7 multiplied by <em>b</em></td><td>7b</td></tr>
+        <tr><td>½ of <em>p</em></td><td>p/2</td></tr>
+        <tr><td>The quotient of 8 and <em>m</em></td><td>8/m</td></tr>
+        <tr><td>10 divided into <em>q</em></td><td>10/q</td></tr>
+      </table>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-label">✏️ Example 2 – Algebraic Expression → Verbal Phrase (multiple answers OK!)</div>
+      <table>
+        <tr><td><strong>3 + 4</strong></td><td>the sum of 3 and 4 &nbsp;|&nbsp; 3 plus 4 &nbsp;|&nbsp; 4 more than 3</td></tr>
+        <tr><td><strong>7 − n</strong></td><td>7 minus n &nbsp;|&nbsp; n less than 7 &nbsp;|&nbsp; 7 decreased by n</td></tr>
+        <tr><td><strong>20 ÷ 5</strong></td><td>the quotient of 20 and 5 &nbsp;|&nbsp; 20 divided by 5</td></tr>
+        <tr><td><strong>8(4)</strong></td><td>8 times 4 &nbsp;|&nbsp; the product of 8 and 4</td></tr>
+      </table>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-label">✏️ Example 3 – Let <em>n</em> = a number. Translate each.</div>
+      <table>
+        <tr><td>9 more than a number</td><td>n + 9</td></tr>
+        <tr><td>14 decreased by a number</td><td>14 − n</td></tr>
+        <tr><td>12 more than 5 times a number</td><td>5n + 12</td></tr>
+        <tr><td>A number divided by 7</td><td>n/7</td></tr>
+        <tr><td>2 raised to a number</td><td>2<sup>n</sup></td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ SECTION -->
+<div class="section">
+  <div class="section-header quiz-header">🧠 Practice Quiz – 10 Questions</div>
+  <div class="section-body">
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+
+    <!-- Q1 -->
+    <div class="q-card active" data-q="1">
+      <div class="q-number">Question 1 of 10</div>
+      <div class="q-text">Which algebraic expression means <strong>"the sum of <em>m</em> and 8"</strong>?</div>
+      <div class="choices">
+        <button class="choice-btn" data-correct="false">8 − m</button>
+        <button class="choice-btn" data-correct="true">m + 8</button>
+        <button class="choice-btn" data-correct="false">8m</button>
+        <button class="choice-btn" data-correct="false">m/8</button>
+      </div>
+      <div class="feedback"></div>
+      <button class="next-btn">Next →</button>
+    </div>
+
+    <!-- Q2 -->
+    <div class="q-card" data-q="2">
+      <div class="q-number">Question 2 of 10</div>
+      <div class="q-text">Translate: <strong>"10 subtracted from <em>c</em>"</strong></div>
+      <div class="choices">
+        <button class="choice-btn" data-correct="false">10 − c</button>
+        <button class="choice-btn" data-correct="false">c + 10</button>
+        <button class="choice-btn" data-correct="true">c − 10</button>
+        <button class="choice-btn" data-correct="false">10c</button>
+      </div>
+      <div class="feedback"></div>
+      <button class="next-btn">Next →</button>
+    </div>
+
+    <!-- Q3 -->
+    <div class="q-card" data-q="3">
+      <div class="q-number">Question 3 of 10</div>
+      <div class="q-text">What verbal phrase matches <strong>7b</strong>?</div>
+      <div class="choices">
+        <button class="choice-btn" data-correct="false">7 added to b</button>
+        <button class="choice-btn" data-correct="false">b divided by 7</button>
+        <button class="choice-btn" data-correct="true">7 multiplied by b</button>
+        <button class="choice-btn" data-correct="false">b minus 7</button>
+      </div>
+      <div class="feedback"></div>
+      <button class="next-btn">Next →</button>
+    </div>
+
+    <!-- Q4 -->
+    <div class="q-card" data-q="4">
+      <div class="q-number">Question 4 of 10</div>
+      <div class="q-text">Let <em>n</em> = a number. Translate: <strong>"14 decreased by a number"</strong></div>
+      <div class="choices">
+        <button class="choice-btn" data-correct="false">n − 14</button>
+        <button class="choice-btn" data-correct="true">14 − n</button>
+        <button class="choice-btn" data-correct="false">14 + n</button>
+        <button class="choice-btn" data-correct="false">14n</button>
+      </div>
+      <div class="feedback"></div>
+      <button class="next-btn">Next →</button>
+    </div>
+
+    <!-- Q5 -->
+    <div class="q-card" data-q="5">
+      <div class="q-number">Question 5 of 10</div>
+      <div class="q-text">Which expression means <strong>"the quotient of 20 and 5"</strong>?</div>
+      <div class="choices">
+        <button class="choice-btn" data-correct="false">20 × 5</button>
+        <button class="choice-btn" data-correct="false">20 + 5</button>
+        <button class="choice-btn" data-correct="false">20 − 5</button>
+        <button class="choice-btn" data-correct="true">20 ÷ 5</button>
+      </div>
+      <div class="feedback"></div>
+      <button class="next-btn">Next →</button>
+    </div>
+
+    <!-- Q6 -->
+    <div class="q-card" data-q="6">
+      <div class="q-number">Question 6 of 10</div>
+      <div class="q-text">Let <em>n</em> = a number. Translate: <strong>"12 more than 5 times a number"</strong></div>
+      <div class="choices">
+        <button class="choice-btn" data-correct="false">12n + 5</button>
+        <button class="choice-btn" data-correct="true">5n + 12</button>
+        <button class="choice-btn" data-correct="false">5n − 12</button>
+        <button class="choice-btn" data-correct="false">12 − 5n</button>
+      </div>
+      <div class="feedback"></div>
+      <button class="next-btn">Next →</button>
+    </div>
+
+    <!-- Q7 -->
+    <div class="q-card" data-q="7">
+      <div class="q-number">Question 7 of 10</div>
+      <div class="q-text">What is the algebraic expression for <strong>"11 greater than <em>n</em>"</strong>?</div>
+      <div class="choices">
+        <button class="choice-btn" data-correct="false">11 − n</button>
+        <button class="choice-btn" data-correct="false">11n</button>
+        <button class="choice-btn" data-correct="true">n + 11</button>
+        <button class="choice-btn" data-correct="false">n − 11</button>
+      </div>
+      <div class="feedback"></div>
+      <button class="next-btn">Next →</button>
+    </div>
+
+    <!-- Q8 -->
+    <div class="q-card" data-q="8">
+      <div class="q-number">Question 8 of 10</div>
+      <div class="q-text">Which verbal phrase matches <strong>n/7</strong>?</div>
+      <div class="choices">
+        <button class="choice-btn" data-correct="false">7 times a number</button>
+        <button class="choice-btn" data-correct="false">7 more than a number</button>
+        <button class="choice-btn" data-correct="true">a number divided by 7</button>
+        <button class="choice-btn" data-correct="false">a number less than 7</button>
+      </div>
+      <div class="feedback"></div>
+      <button class="next-btn">Next →</button>
+    </div>
+
+    <!-- Q9 -->
+    <div class="q-card" data-q="9">
+      <div class="q-number">Question 9 of 10</div>
+      <div class="q-text">Marvin worked <em>m</em> hours finishing Math homework. He worked <em>p</em> hours less on Science. Which expression shows the hours he worked on <strong>Science</strong>?</div>
+      <div class="choices">
+        <button class="choice-btn" data-correct="false">m + p</button>
+        <button class="choice-btn" data-correct="true">m − p</button>
+        <button class="choice-btn" data-correct="false">mp</button>
+        <button class="choice-btn" data-correct="false">p − m</button>
+      </div>
+      <div class="feedback"></div>
+      <button class="next-btn">Next →</button>
+    </div>
+
+    <!-- Q10 -->
+    <div class="q-card" data-q="10">
+      <div class="q-number">Question 10 of 10</div>
+      <div class="q-text">Which expression represents <strong>"the product of 12 and a number <em>p</em>, increased by 8"</strong>?</div>
+      <div class="choices">
+        <button class="choice-btn" data-correct="false">12 + p + 8</button>
+        <button class="choice-btn" data-correct="false">12p − 8</button>
+        <button class="choice-btn" data-correct="true">12p + 8</button>
+        <button class="choice-btn" data-correct="false">8(12 + p)</button>
+      </div>
+      <div class="feedback"></div>
+      <button class="next-btn">Finish ✔</button>
+    </div>
+
+    <!-- RESULTS -->
+    <div id="results">
+      <div class="score-circle" id="scoreCircle">
+        <span class="big-num" id="scoreNum">0</span>
+        <span class="out-of" id="scoreOut">/ 10</span>
+      </div>
+      <div class="result-msg" id="resultMsg"></div>
+      <div class="result-sub" id="resultSub"></div>
+      <button class="retry-btn" onclick="retryQuiz()">🔄 Try Again</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const TOTAL = 10;
+  let current = 1;
+  let score = 0;
+
+  const feedbackMessages = {
+    correct: ["Great job! ✅", "Excellent! ✅", "That's right! ✅", "Perfect! ✅", "Spot on! ✅"],
+    wrong: ["Not quite — ", "Oops! The answer is ", "Almost! It's actually ", "Remember: the answer is "]
+  };
+
+  function getCard(n) { return document.querySelector(`.q-card[data-q="${n}"]`); }
+
+  document.querySelectorAll('.q-card').forEach(card => {
+    const btns = card.querySelectorAll('.choice-btn');
+    const feedback = card.querySelector('.feedback');
+    const nextBtn = card.querySelector('.next-btn');
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        btns.forEach(b => b.disabled = true);
+        const isCorrect = btn.dataset.correct === 'true';
+        if (isCorrect) {
+          btn.classList.add('correct');
+          score++;
+          const msg = feedbackMessages.correct[Math.floor(Math.random() * feedbackMessages.correct.length)];
+          feedback.textContent = msg;
+          feedback.className = 'feedback show correct';
+        } else {
+          btn.classList.add('wrong');
+          // highlight correct
+          btns.forEach(b => { if (b.dataset.correct === 'true') b.classList.add('correct'); });
+          const correctText = [...btns].find(b => b.dataset.correct === 'true').textContent;
+          const msg = feedbackMessages.wrong[Math.floor(Math.random() * feedbackMessages.wrong.length)];
+          feedback.textContent = msg + correctText;
+          feedback.className = 'feedback show wrong';
+        }
+        nextBtn.classList.add('show');
+        updateProgress(current);
+      });
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (current < TOTAL) {
+        getCard(current).classList.remove('active');
+        current++;
+        getCard(current).classList.add('active');
+      } else {
+        showResults();
+      }
+    });
+  });
+
+  function updateProgress(n) {
+    const pct = (n / TOTAL) * 100;
+    document.getElementById('progressBar').style.width = pct + '%';
+  }
+
+  function showResults() {
+    document.querySelector(`.q-card[data-q="${TOTAL}"]`).style.display = 'none';
+    const results = document.getElementById('results');
+    results.classList.add('show');
+    document.getElementById('scoreNum').textContent = score;
+    const circle = document.getElementById('scoreCircle');
+    let msg, sub, bg, color;
+    if (score === 10) {
+      msg = "🏆 Perfect Score!"; sub = "Outstanding! You really know your algebra!";
+      bg = '#d4f8dc'; color = '#1a5e28';
+    } else if (score >= 8) {
+      msg = "🌟 Excellent Work!"; sub = "Almost perfect — keep it up!";
+      bg = '#d4f8dc'; color = '#1a5e28';
+    } else if (score >= 6) {
+      msg = "👍 Good Job!"; sub = "Review the examples above and try again!";
+      bg = '#fff8e1'; color = '#c8860a';
+    } else {
+      msg = "💪 Keep Practicing!"; sub = "Read the lesson again — you can do it!";
+      bg = '#ffe0e0'; color = '#c0392b';
+    }
+    circle.style.background = bg;
+    circle.style.color = color;
+    document.getElementById('resultMsg').textContent = msg;
+    document.getElementById('resultMsg').style.color = color;
+    document.getElementById('resultSub').textContent = sub;
+    document.getElementById('progressBar').style.width = '100%';
+  }
+
+  function retryQuiz() {
+    score = 0; current = 1;
+    document.querySelectorAll('.q-card').forEach((card, i) => {
+      card.style.display = '';
+      card.classList.toggle('active', i === 0);
+      card.querySelectorAll('.choice-btn').forEach(b => {
+        b.disabled = false;
+        b.classList.remove('correct', 'wrong');
+      });
+      card.querySelector('.feedback').className = 'feedback';
+      card.querySelector('.next-btn').classList.remove('show');
+    });
+    document.getElementById('results').classList.remove('show');
+    document.getElementById('progressBar').style.width = '0%';
+  }
+</script>
+</body>
+</html>

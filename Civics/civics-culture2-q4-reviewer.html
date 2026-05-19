@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Civics & Culture 2 – Q4 Reviewer</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #4FC3F7;
+    --sun: #FFD54F;
+    --green: #66BB6A;
+    --coral: #FF7043;
+    --purple: #AB47BC;
+    --navy: #1A237E;
+    --white: #FFFFFF;
+    --light: #F0F8FF;
+    --card-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #E3F2FD 0%, #F3E5F5 50%, #E8F5E9 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ====== FLOATING SHAPES ====== */
+  .bg-shape {
+    position: fixed;
+    border-radius: 50%;
+    opacity: 0.08;
+    pointer-events: none;
+    animation: float 8s ease-in-out infinite;
+    z-index: 0;
+  }
+  .bg-shape:nth-child(1) { width:300px; height:300px; background:var(--sky); top:-80px; left:-80px; animation-delay:0s; }
+  .bg-shape:nth-child(2) { width:200px; height:200px; background:var(--sun); top:60%; right:-60px; animation-delay:2s; }
+  .bg-shape:nth-child(3) { width:150px; height:150px; background:var(--green); bottom:10%; left:10%; animation-delay:4s; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
+
+  /* ====== HEADER ====== */
+  header {
+    background: var(--navy);
+    color: white;
+    text-align: center;
+    padding: 28px 20px 20px;
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 4px 20px rgba(26,35,126,0.4);
+  }
+  header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(1.6rem, 5vw, 2.6rem);
+    letter-spacing: 1px;
+    color: var(--sun);
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+  }
+  header p { font-size: 1rem; opacity: 0.85; margin-top: 4px; }
+  .stars-row { font-size: 1.4rem; margin-bottom: 6px; }
+
+  /* ====== NAV TABS ====== */
+  nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 18px 16px;
+    position: relative;
+    z-index: 10;
+  }
+  .tab-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    padding: 12px 22px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    letter-spacing: 0.5px;
+  }
+  .tab-btn[data-tab="reviewer"] { background: var(--sky); color: var(--navy); }
+  .tab-btn[data-tab="practice"] { background: var(--green); color: white; }
+  .tab-btn[data-tab="exam"] { background: var(--coral); color: white; }
+  .tab-btn.active, .tab-btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+  .tab-btn.active { outline: 3px solid var(--navy); }
+
+  /* ====== SECTIONS ====== */
+  .section { display: none; padding: 10px 16px 40px; position: relative; z-index: 10; max-width: 860px; margin: 0 auto; }
+  .section.active { display: block; }
+
+  /* ====== REVIEWER CARDS ====== */
+  .week-card {
+    background: white;
+    border-radius: 24px;
+    padding: 28px;
+    margin-bottom: 24px;
+    box-shadow: var(--card-shadow);
+    border-left: 8px solid;
+    animation: slideIn 0.4s ease both;
+  }
+  .week-card:nth-child(1) { border-color: var(--sky); }
+  .week-card:nth-child(2) { border-color: var(--sun); }
+  .week-card:nth-child(3) { border-color: var(--green); }
+  .week-card:nth-child(4) { border-color: var(--purple); }
+  @keyframes slideIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+
+  .week-label {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-bottom: 4px;
+  }
+  .week-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.5rem;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .week-title .icon { font-size: 1.8rem; }
+
+  .concept-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; margin-top: 12px; }
+  .concept-chip {
+    background: var(--light);
+    border-radius: 16px;
+    padding: 14px 16px;
+    font-size: 0.95rem;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .concept-chip:hover { border-color: var(--sky); transform: scale(1.02); }
+  .concept-chip strong { display: block; font-size: 1rem; margin-bottom: 4px; color: var(--navy); }
+
+  .remember-box {
+    background: linear-gradient(135deg, #FFF9C4, #FFECB3);
+    border-radius: 16px;
+    padding: 14px 18px;
+    margin-top: 14px;
+    font-size: 0.95rem;
+    border-left: 5px solid var(--sun);
+  }
+  .remember-box strong { color: #E65100; }
+
+  /* ====== QUIZ/EXAM SHARED ====== */
+  .quiz-header {
+    text-align: center;
+    margin-bottom: 24px;
+    padding: 20px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+  }
+  .quiz-header h2 { font-family: 'Fredoka One', cursive; font-size: 1.8rem; color: var(--navy); }
+  .quiz-header p { font-size: 1rem; color: #555; margin-top: 6px; }
+
+  .progress-bar-wrap { background: #e0e0e0; border-radius: 20px; height: 12px; margin: 14px 0 4px; overflow: hidden; }
+  .progress-bar { height: 100%; border-radius: 20px; background: linear-gradient(90deg, var(--sky), var(--green)); transition: width 0.4s ease; }
+  .progress-text { font-size: 0.85rem; color: #666; text-align: right; }
+
+  .q-card {
+    background: white;
+    border-radius: 22px;
+    padding: 28px;
+    margin-bottom: 20px;
+    box-shadow: var(--card-shadow);
+    animation: slideIn 0.35s ease both;
+  }
+  .q-number {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #999;
+    margin-bottom: 8px;
+  }
+  .q-text { font-size: 1.15rem; font-weight: 700; color: var(--navy); margin-bottom: 18px; line-height: 1.5; }
+  .q-emoji { font-size: 2rem; display: block; margin-bottom: 8px; }
+
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media(max-width:480px){ .choices { grid-template-columns: 1fr; } }
+
+  .choice-btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 14px 16px;
+    border: 3px solid #e0e0e0;
+    border-radius: 16px;
+    background: var(--light);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    line-height: 1.3;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .choice-btn:hover:not(:disabled) { border-color: var(--sky); background: #E3F2FD; transform: scale(1.02); }
+  .choice-btn.correct { background: #E8F5E9; border-color: var(--green); color: #2E7D32; }
+  .choice-btn.wrong { background: #FFEBEE; border-color: var(--coral); color: #C62828; }
+  .choice-btn:disabled { cursor: default; }
+  .choice-letter {
+    width: 30px; height: 30px; border-radius: 50%; background: var(--navy); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fredoka One', cursive; font-size: 0.9rem; flex-shrink: 0;
+  }
+  .choice-btn.correct .choice-letter { background: var(--green); }
+  .choice-btn.wrong .choice-letter { background: var(--coral); }
+
+  .feedback-msg {
+    display: none;
+    margin-top: 14px;
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-size: 1rem;
+    font-weight: 700;
+    animation: popIn 0.3s ease;
+  }
+  .feedback-msg.show { display: flex; align-items: center; gap: 8px; }
+  .feedback-msg.correct-fb { background: #E8F5E9; color: #2E7D32; border: 2px solid var(--green); }
+  .feedback-msg.wrong-fb { background: #FFEBEE; color: #C62828; border: 2px solid var(--coral); }
+  @keyframes popIn { from{transform:scale(0.8);opacity:0} to{transform:scale(1);opacity:1} }
+
+  /* Exam: no feedback per question */
+  .q-card.exam-mode .feedback-msg { display: none !important; }
+
+  /* ====== RESULT PANEL ====== */
+  .result-panel {
+    display: none;
+    text-align: center;
+    background: white;
+    border-radius: 28px;
+    padding: 40px 30px;
+    box-shadow: var(--card-shadow);
+    animation: slideIn 0.4s ease both;
+  }
+  .result-panel.show { display: block; }
+  .result-emoji { font-size: 5rem; margin-bottom: 10px; }
+  .result-panel h2 { font-family: 'Fredoka One', cursive; font-size: 2.2rem; color: var(--navy); }
+  .score-display {
+    font-family: 'Fredoka One', cursive;
+    font-size: 3.5rem;
+    margin: 16px 0;
+  }
+  .score-bar-wrap { background: #e0e0e0; border-radius: 20px; height: 18px; margin: 10px auto 6px; max-width: 300px; overflow: hidden; }
+  .score-bar { height: 100%; border-radius: 20px; transition: width 1s ease; }
+  .result-msg { font-size: 1.1rem; color: #555; margin: 10px 0 24px; }
+  .retry-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    padding: 14px 36px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    margin: 6px;
+  }
+  .retry-btn:hover { transform: translateY(-3px) scale(1.04); }
+  .retry-btn.green { background: var(--green); color: white; }
+  .retry-btn.sky { background: var(--sky); color: var(--navy); }
+
+  /* Exam answer review */
+  .answer-review { text-align: left; margin-top: 24px; }
+  .answer-item {
+    background: var(--light);
+    border-radius: 16px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    border-left: 5px solid;
+    font-size: 0.95rem;
+  }
+  .answer-item.correct-ans { border-color: var(--green); }
+  .answer-item.wrong-ans { border-color: var(--coral); }
+  .answer-item strong { color: var(--navy); }
+
+  /* ====== MISC ====== */
+  .section-intro {
+    text-align: center;
+    font-size: 1.05rem;
+    color: #555;
+    margin-bottom: 22px;
+    background: white;
+    border-radius: 18px;
+    padding: 16px 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+  }
+  .nav-btn-row { display: flex; justify-content: flex-end; margin-top: 10px; }
+  .next-btn {
+    font-family: 'Fredoka One', cursive;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 50px;
+    background: var(--navy);
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+    display: none;
+  }
+  .next-btn:hover { transform: translateY(-2px) scale(1.04); }
+  .next-btn.show { display: inline-flex; align-items: center; gap: 6px; }
+
+  /* Exam submit */
+  .submit-row { text-align: center; margin-top: 20px; }
+  .submit-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    padding: 16px 50px;
+    border: none;
+    border-radius: 50px;
+    background: var(--coral);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(255,112,67,0.4);
+    transition: all 0.2s;
+  }
+  .submit-btn:hover { transform: translateY(-3px) scale(1.04); }
+
+  .badge { display: inline-block; font-size: 1.4rem; background: var(--sun); border-radius: 12px; padding: 4px 12px; font-weight: 800; color: var(--navy); margin: 4px; }
+</style>
+</head>
+<body>
+
+<!-- BG shapes -->
+<div class="bg-shape"></div>
+<div class="bg-shape"></div>
+<div class="bg-shape"></div>
+
+<header>
+  <div class="stars-row">⭐ ⭐ ⭐</div>
+  <h1>📚 Civics & Culture 2</h1>
+  <p>Fourth Quarter Reviewer · Grade 2 · S.Y. 2025–2026</p>
+</header>
+
+<nav>
+  <button class="tab-btn active" data-tab="reviewer">📖 Reviewer</button>
+  <button class="tab-btn" data-tab="practice">✏️ Practice Quiz</button>
+  <button class="tab-btn" data-tab="exam">🏆 Quarter Exam</button>
+</nav>
+
+<!-- =================== REVIEWER =================== -->
+<section id="reviewer" class="section active">
+  <div class="section-intro">
+    📖 Read each lesson carefully. These are the things you will learn this quarter! 🌟
+  </div>
+
+  <!-- WEEK 1 -->
+  <div class="week-card">
+    <div class="week-label">Week 1</div>
+    <div class="week-title"><span class="icon">🧒</span> Children's Rights</div>
+    <p style="margin-bottom:12px;color:#555;">Every child has <strong>rights</strong> — these are things you deserve just because you are a child!</p>
+    <div class="concept-grid">
+      <div class="concept-chip"><strong>🍎 Right to Food</strong>Children have the right to eat healthy food every day.</div>
+      <div class="concept-chip"><strong>🏠 Right to a Home</strong>Children have the right to a safe and comfortable place to live.</div>
+      <div class="concept-chip"><strong>🏫 Right to Education</strong>Children have the right to go to school and learn.</div>
+      <div class="concept-chip"><strong>🏥 Right to Health</strong>Children have the right to see a doctor and be healthy.</div>
+      <div class="concept-chip"><strong>🎮 Right to Play</strong>Children have the right to rest and play.</div>
+      <div class="concept-chip"><strong>💛 Right to Love & Care</strong>Children have the right to be loved and cared for by their family.</div>
+      <div class="concept-chip"><strong>🛡️ Right to Protection</strong>Children have the right to be safe from harm.</div>
+    </div>
+    <div class="remember-box"><strong>⭐ Remember:</strong> Rights are for <em>ALL</em> children — no matter where you come from or what you look like!</div>
+  </div>
+
+  <!-- WEEK 2 -->
+  <div class="week-card">
+    <div class="week-label">Week 2</div>
+    <div class="week-title"><span class="icon">🤝</span> My Duties & Responsibilities</div>
+    <p style="margin-bottom:12px;color:#555;">Along with rights, we also have <strong>duties</strong> — things we <em>should do</em> to help others and our community.</p>
+    <div class="concept-grid">
+      <div class="concept-chip"><strong>🏡 At Home</strong>Help with chores, obey your parents, take care of your siblings.</div>
+      <div class="concept-chip"><strong>🏫 At School</strong>Listen to your teacher, study hard, be kind to classmates.</div>
+      <div class="concept-chip"><strong>🌳 In the Community</strong>Follow rules, keep surroundings clean, respect others.</div>
+      <div class="concept-chip"><strong>🗑️ Keep Clean</strong>Throw garbage in the trash. Don't litter!</div>
+      <div class="concept-chip"><strong>📖 Study Hard</strong>Learning is your job as a student.</div>
+      <div class="concept-chip"><strong>🙏 Respect Elders</strong>Be polite and kind to older people.</div>
+    </div>
+    <div class="remember-box"><strong>⭐ Remember:</strong> Rights and duties go together! When everyone does their duty, everyone can enjoy their rights. 🌈</div>
+  </div>
+
+  <!-- WEEK 3 -->
+  <div class="week-card">
+    <div class="week-label">Week 3</div>
+    <div class="week-title"><span class="icon">🏛️</span> Government Services to the Community</div>
+    <p style="margin-bottom:12px;color:#555;">The <strong>government</strong> helps the community by providing important services for everyone.</p>
+    <div class="concept-grid">
+      <div class="concept-chip"><strong>🏥 Health Services</strong>Hospitals and health centers help sick people get well.</div>
+      <div class="concept-chip"><strong>🏫 Education</strong>The government builds public schools for children to study.</div>
+      <div class="concept-chip"><strong>🚒 Fire Station</strong>Firefighters protect us from fires.</div>
+      <div class="concept-chip"><strong>🚓 Police Station</strong>Police officers keep us safe and follow the law.</div>
+      <div class="concept-chip"><strong>🛣️ Roads & Bridges</strong>The government builds roads so people can travel.</div>
+      <div class="concept-chip"><strong>💧 Water & Electricity</strong>The government helps provide clean water and power.</div>
+      <div class="concept-chip"><strong>📮 Post Office</strong>Helps deliver letters and packages.</div>
+      <div class="concept-chip"><strong>🌳 Parks</strong>Government makes parks where people can rest and play.</div>
+    </div>
+    <div class="remember-box"><strong>⭐ Remember:</strong> The government works for all the people. Its job is to help and protect the community! 🇵🇭</div>
+  </div>
+
+  <!-- WEEK 4-5 -->
+  <div class="week-card">
+    <div class="week-label">Weeks 4–5</div>
+    <div class="week-title"><span class="icon">🌟</span> Cooperation in the Community</div>
+    <p style="margin-bottom:12px;color:#555;"><strong>Cooperation</strong> means working together to help each other. When we cooperate, we can do more!</p>
+    <div class="concept-grid">
+      <div class="concept-chip"><strong>🤝 Bayanihan</strong>A Filipino tradition of helping each other as a community.</div>
+      <div class="concept-chip"><strong>👨‍👩‍👧‍👦 Family</strong>Family members help each other with chores and decisions.</div>
+      <div class="concept-chip"><strong>🏫 School</strong>Classmates work together in group activities and projects.</div>
+      <div class="concept-chip"><strong>🌆 Community</strong>Neighbors help each other during difficult times.</div>
+      <div class="concept-chip"><strong>💬 Communication</strong>Talk and listen to each other kindly.</div>
+      <div class="concept-chip"><strong>🎯 Common Goal</strong>Working together to reach the same goal.</div>
+    </div>
+    <div class="remember-box"><strong>⭐ Remember:</strong> "Sama-sama, mas magaan!" — Together, things become easier! The spirit of <em>Bayanihan</em> makes our community strong. 💪</div>
+  </div>
+</section>
+
+<!-- =================== PRACTICE QUIZ =================== -->
+<section id="practice" class="section">
+  <div class="quiz-header">
+    <h2>✏️ Practice Quiz</h2>
+    <p>Read each question and choose the best answer. You will see if you are right after each question!</p>
+  </div>
+  <div id="practice-quiz-area"></div>
+  <div id="practice-result" class="result-panel"></div>
+</section>
+
+<!-- =================== EXAM =================== -->
+<section id="exam" class="section">
+  <div class="quiz-header">
+    <h2>🏆 Quarter Exam</h2>
+    <p>Answer all the questions, then click <strong>Submit</strong> to see your score.</p>
+  </div>
+  <div id="exam-quiz-area"></div>
+  <div id="exam-result" class="result-panel"></div>
+</section>
+
+<script>
+// ===== DATA =====
+
+const practiceQuestions = [
+  // Week 1: Children's Rights
+  {
+    week: "Week 1: Children's Rights",
+    emoji: "🧒",
+    text: "Which of these is a RIGHT that every child should have?",
+    choices: ["The right to go to school", "The right to skip chores", "The right to stay up late", "The right to skip vegetables"],
+    answer: 0,
+    explanation: "Every child has the RIGHT TO EDUCATION — the right to go to school and learn! ✏️"
+  },
+  {
+    week: "Week 1: Children's Rights",
+    emoji: "🏠",
+    text: "Maria lives in a safe and comfortable house with her family. What right is this?",
+    choices: ["Right to play", "Right to a home", "Right to work", "Right to drive"],
+    answer: 1,
+    explanation: "Every child has the RIGHT TO A HOME — a safe and comfortable place to live! 🏠"
+  },
+  {
+    week: "Week 1: Children's Rights",
+    emoji: "🏥",
+    text: "When a child gets sick and goes to the doctor, what right is being used?",
+    choices: ["Right to food", "Right to play", "Right to health", "Right to education"],
+    answer: 2,
+    explanation: "Every child has the RIGHT TO HEALTH — to be taken care of and see a doctor! 💉"
+  },
+  {
+    week: "Week 1: Children's Rights",
+    emoji: "💛",
+    text: "Rights belong to...?",
+    choices: ["Only rich children", "Only children in the city", "ALL children everywhere", "Only good children"],
+    answer: 2,
+    explanation: "Rights belong to ALL children — no matter where they live or what they look like! 🌍"
+  },
+
+  // Week 2: Duties
+  {
+    week: "Week 2: My Duties & Responsibilities",
+    emoji: "🏡",
+    text: "Ana helps wash the dishes after dinner. What is she doing?",
+    choices: ["Using her right", "Doing her duty at home", "Playing a game", "Wasting time"],
+    answer: 1,
+    explanation: "Helping with chores at home is a DUTY! Ana is being a responsible family member. 🍽️"
+  },
+  {
+    week: "Week 2: My Duties & Responsibilities",
+    emoji: "🗑️",
+    text: "You finished eating a snack. What is the RESPONSIBLE thing to do with the wrapper?",
+    choices: ["Throw it on the floor", "Put it in your pocket forever", "Throw it in the trash can", "Give it to a friend"],
+    answer: 2,
+    explanation: "We have a DUTY to keep our surroundings clean. Throw garbage in the trash! 🗑️"
+  },
+  {
+    week: "Week 2: My Duties & Responsibilities",
+    emoji: "🏫",
+    text: "What is your duty as a student in school?",
+    choices: ["Sleep during class", "Listen to the teacher and study hard", "Talk loudly while the teacher is speaking", "Come to school very late every day"],
+    answer: 1,
+    explanation: "At school, your duty is to LISTEN, LEARN, and be KIND to your classmates! 📚"
+  },
+  {
+    week: "Week 2: My Duties & Responsibilities",
+    emoji: "🤝",
+    text: "Rights and duties are ________.",
+    choices: ["Opposite and unrelated", "The same thing", "Connected — they go together", "Only for adults"],
+    answer: 2,
+    explanation: "Rights and duties GO TOGETHER. When everyone does their duties, everyone can enjoy their rights! 🌈"
+  },
+
+  // Week 3: Government Services
+  {
+    week: "Week 3: Government Services",
+    emoji: "🏛️",
+    text: "The government builds public schools for children. This is an example of a government service for...?",
+    choices: ["Education", "Health", "Safety", "Transportation"],
+    answer: 0,
+    explanation: "Building public schools is a GOVERNMENT SERVICE for EDUCATION! 🏫"
+  },
+  {
+    week: "Week 3: Government Services",
+    emoji: "🚒",
+    text: "A fire starts in a neighborhood. Who comes to help put it out?",
+    choices: ["Teachers", "Doctors", "Firefighters from the fire station", "Store owners"],
+    answer: 2,
+    explanation: "FIREFIGHTERS from the fire station are a government service that protects us from fires! 🔥"
+  },
+  {
+    week: "Week 3: Government Services",
+    emoji: "🚓",
+    text: "Who keeps the community safe and makes sure people follow the law?",
+    choices: ["Farmers", "Police officers", "Bakers", "Bus drivers"],
+    answer: 1,
+    explanation: "POLICE OFFICERS are a government service that keeps us safe! 👮"
+  },
+  {
+    week: "Week 3: Government Services",
+    emoji: "💧",
+    text: "The government helps make sure people have clean water to drink. This is a government service for...?",
+    choices: ["Education", "Transportation", "Health and basic needs", "Entertainment"],
+    answer: 2,
+    explanation: "Providing clean WATER is a government service for our health and basic needs! 💧"
+  },
+
+  // Week 4-5: Cooperation
+  {
+    week: "Weeks 4–5: Cooperation in the Community",
+    emoji: "🌟",
+    text: "What does COOPERATION mean?",
+    choices: ["Playing alone all the time", "Working together to help each other", "Ignoring your classmates", "Keeping all the crayons for yourself"],
+    answer: 1,
+    explanation: "COOPERATION means working together to help each other reach a goal! 🤝"
+  },
+  {
+    week: "Weeks 4–5: Cooperation in the Community",
+    emoji: "🏘️",
+    text: "The Filipino tradition of neighbors helping each other, like carrying a house together, is called...?",
+    choices: ["Fiesta", "Bayanihan", "Pasalubong", "Sundo"],
+    answer: 1,
+    explanation: "BAYANIHAN is the beautiful Filipino tradition of helping each other as a community! 🇵🇭"
+  },
+  {
+    week: "Weeks 4–5: Cooperation in the Community",
+    emoji: "🎯",
+    text: "Your class is working on a group project together. This is an example of...?",
+    choices: ["Competition", "Laziness", "Cooperation", "Disobedience"],
+    answer: 2,
+    explanation: "Working TOGETHER on a group project is a great example of COOPERATION! 🌟"
+  },
+  {
+    week: "Weeks 4–5: Cooperation in the Community",
+    emoji: "💬",
+    text: "When we cooperate, things become...?",
+    choices: ["Harder and impossible", "More confusing", "Easier and better", "More boring"],
+    answer: 2,
+    explanation: "Sama-sama, mas magaan! TOGETHER, things become easier and better! 💪"
+  },
+];
+
+const examQuestions = [
+  { emoji:"🌟", text:"Which of the following is a children's RIGHT?", choices:["The right to play and rest","The right to skip school every day","The right to be rude to others","The right to take other people's things"], answer:0 },
+  { emoji:"🍎", text:"Mark eats three meals a day. This shows his right to...?", choices:["Play","Food","Health","Education"], answer:1 },
+  { emoji:"🛡️", text:"Children have the right to be safe from harm. This is called the right to...?", choices:["Education","Play","Protection","Work"], answer:2 },
+  { emoji:"🏡", text:"Sweeping the floor at home is an example of a child's...?", choices:["Right","Game","Duty","Choice only"], answer:2 },
+  { emoji:"📖", text:"Going to school every day is both a right AND a...?", choices:["Punishment","Duty","Hobby","Secret"], answer:1 },
+  { emoji:"🌿", text:"You are at the park. You see trash on the ground. What should you do?", choices:["Leave it there","Kick it away","Pick it up and throw in the bin","Step on it"], answer:2 },
+  { emoji:"🏛️", text:"Who provides services like schools, hospitals, and roads?", choices:["Only rich families","The government","Only churches","Store owners"], answer:1 },
+  { emoji:"🚒", text:"A fire breaks out on the street. Which government service should you call?", choices:["Post office","Police station","Fire station","Library"], answer:2 },
+  { emoji:"🚓", text:"Police officers are a government service that helps keep people...?", choices:["Rich","Entertained","Safe","Bored"], answer:2 },
+  { emoji:"🏥", text:"Doctors and nurses in public hospitals are an example of a government service for...?", choices:["Entertainment","Health","Sports","Shopping"], answer:1 },
+  { emoji:"🛣️", text:"The government builds roads and bridges so people can...?", choices:["Sleep better","Travel and move around","Swim","Go fishing"], answer:1 },
+  { emoji:"🤝", text:"What does COOPERATION mean?", choices:["Working alone","Competing to win","Working together to help each other","Arguing with others"], answer:2 },
+  { emoji:"🇵🇭", text:"The Filipino tradition of helping each other as a community is called...?", choices:["Fiestas","Bayanihan","Pasalubong","Panata"], answer:1 },
+  { emoji:"👨‍👩‍👧‍👦", text:"Family members helping each other with chores at home is an example of...?", choices:["Fighting","Cooperation","Ignoring each other","Competition"], answer:1 },
+  { emoji:"🌈", text:"When everyone in the community works together, the community becomes...?", choices:["Weaker and divided","Stronger and better","Louder and chaotic","Smaller"], answer:1 },
+  { emoji:"💡", text:"Rights belong to...?", choices:["Only adults","Only boys","Only rich people","All children"], answer:3 },
+  { emoji:"🗑️", text:"Keeping your surroundings clean is an example of your duty in...?", choices:["The mall","Your community","The beach only","The province only"], answer:1 },
+  { emoji:"🎓", text:"The government makes sure children can go to school. This is a service for...?", choices:["Entertainment","Education","Sports","Transportation"], answer:1 },
+  { emoji:"📮", text:"Which government office helps deliver letters and packages to people?", choices:["Police station","Post office","Hospital","Fire station"], answer:1 },
+  { emoji:"💪", text:"'Sama-sama, mas magaan!' This saying best describes...?", choices:["Competition","Cooperation","Laziness","Rights"], answer:1 },
+];
+
+// ===== TABS =====
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ===== PRACTICE QUIZ =====
+(function buildPractice() {
+  const area = document.getElementById('practice-quiz-area');
+  const resultPanel = document.getElementById('practice-result');
+  let answered = 0;
+  let score = 0;
+  const total = practiceQuestions.length;
+
+  // Progress
+  const progWrap = document.createElement('div');
+  progWrap.innerHTML = `<div class="progress-bar-wrap"><div class="progress-bar" id="pbar" style="width:0%"></div></div><div class="progress-text" id="ptext">0 / ${total} answered</div>`;
+  area.appendChild(progWrap);
+
+  practiceQuestions.forEach((q, qi) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = `pq-${qi}`;
+
+    const choicesHTML = q.choices.map((c, ci) =>
+      `<button class="choice-btn" data-qi="${qi}" data-ci="${ci}" onclick="answerPractice(${qi},${ci})">
+        <span class="choice-letter">${['A','B','C','D'][ci]}</span>${c}
+      </button>`
+    ).join('');
+
+    card.innerHTML = `
+      <div class="q-number">Question ${qi+1} of ${total} · ${q.week}</div>
+      <span class="q-emoji">${q.emoji}</span>
+      <div class="q-text">${q.text}</div>
+      <div class="choices">${choicesHTML}</div>
+      <div class="feedback-msg" id="pfb-${qi}"></div>
+    `;
+    area.appendChild(card);
+  });
+
+  window.answerPractice = function(qi, ci) {
+    const q = practiceQuestions[qi];
+    const card = document.getElementById(`pq-${qi}`);
+    const btns = card.querySelectorAll('.choice-btn');
+    const fb = document.getElementById(`pfb-${qi}`);
+
+    if (btns[0].disabled) return; // already answered
+    btns.forEach(b => b.disabled = true);
+
+    if (ci === q.answer) {
+      btns[ci].classList.add('correct');
+      fb.className = 'feedback-msg correct-fb show';
+      fb.innerHTML = `✅ Correct! ${q.explanation}`;
+      score++;
+    } else {
+      btns[ci].classList.add('wrong');
+      btns[q.answer].classList.add('correct');
+      fb.className = 'feedback-msg wrong-fb show';
+      fb.innerHTML = `❌ The correct answer is <strong>${q.choices[q.answer]}</strong>. ${q.explanation}`;
+    }
+    answered++;
+    const pct = Math.round((answered/total)*100);
+    document.getElementById('pbar').style.width = pct + '%';
+    document.getElementById('ptext').textContent = `${answered} / ${total} answered`;
+
+    if (answered === total) {
+      setTimeout(() => showPracticeResult(score, total), 700);
+    }
+  };
+
+  function showPracticeResult(score, total) {
+    const pct = Math.round((score/total)*100);
+    let emoji, msg, barColor;
+    if (pct >= 90) { emoji='🌟🌟🌟'; msg='Outstanding! You are a Civics Superstar! Amazing work!'; barColor='var(--green)'; }
+    else if (pct >= 75) { emoji='🌟🌟'; msg='Great job! You know your lessons well! Keep it up!'; barColor='#26C6DA'; }
+    else if (pct >= 50) { emoji='🌟'; msg='Good try! Review the lessons and try again. You can do it!'; barColor='var(--sun)'; }
+    else { emoji='📖'; msg='Keep practicing! Read the reviewer again and give it another shot!'; barColor='var(--coral)'; }
+
+    resultPanel.innerHTML = `
+      <div class="result-emoji">${emoji}</div>
+      <h2>Practice Complete!</h2>
+      <div class="score-display" style="color:${barColor}">${score} / ${total}</div>
+      <div class="score-bar-wrap"><div class="score-bar" id="pscorebar" style="width:0%;background:${barColor}"></div></div>
+      <div class="result-msg">${msg}</div>
+      <button class="retry-btn green" onclick="location.reload()">🔄 Try Again</button>
+      <button class="retry-btn sky" onclick="document.querySelector('[data-tab=\\'reviewer\\']').click()">📖 Review Again</button>
+    `;
+    resultPanel.classList.add('show');
+    resultPanel.scrollIntoView({behavior:'smooth'});
+    setTimeout(() => { document.getElementById('pscorebar').style.width = pct + '%'; }, 200);
+  }
+})();
+
+// ===== EXAM =====
+(function buildExam() {
+  const area = document.getElementById('exam-quiz-area');
+  const resultPanel = document.getElementById('exam-result');
+  const total = examQuestions.length;
+  const userAnswers = new Array(total).fill(null);
+
+  examQuestions.forEach((q, qi) => {
+    const card = document.createElement('div');
+    card.className = 'q-card exam-mode';
+    const choicesHTML = q.choices.map((c, ci) =>
+      `<button class="choice-btn" id="eq-${qi}-${ci}" onclick="selectExam(${qi},${ci})">
+        <span class="choice-letter">${['A','B','C','D'][ci]}</span>${c}
+      </button>`
+    ).join('');
+    card.innerHTML = `
+      <div class="q-number">Question ${qi+1} of ${total}</div>
+      <span class="q-emoji">${q.emoji}</span>
+      <div class="q-text">${q.text}</div>
+      <div class="choices">${choicesHTML}</div>
+    `;
+    area.appendChild(card);
+  });
+
+  const submitRow = document.createElement('div');
+  submitRow.className = 'submit-row';
+  submitRow.innerHTML = `<button class="submit-btn" onclick="submitExam()">🏆 Submit Exam</button>`;
+  area.appendChild(submitRow);
+
+  window.selectExam = function(qi, ci) {
+    if (document.getElementById(`eq-${qi}-0`).disabled) return;
+    // deselect previous
+    examQuestions[qi].choices.forEach((_, i) => {
+      const b = document.getElementById(`eq-${qi}-${i}`);
+      b.style.background = '';
+      b.style.borderColor = '';
+      b.style.color = '';
+    });
+    userAnswers[qi] = ci;
+    const btn = document.getElementById(`eq-${qi}-${ci}`);
+    btn.style.background = '#E3F2FD';
+    btn.style.borderColor = 'var(--sky)';
+    btn.style.color = 'var(--navy)';
+  };
+
+  window.submitExam = function() {
+    // check if all answered
+    const unanswered = userAnswers.filter(a => a === null).length;
+    if (unanswered > 0) {
+      alert(`⚠️ You still have ${unanswered} unanswered question(s). Please answer all questions before submitting!`);
+      return;
+    }
+
+    // disable all
+    examQuestions.forEach((q, qi) => {
+      q.choices.forEach((_, ci) => {
+        const b = document.getElementById(`eq-${qi}-${ci}`);
+        b.disabled = true;
+        if (ci === q.answer) b.classList.add('correct');
+        else if (ci === userAnswers[qi]) b.classList.add('wrong');
+      });
+    });
+
+    const score = userAnswers.filter((a, i) => a === examQuestions[i].answer).length;
+    const pct = Math.round((score/total)*100);
+    let emoji, msg, barColor, grade;
+
+    if (pct >= 95) { emoji='🏆🌟'; msg='EXCELLENT! You are a Civics Champion! Perfect score!'; barColor='var(--green)'; grade='Excellent'; }
+    else if (pct >= 85) { emoji='🥇'; msg='Very Good! You understand the lessons very well!'; barColor='#29B6F6'; grade='Very Good'; }
+    else if (pct >= 75) { emoji='🥈'; msg='Good! You passed! Keep studying to improve more!'; barColor='#AB47BC'; grade='Good'; }
+    else if (pct >= 60) { emoji='📖'; msg='Fair. Review your lessons and practice more!'; barColor='var(--sun)'; grade='Fair'; }
+    else { emoji='💪'; msg='Keep trying! Study the reviewer and practice again!'; barColor='var(--coral)'; grade='Needs Improvement'; }
+
+    // Answer review
+    const reviewHTML = examQuestions.map((q, qi) => {
+      const isCorrect = userAnswers[qi] === q.answer;
+      return `<div class="answer-item ${isCorrect?'correct-ans':'wrong-ans'}">
+        <strong>${isCorrect?'✅':'❌'} Q${qi+1}:</strong> ${q.text}<br>
+        Your answer: <strong>${q.choices[userAnswers[qi]]}</strong>${!isCorrect?` → Correct: <strong style="color:var(--green)">${q.choices[q.answer]}</strong>`:''}
+      </div>`;
+    }).join('');
+
+    resultPanel.innerHTML = `
+      <div class="result-emoji">${emoji}</div>
+      <h2>Exam Results!</h2>
+      <div class="score-display" style="color:${barColor}">${score} / ${total}</div>
+      <div class="score-bar-wrap"><div class="score-bar" id="escorebar" style="width:0%;background:${barColor}"></div></div>
+      <span class="badge">${grade}</span>
+      <div class="result-msg">${msg}</div>
+      <button class="retry-btn green" onclick="location.reload()">🔄 Try Again</button>
+      <button class="retry-btn sky" onclick="document.querySelector('[data-tab=\\'reviewer\\']').click()">📖 Reviewer</button>
+      <div class="answer-review"><h3 style="font-family:'Fredoka One',cursive;color:var(--navy);margin-bottom:14px;font-size:1.2rem;">📋 Answer Review</h3>${reviewHTML}</div>
+    `;
+    resultPanel.classList.add('show');
+    area.querySelector('.submit-row').remove();
+    resultPanel.scrollIntoView({behavior:'smooth'});
+    setTimeout(() => { document.getElementById('escorebar').style.width = pct + '%'; }, 200);
+  };
+})();
+</script>
+</body>
+</html>

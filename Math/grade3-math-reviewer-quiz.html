@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 3 Math Reviewer 🧮</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue:   #3B82F6;
+    --cyan:   #22D3EE;
+    --green:  #22C55E;
+    --yellow: #FBBF24;
+    --orange: #FB923C;
+    --red:    #F87171;
+    --purple: #A78BFA;
+    --pink:   #F472B6;
+    --bg:     #EFF6FF;
+    --dark:   #1E3A5F;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+
+  /* BANNER */
+  .banner {
+    background: linear-gradient(135deg, #1D4ED8 0%, #0EA5E9 60%, #22D3EE 100%);
+    text-align: center;
+    padding: 40px 20px 56px;
+    clip-path: ellipse(130% 100% at 50% 0%);
+    position: relative;
+  }
+  .banner h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 6vw, 3.4rem);
+    color: #fff;
+    text-shadow: 2px 4px 0 rgba(0,0,0,0.15);
+    line-height: 1.1;
+  }
+  .banner h1 span { color: var(--yellow); }
+  .banner p { color: #BFDBFE; font-weight: 700; margin-top: 8px; font-size: 1rem; }
+
+  /* TABS */
+  .tabs {
+    display: flex; justify-content: center;
+    gap: 9px; padding: 18px 12px 10px; flex-wrap: wrap;
+  }
+  .tab-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.93rem; padding: 10px 18px;
+    border-radius: 50px; border: 3px solid #ddd;
+    background: white; color: #666;
+    cursor: pointer; box-shadow: 0 3px 0 #ccc;
+    transition: all 0.18s;
+  }
+  .tab-btn:hover { transform: translateY(-2px); }
+  .ta { background:#1D4ED8; color:#fff; border-color:#1338a0; box-shadow:0 3px 0 #1338a0; }
+  .tb { background:#22C55E; color:#fff; border-color:#158f3e; box-shadow:0 3px 0 #158f3e; }
+  .tc { background:#A78BFA; color:#fff; border-color:#7c5fe0; box-shadow:0 3px 0 #7c5fe0; }
+  .td { background:#FB923C; color:#fff; border-color:#c96010; box-shadow:0 3px 0 #c96010; }
+
+  /* SECTIONS */
+  .sec { display: none; padding: 6px 14px 70px; max-width: 880px; margin: 0 auto; }
+  .sec.active { display: block; }
+
+  /* REVIEWER CARDS */
+  .sec-hdr {
+    display: flex; align-items: center; gap: 12px;
+    margin: 24px 0 14px;
+  }
+  .sec-hdr h2 { font-family: 'Fredoka One', cursive; font-size: 1.5rem; }
+  .sec-hdr .dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+
+  .card {
+    background: white; border-radius: 22px;
+    padding: 20px 22px; margin-bottom: 16px;
+    box-shadow: 0 5px 0 #d0dff0;
+    border: 2.5px solid #DBEAFE;
+    animation: popUp 0.35s ease both;
+  }
+  @keyframes popUp {
+    from { opacity:0; transform:translateY(14px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .card h3 { font-family: 'Fredoka One', cursive; font-size: 1.18rem; margin-bottom: 10px; }
+  .hb { color: var(--blue); }
+  .hg { color: var(--green); }
+  .hp { color: var(--purple); }
+  .ho { color: var(--orange); }
+  .hc { color: #0891B2; }
+  .hy { color: #B45309; }
+
+  .formula-box {
+    background: #EFF6FF;
+    border: 3px solid var(--blue);
+    border-radius: 16px; padding: 14px 16px;
+    margin: 10px 0; text-align: center;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem; color: var(--blue);
+  }
+  .formula-box.green  { background:#F0FDF4; border-color:var(--green); color:#166534; }
+  .formula-box.purple { background:#F5F3FF; border-color:var(--purple); color:#5B21B6; }
+  .formula-box.orange { background:#FFF7ED; border-color:var(--orange); color:#9A3412; }
+  .formula-box.yellow { background:#FFFBEB; border-color:var(--yellow); color:#92400E; }
+
+  .ibox {
+    border-left: 5px solid var(--blue);
+    background: #EFF6FF; border-radius: 0 14px 14px 0;
+    padding: 10px 14px; margin: 8px 0;
+    font-size: 0.97rem; line-height: 1.85; font-weight: 600; color: #1E3A5F;
+  }
+  .ib-g { border-color:var(--green); background:#F0FDF4; }
+  .ib-p { border-color:var(--purple); background:#F5F3FF; }
+  .ib-o { border-color:var(--orange); background:#FFF7ED; }
+  .ib-y { border-color:var(--yellow); background:#FFFBEB; }
+  .ib-r { border-color:var(--red); background:#FFF1F2; }
+  .ib-c { border-color:#0891B2; background:#ECFEFF; }
+
+  .ex-box {
+    background: #FFFBEB; border: 2px dashed var(--yellow);
+    border-radius: 14px; padding: 12px 16px;
+    margin: 10px 0; font-size: 0.96rem;
+    line-height: 1.9; font-weight: 600; color: #1E3A5F;
+  }
+  .hi-b { color: var(--blue); font-weight: 900; }
+  .hi-g { color: #166534; font-weight: 900; }
+  .hi-r { color: #B91C1C; font-weight: 900; }
+  .hi-o { color: #9A3412; font-weight: 900; }
+
+  /* FORMULA GRID */
+  .f-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px; margin: 12px 0;
+  }
+  .f-chip {
+    border-radius: 18px; padding: 18px 16px; text-align: center;
+    font-weight: 700; line-height: 1.5;
+  }
+  .fc-b { background:#EFF6FF; border:3px solid var(--blue); }
+  .fc-g { background:#F0FDF4; border:3px solid var(--green); }
+  .fc-p { background:#F5F3FF; border:3px solid var(--purple); }
+  .fc-o { background:#FFF7ED; border:3px solid var(--orange); }
+  .f-chip .fi { font-size:2.2rem; display:block; margin-bottom:8px; }
+  .f-chip .fn { font-family:'Fredoka One',cursive; font-size:1.05rem; display:block; margin-bottom:6px; }
+
+  /* UNIT TABLE */
+  .unit-table { width:100%; border-collapse:separate; border-spacing:0 7px; margin:12px 0; }
+  .unit-table th {
+    background: var(--blue); color:white;
+    font-family:'Fredoka One',cursive; font-size:0.95rem;
+    padding:10px 14px;
+  }
+  .unit-table th:first-child { border-radius:12px 0 0 12px; }
+  .unit-table th:last-child  { border-radius:0 12px 12px 0; }
+  .unit-table td {
+    background:white; padding:10px 14px;
+    font-weight:700; font-size:0.93rem; color:#1E3A5F;
+    border-bottom:2px solid #DBEAFE;
+  }
+  .unit-table td:first-child { color:var(--blue); border-radius:12px 0 0 12px; }
+  .unit-table td:last-child  { border-radius:0 12px 12px 0; }
+
+  .divider { text-align:center; font-size:1.5rem; opacity:0.2; margin:8px 0; }
+
+  /* QUIZ */
+  .quiz-hdr { text-align:center; margin:16px 0 20px; }
+  .quiz-hdr h2 { font-family:'Fredoka One',cursive; font-size:2rem; }
+  .quiz-hdr p  { font-weight:600; color:#6B7280; margin-top:4px; }
+
+  .scoreboard { display:flex; justify-content:center; gap:16px; margin-bottom:16px; flex-wrap:wrap; }
+  .sbox {
+    background:white; border-radius:14px; padding:10px 22px;
+    font-family:'Fredoka One',cursive; font-size:1rem;
+    box-shadow:0 3px 0 #d0dff0; border:2px solid #DBEAFE;
+    text-align:center; min-width:100px;
+  }
+  .sbox span { font-size:1.7rem; display:block; color:var(--blue); }
+
+  .prog-wrap { background:#DBEAFE; border-radius:50px; height:13px; margin-bottom:18px; overflow:hidden; }
+  .prog-fill { height:100%; border-radius:50px; transition:width 0.4s ease; }
+  .pf-g { background:linear-gradient(90deg, #22C55E, #22D3EE); }
+  .pf-p { background:linear-gradient(90deg, #A78BFA, #3B82F6); }
+  .pf-o { background:linear-gradient(90deg, #FB923C, #FBBF24); }
+
+  .q-card {
+    background:white; border-radius:22px; padding:24px;
+    box-shadow:0 5px 0 #d0dff0; border:2.5px solid #DBEAFE;
+    margin-bottom:16px;
+  }
+  .q-label {
+    font-family:'Fredoka One',cursive; font-size:0.88rem; color:white;
+    display:inline-block; padding:4px 14px; border-radius:50px;
+    margin-bottom:10px;
+  }
+  .ql-g { background:var(--green); }
+  .ql-p { background:var(--purple); }
+  .ql-o { background:var(--orange); }
+
+  .q-emoji { font-size:2.2rem; text-align:center; margin-bottom:8px; }
+  .q-text  { font-size:1.1rem; font-weight:700; margin-bottom:18px; line-height:1.65; color:var(--dark); }
+
+  .choices { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  @media(max-width:480px){ .choices { grid-template-columns:1fr; } }
+
+  .choice-btn {
+    padding:13px 14px; border-radius:14px;
+    border:3px solid #DBEAFE; background:#F8FBFF;
+    font-family:'Nunito',sans-serif; font-size:0.97rem; font-weight:700;
+    cursor:pointer; transition:all 0.15s; text-align:left; color:var(--dark);
+  }
+  .choice-btn:hover:not(:disabled) {
+    border-color:var(--blue); background:#EFF6FF;
+    transform:translateY(-2px);
+  }
+  .choice-btn.correct { background:#F0FDF4; border-color:var(--green); color:#166534; }
+  .choice-btn.wrong   { background:#FFF1F2; border-color:var(--red);   color:#991B1B; }
+  .choice-btn:disabled { cursor:default; }
+
+  .fb-msg { margin-top:12px; padding:10px 14px; border-radius:12px; font-weight:700; display:none; font-size:0.97rem; }
+  .fb-ok  { background:#F0FDF4; color:#166534; border:2px solid var(--green); display:block; }
+  .fb-no  { background:#FFF1F2; color:#991B1B; border:2px solid var(--red);   display:block; }
+
+  .qctrl { display:flex; justify-content:center; gap:12px; margin-top:18px; flex-wrap:wrap; }
+  .btn-go {
+    font-family:'Fredoka One',cursive; font-size:1.05rem;
+    padding:12px 30px; border-radius:50px; border:3px solid;
+    cursor:pointer; box-shadow:0 4px 0; transition:all 0.15s; color:white;
+  }
+  .btn-go:hover { transform:translateY(-2px); }
+  .bg-g { background:var(--green);  border-color:#158f3e; box-shadow:0 4px 0 #158f3e; }
+  .bg-p { background:var(--purple); border-color:#7c5fe0; box-shadow:0 4px 0 #7c5fe0; }
+  .bg-o { background:var(--orange); border-color:#c96010; box-shadow:0 4px 0 #c96010; }
+  .bg-b { background:var(--blue);   border-color:#1338a0; box-shadow:0 4px 0 #1338a0; }
+
+  /* RESULT */
+  .result-box { display:none; text-align:center; padding:44px 16px; }
+  .result-box .medal { font-size:5rem; margin-bottom:10px; }
+  .result-box h2 { font-family:'Fredoka One',cursive; font-size:2.4rem; margin-bottom:8px; }
+  .result-box .big-score { font-family:'Fredoka One',cursive; font-size:4rem; color:var(--blue); }
+  .result-box p { font-weight:700; color:#6B7280; font-size:1rem; margin-top:10px; }
+
+  /* bg decos */
+  .bgd { position:fixed; font-size:2.2rem; opacity:0.08; pointer-events:none; animation:fl 7s ease-in-out infinite; }
+  @keyframes fl { 0%,100%{transform:translateY(0);}50%{transform:translateY(-22px);} }
+  .bgd:nth-child(1){top:6%;left:2%;animation-delay:0s;}
+  .bgd:nth-child(2){top:20%;right:3%;animation-delay:1.5s;}
+  .bgd:nth-child(3){top:55%;left:1%;animation-delay:3s;}
+  .bgd:nth-child(4){bottom:12%;right:2%;animation-delay:0.8s;}
+  .bgd:nth-child(5){bottom:38%;left:3%;animation-delay:2s;}
+</style>
+</head>
+<body>
+
+<div class="bgd">📏</div>
+<div class="bgd">📐</div>
+<div class="bgd">🧮</div>
+<div class="bgd">📦</div>
+<div class="bgd">⭐</div>
+
+<div class="banner">
+  <h1>🧮 Grade 3 <span>Math</span> Reviewer!</h1>
+  <p>Measurement • Area • Perimeter • Word Problems</p>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn ta" onclick="showTab('reviewer')">📖 Reviewer</button>
+  <button class="tab-btn" onclick="showTab('q1')">📏 Measurement Quiz</button>
+  <button class="tab-btn" onclick="showTab('q2')">🟦 Area & Perimeter Quiz</button>
+  <button class="tab-btn" onclick="showTab('q3')">🏆 Big Quiz</button>
+</div>
+
+<!-- ============ REVIEWER ============ -->
+<div id="reviewer" class="sec active">
+
+  <!-- FORMULAS -->
+  <div class="sec-hdr">
+    <div class="dot" style="background:var(--blue)"></div>
+    <h2 class="hb">⚡ Important Formulas</h2>
+  </div>
+
+  <div class="f-grid">
+    <div class="f-chip fc-g">
+      <span class="fi">🟩</span>
+      <span class="fn" style="color:#166534;">Area of Rectangle</span>
+      <div class="formula-box green">A = L × W</div>
+      <small style="color:#166534;">Length × Width<br>Answer: m² or cm²</small>
+    </div>
+    <div class="f-chip fc-b">
+      <span class="fi">⬛</span>
+      <span class="fn" style="color:var(--blue);">Area of Square</span>
+      <div class="formula-box">A = s × s</div>
+      <small style="color:var(--blue);">Side × Side<br>All sides are equal!</small>
+    </div>
+    <div class="f-chip fc-p">
+      <span class="fi">📏</span>
+      <span class="fn" style="color:#5B21B6;">Perimeter of Rectangle</span>
+      <div class="formula-box purple">P = 2 × (L + W)</div>
+      <small style="color:#5B21B6;">Add all four sides!<br>Answer: m or cm</small>
+    </div>
+    <div class="f-chip fc-o">
+      <span class="fi">🔷</span>
+      <span class="fn" style="color:#9A3412;">Perimeter of Square</span>
+      <div class="formula-box orange">P = 4 × s</div>
+      <small style="color:#9A3412;">Multiply one side by 4!<br>All sides are the same.</small>
+    </div>
+  </div>
+
+  <!-- AREA -->
+  <div class="sec-hdr" style="margin-top:10px;">
+    <div class="dot" style="background:var(--green)"></div>
+    <h2 class="hg">🟩 Area — "How much space does it cover?"</h2>
+  </div>
+
+  <div class="card">
+    <h3 class="hg">📌 What is Area?</h3>
+    <div class="ibox ib-g">
+      Area tells us <b>how much surface is covered</b>. Imagine tiling a floor — the number of tiles you need is the area! Area is always measured in <b>square units</b> like cm² or m².
+    </div>
+    <div class="ex-box">
+      <b>📝 Example 1:</b> A room is 5 m long and 3 m wide. What is its area?<br>
+      → A = L × W = 5 × 3 = <span class="hi-g">15 m²</span><br><br>
+      <b>📝 Example 2:</b> A garden is 8 m long and 4 m wide. What is its area?<br>
+      → A = 8 × 4 = <span class="hi-g">32 m²</span><br><br>
+      <b>📝 Example 3:</b> A square has a side of 6 cm. What is its area?<br>
+      → A = 6 × 6 = <span class="hi-g">36 cm²</span>
+    </div>
+  </div>
+
+  <!-- PERIMETER -->
+  <div class="sec-hdr">
+    <div class="dot" style="background:var(--purple)"></div>
+    <h2 class="hp">📏 Perimeter — "How far is it around?"</h2>
+  </div>
+
+  <div class="card">
+    <h3 class="hp">📌 What is Perimeter?</h3>
+    <div class="ibox ib-p">
+      Perimeter is the <b>total distance around</b> a shape. Imagine walking around a garden — the total distance you walk is the perimeter! Measured in <b>m or cm</b> (not square!).
+    </div>
+    <div class="ex-box">
+      <b>📝 Example 1:</b> A park is 10 m long and 6 m wide. What is its perimeter?<br>
+      → P = 2 × (10 + 6) = 2 × 16 = <span class="hi-b">32 m</span><br><br>
+      <b>📝 Example 2:</b> A square has a side of 5 m. What is its perimeter?<br>
+      → P = 4 × 5 = <span class="hi-b">20 m</span><br><br>
+      <b>📝 Example 3:</b> A room is 9 m long and 7 m wide. What is the perimeter?<br>
+      → P = 2 × (9 + 7) = 2 × 16 = <span class="hi-b">32 m</span>
+    </div>
+    <div class="ibox ib-p">
+      💡 <b>Trick!</b> To find perimeter, add ALL sides together!<br>
+      Rectangle: top + bottom + left + right = L + W + L + W = 2L + 2W
+    </div>
+  </div>
+
+  <!-- UNIT CONVERSION -->
+  <div class="sec-hdr">
+    <div class="dot" style="background:var(--yellow)"></div>
+    <h2 class="hy">📐 Measuring Units</h2>
+  </div>
+
+  <div class="card">
+    <h3 class="hy">📌 Length Units</h3>
+    <div class="ibox ib-y">
+      We use different units to measure length! <b>cm</b> for small things (like a pencil), <b>m</b> for bigger things (like a room), and <b>km</b> for very long distances (like a road).
+    </div>
+    <table class="unit-table">
+      <thead><tr><th>Conversion</th><th>Rule</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>1 m = ? cm</td><td>× 100</td><td>3 m = 300 cm</td></tr>
+        <tr><td>1 km = ? m</td><td>× 1,000</td><td>2 km = 2,000 m</td></tr>
+        <tr><td>1 m = ? dm</td><td>× 10</td><td>5 m = 50 dm</td></tr>
+        <tr><td>cm → m</td><td>÷ 100</td><td>500 cm = 5 m</td></tr>
+        <tr><td>m → km</td><td>÷ 1,000</td><td>2,000 m = 2 km</td></tr>
+      </tbody>
+    </table>
+    <div class="ibox ib-y">
+      ⚖️ <b>Weight Units:</b><br>
+      1 kg = 1,000 g &nbsp;|&nbsp; ½ kg = 500 g &nbsp;|&nbsp; ¼ kg = 250 g<br><br>
+      ⏰ <b>Time:</b><br>
+      1 minute = 60 seconds &nbsp;|&nbsp; 1 hour = 60 minutes &nbsp;|&nbsp; 1 day = 24 hours<br>
+      1 week = 7 days &nbsp;|&nbsp; 1 year = 365 days (366 for leap year)
+    </div>
+  </div>
+
+  <!-- WORD PROBLEM TIPS -->
+  <div class="sec-hdr">
+    <div class="dot" style="background:var(--orange)"></div>
+    <h2 class="ho">💡 Word Problem Tips</h2>
+  </div>
+
+  <div class="card">
+    <h3 class="ho">🔑 Key Words to Watch For</h3>
+    <div class="f-grid">
+      <div class="f-chip fc-g">
+        <span class="fi">🟩</span>
+        <span class="fn" style="color:#166534;">AREA Keywords</span>
+        <div style="font-size:0.9rem; color:#166534; font-weight:700; line-height:1.7;">
+          "covers" • "surface"<br>"how much space"<br>"tiles needed"<br>→ Use A = L × W
+        </div>
+      </div>
+      <div class="f-chip fc-p">
+        <span class="fi">📏</span>
+        <span class="fn" style="color:#5B21B6;">PERIMETER Keywords</span>
+        <div style="font-size:0.9rem; color:#5B21B6; font-weight:700; line-height:1.7;">
+          "around" • "fence"<br>"border" • "frame"<br>"how far to walk"<br>→ Use P = 2(L+W)
+        </div>
+      </div>
+    </div>
+    <div class="ex-box" style="margin-top:12px;">
+      <b>📝 Word Problem Example:</b><br>
+      "A farmer wants to put a <span class="hi-b">fence</span> around his rectangular field that is 12 m long and 8 m wide."<br>
+      → "Fence" = PERIMETER → P = 2 × (12 + 8) = 2 × 20 = <span class="hi-g">40 m</span><br><br>
+      "A painter needs to paint the <span class="hi-r">floor</span> of a room that is 6 m long and 4 m wide."<br>
+      → "Floor / paint" = AREA → A = 6 × 4 = <span class="hi-g">24 m²</span>
+    </div>
+  </div>
+
+  <!-- FINDING MISSING SIDES -->
+  <div class="sec-hdr">
+    <div class="dot" style="background:var(--cyan)"></div>
+    <h2 class="hc">🔍 Finding a Missing Side</h2>
+  </div>
+
+  <div class="card">
+    <h3 class="hc">📌 How to Find Missing Length or Width</h3>
+    <div class="ibox ib-c">
+      If you know the <b>Area and one side</b>, divide to find the missing side!<br>
+      → Missing side = Area ÷ Known side<br><br>
+      If you know the <b>Perimeter and one side</b>, work backwards!<br>
+      → Half of Perimeter = L + W, then subtract to find missing side.
+    </div>
+    <div class="ex-box">
+      <b>📝 Example 1 (Area given):</b><br>
+      Area = 24 m², Width = 4 m. Find the Length.<br>
+      → Length = 24 ÷ 4 = <span class="hi-g">6 m</span><br><br>
+      <b>📝 Example 2 (Perimeter given):</b><br>
+      Perimeter = 20 m, Length = 6 m. Find the Width.<br>
+      → L + W = 20 ÷ 2 = 10 → W = 10 - 6 = <span class="hi-g">4 m</span>
+    </div>
+  </div>
+
+</div><!-- end reviewer -->
+
+<!-- ============ QUIZ 1: MEASUREMENT ============ -->
+<div id="q1" class="sec">
+  <div class="quiz-hdr">
+    <h2 style="color:var(--green);">📏 Measurement Quiz</h2>
+    <p>Units, length, weight, and time! You can do it! 💪</p>
+  </div>
+  <div class="scoreboard">
+    <div class="sbox">⭐ Score<span id="m-sc">0</span></div>
+    <div class="sbox">📋 Question<span id="m-qn">1/10</span></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill pf-g" id="m-prog" style="width:0%"></div></div>
+  <div id="m-area"></div>
+  <div id="m-result" class="result-box">
+    <div class="medal" id="m-medal"></div>
+    <h2 id="m-rtitle" style="color:var(--green);"></h2>
+    <div class="big-score" id="m-rscore"></div>
+    <p id="m-rmsg"></p>
+    <div class="qctrl" style="margin-top:22px;">
+      <button class="btn-go bg-g" onclick="restartQ('meas')">🔄 Try Again</button>
+      <button class="btn-go bg-p" onclick="showTab('q2')">Next Quiz →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ QUIZ 2: AREA & PERIMETER ============ -->
+<div id="q2" class="sec">
+  <div class="quiz-hdr">
+    <h2 style="color:var(--purple);">🟦 Area & Perimeter Quiz</h2>
+    <p>Find the area and perimeter of shapes! 🟩</p>
+  </div>
+  <div class="scoreboard">
+    <div class="sbox">⭐ Score<span id="a-sc">0</span></div>
+    <div class="sbox">📋 Question<span id="a-qn">1/10</span></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill pf-p" id="a-prog" style="width:0%"></div></div>
+  <div id="a-area"></div>
+  <div id="a-result" class="result-box">
+    <div class="medal" id="a-medal"></div>
+    <h2 id="a-rtitle" style="color:var(--purple);"></h2>
+    <div class="big-score" id="a-rscore"></div>
+    <p id="a-rmsg"></p>
+    <div class="qctrl" style="margin-top:22px;">
+      <button class="btn-go bg-p" onclick="restartQ('area')">🔄 Try Again</button>
+      <button class="btn-go bg-o" onclick="showTab('q3')">Next Quiz →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ QUIZ 3: BIG QUIZ ============ -->
+<div id="q3" class="sec">
+  <div class="quiz-hdr">
+    <h2 style="color:var(--orange);">🏆 Big Math Quiz!</h2>
+    <p>All topics together — show what you know! 🌟</p>
+  </div>
+  <div class="scoreboard">
+    <div class="sbox">⭐ Score<span id="f-sc">0</span></div>
+    <div class="sbox">📋 Question<span id="f-qn">1/10</span></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill pf-o" id="f-prog" style="width:0%"></div></div>
+  <div id="f-area"></div>
+  <div id="f-result" class="result-box">
+    <div class="medal" id="f-medal"></div>
+    <h2 id="f-rtitle" style="color:var(--orange);"></h2>
+    <div class="big-score" id="f-rscore"></div>
+    <p id="f-rmsg"></p>
+    <div class="qctrl" style="margin-top:22px;">
+      <button class="btn-go bg-o" onclick="restartQ('full')">🔄 Try Again</button>
+      <button class="btn-go bg-b" onclick="showTab('reviewer')">📖 Review Again</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- TABS ----
+function showTab(id) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const ids = ['reviewer','q1','q2','q3'];
+  const cls = ['ta','tb','tc','td'];
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    b.className = 'tab-btn';
+    if (ids[i] === id) b.classList.add(cls[i]);
+  });
+}
+
+// ---- QUESTIONS ----
+const measQs = [
+  {e:"📏",q:"3 meters = ___ centimeters",c:["300 cm","30 cm","3 cm","3 000 cm"],a:"300 cm",h:"1 meter = 100 centimeters. So 3 × 100 = 300 cm!"},
+  {e:"📏",q:"500 cm = ___ meters",c:["5 m","50 m","0.5 m","500 m"],a:"5 m",h:"To convert cm to m, divide by 100. 500 ÷ 100 = 5 m!"},
+  {e:"🏃",q:"2 km = ___ meters",c:["2 000 m","200 m","20 m","2 m"],a:"2 000 m",h:"1 km = 1,000 m. So 2 × 1,000 = 2,000 m!"},
+  {e:"⚖️",q:"1 kilogram = ___ grams",c:["1 000 g","100 g","10 g","500 g"],a:"1 000 g",h:"1 kilogram = 1,000 grams!"},
+  {e:"⚖️",q:"½ kilogram = ___ grams",c:["500 g","250 g","1 000 g","50 g"],a:"500 g",h:"½ of 1,000 = 500 grams!"},
+  {e:"⏰",q:"1 minute = ___ seconds",c:["60 seconds","100 seconds","30 seconds","24 seconds"],a:"60 seconds",h:"1 minute = 60 seconds!"},
+  {e:"📅",q:"How many days are in a regular (non-leap) year?",c:["365 days","366 days","360 days","364 days"],a:"365 days",h:"A regular year has 365 days. A leap year has 366 days!"},
+  {e:"📏",q:"Which is the LONGEST unit of length?",c:["kilometer (km)","meter (m)","centimeter (cm)","millimeter (mm)"],a:"kilometer (km)",h:"Kilometer (km) is the longest! 1 km = 1,000 m = 100,000 cm!"},
+  {e:"🌡️",q:"Maria has a ribbon 4 m long. Ana has a ribbon 350 cm long. Whose ribbon is longer?",c:["Maria's ribbon","Ana's ribbon","They are equal","Cannot tell"],a:"Maria's ribbon",h:"4 m = 400 cm. 400 cm > 350 cm, so Maria's ribbon is longer!"},
+  {e:"📦",q:"A box weighs 3 kg. Another box weighs 2,500 g. Which is heavier?",c:["The 3 kg box","The 2,500 g box","They are equal","Cannot tell"],a:"The 3 kg box",h:"3 kg = 3,000 g. 3,000 g > 2,500 g, so the 3 kg box is heavier!"},
+  {e:"🚶",q:"Nena walks 500 m to school every day. How far does she walk in 3 days?",c:["1 500 m","1 000 m","500 m","2 000 m"],a:"1 500 m",h:"500 × 3 = 1,500 m!"},
+  {e:"📏",q:"A table is 180 cm long. How long is it in meters?",c:["1.8 m","18 m","0.18 m","1 800 m"],a:"1.8 m",h:"180 cm ÷ 100 = 1.8 m!"},
+  {e:"⚖️",q:"A watermelon weighs 2 kg 500 g. How many grams is that?",c:["2 500 g","2 050 g","25 g","250 g"],a:"2 500 g",h:"2 kg = 2,000 g. 2,000 + 500 = 2,500 g!"},
+  {e:"⏰",q:"School starts at 7:30 AM. It ends at 4:00 PM. How many hours is that?",c:["8 hours 30 minutes","7 hours","9 hours","8 hours"],a:"8 hours 30 minutes",h:"From 7:30 AM to 4:00 PM = 8 hours and 30 minutes!"},
+  {e:"📏",q:"A pencil is 15 cm long. A ruler is 30 cm long. How much longer is the ruler?",c:["15 cm","30 cm","45 cm","5 cm"],a:"15 cm",h:"30 - 15 = 15 cm longer!"}
+];
+
+const areaQs = [
+  {e:"🟩",q:"A garden is 6 m long and 4 m wide. What is its AREA?",c:["24 m²","20 m","10 m²","24 m"],a:"24 m²",h:"Area = L × W = 6 × 4 = 24 m²! Remember, area uses square units (m²)!"},
+  {e:"📏",q:"A park is 8 m long and 5 m wide. What is its PERIMETER?",c:["26 m","40 m²","13 m","26 m²"],a:"26 m",h:"Perimeter = 2 × (L + W) = 2 × (8 + 5) = 2 × 13 = 26 m!"},
+  {e:"⬛",q:"A square has a side of 7 m. What is its AREA?",c:["49 m²","28 m","14 m²","28 m²"],a:"49 m²",h:"Area of square = s × s = 7 × 7 = 49 m²!"},
+  {e:"🔷",q:"A square has a side of 9 cm. What is its PERIMETER?",c:["36 cm","81 cm²","18 cm","81 cm"],a:"36 cm",h:"Perimeter of square = 4 × s = 4 × 9 = 36 cm!"},
+  {e:"🏠",q:"A room is 5 m long and 3 m wide. What is its AREA?",c:["15 m²","16 m","15 m","16 m²"],a:"15 m²",h:"Area = L × W = 5 × 3 = 15 m²!"},
+  {e:"🌿",q:"A garden is 10 m long and 4 m wide. A farmer wants to put a FENCE around it. How much fencing is needed?",c:["28 m","40 m²","14 m","28 m²"],a:"28 m",h:"Fence = PERIMETER! P = 2 × (10 + 4) = 2 × 14 = 28 m!"},
+  {e:"🎨",q:"A floor is 8 m long and 6 m wide. How many square meters need to be PAINTED?",c:["48 m²","28 m","48 m","14 m²"],a:"48 m²",h:"Paint = AREA! A = 8 × 6 = 48 m²!"},
+  {e:"🔍",q:"A rectangle has an area of 30 m². Its width is 5 m. What is its LENGTH?",c:["6 m","25 m","35 m","150 m"],a:"6 m",h:"Length = Area ÷ Width = 30 ÷ 5 = 6 m!"},
+  {e:"🔍",q:"A rectangle has a perimeter of 24 m. Its length is 8 m. What is its WIDTH?",c:["4 m","16 m","32 m","8 m"],a:"4 m",h:"L + W = P ÷ 2 = 24 ÷ 2 = 12. W = 12 - 8 = 4 m!"},
+  {e:"🏡",q:"A classroom is 9 m long and 7 m wide. What is its area?",c:["63 m²","32 m","63 m","32 m²"],a:"63 m²",h:"Area = L × W = 9 × 7 = 63 m²!"},
+  {e:"📏",q:"Which has the bigger area — a rectangle 5 m × 8 m, or a rectangle 6 m × 6 m?",c:["They are equal (both 36 m²)","5 m × 8 m (40 m²)","6 m × 6 m (36 m²)","Cannot tell"],a:"5 m × 8 m (40 m²)",h:"5×8 = 40 m². 6×6 = 36 m². 40 > 36, so 5 m × 8 m is bigger!"},
+  {e:"🏊",q:"A swimming pool is 20 m long and 10 m wide. What is its perimeter?",c:["60 m","200 m²","200 m","60 m²"],a:"60 m",h:"Perimeter = 2 × (20 + 10) = 2 × 30 = 60 m!"},
+  {e:"🌳",q:"A square park has a perimeter of 40 m. What is the LENGTH of one side?",c:["10 m","40 m","160 m","20 m"],a:"10 m",h:"Perimeter of square = 4 × side. So side = 40 ÷ 4 = 10 m!"},
+  {e:"🟩",q:"A rectangle is 12 cm long and 5 cm wide. What is its area?",c:["60 cm²","34 cm","60 cm","34 cm²"],a:"60 cm²",h:"Area = L × W = 12 × 5 = 60 cm²!"},
+  {e:"📦",q:"A box lid is 15 cm long and 8 cm wide. What is its perimeter?",c:["46 cm","120 cm²","46 cm²","120 cm"],a:"46 cm",h:"Perimeter = 2 × (15 + 8) = 2 × 23 = 46 cm!"}
+];
+
+function buildFull() {
+  return shuffle([...shuffle(measQs).slice(0,5), ...shuffle(areaQs).slice(0,5)]);
+}
+function shuffle(arr) { return [...arr].sort(() => Math.random()-0.5); }
+
+let ST = {
+  meas: {qs:[], idx:0, sc:0},
+  area: {qs:[], idx:0, sc:0},
+  full: {qs:[], idx:0, sc:0}
+};
+const CFG = {
+  meas: {area:'m-area', sc:'m-sc', qn:'m-qn', prog:'m-prog', result:'m-result', medal:'m-medal', rtitle:'m-rtitle', rscore:'m-rscore', rmsg:'m-rmsg', pfx:'m', ql:'ql-g', nb:'bg-g', tot:10},
+  area: {area:'a-area', sc:'a-sc', qn:'a-qn', prog:'a-prog', result:'a-result', medal:'a-medal', rtitle:'a-rtitle', rscore:'a-rscore', rmsg:'a-rmsg', pfx:'a', ql:'ql-p', nb:'bg-p', tot:10},
+  full: {area:'f-area', sc:'f-sc', qn:'f-qn', prog:'f-prog', result:'f-result', medal:'f-medal', rtitle:'f-rtitle', rscore:'f-rscore', rmsg:'f-rmsg', pfx:'f', ql:'ql-o', nb:'bg-o', tot:10}
+};
+
+function initQ(type) {
+  const st=ST[type]; const c=CFG[type];
+  st.qs  = type==='meas' ? shuffle(measQs).slice(0,c.tot)
+         : type==='area' ? shuffle(areaQs).slice(0,c.tot)
+         : buildFull();
+  st.idx=0; st.sc=0;
+  document.getElementById(c.area).style.display='block';
+  document.getElementById(c.result).style.display='none';
+  render(type);
+}
+
+function render(type) {
+  const st=ST[type]; const c=CFG[type];
+  if (st.idx >= st.qs.length) { showResult(type); return; }
+  const q=st.qs[st.idx]; const tot=st.qs.length;
+  document.getElementById(c.sc).textContent=st.sc;
+  document.getElementById(c.qn).textContent=`${st.idx+1}/${tot}`;
+  document.getElementById(c.prog).style.width=`${(st.idx/tot)*100}%`;
+  const sh=shuffle(q.c);
+  document.getElementById(c.area).innerHTML=`
+    <div class="q-card">
+      <span class="q-label ${c.ql}">Question ${st.idx+1} of ${tot}</span>
+      <div class="q-emoji">${q.e}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="choices">
+        ${sh.map(o=>`<button class="choice-btn" onclick="check('${type}','${o.replace(/'/g,"&#39;").replace(/"/g,"&quot;")}')">${o}</button>`).join('')}
+      </div>
+      <div class="fb-msg" id="${c.pfx}-fb"></div>
+    </div>
+    <div class="qctrl">
+      <button class="btn-go ${c.nb}" id="${c.pfx}-next" style="display:none" onclick="nextQ('${type}')">Next ➡️</button>
+    </div>`;
+}
+
+function check(type, chosen) {
+  const st=ST[type]; const c=CFG[type]; const q=st.qs[st.idx];
+  document.querySelectorAll(`#${c.area} .choice-btn`).forEach(b => {
+    b.disabled=true;
+    if (b.textContent===q.a) b.classList.add('correct');
+    else if (b.textContent===chosen && chosen!==q.a) b.classList.add('wrong');
+  });
+  const fb=document.getElementById(`${c.pfx}-fb`);
+  if (chosen===q.a) { st.sc++; fb.className='fb-msg fb-ok'; fb.textContent=`✅ Correct! Great job! ${q.e}`; }
+  else { fb.className='fb-msg fb-no'; fb.textContent=`❌ The answer is "${q.a}". 💡 ${q.h}`; }
+  document.getElementById(c.sc).textContent=st.sc;
+  document.getElementById(`${c.pfx}-next`).style.display='inline-block';
+}
+
+function nextQ(type) { ST[type].idx++; render(type); }
+
+function showResult(type) {
+  const c=CFG[type]; const st=ST[type];
+  document.getElementById(c.area).style.display='none';
+  document.getElementById(c.result).style.display='block';
+  const pct=Math.round(st.sc/st.qs.length*100);
+  let med,title,msg;
+  if(pct===100){med='🏆';title='PERFECT SCORE!';msg='WOW! You are a Math SUPERSTAR! Amazing! 🌟';}
+  else if(pct>=80){med='🥇';title='Excellent!';msg='Great job! You really know your math! 🎉';}
+  else if(pct>=60){med='🥈';title='Good Job!';msg:'Nice try! Review a little more and you will get it! 💪';}
+  else{med='🥉';title='Keep Trying!';msg='Don\'t give up! Read the reviewer and try again! 📚';}
+  document.getElementById(c.medal).textContent=med;
+  document.getElementById(c.rtitle).textContent=title;
+  document.getElementById(c.rscore).textContent=`${st.sc} / ${st.qs.length}`;
+  document.getElementById(c.rmsg).textContent=msg;
+  document.getElementById(c.prog).style.width='100%';
+}
+
+function restartQ(type) { initQ(type); }
+initQ('meas'); initQ('area'); initQ('full');
+</script>
+</body>
+</html>

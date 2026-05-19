@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="fil">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pang-ugnay Quiz – Grade 5</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sun: #FFD43B;
+    --sky: #4FC3F7;
+    --leaf: #43A047;
+    --coral: #FF6B6B;
+    --white: #FFFDF7;
+    --ink: #1A1A2E;
+    --card: #FFFFFF;
+    --correct: #43A047;
+    --wrong: #E53935;
+    --muted: #78909C;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(160deg, #E0F7FA 0%, #FFF9C4 60%, #F1F8E9 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px 60px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 28px;
+    animation: dropIn .6s ease both;
+  }
+
+  header .badge {
+    display: inline-block;
+    background: var(--sun);
+    color: var(--ink);
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: .8rem;
+    letter-spacing: .08em;
+    padding: 4px 14px;
+    border-radius: 99px;
+    margin-bottom: 10px;
+    box-shadow: 3px 3px 0 #e6b800;
+  }
+
+  header h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+
+  header h1 span { color: #0288D1; }
+
+  header p {
+    margin-top: 8px;
+    font-size: .95rem;
+    color: #546E7A;
+    font-weight: 600;
+  }
+
+  /* Progress bar */
+  .progress-wrap {
+    width: 100%;
+    max-width: 640px;
+    background: #dde;
+    border-radius: 99px;
+    height: 12px;
+    margin-bottom: 22px;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,.1);
+    animation: dropIn .7s ease both;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #0288D1, #26C6DA);
+    border-radius: 99px;
+    transition: width .5s cubic-bezier(.4,0,.2,1);
+  }
+  .progress-label {
+    max-width: 640px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: .82rem;
+    font-weight: 700;
+    color: #546E7A;
+    margin-bottom: 6px;
+    animation: dropIn .7s ease both;
+  }
+
+  /* Question card */
+  .card {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 28px 28px 24px;
+    max-width: 640px;
+    width: 100%;
+    box-shadow: 0 8px 30px rgba(0,0,0,.10);
+    margin-bottom: 18px;
+    animation: slideUp .45s ease both;
+    border: 2px solid #e8f4ff;
+  }
+
+  .q-number {
+    font-family: 'Baloo 2', cursive;
+    font-size: .78rem;
+    font-weight: 800;
+    color: #0288D1;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .q-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+
+  .blank {
+    display: inline-block;
+    min-width: 80px;
+    border-bottom: 3px solid #0288D1;
+    color: #0288D1;
+    font-style: italic;
+  }
+
+  /* Options */
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  @media (max-width: 400px) {
+    .options { grid-template-columns: 1fr; }
+  }
+
+  .opt-btn {
+    background: #F0F4FF;
+    border: 2px solid #C5CAE9;
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-family: 'Nunito', sans-serif;
+    font-size: .95rem;
+    font-weight: 700;
+    color: var(--ink);
+    cursor: pointer;
+    text-align: left;
+    transition: transform .15s, background .2s, border-color .2s, box-shadow .15s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .opt-btn:hover:not(:disabled) {
+    background: #E3F2FD;
+    border-color: #0288D1;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(2,136,209,.15);
+  }
+
+  .opt-btn.correct {
+    background: #E8F5E9;
+    border-color: var(--correct);
+    color: #1B5E20;
+    animation: pop .3s ease;
+  }
+
+  .opt-btn.wrong {
+    background: #FFEBEE;
+    border-color: var(--wrong);
+    color: #B71C1C;
+    animation: shake .35s ease;
+  }
+
+  .opt-btn .icon {
+    margin-right: 6px;
+    font-size: 1rem;
+  }
+
+  /* Feedback */
+  .feedback {
+    margin-top: 14px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: .88rem;
+    font-weight: 700;
+    display: none;
+  }
+  .feedback.show { display: block; animation: fadeIn .3s ease; }
+  .feedback.correct-fb { background: #E8F5E9; color: #2E7D32; border-left: 4px solid var(--correct); }
+  .feedback.wrong-fb { background: #FFEBEE; color: #C62828; border-left: 4px solid var(--wrong); }
+
+  /* Next button */
+  .next-btn {
+    display: none;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #0288D1, #26C6DA);
+    color: #fff;
+    border: none;
+    border-radius: 99px;
+    padding: 12px 36px;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(2,136,209,.35);
+    transition: transform .15s, box-shadow .15s;
+    letter-spacing: .03em;
+  }
+  .next-btn.show { display: block; animation: fadeIn .3s ease; }
+  .next-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(2,136,209,.45); }
+
+  /* Score screen */
+  .score-screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 540px;
+    width: 100%;
+    background: white;
+    border-radius: 24px;
+    padding: 40px 28px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.12);
+    border: 2px solid #e8f4ff;
+    animation: popBig .5s ease both;
+  }
+
+  .score-screen.show { display: flex; }
+
+  .trophy { font-size: 5rem; margin-bottom: 12px; }
+
+  .score-screen h2 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .score-big {
+    font-family: 'Baloo 2', cursive;
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #0288D1;
+    margin: 8px 0;
+  }
+
+  .score-msg {
+    font-size: 1rem;
+    color: #546E7A;
+    font-weight: 600;
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  .retry-btn {
+    background: linear-gradient(135deg, #FFD43B, #FFA000);
+    color: var(--ink);
+    border: none;
+    border-radius: 99px;
+    padding: 13px 42px;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.05rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(255,160,0,.35);
+    transition: transform .15s;
+    letter-spacing: .03em;
+  }
+
+  .retry-btn:hover { transform: translateY(-2px); }
+
+  /* Animations */
+  @keyframes dropIn {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+  @keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+  @keyframes popBig {
+    from { opacity: 0; transform: scale(.85); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .stars { font-size: 1.6rem; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">📚 Filipino · Grade 5</div>
+  <h1>Quiz sa <span>Pang-ugnay</span></h1>
+  <p>10 tanong · Piliin ang tamang sagot</p>
+</header>
+
+<div class="progress-label">
+  <span id="q-count">Tanong 1 sa 10</span>
+  <span id="score-live">Iskor: 0</span>
+</div>
+<div class="progress-wrap">
+  <div class="progress-bar" id="prog-bar" style="width:10%"></div>
+</div>
+
+<div class="card" id="quiz-card">
+  <div class="q-number" id="q-label">TANONG 1</div>
+  <div class="q-text" id="q-text"></div>
+  <div class="options" id="options"></div>
+  <div class="feedback" id="feedback"></div>
+</div>
+
+<button class="next-btn" id="next-btn">Susunod ➜</button>
+
+<div class="score-screen" id="score-screen">
+  <div class="trophy" id="trophy">🏆</div>
+  <div class="stars" id="stars"></div>
+  <h2>Tapos na ang Quiz!</h2>
+  <div class="score-big" id="final-score"></div>
+  <div class="score-msg" id="score-msg"></div>
+  <button class="retry-btn" onclick="restartQuiz()">🔄 Subukan Ulit</button>
+</div>
+
+<script>
+const questions = [
+  {
+    q: "Pumili ng tamang pang-ugnay:\n\"Gusto kong kumain ng mangga ___ pakwan.\"",
+    opts: ["at", "pero", "kaya", "dahil"],
+    ans: 0,
+    explain: "Ginagamit ang \"at\" para pag-isahin ang dalawang katulad na ideya o bagay."
+  },
+  {
+    q: "Alin ang pang-ugnay sa pangungusap?\n\"Nagpunta si Ana sa palengke at bumili ng gulay.\"",
+    opts: ["nagpunta", "palengke", "at", "gulay"],
+    ans: 2,
+    explain: "Ang \"at\" ang pang-ugnay dahil inuugnay nito ang dalawang pandiwa: nagpunta at bumili."
+  },
+  {
+    q: "Piliin ang tamang pang-ugnay:\n\"Maaga akong gumising ___ hindi ako nahuli sa klase.\"",
+    opts: ["pero", "kaya", "o", "sapagkat"],
+    ans: 1,
+    explain: "Ang \"kaya\" ay nagpapakita ng resulta o bunga ng isang kilos."
+  },
+  {
+    q: "\"Gusto ko ng mangga ___ niyog.\" Anong uri ng pang-ugnay ang angkop?",
+    opts: ["pero", "o", "dahil", "kung"],
+    ans: 1,
+    explain: "Ang \"o\" ay nagpapakita ng pagpipilian sa pagitan ng dalawang bagay."
+  },
+  {
+    q: "Piliin ang tamang pang-ugnay:\n\"Masaya si Lolo ___ dumating ang mga apo niya.\"",
+    opts: ["at", "pero", "dahil", "kaya"],
+    ans: 2,
+    explain: "Ang \"dahil\" ay nagpapaliwanag ng sanhi o dahilan ng nangyari."
+  },
+  {
+    q: "Alin ang HINDI pang-ugnay?",
+    opts: ["at", "pero", "mabilis", "o"],
+    ans: 2,
+    explain: "Ang \"mabilis\" ay pang-uri, hindi pang-ugnay. Ang pang-ugnay ay nag-uugnay ng mga salita o pangungusap."
+  },
+  {
+    q: "\"Lumakad siya ___ umabot pa rin siya sa istasyon.\" Anong pang-ugnay ang angkop?",
+    opts: ["kaya", "pero", "dahil", "at"],
+    ans: 1,
+    explain: "Ang \"pero\" ay nagpapakita ng kaibahan o salungatan ng dalawang ideya."
+  },
+  {
+    q: "Piliin ang tamang pang-ugnay:\n\"Kakain ka na ba ___ maghihintay ka pa?\"",
+    opts: ["at", "pero", "o", "sapagkat"],
+    ans: 2,
+    explain: "Ang \"o\" ay ginagamit kapag nagbibigay ng pagpipilian sa pagitan ng dalawang gawain."
+  },
+  {
+    q: "\"Natulog si Marco ___ pagod na pagod siya.\" Anong pang-ugnay ang pinaka-angkop?",
+    opts: ["pero", "o", "at", "sapagkat"],
+    ans: 3,
+    explain: "Ang \"sapagkat\" (katulad ng \"dahil\") ay nagpapakita ng dahilan kung bakit natulog si Marco."
+  },
+  {
+    q: "\"Matalino si Lea ___ masipag din siya.\" Anong pang-ugnay ang angkop?",
+    opts: ["pero", "at", "o", "kaya"],
+    ans: 1,
+    explain: "Ang \"at\" ay ginagamit para pagsamahin ang dalawang katangian na magkakaugnay."
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+function shuffle(arr) {
+  return [...arr].sort(() => Math.random() - .5);
+}
+
+function loadQuestion() {
+  answered = false;
+  const q = questions[current];
+  document.getElementById('q-label').textContent = `TANONG ${current + 1}`;
+  document.getElementById('q-text').innerHTML = q.q.replace(/\n/g, '<br>');
+  document.getElementById('q-count').textContent = `Tanong ${current + 1} sa ${questions.length}`;
+  document.getElementById('prog-bar').style.width = `${((current + 1) / questions.length) * 100}%`;
+
+  const feedback = document.getElementById('feedback');
+  feedback.className = 'feedback';
+  feedback.textContent = '';
+
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.className = 'next-btn';
+
+  const optDiv = document.getElementById('options');
+  optDiv.innerHTML = '';
+
+  const labels = ['A', 'B', 'C', 'D'];
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.innerHTML = `<span class="icon">${labels[i]}.</span> ${opt}`;
+    btn.onclick = () => selectAnswer(i, btn, q);
+    optDiv.appendChild(btn);
+  });
+}
+
+function selectAnswer(i, btn, q) {
+  if (answered) return;
+  answered = true;
+
+  const allBtns = document.querySelectorAll('.opt-btn');
+  allBtns.forEach(b => b.disabled = true);
+
+  const feedback = document.getElementById('feedback');
+  const nextBtn = document.getElementById('next-btn');
+
+  if (i === q.ans) {
+    btn.classList.add('correct');
+    btn.innerHTML = `<span class="icon">✅</span> ${q.opts[i]}`;
+    score++;
+    document.getElementById('score-live').textContent = `Iskor: ${score}`;
+    feedback.className = 'feedback correct-fb show';
+    feedback.textContent = `✅ Tama! ${q.explain}`;
+  } else {
+    btn.classList.add('wrong');
+    btn.innerHTML = `<span class="icon">❌</span> ${q.opts[i]}`;
+    allBtns[q.ans].classList.add('correct');
+    allBtns[q.ans].innerHTML = `<span class="icon">✅</span> ${q.opts[q.ans]}`;
+    feedback.className = 'feedback wrong-fb show';
+    feedback.textContent = `❌ Mali. Ang tamang sagot ay "${q.opts[q.ans]}". ${q.explain}`;
+  }
+
+  nextBtn.className = 'next-btn show';
+  nextBtn.textContent = current < questions.length - 1 ? 'Susunod ➜' : 'Tingnan ang Iskor 🎉';
+}
+
+document.getElementById('next-btn').onclick = () => {
+  current++;
+  if (current < questions.length) {
+    loadQuestion();
+  } else {
+    showScore();
+  }
+};
+
+function showScore() {
+  document.getElementById('quiz-card').style.display = 'none';
+  document.getElementById('next-btn').style.display = 'none';
+  document.querySelector('.progress-wrap').style.display = 'none';
+  document.querySelector('.progress-label').style.display = 'none';
+  document.getElementById('prog-bar').style.width = '100%';
+
+  const ss = document.getElementById('score-screen');
+  ss.classList.add('show');
+
+  const pct = score / questions.length;
+  document.getElementById('final-score').textContent = `${score} / ${questions.length}`;
+
+  let trophy, stars, msg;
+  if (pct === 1) {
+    trophy = '🏆'; stars = '⭐⭐⭐⭐⭐';
+    msg = 'Kahanga-hanga! Perpekto ang iyong iskor! Tunay na Batang Pilipino! 🎊';
+  } else if (pct >= 0.8) {
+    trophy = '🥇'; stars = '⭐⭐⭐⭐';
+    msg = 'Napakahusay! Halos lahat ay tama! Patuloy lang! 💪';
+  } else if (pct >= 0.6) {
+    trophy = '🥈'; stars = '⭐⭐⭐';
+    msg = 'Magaling! Kailangan lang mag-review nang kaunti. Kaya mo \'yan! 😊';
+  } else if (pct >= 0.4) {
+    trophy = '🥉'; stars = '⭐⭐';
+    msg = 'Sige, huwag susuko! Basahin ulit ang mga pang-ugnay at subukan muli. 📖';
+  } else {
+    trophy = '📖'; stars = '⭐';
+    msg = 'Mag-aral pa ng konti tungkol sa pang-ugnay, tapos subukan muli! 🌟';
+  }
+
+  document.getElementById('trophy').textContent = trophy;
+  document.getElementById('stars').textContent = stars;
+  document.getElementById('score-msg').textContent = msg;
+}
+
+function restartQuiz() {
+  current = 0; score = 0;
+  document.getElementById('score-live').textContent = 'Iskor: 0';
+  document.getElementById('quiz-card').style.display = 'block';
+  document.querySelector('.progress-wrap').style.display = 'block';
+  document.querySelector('.progress-label').style.display = 'flex';
+  document.getElementById('score-screen').classList.remove('show');
+  loadQuestion();
+}
+
+loadQuestion();
+</script>
+</body>
+</html>

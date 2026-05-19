@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Grade 3 Math — Multiplication & Division</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Fredoka+One&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --sky: #e8f4fd;
+    --blue: #3b82f6;
+    --blue-dark: #1d4ed8;
+    --green: #22c55e;
+    --green-dark: #15803d;
+    --yellow: #fbbf24;
+    --yellow-dark: #d97706;
+    --red: #ef4444;
+    --red-dark: #b91c1c;
+    --purple: #a855f7;
+    --purple-dark: #7e22ce;
+    --orange: #f97316;
+    --white: #ffffff;
+    --card: #ffffff;
+    --bg: #f0f7ff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --radius: 18px;
+    --shadow: 0 4px 24px rgba(59,130,246,0.13);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 15% 15%, #bfdbfe55 0%, transparent 40%),
+      radial-gradient(circle at 85% 80%, #ddd6fe55 0%, transparent 40%);
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #1d4ed8 0%, #6366f1 100%);
+    color: white;
+    text-align: center;
+    padding: 28px 20px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.07'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(1.6rem, 5vw, 2.6rem);
+    letter-spacing: 1px;
+    position: relative;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+  .header p {
+    font-size: 1rem;
+    opacity: 0.85;
+    margin-top: 4px;
+    position: relative;
+  }
+  .badges {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 14px;
+    position: relative;
+  }
+  .badge {
+    background: rgba(255,255,255,0.18);
+    border: 1.5px solid rgba(255,255,255,0.32);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px 16px 0;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .tab-btn.reviewer  { background: #dbeafe; color: #1d4ed8; }
+  .tab-btn.practice  { background: #dcfce7; color: #15803d; }
+  .tab-btn.exam      { background: #fef3c7; color: #b45309; }
+  .tab-btn.active.reviewer { background: #1d4ed8; color: white; box-shadow: 0 4px 14px #1d4ed855; }
+  .tab-btn.active.practice { background: #15803d; color: white; box-shadow: 0 4px 14px #15803d55; }
+  .tab-btn.active.exam     { background: #d97706; color: white; box-shadow: 0 4px 14px #d9770655; }
+  .tab-btn:hover:not(.active) { transform: translateY(-2px); }
+
+  /* ── SECTION WRAPPER ── */
+  .section { display: none; padding: 24px 16px 48px; max-width: 820px; margin: 0 auto; }
+  .section.active { display: block; animation: fadeIn 0.35s ease; }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: none; } }
+
+  /* ── REVIEWER SECTION ── */
+  .review-group {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .review-group-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .review-group-header .icon {
+    font-size: 1.5rem;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+  .review-group-header h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.15rem;
+    flex: 1;
+  }
+  .review-group-header .arrow {
+    font-size: 1.1rem;
+    transition: transform 0.3s;
+    color: var(--muted);
+  }
+  .review-group.open .arrow { transform: rotate(180deg); }
+  .review-group-body {
+    display: none;
+    padding: 0 20px 20px;
+    border-top: 1.5px solid #f1f5f9;
+  }
+  .review-group.open .review-group-body { display: block; }
+
+  /* multiplication color */
+  .mult .review-group-header { background: linear-gradient(90deg,#eff6ff,#dbeafe); }
+  .mult .icon { background: #dbeafe; color: #1d4ed8; }
+  .mult h2 { color: #1d4ed8; }
+  /* division color */
+  .div .review-group-header { background: linear-gradient(90deg,#fdf4ff,#ede9fe); }
+  .div .icon { background: #ede9fe; color: #7e22ce; }
+  .div h2 { color: #7e22ce; }
+  /* word problems color */
+  .word .review-group-header { background: linear-gradient(90deg,#fff7ed,#ffedd5); }
+  .word .icon { background: #ffedd5; color: #c2410c; }
+  .word h2 { color: #c2410c; }
+
+  .review-group-body p { font-size: 0.95rem; line-height: 1.7; color: #334155; margin-bottom: 10px; }
+  .review-group-body strong { color: var(--text); }
+
+  .example-box {
+    background: #f8fafc;
+    border-left: 4px solid var(--blue);
+    border-radius: 0 12px 12px 0;
+    padding: 12px 16px;
+    margin: 10px 0;
+    font-size: 0.93rem;
+    color: #1e293b;
+  }
+  .example-box.purple { border-color: var(--purple); }
+  .example-box.orange { border-color: var(--orange); }
+
+  .times-table {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .times-cell {
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-weight: 700;
+    font-size: 0.88rem;
+    padding: 7px 10px;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .tip-box {
+    background: linear-gradient(135deg, #fef9c3, #fef08a);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 0.9rem;
+    color: #713f12;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .tip-box .tip-icon { font-size: 1.3rem; flex-shrink: 0; }
+
+  /* ── QUIZ WRAPPER ── */
+  .quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .quiz-title { font-family: 'Fredoka One', cursive; font-size: 1.4rem; }
+  .score-display {
+    background: white;
+    border-radius: 30px;
+    padding: 6px 18px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 8px #0001;
+  }
+  .progress-bar-wrap {
+    background: #e2e8f0;
+    border-radius: 10px;
+    height: 8px;
+    margin-bottom: 22px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.4s ease;
+  }
+  .practice-bar { background: linear-gradient(90deg, #22c55e, #86efac); }
+  .exam-bar { background: linear-gradient(90deg, #f59e0b, #fcd34d); }
+
+  .question-card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 26px 24px;
+    margin-bottom: 18px;
+    animation: fadeIn 0.3s ease;
+  }
+  .question-num {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .question-text {
+    font-size: 1.08rem;
+    font-weight: 700;
+    color: #1e293b;
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+  .choices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  @media (max-width: 480px) { .choices { grid-template-columns: 1fr; } }
+
+  .choice-btn {
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.97rem;
+    font-weight: 600;
+    color: #334155;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.18s;
+  }
+  .choice-btn:hover:not(:disabled) {
+    border-color: var(--blue);
+    background: #eff6ff;
+    color: var(--blue-dark);
+    transform: translateY(-1px);
+  }
+  .choice-btn.correct {
+    background: #dcfce7;
+    border-color: var(--green);
+    color: var(--green-dark);
+  }
+  .choice-btn.wrong {
+    background: #fee2e2;
+    border-color: var(--red);
+    color: var(--red-dark);
+  }
+  .choice-btn:disabled { cursor: default; }
+
+  .feedback {
+    margin-top: 14px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct { background: #dcfce7; color: #15803d; }
+  .feedback.wrong   { background: #fee2e2; color: #b91c1c; }
+
+  /* fill-in-the-blank */
+  .fill-input {
+    border: 2.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 10px 14px;
+    width: 120px;
+    text-align: center;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .fill-input:focus { border-color: var(--blue); }
+  .fill-input.correct { border-color: var(--green); background: #dcfce7; color: #15803d; }
+  .fill-input.wrong   { border-color: var(--red);   background: #fee2e2; color: #b91c1c; }
+
+  .submit-btn, .next-btn, .restart-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    padding: 11px 28px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 14px;
+  }
+  .submit-btn { background: var(--blue); color: white; }
+  .submit-btn:hover { background: var(--blue-dark); transform: translateY(-2px); box-shadow: 0 4px 12px #3b82f644; }
+  .next-btn { background: var(--green); color: white; margin-left: 10px; }
+  .next-btn:hover { background: var(--green-dark); transform: translateY(-2px); }
+  .restart-btn { background: #f1f5f9; color: #334155; }
+  .restart-btn:hover { background: #e2e8f0; }
+
+  /* Results */
+  .results-card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 36px 28px;
+    text-align: center;
+    animation: fadeIn 0.4s ease;
+  }
+  .results-card .big-emoji { font-size: 4rem; margin-bottom: 14px; }
+  .results-card h2 { font-family: 'Fredoka One', cursive; font-size: 1.8rem; margin-bottom: 8px; }
+  .results-card .score-big { font-size: 3rem; font-weight: 900; margin: 12px 0; }
+  .results-card p { color: var(--muted); font-size: 0.97rem; margin-bottom: 18px; }
+  .results-card .score-big.great { color: var(--green-dark); }
+  .results-card .score-big.ok    { color: var(--yellow-dark); }
+  .results-card .score-big.retry { color: var(--red-dark); }
+
+  .answers-review {
+    text-align: left;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .answer-item {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    border-left: 4px solid #e2e8f0;
+  }
+  .answer-item.c { border-color: var(--green); }
+  .answer-item.w { border-color: var(--red); }
+  .answer-item .q-label { font-weight: 700; color: #334155; margin-bottom: 3px; }
+  .answer-item .a-label { color: var(--muted); }
+  .answer-item .a-label span { font-weight: 700; }
+  .answer-item .a-label .cor { color: var(--green-dark); }
+  .answer-item .a-label .wr  { color: var(--red-dark); }
+
+  /* Exam timer */
+  .timer-display {
+    background: #fef3c7;
+    border: 2px solid #fbbf24;
+    border-radius: 30px;
+    padding: 6px 18px;
+    font-weight: 900;
+    font-size: 1.05rem;
+    color: #92400e;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .timer-display.urgent { background: #fee2e2; border-color: #ef4444; color: #b91c1c; animation: pulse 0.8s infinite; }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+
+  .section-label {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.85rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .section-label::after { content:''; flex:1; height:1.5px; background:#e2e8f0; }
+
+  .start-screen {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 36px 28px;
+    text-align: center;
+  }
+  .start-screen .big { font-size: 3.5rem; margin-bottom: 14px; }
+  .start-screen h2 { font-family: 'Fredoka One', cursive; font-size: 1.6rem; margin-bottom: 10px; }
+  .start-screen p { color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+  .start-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    padding: 13px 36px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .start-btn.green { background: var(--green); color: white; }
+  .start-btn.green:hover { background: var(--green-dark); transform: translateY(-2px); box-shadow: 0 4px 14px #22c55e55; }
+  .start-btn.amber { background: var(--yellow); color: #78350f; }
+  .start-btn.amber:hover { background: var(--yellow-dark); color: white; transform: translateY(-2px); box-shadow: 0 4px 14px #fbbf2455; }
+
+  .info-chips {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+  }
+  .chip {
+    background: #f1f5f9;
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 0.83rem;
+    font-weight: 700;
+    color: #475569;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🔢 Grade 3 Math — 4th Quarter</h1>
+  <p>Multiplication &amp; Division Reviewer, Practice Quiz, and Exam</p>
+  <div class="badges">
+    <span class="badge">📚 Reviewer</span>
+    <span class="badge">✏️ Practice Quiz</span>
+    <span class="badge">📝 Exam Mode</span>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn reviewer active" onclick="showTab('reviewer')">📚 Reviewer</button>
+  <button class="tab-btn practice" onclick="showTab('practice')">✏️ Practice Quiz</button>
+  <button class="tab-btn exam"     onclick="showTab('exam')">📝 Exam</button>
+</div>
+
+<!-- ─────────────── REVIEWER ─────────────── -->
+<div class="section active" id="section-reviewer">
+
+  <!-- MULTIPLICATION -->
+  <div class="review-group mult" id="rg1">
+    <div class="review-group-header" onclick="toggleGroup('rg1')">
+      <div class="icon">✖️</div>
+      <h2>What is Multiplication?</h2>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="review-group-body">
+      <p>Multiplication is a <strong>faster way to add the same number many times</strong>.</p>
+      <div class="example-box">
+        3 + 3 + 3 + 3 = 12 &nbsp;&nbsp;→&nbsp;&nbsp; <strong>3 × 4 = 12</strong><br/>
+        We say: <em>"3 times 4 equals 12"</em>
+      </div>
+      <p>The numbers you multiply are called <strong>factors</strong>. The answer is called the <strong>product</strong>.</p>
+      <div class="example-box">
+        <strong>6 × 7 = 42</strong><br/>
+        Factors: 6 and 7 &nbsp;&nbsp;|&nbsp;&nbsp; Product: 42
+      </div>
+    </div>
+  </div>
+
+  <div class="review-group mult" id="rg2">
+    <div class="review-group-header" onclick="toggleGroup('rg2')">
+      <div class="icon">📋</div>
+      <h2>Multiplication Tables (1–10)</h2>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="review-group-body">
+      <p>Memorizing the times table helps you solve problems quickly! Here are the key facts:</p>
+      <div class="tip-box"><span class="tip-icon">💡</span> Any number × 1 = that same number. &nbsp; Any number × 0 = 0.</div>
+
+      <p><strong>Table of 2:</strong></p>
+      <div class="times-table">
+        <div class="times-cell">2×1=2</div><div class="times-cell">2×2=4</div><div class="times-cell">2×3=6</div>
+        <div class="times-cell">2×4=8</div><div class="times-cell">2×5=10</div><div class="times-cell">2×6=12</div>
+        <div class="times-cell">2×7=14</div><div class="times-cell">2×8=16</div><div class="times-cell">2×9=18</div><div class="times-cell">2×10=20</div>
+      </div>
+      <p style="margin-top:12px"><strong>Table of 5:</strong></p>
+      <div class="times-table">
+        <div class="times-cell">5×1=5</div><div class="times-cell">5×2=10</div><div class="times-cell">5×3=15</div>
+        <div class="times-cell">5×4=20</div><div class="times-cell">5×5=25</div><div class="times-cell">5×6=30</div>
+        <div class="times-cell">5×7=35</div><div class="times-cell">5×8=40</div><div class="times-cell">5×9=45</div><div class="times-cell">5×10=50</div>
+      </div>
+      <p style="margin-top:12px"><strong>Table of 10:</strong></p>
+      <div class="times-table">
+        <div class="times-cell">10×1=10</div><div class="times-cell">10×2=20</div><div class="times-cell">10×3=30</div>
+        <div class="times-cell">10×4=40</div><div class="times-cell">10×5=50</div><div class="times-cell">10×6=60</div>
+        <div class="times-cell">10×7=70</div><div class="times-cell">10×8=80</div><div class="times-cell">10×9=90</div><div class="times-cell">10×10=100</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="review-group mult" id="rg3">
+    <div class="review-group-header" onclick="toggleGroup('rg3')">
+      <div class="icon">🔄</div>
+      <h2>Properties of Multiplication</h2>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="review-group-body">
+      <p><strong>Commutative Property</strong> — You can change the order of factors; the product is still the same.</p>
+      <div class="example-box">4 × 6 = 24 &nbsp;&nbsp;and&nbsp;&nbsp; 6 × 4 = 24 ✓</div>
+      <p><strong>Zero Property</strong> — Any number multiplied by 0 equals 0.</p>
+      <div class="example-box">9 × 0 = 0 &nbsp;&nbsp; 100 × 0 = 0</div>
+      <p><strong>Identity Property</strong> — Any number multiplied by 1 equals itself.</p>
+      <div class="example-box">7 × 1 = 7 &nbsp;&nbsp; 25 × 1 = 25</div>
+    </div>
+  </div>
+
+  <!-- DIVISION -->
+  <div class="review-group div" id="rg4">
+    <div class="review-group-header" onclick="toggleGroup('rg4')">
+      <div class="icon">➗</div>
+      <h2>What is Division?</h2>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="review-group-body">
+      <p>Division means <strong>sharing equally</strong> or <strong>grouping equally</strong>. It is the <em>opposite</em> of multiplication.</p>
+      <div class="example-box purple">
+        12 ÷ 4 = 3<br/>
+        <em>"12 shared equally into 4 groups → 3 in each group"</em>
+      </div>
+      <p>Parts of division:</p>
+      <div class="example-box purple">
+        <strong>Dividend ÷ Divisor = Quotient</strong><br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;12 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;÷ &nbsp;&nbsp;&nbsp;&nbsp;4 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= &nbsp;&nbsp;&nbsp;&nbsp;3<br/>
+        Dividend = the number being divided<br/>
+        Divisor = the number you divide by<br/>
+        Quotient = the answer
+      </div>
+    </div>
+  </div>
+
+  <div class="review-group div" id="rg5">
+    <div class="review-group-header" onclick="toggleGroup('rg5')">
+      <div class="icon">🔗</div>
+      <h2>Fact Families (Multiplication & Division)</h2>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="review-group-body">
+      <p>Multiplication and division are related! A <strong>fact family</strong> uses the same three numbers.</p>
+      <div class="example-box purple">
+        Numbers: <strong>3, 5, 15</strong><br/>
+        3 × 5 = 15 &nbsp;&nbsp; 5 × 3 = 15<br/>
+        15 ÷ 3 = 5 &nbsp;&nbsp; 15 ÷ 5 = 3
+      </div>
+      <div class="tip-box"><span class="tip-icon">💡</span> If you know 8 × 7 = 56, then you also know: 56 ÷ 8 = 7 and 56 ÷ 7 = 8!</div>
+    </div>
+  </div>
+
+  <div class="review-group div" id="rg6">
+    <div class="review-group-header" onclick="toggleGroup('rg6')">
+      <div class="icon">📌</div>
+      <h2>Rules of Division</h2>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="review-group-body">
+      <p><strong>Any number ÷ 1</strong> = that same number.</p>
+      <div class="example-box purple">9 ÷ 1 = 9</div>
+      <p><strong>Any number ÷ itself</strong> = 1.</p>
+      <div class="example-box purple">7 ÷ 7 = 1</div>
+      <p><strong>0 ÷ any number</strong> = 0.</p>
+      <div class="example-box purple">0 ÷ 5 = 0</div>
+      <p><strong>You CANNOT divide by 0.</strong></p>
+    </div>
+  </div>
+
+  <!-- WORD PROBLEMS -->
+  <div class="review-group word" id="rg7">
+    <div class="review-group-header" onclick="toggleGroup('rg7')">
+      <div class="icon">📖</div>
+      <h2>Word Problem Strategies</h2>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="review-group-body">
+      <p>Use <strong>Polya's Steps</strong> to solve word problems:</p>
+      <div class="example-box orange">
+        <strong>1. UNDERSTAND</strong> — What is asked? What are the given facts?<br/>
+        <strong>2. PLAN</strong> — What operation will you use? (×  or  ÷)<br/>
+        <strong>3. SOLVE</strong> — Do the math!<br/>
+        <strong>4. CHECK</strong> — Does the answer make sense?
+      </div>
+      <p><strong>Clue words for Multiplication:</strong> each, every, in all, total, altogether, groups of, times</p>
+      <p><strong>Clue words for Division:</strong> share equally, split, each person gets, how many groups, per</p>
+      <div class="example-box orange">
+        <strong>Example:</strong> Ana has 6 boxes. Each box has 8 crayons. How many crayons in all?<br/>
+        → <em>Multiply:</em> 6 × 8 = <strong>48 crayons</strong>
+      </div>
+      <div class="example-box orange">
+        <strong>Example:</strong> 30 students are divided into 5 equal groups. How many students per group?<br/>
+        → <em>Divide:</em> 30 ÷ 5 = <strong>6 students</strong>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end reviewer -->
+
+<!-- ─────────────── PRACTICE QUIZ ─────────────── -->
+<div class="section" id="section-practice">
+  <div id="practice-start">
+    <div class="start-screen">
+      <div class="big">✏️</div>
+      <h2>Practice Quiz</h2>
+      <div class="info-chips">
+        <span class="chip">🔢 20 Questions</span>
+        <span class="chip">✅ Instant Feedback</span>
+        <span class="chip">🔄 No Time Limit</span>
+      </div>
+      <p>Test your multiplication and division skills! You'll get instant feedback after each answer. Don't worry — you can retry!</p>
+      <button class="start-btn green" onclick="startPractice()">Start Practice Quiz →</button>
+    </div>
+  </div>
+  <div id="practice-quiz" style="display:none"></div>
+  <div id="practice-results" style="display:none"></div>
+</div>
+
+<!-- ─────────────── EXAM ─────────────── -->
+<div class="section" id="section-exam">
+  <div id="exam-start">
+    <div class="start-screen">
+      <div class="big">📝</div>
+      <h2>Math Exam</h2>
+      <div class="info-chips">
+        <span class="chip">🔢 30 Questions</span>
+        <span class="chip">⏱️ 25 Minutes</span>
+        <span class="chip">🔒 No Feedback During Exam</span>
+      </div>
+      <p>This is a <strong>timed exam</strong>. Answer all questions, then submit to see your results and review. No peeking at answers while the exam is ongoing!</p>
+      <button class="start-btn amber" onclick="startExam()">Begin Exam →</button>
+    </div>
+  </div>
+  <div id="exam-quiz" style="display:none"></div>
+  <div id="exam-results" style="display:none"></div>
+</div>
+
+<script>
+/* ──────── TABS ──────── */
+function showTab(t) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('section-'+t).classList.add('active');
+  document.querySelector('.tab-btn.'+t).classList.add('active');
+}
+
+/* ──────── REVIEWER ACCORDION ──────── */
+function toggleGroup(id) {
+  const g = document.getElementById(id);
+  g.classList.toggle('open');
+}
+// Open first group by default
+toggleGroup('rg1');
+
+/* ──────── QUESTION BANKS ──────── */
+
+const MULT_BASIC = [
+  {q:"What is 3 × 4?", choices:["10","12","14","7"], ans:1, explain:"3 × 4 = 12 (think: 3+3+3+3 = 12)"},
+  {q:"What is 6 × 7?", choices:["36","42","48","40"], ans:1, explain:"6 × 7 = 42. Count the 7 times table: 7,14,21,28,35,42."},
+  {q:"What is 8 × 5?", choices:["35","45","40","42"], ans:2, explain:"8 × 5 = 40. Multiples of 5: 5,10,15,20,25,30,35,40."},
+  {q:"What is 9 × 3?", choices:["24","27","21","18"], ans:1, explain:"9 × 3 = 27. Think: 9+9+9 = 27."},
+  {q:"What is 7 × 7?", choices:["42","51","56","49"], ans:3, explain:"7 × 7 = 49. It's a perfect square!"},
+  {q:"What is 4 × 9?", choices:["32","36","40","27"], ans:1, explain:"4 × 9 = 36. Check: 4×10=40, minus 4 = 36."},
+  {q:"What is 6 × 6?", choices:["30","36","42","32"], ans:1, explain:"6 × 6 = 36. Six squared!"},
+  {q:"What is 10 × 8?", choices:["80","18","88","78"], ans:0, explain:"10 × 8 = 80. Multiply by 10 just adds a zero!"},
+  {q:"What is 5 × 9?", choices:["40","44","50","45"], ans:3, explain:"5 × 9 = 45. Count: 5,10,15,20,25,30,35,40,45."},
+  {q:"What is 2 × 8?", choices:["14","16","18","10"], ans:1, explain:"2 × 8 = 16. Double 8 is 16."},
+];
+
+const DIV_BASIC = [
+  {q:"What is 24 ÷ 6?", choices:["3","4","5","6"], ans:1, explain:"24 ÷ 6 = 4. Check: 6 × 4 = 24 ✓"},
+  {q:"What is 35 ÷ 5?", choices:["5","6","7","8"], ans:2, explain:"35 ÷ 5 = 7. Check: 5 × 7 = 35 ✓"},
+  {q:"What is 42 ÷ 7?", choices:["5","6","7","8"], ans:1, explain:"42 ÷ 7 = 6. Check: 7 × 6 = 42 ✓"},
+  {q:"What is 18 ÷ 3?", choices:["4","5","6","7"], ans:2, explain:"18 ÷ 3 = 6. Check: 3 × 6 = 18 ✓"},
+  {q:"What is 56 ÷ 8?", choices:["5","6","7","8"], ans:2, explain:"56 ÷ 8 = 7. Check: 8 × 7 = 56 ✓"},
+  {q:"What is 45 ÷ 9?", choices:["4","5","6","7"], ans:1, explain:"45 ÷ 9 = 5. Check: 9 × 5 = 45 ✓"},
+  {q:"What is 30 ÷ 6?", choices:["4","5","6","7"], ans:1, explain:"30 ÷ 6 = 5. Check: 6 × 5 = 30 ✓"},
+  {q:"What is 32 ÷ 4?", choices:["6","7","8","9"], ans:2, explain:"32 ÷ 4 = 8. Check: 4 × 8 = 32 ✓"},
+  {q:"What is 63 ÷ 9?", choices:["6","7","8","9"], ans:1, explain:"63 ÷ 9 = 7. Check: 9 × 7 = 63 ✓"},
+  {q:"What is 0 ÷ 5?", choices:["5","1","0","undefined"], ans:2, explain:"0 divided by any number = 0."},
+];
+
+const WORD_PROBLEMS = [
+  {q:"Maria has 5 bags. Each bag has 6 apples. How many apples does she have in all?", choices:["25","28","30","35"], ans:2, explain:"5 × 6 = 30 apples."},
+  {q:"A classroom has 28 students divided into 4 equal groups. How many students are in each group?", choices:["5","6","7","8"], ans:2, explain:"28 ÷ 4 = 7 students per group."},
+  {q:"There are 9 rows of chairs with 8 chairs each. How many chairs are there in all?", choices:["62","71","72","80"], ans:2, explain:"9 × 8 = 72 chairs."},
+  {q:"Ryan has 48 candies. He wants to share them equally among 6 friends. How many candies does each friend get?", choices:["6","7","8","9"], ans:2, explain:"48 ÷ 6 = 8 candies each."},
+  {q:"A baker made 7 trays of cookies. Each tray had 9 cookies. How many cookies did he make?", choices:["54","61","63","70"], ans:2, explain:"7 × 9 = 63 cookies."},
+  {q:"There are 36 flowers. They are placed in groups of 9. How many groups are there?", choices:["3","4","5","6"], ans:1, explain:"36 ÷ 9 = 4 groups."},
+  {q:"A chicken lays 3 eggs every day. How many eggs will it lay in 10 days?", choices:["20","25","30","35"], ans:2, explain:"3 × 10 = 30 eggs."},
+  {q:"20 books are stacked equally on 4 shelves. How many books are on each shelf?", choices:["4","5","6","7"], ans:1, explain:"20 ÷ 4 = 5 books per shelf."},
+];
+
+const PROPERTIES = [
+  {q:"Which property says 5 × 0 = 0?", choices:["Identity Property","Commutative Property","Zero Property","Associative Property"], ans:2, explain:"The Zero Property: any number × 0 = 0."},
+  {q:"Which property says 4 × 7 = 7 × 4?", choices:["Zero Property","Identity Property","Commutative Property","Distributive Property"], ans:2, explain:"The Commutative Property: you can switch the order of factors."},
+  {q:"What is 8 × 1?", choices:["0","1","8","9"], ans:2, explain:"Identity Property: any number × 1 = itself. So 8 × 1 = 8."},
+];
+
+const FILL = [
+  {q:"5 × ___ = 40",  ans:8, explain:"5 × 8 = 40"},
+  {q:"___ × 6 = 54",  ans:9, explain:"9 × 6 = 54"},
+  {q:"48 ÷ ___ = 6",  ans:8, explain:"48 ÷ 8 = 6"},
+  {q:"___ ÷ 7 = 7",   ans:49, explain:"49 ÷ 7 = 7"},
+  {q:"9 × ___ = 81",  ans:9, explain:"9 × 9 = 81"},
+  {q:"64 ÷ 8 = ___",  ans:8, explain:"64 ÷ 8 = 8"},
+  {q:"7 × ___ = 56",  ans:8, explain:"7 × 8 = 56"},
+];
+
+/* Shuffle helper */
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+/* Build practice pool (20 questions) */
+function buildPracticePool() {
+  const pool = [];
+  // 5 mult MC
+  shuffle(MULT_BASIC).slice(0,5).forEach(q => pool.push({...q, type:'mc'}));
+  // 5 div MC
+  shuffle(DIV_BASIC).slice(0,5).forEach(q => pool.push({...q, type:'mc'}));
+  // 4 word problems
+  shuffle(WORD_PROBLEMS).slice(0,4).forEach(q => pool.push({...q, type:'mc'}));
+  // 3 properties
+  shuffle(PROPERTIES).slice(0,3).forEach(q => pool.push({...q, type:'mc'}));
+  // 3 fill-in
+  shuffle(FILL).slice(0,3).forEach(q => pool.push({...q, type:'fill'}));
+  return shuffle(pool);
+}
+
+/* Build exam pool (30 questions) */
+function buildExamPool() {
+  const pool = [];
+  // all 10 mult
+  MULT_BASIC.forEach(q => pool.push({...q, type:'mc'}));
+  // all 10 div
+  DIV_BASIC.forEach(q => pool.push({...q, type:'mc'}));
+  // all 8 word problems
+  WORD_PROBLEMS.forEach(q => pool.push({...q, type:'mc'}));
+  // all 3 properties (then add 2 more from FILL as mc)
+  PROPERTIES.forEach(q => pool.push({...q, type:'mc'}));
+  // 5 fill-in (sample 5 → but we only have 7, take all)
+  shuffle(FILL).slice(0,7).forEach(q => pool.push({...q, type:'fill'}));
+  return shuffle(pool).slice(0, 30);
+}
+
+/* ──────── PRACTICE QUIZ ──────── */
+let practicePool = [], practiceIdx = 0, practiceScore = 0, practiceLog = [];
+
+function startPractice() {
+  practicePool = buildPracticePool();
+  practiceIdx = 0; practiceScore = 0; practiceLog = [];
+  document.getElementById('practice-start').style.display = 'none';
+  document.getElementById('practice-results').style.display = 'none';
+  document.getElementById('practice-quiz').style.display = 'block';
+  renderPracticeQ();
+}
+
+function renderPracticeQ() {
+  const container = document.getElementById('practice-quiz');
+  if (practiceIdx >= practicePool.length) { showPracticeResults(); return; }
+  const q = practicePool[practiceIdx];
+  const pct = (practiceIdx / practicePool.length) * 100;
+  container.innerHTML = `
+    <div class="quiz-header">
+      <div class="quiz-title" style="color:#15803d">✏️ Practice Quiz</div>
+      <div class="score-display">⭐ ${practiceScore} / ${practicePool.length}</div>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar practice-bar" style="width:${pct}%"></div></div>
+    ${renderQuestion(q, practiceIdx, practicePool.length, 'practice')}
+  `;
+}
+
+function renderQuestion(q, idx, total, mode) {
+  if (q.type === 'mc') {
+    return `<div class="question-card">
+      <div class="question-num">Question ${idx+1} of ${total}</div>
+      <div class="question-text">${q.q}</div>
+      <div class="choices" id="choices-${idx}">
+        ${q.choices.map((c,i)=>`<button class="choice-btn" id="cb-${idx}-${i}" onclick="checkMC(${idx},${i},'${mode}')">${c}</button>`).join('')}
+      </div>
+      ${mode==='practice'?`<div class="feedback" id="fb-${idx}"></div>`:``}
+      ${mode==='practice'?`<div><button class="next-btn" id="next-${idx}" style="display:none" onclick="nextPractice()">Next →</button></div>`:``}
+    </div>`;
+  } else {
+    return `<div class="question-card">
+      <div class="question-num">Question ${idx+1} of ${total}</div>
+      <div class="question-text">${q.q}</div>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <input class="fill-input" type="number" id="fill-${idx}" placeholder="?" />
+        ${mode==='practice'?`<button class="submit-btn" id="sub-${idx}" onclick="checkFill(${idx},'${mode}')">Check ✓</button>`:``}
+      </div>
+      ${mode==='practice'?`<div class="feedback" id="fb-${idx}"></div>`:``}
+      ${mode==='practice'?`<div><button class="next-btn" id="next-${idx}" style="display:none" onclick="nextPractice()">Next →</button></div>`:``}
+    </div>`;
+  }
+}
+
+function checkMC(idx, chosen, mode) {
+  if (mode !== 'practice') return;
+  const q = practicePool[idx];
+  const correct = q.ans === chosen;
+  const btns = document.querySelectorAll(`#choices-${idx} .choice-btn`);
+  btns.forEach((b,i) => {
+    b.disabled = true;
+    if (i === q.ans) b.classList.add('correct');
+    if (i === chosen && !correct) b.classList.add('wrong');
+  });
+  const fb = document.getElementById(`fb-${idx}`);
+  fb.classList.add('show');
+  if (correct) {
+    practiceScore++;
+    fb.className = 'feedback show correct';
+    fb.innerHTML = `✅ Correct! ${q.explain}`;
+  } else {
+    fb.className = 'feedback show wrong';
+    fb.innerHTML = `❌ The correct answer is <strong>${q.choices[q.ans]}</strong>. ${q.explain}`;
+  }
+  practiceLog.push({q: q.q, correct, chosen: q.type==='mc'?q.choices[chosen]:'', answerStr: q.type==='mc'?q.choices[q.ans]:q.ans});
+  document.getElementById(`next-${idx}`).style.display = 'inline-block';
+}
+
+function checkFill(idx, mode) {
+  if (mode !== 'practice') return;
+  const q = practicePool[idx];
+  const input = document.getElementById(`fill-${idx}`);
+  const val = parseInt(input.value);
+  const correct = val === q.ans;
+  input.classList.add(correct ? 'correct' : 'wrong');
+  input.disabled = true;
+  document.getElementById(`sub-${idx}`).style.display = 'none';
+  const fb = document.getElementById(`fb-${idx}`);
+  fb.classList.add('show');
+  if (correct) {
+    practiceScore++;
+    fb.className = 'feedback show correct';
+    fb.innerHTML = `✅ Correct! ${q.explain}`;
+  } else {
+    fb.className = 'feedback show wrong';
+    fb.innerHTML = `❌ The answer is <strong>${q.ans}</strong>. ${q.explain}`;
+  }
+  practiceLog.push({q: q.q, correct, chosen: val, answerStr: q.ans});
+  document.getElementById(`next-${idx}`).style.display = 'inline-block';
+}
+
+function nextPractice() {
+  practiceIdx++;
+  renderPracticeQ();
+}
+
+function showPracticeResults() {
+  document.getElementById('practice-quiz').style.display = 'none';
+  const res = document.getElementById('practice-results');
+  res.style.display = 'block';
+  const pct = Math.round((practiceScore / practicePool.length) * 100);
+  let emoji, grade, cls;
+  if (pct >= 85)      { emoji='🏆'; grade='Excellent!';       cls='great'; }
+  else if (pct >= 70) { emoji='😊'; grade='Good job!';        cls='great'; }
+  else if (pct >= 50) { emoji='🙂'; grade='Keep practicing!'; cls='ok';    }
+  else                { emoji='📚'; grade='Study more!';       cls='retry'; }
+
+  res.innerHTML = `<div class="results-card">
+    <div class="big-emoji">${emoji}</div>
+    <h2>${grade}</h2>
+    <div class="score-big ${cls}">${practiceScore}/${practicePool.length}</div>
+    <p>You got <strong>${pct}%</strong> correct.</p>
+    <button class="restart-btn" onclick="startPractice()">🔄 Try Again</button>
+    <div class="answers-review">
+      <div class="section-label">Answer Review</div>
+      ${practiceLog.map((l,i)=>`
+        <div class="answer-item ${l.correct?'c':'w'}">
+          <div class="q-label">Q${i+1}: ${l.q}</div>
+          <div class="a-label">Your answer: <span class="${l.correct?'cor':'wr'}">${l.chosen}</span>&nbsp;|&nbsp;Correct: <span class="cor">${l.answerStr}</span></div>
+        </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+/* ──────── EXAM ──────── */
+let examPool = [], examTimer = null, examSeconds = 25*60, examAnswers = {};
+
+function startExam() {
+  examPool = buildExamPool();
+  examAnswers = {};
+  document.getElementById('exam-start').style.display = 'none';
+  document.getElementById('exam-results').style.display = 'none';
+  document.getElementById('exam-quiz').style.display = 'block';
+  examSeconds = 25 * 60;
+  renderExam();
+  startTimer();
+}
+
+function renderExam() {
+  const container = document.getElementById('exam-quiz');
+  let html = `
+    <div class="quiz-header">
+      <div class="quiz-title" style="color:#d97706">📝 Math Exam</div>
+      <div class="timer-display" id="timer-display">⏱️ 25:00</div>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar exam-bar" style="width:0%" id="exam-prog"></div></div>`;
+
+  // Group questions by type for exam layout
+  let multMcQs = [], divMcQs = [], wordQs = [], propQs = [], fillQs = [];
+  examPool.forEach((q,i) => {
+    const orig = q;
+    if (q.type === 'fill') fillQs.push({q:orig,i});
+    else if (WORD_PROBLEMS.some(w=>w.q===q.q)) wordQs.push({q:orig,i});
+    else if (PROPERTIES.some(p=>p.q===q.q)) propQs.push({q:orig,i});
+    else if (DIV_BASIC.some(d=>d.q===q.q)) divMcQs.push({q:orig,i});
+    else multMcQs.push({q:orig,i});
+  });
+
+  function renderSection(label, items) {
+    if (!items.length) return '';
+    return `<div class="section-label">${label}</div>`
+      + items.map(({q,i}) => renderExamQuestion(q,i)).join('');
+  }
+
+  html += renderSection('Part I — Multiplication', multMcQs);
+  html += renderSection('Part II — Division', divMcQs);
+  html += renderSection('Part III — Word Problems', wordQs);
+  html += renderSection('Part IV — Properties', propQs);
+  html += renderSection('Part V — Fill in the Blank', fillQs);
+
+  html += `<div style="text-align:center;margin-top:28px">
+    <button class="start-btn amber" style="font-size:1.1rem;padding:13px 40px" onclick="submitExam()">Submit Exam 📋</button>
+  </div>`;
+
+  container.innerHTML = html;
+}
+
+function renderExamQuestion(q, idx) {
+  if (q.type === 'mc') {
+    return `<div class="question-card">
+      <div class="question-num">Question ${idx+1}</div>
+      <div class="question-text">${q.q}</div>
+      <div class="choices" id="ex-choices-${idx}">
+        ${q.choices.map((c,i)=>`<button class="choice-btn" id="excb-${idx}-${i}" onclick="selectExamMC(${idx},${i})">${c}</button>`).join('')}
+      </div>
+    </div>`;
+  } else {
+    return `<div class="question-card">
+      <div class="question-num">Question ${idx+1}</div>
+      <div class="question-text">${q.q}</div>
+      <input class="fill-input" type="number" id="exfill-${idx}" placeholder="?" oninput="examAnswers[${idx}]=parseInt(this.value)" />
+    </div>`;
+  }
+}
+
+function selectExamMC(idx, chosen) {
+  examAnswers[idx] = chosen;
+  const btns = document.querySelectorAll(`#ex-choices-${idx} .choice-btn`);
+  btns.forEach((b,i) => {
+    b.style.background = i===chosen ? '#dbeafe' : '';
+    b.style.borderColor = i===chosen ? '#3b82f6' : '';
+    b.style.color = i===chosen ? '#1d4ed8' : '';
+    b.style.fontWeight = i===chosen ? '800' : '';
+  });
+  // update progress
+  const answered = Object.keys(examAnswers).length;
+  const pct = Math.round(answered / examPool.length * 100);
+  const prog = document.getElementById('exam-prog');
+  if (prog) prog.style.width = pct + '%';
+}
+
+function startTimer() {
+  clearInterval(examTimer);
+  examTimer = setInterval(() => {
+    examSeconds--;
+    const m = String(Math.floor(examSeconds/60)).padStart(2,'0');
+    const s = String(examSeconds%60).padStart(2,'0');
+    const disp = document.getElementById('timer-display');
+    if (disp) {
+      disp.textContent = `⏱️ ${m}:${s}`;
+      if (examSeconds <= 60) disp.classList.add('urgent');
+    }
+    if (examSeconds <= 0) { clearInterval(examTimer); submitExam(); }
+  }, 1000);
+}
+
+function submitExam() {
+  clearInterval(examTimer);
+  let score = 0;
+  const log = examPool.map((q,i) => {
+    let correct = false, chosenStr = '—', ansStr = '';
+    if (q.type === 'mc') {
+      const c = examAnswers[i];
+      ansStr = q.choices[q.ans];
+      chosenStr = c !== undefined ? q.choices[c] : '—';
+      correct = c === q.ans;
+    } else {
+      const c = examAnswers[i];
+      ansStr = String(q.ans);
+      chosenStr = c !== undefined ? String(c) : '—';
+      correct = c === q.ans;
+    }
+    if (correct) score++;
+    return {q: q.q, correct, chosen: chosenStr, answerStr: ansStr, explain: q.explain};
+  });
+
+  document.getElementById('exam-quiz').style.display = 'none';
+  const res = document.getElementById('exam-results');
+  res.style.display = 'block';
+  const total = examPool.length;
+  const pct = Math.round((score/total)*100);
+  let emoji, grade, cls;
+  if (pct >= 90)      { emoji='🏅'; grade='Outstanding!';     cls='great'; }
+  else if (pct >= 80) { emoji='🎉'; grade='Very Good!';       cls='great'; }
+  else if (pct >= 75) { emoji='😊'; grade='Passed!';          cls='great'; }
+  else if (pct >= 60) { emoji='📖'; grade='Needs Improvement';cls='ok';    }
+  else                { emoji='📚'; grade='Keep Studying!';   cls='retry'; }
+
+  res.innerHTML = `<div class="results-card">
+    <div class="big-emoji">${emoji}</div>
+    <h2>${grade}</h2>
+    <div class="score-big ${cls}">${score}/${total}</div>
+    <p>Score: <strong>${pct}%</strong></p>
+    <button class="restart-btn" onclick="restartExam()">🔄 Retake Exam</button>
+    <div class="answers-review">
+      <div class="section-label">Detailed Review</div>
+      ${log.map((l,i)=>`
+        <div class="answer-item ${l.correct?'c':'w'}">
+          <div class="q-label">Q${i+1}: ${l.q}</div>
+          <div class="a-label">Your answer: <span class="${l.correct?'cor':'wr'}">${l.chosen}</span>&nbsp;|&nbsp;Correct: <span class="cor">${l.answerStr}</span></div>
+          <div class="a-label" style="margin-top:2px;opacity:0.8">${l.explain}</div>
+        </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+function restartExam() {
+  document.getElementById('exam-results').style.display = 'none';
+  document.getElementById('exam-start').style.display = 'block';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sentence Diagramming Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #e8384f;
+    --dark: #1a1a2e;
+    --cream: #fdf6ec;
+    --orange: #f4845f;
+    --navy: #16213e;
+    --light-red: #fdeaec;
+    --correct: #2ecc71;
+    --wrong: #e74c3c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    min-height: 100vh;
+    color: var(--dark);
+  }
+
+  header {
+    background: var(--dark);
+    color: white;
+    padding: 2rem 2rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    width: 300px; height: 300px;
+    background: var(--red);
+    border-radius: 50%;
+    top: -120px; right: -60px;
+    opacity: 0.3;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    width: 150px; height: 150px;
+    background: var(--orange);
+    border-radius: 50%;
+    bottom: -60px; left: 10%;
+    opacity: 0.2;
+  }
+
+  .tag {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 0.4rem;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    position: relative;
+    z-index: 1;
+  }
+
+  header h1 span { color: var(--red); }
+
+  .subtitle {
+    margin-top: 0.4rem;
+    font-size: 0.85rem;
+    color: #aaa;
+    font-weight: 300;
+    position: relative;
+    z-index: 1;
+  }
+
+  .progress-bar-wrap {
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    margin-top: 1.2rem;
+    border-radius: 2px;
+    position: relative;
+    z-index: 1;
+  }
+
+  #progress-bar {
+    height: 100%;
+    background: var(--red);
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  .progress-text {
+    font-size: 0.72rem;
+    color: #888;
+    margin-top: 0.4rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  main {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 4rem;
+  }
+
+  .question-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.8rem;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+    border-left: 4px solid var(--red);
+    animation: slideIn 0.3s ease;
+    display: none;
+  }
+
+  .question-card.active { display: block; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .q-number {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 0.6rem;
+  }
+
+  .q-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: var(--dark);
+    margin-bottom: 1.2rem;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 0.6rem; }
+
+  .option {
+    padding: 0.85rem 1.1rem;
+    border: 2px solid #e8e8e8;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--dark);
+    background: white;
+    transition: all 0.2s ease;
+    text-align: left;
+    line-height: 1.4;
+  }
+
+  .option:hover:not(:disabled) {
+    border-color: var(--red);
+    background: var(--light-red);
+    transform: translateX(3px);
+  }
+
+  .option.correct {
+    border-color: var(--correct);
+    background: #eafaf1;
+    color: #1a7a4a;
+    font-weight: 500;
+  }
+
+  .option.wrong {
+    border-color: var(--wrong);
+    background: #fdecea;
+    color: #a93226;
+  }
+
+  .option:disabled { cursor: default; }
+
+  .feedback {
+    margin-top: 1rem;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    display: none;
+  }
+
+  .feedback.show { display: block; }
+  .feedback.correct-fb { background: #eafaf1; color: #1a7a4a; border-left: 3px solid var(--correct); }
+  .feedback.wrong-fb { background: #fdecea; color: #a93226; border-left: 3px solid var(--wrong); }
+
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.2rem;
+  }
+
+  .btn {
+    background: var(--red);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn:hover { background: #c9293e; }
+  .btn:disabled { background: #ccc; cursor: default; }
+  .btn.outline { background: transparent; color: var(--red); border: 2px solid var(--red); }
+  .btn.outline:hover { background: var(--light-red); }
+
+  /* Score screen */
+  #score-screen {
+    display: none;
+    text-align: center;
+    padding: 3rem 1.5rem;
+    animation: slideIn 0.4s ease;
+  }
+
+  #score-screen h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--dark);
+    margin-bottom: 0.5rem;
+  }
+
+  .score-circle {
+    width: 130px; height: 130px;
+    border-radius: 50%;
+    background: var(--dark);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    margin: 1.5rem auto;
+    box-shadow: 0 0 0 8px var(--light-red);
+  }
+
+  .score-circle .big { font-size: 2.4rem; font-weight: 700; color: white; line-height: 1; }
+  .score-circle .out { font-size: 0.8rem; color: #aaa; }
+
+  .score-msg {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .review-list { text-align: left; margin-top: 1.5rem; }
+  .review-item {
+    background: white;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 0.8rem;
+    border-left: 4px solid #e8e8e8;
+  }
+  .review-item.r-correct { border-color: var(--correct); }
+  .review-item.r-wrong { border-color: var(--wrong); }
+  .review-item p { font-size: 0.85rem; line-height: 1.5; color: #444; }
+  .review-item strong { color: var(--dark); font-size: 0.9rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tag">Language 6 · 3rd Quarter · Intermediate Dept.</div>
+  <h1>Sentence <span>Diagramming</span> Quiz</h1>
+  <p class="subtitle">Sentence Pattern Chart 3 / Logical Analysis Box 1</p>
+  <div class="progress-bar-wrap"><div id="progress-bar"></div></div>
+  <p class="progress-text" id="progress-text">Question 1 of 10</p>
+</header>
+
+<main>
+  <div id="quiz-container"></div>
+  <div id="score-screen"></div>
+</main>
+
+<script>
+const questions = [
+  {
+    q: "In a sentence diagram, which shape and color represents the PREDICATE?",
+    options: ["Big black circle", "Big red circle", "Dark blue triangle", "Small orange circle"],
+    answer: 1,
+    explanation: "The Predicate (P) is represented by a big red circle and is placed in the middle of the diagram."
+  },
+  {
+    q: "Where is the SUBJECT placed in relation to the predicate in a sentence diagram?",
+    options: ["To the right of the predicate", "Above the predicate", "To the left of the predicate", "Below the predicate"],
+    answer: 2,
+    explanation: "The Subject (S) is a big black circle placed to the LEFT of the predicate's circle."
+  },
+  {
+    q: "What shape represents the ATTRIBUTIVE (ATT) in a sentence diagram?",
+    options: ["Small orange circle", "Black triangle", "Dark blue triangle", "Big red circle"],
+    answer: 2,
+    explanation: "The Attributive (ATT) is a dark blue triangle placed below the subject, diagonal to the left."
+  },
+  {
+    q: "If a sentence has a noun phrase as the subject, what rule must be followed?",
+    options: ["Only the main noun is included", "The article and helping verb must be included", "The noun phrase is skipped", "Only the adjective is diagrammed"],
+    answer: 1,
+    explanation: "If the sentence uses a noun phrase, the article and helping verb must be included. No word should be left behind."
+  },
+  {
+    q: "In the sentence 'My older brother, Keith, bought me the book series for my upcoming graduation,' what is the INDIRECT OBJECT (IO)?",
+    options: ["the book series", "Keith", "me", "My brother"],
+    answer: 2,
+    explanation: "'Me' is the Indirect Object (IO). It is placed below the Direct Object in the diagram."
+  },
+  {
+    q: "What is the size and color of the INDIRECT OBJECT circle in a diagram?",
+    options: ["Medium-sized black circle", "Big red circle", "Small black circle (smaller than the DO)", "Small orange circle"],
+    answer: 2,
+    explanation: "The Indirect Object (IO) is a small black circle, smaller than the Direct object's circle, placed below the DO."
+  },
+  {
+    q: "In the sentence 'The two students wrote a script with their teacher for the school play next month,' what does 'next month' represent in the diagram?",
+    options: ["Accompaniment", "Purpose", "Time", "Attributive"],
+    answer: 2,
+    explanation: "'Next month' is labeled TIME in the diagram — it is an adverb modifying when the action happened."
+  },
+  {
+    q: "What happens if a sentence is MISSING extensions like an appositive or indirect object?",
+    options: ["You draw an empty circle", "You leave its space blank and do NOT diagram anything", "You write 'none' in the space", "You skip that part of the diagram entirely"],
+    answer: 1,
+    explanation: "If extensions like the appositive or indirect object are missing, leave its space blank and do NOT diagram anything there."
+  },
+  {
+    q: "Which sentence part is represented by ADVERBS in a diagram, and where can they be placed?",
+    options: ["Big red circles; only above the predicate", "Small orange circles; above or below the predicate", "Black triangles; only to the left", "Dark blue triangles; diagonal to the right"],
+    answer: 1,
+    explanation: "Adverbs are small orange circles (the smallest of all circles) and can be placed above or below the predicate."
+  },
+  {
+    q: "What does the APPOSITIVE (APP) look like in a sentence diagram, and where is it placed?",
+    options: ["Dark blue triangle, diagonal to the left of the subject", "Black triangle, diagonal to the right of the subject", "Small orange circle, above the predicate", "Medium black circle, to the right of the predicate"],
+    answer: 1,
+    explanation: "The Appositive (APP) is a black triangle placed below the subject, diagonal to the right."
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = new Array(10).fill(null);
+
+function buildQuiz() {
+  const container = document.getElementById('quiz-container');
+  questions.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'question-card' + (i === 0 ? ' active' : '');
+    card.id = `q-${i}`;
+    card.innerHTML = `
+      <div class="q-number">Question ${i+1} of 10</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options">
+        ${q.options.map((opt, j) => `
+          <button class="option" onclick="selectAnswer(${i}, ${j})" id="opt-${i}-${j}">${opt}</button>
+        `).join('')}
+      </div>
+      <div class="feedback" id="fb-${i}"></div>
+      <div class="nav-row">
+        <button class="btn outline" onclick="prevQ()" ${i === 0 ? 'disabled' : ''}>← Back</button>
+        <button class="btn" id="next-${i}" onclick="${i === 9 ? 'showScore()' : `nextQ()`}" disabled>
+          ${i === 9 ? 'See Results' : 'Next →'}
+        </button>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+  updateProgress();
+}
+
+function selectAnswer(qIdx, optIdx) {
+  if (answered[qIdx] !== null) return;
+  answered[qIdx] = optIdx;
+
+  const q = questions[qIdx];
+  const opts = document.querySelectorAll(`#q-${qIdx} .option`);
+  opts.forEach(o => o.disabled = true);
+
+  opts[q.answer].classList.add('correct');
+  if (optIdx !== q.answer) {
+    opts[optIdx].classList.add('wrong');
+  } else {
+    score++;
+  }
+
+  const fb = document.getElementById(`fb-${qIdx}`);
+  fb.className = 'feedback show ' + (optIdx === q.answer ? 'correct-fb' : 'wrong-fb');
+  fb.innerHTML = (optIdx === q.answer ? '✓ Correct! ' : '✗ Not quite. ') + q.explanation;
+
+  document.getElementById(`next-${qIdx}`).disabled = false;
+}
+
+function nextQ() {
+  if (current < 9) {
+    document.getElementById(`q-${current}`).classList.remove('active');
+    current++;
+    document.getElementById(`q-${current}`).classList.add('active');
+    updateProgress();
+  }
+}
+
+function prevQ() {
+  if (current > 0) {
+    document.getElementById(`q-${current}`).classList.remove('active');
+    current--;
+    document.getElementById(`q-${current}`).classList.add('active');
+    updateProgress();
+  }
+}
+
+function updateProgress() {
+  const pct = ((current + 1) / 10) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = `Question ${current + 1} of 10`;
+}
+
+function showScore() {
+  document.getElementById('quiz-container').style.display = 'none';
+  const screen = document.getElementById('score-screen');
+  screen.style.display = 'block';
+
+  const pct = (score / 10) * 100;
+  let msg = '';
+  if (pct === 100) msg = "Perfect score! You've mastered sentence diagramming! 🎉";
+  else if (pct >= 80) msg = "Great work! You have a strong grasp of sentence diagramming. Review the missed items and you'll be perfect!";
+  else if (pct >= 60) msg = "Good effort! Review the shapes, placements, and colors carefully to strengthen your understanding.";
+  else msg = "Keep practicing! Re-read your Study Notes and focus on the shapes and positions of each sentence part.";
+
+  const reviewHTML = questions.map((q, i) => {
+    const correct = answered[i] === q.answer;
+    return `
+      <div class="review-item ${correct ? 'r-correct' : 'r-wrong'}">
+        <strong>${correct ? '✓' : '✗'} Q${i+1}: ${q.q}</strong>
+        <p>Correct answer: <em>${q.options[q.answer]}</em></p>
+      </div>
+    `;
+  }).join('');
+
+  screen.innerHTML = `
+    <div class="tag">Quiz Complete</div>
+    <h2>Your Results</h2>
+    <div class="score-circle">
+      <span class="big">${score}</span>
+      <span class="out">out of 10</span>
+    </div>
+    <p class="score-msg">${msg}</p>
+    <button class="btn" onclick="restartQuiz()">Try Again</button>
+    <div class="review-list">${reviewHTML}</div>
+  `;
+}
+
+function restartQuiz() {
+  current = 0;
+  score = 0;
+  answered = new Array(10).fill(null);
+  document.getElementById('score-screen').style.display = 'none';
+  document.getElementById('quiz-container').style.display = 'block';
+
+  document.querySelectorAll('.question-card').forEach((c, i) => {
+    c.classList.toggle('active', i === 0);
+    c.querySelectorAll('.option').forEach(o => {
+      o.className = 'option';
+      o.disabled = false;
+    });
+    const fb = c.querySelector('.feedback');
+    fb.className = 'feedback';
+    fb.innerHTML = '';
+    const nextBtn = c.querySelector('[id^="next-"]');
+    nextBtn.disabled = true;
+  });
+
+  // Re-bind onclick for options after reset
+  questions.forEach((q, i) => {
+    document.querySelectorAll(`#q-${i} .option`).forEach((opt, j) => {
+      opt.onclick = () => selectAnswer(i, j);
+    });
+  });
+
+  updateProgress();
+}
+
+buildQuiz();
+</script>
+</body>
+</html>

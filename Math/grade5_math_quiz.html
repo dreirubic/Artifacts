@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yumi's Math Adventure Quiz 🌟</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #6EC6F5;
+    --sun: #FFD700;
+    --mint: #4ECDC4;
+    --coral: #FF6B6B;
+    --lavender: #B39DDB;
+    --peach: #FFB347;
+    --green: #56C596;
+    --white: #FFFDF7;
+    --dark: #2D2D2D;
+    --card-bg: rgba(255,255,255,0.92);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 50%, #d4e9ff 100%);
+    min-height: 100vh;
+    padding: 20px;
+    overflow-x: hidden;
+  }
+
+  /* Floating stars background */
+  body::before {
+    content: '⭐ 🌟 ✨ 💫 ⭐ 🌟 ✨ 💫 ⭐ 🌟';
+    position: fixed;
+    top: -10px; left: 0; right: 0;
+    font-size: 1.5rem;
+    letter-spacing: 60px;
+    opacity: 0.15;
+    animation: floatStars 20s linear infinite;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 0;
+  }
+
+  @keyframes floatStars {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    margin-bottom: 28px;
+    animation: bounceIn 0.7s cubic-bezier(.36,1.56,.64,1);
+  }
+
+  @keyframes bounceIn {
+    from { transform: scale(0.5) translateY(-40px); opacity: 0; }
+    to { transform: scale(1) translateY(0); opacity: 1; }
+  }
+
+  .header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.6rem;
+    color: var(--dark);
+    text-shadow: 3px 3px 0 var(--sun), 5px 5px 0 rgba(0,0,0,0.08);
+    letter-spacing: 1px;
+  }
+
+  .header .subtitle {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 6px;
+    font-weight: 700;
+  }
+
+  /* MODE SELECTOR */
+  .mode-selector {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .mode-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    padding: 12px 28px;
+    border: 3px solid var(--dark);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 4px 4px 0 var(--dark);
+    background: var(--white);
+  }
+
+  .mode-btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--dark); }
+  .mode-btn.active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--dark); }
+  .mode-btn.reviewer { background: var(--mint); }
+  .mode-btn.exam { background: var(--coral); color: white; }
+  .mode-btn.active.reviewer { background: #3ab8ae; }
+  .mode-btn.active.exam { background: #e05555; }
+
+  /* PROGRESS BAR */
+  .progress-wrap {
+    background: rgba(255,255,255,0.6);
+    border-radius: 20px;
+    height: 18px;
+    margin-bottom: 18px;
+    border: 2px solid var(--dark);
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--mint), var(--sky));
+    border-radius: 20px;
+    transition: width 0.5s cubic-bezier(.36,1.56,.64,1);
+    position: relative;
+  }
+
+  .progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 3px; left: 10px; right: 10px;
+    height: 5px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 10px;
+  }
+
+  .progress-label {
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #555;
+    margin-bottom: 14px;
+  }
+
+  /* TOPIC BADGE */
+  .topic-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--sun);
+    border: 2px solid var(--dark);
+    border-radius: 50px;
+    padding: 5px 16px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    margin-bottom: 14px;
+    box-shadow: 3px 3px 0 var(--dark);
+    animation: slideIn 0.4s ease;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* QUESTION CARD */
+  .question-card {
+    background: var(--card-bg);
+    border: 3px solid var(--dark);
+    border-radius: 24px;
+    padding: 28px;
+    margin-bottom: 18px;
+    box-shadow: 6px 6px 0 var(--dark);
+    animation: cardPop 0.4s cubic-bezier(.36,1.56,.64,1);
+  }
+
+  @keyframes cardPop {
+    from { opacity: 0; transform: scale(0.9) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .question-number {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.95rem;
+    color: #888;
+    margin-bottom: 8px;
+  }
+
+  .question-text {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--dark);
+    line-height: 1.5;
+    margin-bottom: 22px;
+  }
+
+  /* CHOICES */
+  .choices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  @media (max-width: 500px) {
+    .choices { grid-template-columns: 1fr; }
+    .header h1 { font-size: 1.9rem; }
+  }
+
+  .choice-btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 14px 16px;
+    border: 2.5px solid var(--dark);
+    border-radius: 16px;
+    cursor: pointer;
+    text-align: left;
+    background: var(--white);
+    transition: all 0.18s;
+    box-shadow: 3px 3px 0 var(--dark);
+    line-height: 1.3;
+  }
+
+  .choice-btn:hover:not(:disabled) {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--dark);
+    background: #FFF9E6;
+  }
+
+  .choice-btn:disabled { cursor: default; }
+  .choice-btn.correct { background: #C8F7C5; border-color: #2ECC71; box-shadow: 3px 3px 0 #2ECC71; }
+  .choice-btn.wrong { background: #FFCDD2; border-color: #E53935; box-shadow: 3px 3px 0 #E53935; }
+  .choice-btn.revealed { background: #E3F2FD; border-color: #1976D2; box-shadow: 3px 3px 0 #1976D2; }
+
+  /* FEEDBACK */
+  .feedback {
+    margin-top: 18px;
+    padding: 14px 18px;
+    border-radius: 16px;
+    font-size: 1rem;
+    font-weight: 700;
+    display: none;
+    animation: popUp 0.3s cubic-bezier(.36,1.56,.64,1);
+    border: 2px solid var(--dark);
+  }
+
+  @keyframes popUp {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .feedback.correct-fb { background: #C8F7C5; }
+  .feedback.wrong-fb { background: #FFCDD2; }
+  .feedback.show { display: block; }
+
+  /* NAVIGATION */
+  .nav-btns {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .nav-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.05rem;
+    padding: 12px 26px;
+    border: 3px solid var(--dark);
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 var(--dark);
+    transition: all 0.18s;
+    background: var(--peach);
+  }
+
+  .nav-btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--dark); }
+  .nav-btn:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--dark); }
+  .nav-btn.primary { background: var(--lavender); color: white; }
+  .nav-btn.submit-all { background: var(--coral); color: white; }
+
+  /* SCORE SCREEN */
+  .score-screen {
+    display: none;
+    text-align: center;
+    animation: cardPop 0.5s cubic-bezier(.36,1.56,.64,1);
+  }
+
+  .score-screen.show { display: block; }
+
+  .score-card {
+    background: var(--card-bg);
+    border: 3px solid var(--dark);
+    border-radius: 28px;
+    padding: 40px 28px;
+    box-shadow: 8px 8px 0 var(--dark);
+    margin-bottom: 20px;
+  }
+
+  .score-emoji {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: 12px;
+    animation: spin 1s ease;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(-20deg) scale(0.5); }
+    to { transform: rotate(0deg) scale(1); }
+  }
+
+  .score-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2rem;
+    color: var(--dark);
+    margin-bottom: 8px;
+  }
+
+  .score-number {
+    font-family: 'Fredoka One', cursive;
+    font-size: 3.5rem;
+    color: var(--coral);
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+  }
+
+  .score-message {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #555;
+    margin: 12px 0 20px;
+  }
+
+  .topic-breakdown {
+    text-align: left;
+    margin-top: 20px;
+  }
+
+  .topic-breakdown h3 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: var(--dark);
+  }
+
+  .topic-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .topic-row .t-label { flex: 1; color: #444; }
+  .topic-row .t-score { color: var(--dark); min-width: 50px; text-align: right; }
+
+  .mini-bar-wrap {
+    flex: 2;
+    height: 10px;
+    background: #eee;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1.5px solid #ccc;
+  }
+
+  .mini-bar {
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(90deg, var(--mint), var(--sky));
+  }
+
+  /* EXAM timer */
+  .timer-box {
+    display: none;
+    background: var(--coral);
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    text-align: center;
+    padding: 10px;
+    border-radius: 16px;
+    border: 3px solid var(--dark);
+    box-shadow: 4px 4px 0 var(--dark);
+    margin-bottom: 18px;
+  }
+
+  .timer-box.show { display: block; }
+  .timer-box.urgent { background: #B71C1C; animation: pulse 0.5s infinite alternate; }
+
+  @keyframes pulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.03); }
+  }
+
+  /* INTRO / START */
+  .start-screen {
+    text-align: center;
+  }
+
+  .start-card {
+    background: var(--card-bg);
+    border: 3px solid var(--dark);
+    border-radius: 28px;
+    padding: 36px 28px;
+    box-shadow: 8px 8px 0 var(--dark);
+    margin-bottom: 20px;
+  }
+
+  .start-card h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.6rem;
+    margin-bottom: 14px;
+    color: var(--dark);
+  }
+
+  .topics-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin: 16px 0;
+  }
+
+  .t-chip {
+    background: var(--white);
+    border: 2px solid var(--dark);
+    border-radius: 50px;
+    padding: 5px 14px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    box-shadow: 2px 2px 0 var(--dark);
+  }
+
+  .start-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    padding: 14px 40px;
+    border: 3px solid var(--dark);
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 5px 5px 0 var(--dark);
+    transition: all 0.18s;
+    margin: 8px;
+  }
+
+  .start-btn:hover { transform: translate(-3px,-3px); box-shadow: 8px 8px 0 var(--dark); }
+  .start-btn:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--dark); }
+  .start-btn.reviewer { background: var(--mint); }
+  .start-btn.exam { background: var(--coral); color: white; }
+
+  .quiz-area { display: none; }
+  .quiz-area.show { display: block; }
+
+  .hint-btn {
+    font-size: 0.8rem;
+    font-weight: 700;
+    background: #FFF9C4;
+    border: 1.5px dashed #999;
+    border-radius: 10px;
+    padding: 5px 12px;
+    cursor: pointer;
+    margin-top: 10px;
+    display: inline-block;
+  }
+
+  .hint-text {
+    font-size: 0.9rem;
+    color: #555;
+    background: #FFF9C4;
+    border: 1.5px dashed #ccc;
+    border-radius: 10px;
+    padding: 8px 14px;
+    margin-top: 8px;
+    display: none;
+  }
+
+  .hint-text.show { display: block; }
+
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>🧮 Yumi's Math Quiz! 🌟</h1>
+    <div class="subtitle">Grade 5 · Mixed Topic Reviewer & Exam</div>
+  </div>
+
+  <!-- START SCREEN -->
+  <div class="start-screen" id="startScreen">
+    <div class="start-card">
+      <h2>👋 Hello, Yumi!</h2>
+      <p style="font-weight:700;color:#555;margin-bottom:10px;">Choose your mode to begin:</p>
+
+      <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin:20px 0;">
+        <div style="flex:1;min-width:220px;background:#E0FFF8;border:2.5px solid var(--dark);border-radius:20px;padding:18px;box-shadow:4px 4px 0 var(--dark);">
+          <div style="font-family:'Fredoka One',cursive;font-size:1.2rem;margin-bottom:6px;">📚 Reviewer Mode</div>
+          <p style="font-size:0.9rem;font-weight:600;color:#555;margin-bottom:12px;">Hints + explanations after each answer. Great for studying!</p>
+          <button class="start-btn reviewer" onclick="startQuiz('reviewer')">Start Reviewer</button>
+        </div>
+        <div style="flex:1;min-width:220px;background:#FFE8E8;border:2.5px solid var(--dark);border-radius:20px;padding:18px;box-shadow:4px 4px 0 var(--dark);">
+          <div style="font-family:'Fredoka One',cursive;font-size:1.2rem;margin-bottom:6px;">📝 Exam Mode</div>
+          <p style="font-size:0.9rem;font-weight:600;color:#555;margin-bottom:12px;">Timed test — 30 minutes. Answer all before submitting!</p>
+          <button class="start-btn exam" onclick="startQuiz('exam')">Start Exam</button>
+        </div>
+      </div>
+
+      <p style="font-size:0.9rem;font-weight:700;color:#777;margin-bottom:10px;">Topics covered:</p>
+      <div class="topics-list">
+        <span class="t-chip">💡 Basic Geometry</span>
+        <span class="t-chip">📐 Angles</span>
+        <span class="t-chip">🔷 Polygons</span>
+        <span class="t-chip">⭕ Circle</span>
+        <span class="t-chip">📦 Solid Figures</span>
+        <span class="t-chip">🌡️ Temperature</span>
+        <span class="t-chip">🕰️ Time</span>
+        <span class="t-chip">🔢 Number Patterns</span>
+        <span class="t-chip">⚖️ Equations</span>
+        <span class="t-chip">📈 Line Graphs</span>
+        <span class="t-chip">🎲 Probability</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ AREA -->
+  <div class="quiz-area" id="quizArea">
+    <div class="timer-box" id="timerBox">⏱️ Time Left: <span id="timerDisplay">30:00</span></div>
+
+    <div class="progress-label" id="progressLabel">Question 1 of 33</div>
+    <div class="progress-wrap">
+      <div class="progress-bar" id="progressBar" style="width:3%"></div>
+    </div>
+
+    <div class="topic-badge" id="topicBadge">💡 Topic</div>
+
+    <div class="question-card" id="questionCard">
+      <div class="question-number" id="questionNumber">Question 1</div>
+      <div class="question-text" id="questionText">Loading...</div>
+      <div class="choices" id="choicesArea"></div>
+      <div id="hintArea"></div>
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+    <div class="nav-btns" id="navBtns">
+      <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">← Back</button>
+      <button class="nav-btn primary" id="nextBtn" onclick="navigate(1)">Next →</button>
+      <button class="nav-btn submit-all" id="submitBtn" onclick="submitAll()" style="display:none">✅ Submit All</button>
+    </div>
+  </div>
+
+  <!-- SCORE SCREEN -->
+  <div class="score-screen" id="scoreScreen">
+    <div class="score-card">
+      <span class="score-emoji" id="scoreEmoji">🎉</span>
+      <div class="score-title" id="scoreTitle">Great Job!</div>
+      <div class="score-number" id="scoreNumber">0 / 33</div>
+      <div class="score-message" id="scoreMessage"></div>
+
+      <div class="topic-breakdown" id="topicBreakdown"></div>
+    </div>
+    <button class="nav-btn primary" style="font-size:1.1rem;padding:14px 36px;" onclick="restartQuiz()">🔄 Try Again</button>
+    <button class="nav-btn" style="margin-left:10px;font-size:1.1rem;padding:14px 36px;background:var(--mint);" onclick="switchMode()">🔀 Switch Mode</button>
+  </div>
+
+</div>
+
+<script>
+const ALL_QUESTIONS = [
+  // === BASIC GEOMETRIC IDEAS ===
+  { topic: "💡 Basic Geometry", q: "What do you call a flat surface that extends infinitely in all directions?", choices: ["Line", "Plane", "Point", "Ray"], answer: 1, hint: "Think of a perfectly flat table that goes on forever — with no edges!", explain: "A plane is a flat, two-dimensional surface that extends infinitely in all directions." },
+  { topic: "💡 Basic Geometry", q: "Which of the following has NO endpoints?", choices: ["Line segment", "Ray", "Line", "Angle"], answer: 2, hint: "An endpoint is where something stops. Which one never stops on BOTH sides?", explain: "A line goes on forever in both directions — it has no endpoints at all." },
+  { topic: "💡 Basic Geometry", q: "Two lines that never meet and are always the same distance apart are called:", choices: ["Intersecting lines", "Perpendicular lines", "Parallel lines", "Skew lines"], answer: 2, hint: "Think of train rails — they go on forever side by side!", explain: "Parallel lines never intersect and remain the same distance from each other." },
+  { topic: "💡 Basic Geometry", q: "What is a part of a line that has TWO endpoints?", choices: ["Ray", "Line", "Line segment", "Plane"], answer: 2, hint: "This one has a start AND a stop!", explain: "A line segment has two endpoints, making it a fixed, measurable piece of a line." },
+
+  // === ANGLES ===
+  { topic: "📐 Angles", q: "An angle that measures exactly 90° is called:", choices: ["Acute angle", "Obtuse angle", "Right angle", "Straight angle"], answer: 2, hint: "Look at the corner of your notebook — that's it!", explain: "A right angle measures exactly 90°, like the corner of a square." },
+  { topic: "📐 Angles", q: "Which type of angle measures MORE than 90° but LESS than 180°?", choices: ["Acute", "Right", "Obtuse", "Reflex"], answer: 2, hint: "It's between a right angle and a straight line — it's 'obtuse' (meaning wide/large).", explain: "An obtuse angle is greater than 90° but less than 180°." },
+  { topic: "📐 Angles", q: "An angle that measures LESS than 90° is called:", choices: ["Obtuse", "Acute", "Straight", "Right"], answer: 1, hint: "Acute means small and sharp. Think of the pointy tip of a slice of pizza!", explain: "An acute angle is any angle that measures less than 90°." },
+  { topic: "📐 Angles", q: "What is the measure of a straight angle?", choices: ["90°", "45°", "180°", "360°"], answer: 2, hint: "It looks like a perfectly straight line — how many degrees does that make?", explain: "A straight angle looks like a straight line and measures exactly 180°." },
+
+  // === POLYGONS ===
+  { topic: "🔷 Polygons", q: "A polygon with 6 sides is called a:", choices: ["Pentagon", "Heptagon", "Hexagon", "Octagon"], answer: 2, hint: "Hex- means six (like in hexadecimal). Honeybees make hexagons!", explain: "A hexagon has exactly 6 sides and 6 angles." },
+  { topic: "🔷 Polygons", q: "Which polygon has ALL sides equal AND all angles equal?", choices: ["Scalene triangle", "Rectangle", "Regular polygon", "Trapezoid"], answer: 2, hint: "Regular means everything is the same — equal sides AND equal angles!", explain: "A regular polygon has all sides equal in length and all angles equal in measure." },
+  { topic: "🔷 Polygons", q: "A quadrilateral with exactly ONE pair of parallel sides is a:", choices: ["Rectangle", "Trapezoid", "Rhombus", "Square"], answer: 1, hint: "Quad = 4 sides. Only ONE pair of sides runs in the same direction.", explain: "A trapezoid (or trapezium) has exactly one pair of parallel sides." },
+  { topic: "🔷 Polygons", q: "What is the sum of interior angles in any triangle?", choices: ["90°", "270°", "180°", "360°"], answer: 2, hint: "Try tearing the corners of a triangle and placing them together — they form a straight line!", explain: "The sum of all interior angles in any triangle is always 180°." },
+
+  // === CIRCLE ===
+  { topic: "⭕ Circle", q: "The distance from the center of a circle to any point on the circle is called the:", choices: ["Diameter", "Chord", "Radius", "Arc"], answer: 2, hint: "It starts at the center and reaches out — half of the diameter!", explain: "The radius is the distance from the center to any point on the circle." },
+  { topic: "⭕ Circle", q: "A line segment that passes through the center of a circle with both endpoints on the circle is called the:", choices: ["Radius", "Tangent", "Arc", "Diameter"], answer: 3, hint: "This one goes ALL the way through the center — it's twice the radius!", explain: "The diameter passes through the center and has both endpoints on the circle. It equals 2× radius." },
+  { topic: "⭕ Circle", q: "If the radius of a circle is 5 cm, what is the diameter?", choices: ["5 cm", "15 cm", "10 cm", "25 cm"], answer: 2, hint: "Diameter = 2 × radius. So 2 × 5 = ?", explain: "Diameter = 2 × radius = 2 × 5 = 10 cm." },
+  { topic: "⭕ Circle", q: "A part of the circumference of a circle is called:", choices: ["Sector", "Chord", "Arc", "Radius"], answer: 2, hint: "Think of it as a 'curved piece' of the circle's edge — like a curved road segment.", explain: "An arc is any portion of the circumference (the outer edge) of a circle." },
+
+  // === SOLID FIGURES ===
+  { topic: "📦 Solid Figures", q: "How many faces does a rectangular prism (box) have?", choices: ["4", "8", "5", "6"], answer: 3, hint: "Count the flat sides of a cereal box: top, bottom, front, back, left, right!", explain: "A rectangular prism has 6 faces — top, bottom, and 4 sides." },
+  { topic: "📦 Solid Figures", q: "Which solid figure has a circular base and comes to a point?", choices: ["Cylinder", "Sphere", "Pyramid", "Cone"], answer: 3, hint: "Think of an ice cream cone or a party hat!", explain: "A cone has one circular base and a curved surface that comes to a single point (apex)." },
+  { topic: "📦 Solid Figures", q: "A solid figure with all points equally distant from the center is a:", choices: ["Cube", "Sphere", "Cylinder", "Cone"], answer: 1, hint: "A basketball, the Earth, a bubble — all perfectly round in every direction!", explain: "A sphere is a perfectly round 3D figure where every surface point is equal distance from the center." },
+  { topic: "📦 Solid Figures", q: "How many edges does a cube have?", choices: ["6", "8", "12", "10"], answer: 2, hint: "An edge is where two faces meet. Count carefully — there are 4 on top, 4 on bottom, and 4 going down the sides!", explain: "A cube has 12 edges: 4 on the top face, 4 on the bottom face, and 4 vertical edges." },
+
+  // === TEMPERATURE ===
+  { topic: "🌡️ Temperature", q: "Water freezes at what temperature in Celsius?", choices: ["100°C", "0°C", "32°C", "−10°C"], answer: 1, hint: "This is the starting point of the Celsius scale — nice and easy to remember!", explain: "Water freezes (turns to ice) at 0°C." },
+  { topic: "🌡️ Temperature", q: "Water boils at what temperature in Celsius?", choices: ["50°C", "212°C", "100°C", "80°C"], answer: 2, hint: "Think about boiling water for soup. It gets VERY hot — triple digits in Celsius!", explain: "Water boils at 100°C (which is 212°F)." },
+  { topic: "🌡️ Temperature", q: "The temperature is 25°C in the morning. By noon it rose 8°C. What is the temperature at noon?", choices: ["17°C", "33°C", "30°C", "35°C"], answer: 1, hint: "It rose (went UP), so we ADD: 25 + 8 = ?", explain: "25°C + 8°C = 33°C." },
+
+  // === TIME ===
+  { topic: "🕰️ Time", q: "How many minutes are there in 2 hours and 45 minutes?", choices: ["145 min", "155 min", "165 min", "175 min"], answer: 2, hint: "1 hour = 60 minutes. So 2 hours = 120 min. Then add 45 more!", explain: "2 hours = 120 minutes. 120 + 45 = 165 minutes." },
+  { topic: "🕰️ Time", q: "A movie starts at 3:15 PM and lasts 1 hour and 50 minutes. When does it end?", choices: ["4:55 PM", "5:05 PM", "5:00 PM", "4:50 PM"], answer: 1, hint: "3:15 + 1 hour = 4:15. Then add 50 more minutes to 4:15...", explain: "3:15 PM + 1 hour = 4:15 PM. 4:15 + 50 min = 5:05 PM." },
+  { topic: "🕰️ Time", q: "How many seconds are in one hour?", choices: ["360 sec", "600 sec", "3600 sec", "36000 sec"], answer: 2, hint: "1 hour = 60 minutes. 1 minute = 60 seconds. Multiply them together!", explain: "60 minutes × 60 seconds = 3,600 seconds in one hour." },
+
+  // === NUMBER PATTERNS & SEQUENCE ===
+  { topic: "🔢 Number Patterns", q: "What is the next number in the pattern: 3, 6, 12, 24, ___?", choices: ["36", "48", "42", "30"], answer: 1, hint: "Look carefully — each number is being multiplied by 2! So 24 × 2 = ?", explain: "The pattern multiplies by 2 each time: 3→6→12→24→48." },
+  { topic: "🔢 Number Patterns", q: "Find the missing number: 5, 10, 15, ___, 25", choices: ["18", "20", "22", "21"], answer: 1, hint: "What's the rule? Each number increases by the same amount!", explain: "The pattern adds 5 each time: 5, 10, 15, 20, 25." },
+  { topic: "🔢 Number Patterns", q: "What pattern does this follow: 1, 4, 9, 16, 25?", choices: ["Add 3 each time", "Multiply by 4", "Perfect squares", "Add consecutive odd numbers"], answer: 2, hint: "1=1², 4=2², 9=3²... These are special numbers in math!", explain: "These are perfect squares: 1², 2², 3², 4², 5². Each is a number multiplied by itself." },
+
+  // === SOLVING EQUATIONS ===
+  { topic: "⚖️ Equations", q: "Solve for n: n + 15 = 30", choices: ["n = 15", "n = 45", "n = 10", "n = 20"], answer: 0, hint: "To find n, do the opposite of adding 15. Subtract 15 from both sides!", explain: "n + 15 = 30 → n = 30 − 15 → n = 15." },
+  { topic: "⚖️ Equations", q: "Solve for x: 4x = 28", choices: ["x = 7", "x = 8", "x = 6", "x = 24"], answer: 0, hint: "4 times what number equals 28? Divide 28 by 4!", explain: "4x = 28 → x = 28 ÷ 4 → x = 7." },
+  { topic: "⚖️ Equations", q: "If y − 9 = 11, what is y?", choices: ["2", "22", "20", "18"], answer: 2, hint: "y minus 9 = 11. Do the opposite — ADD 9 to both sides!", explain: "y − 9 = 11 → y = 11 + 9 → y = 20." },
+
+  // === LINE GRAPHS ===
+  { topic: "📈 Line Graphs", q: "A line graph is BEST used to show:", choices: ["Favorite colors of students", "Changes in temperature over a week", "Parts of a whole", "Comparison of fruit sizes"], answer: 1, hint: "Line graphs are great for showing CHANGE over TIME — like how something grows or shrinks!", explain: "Line graphs are ideal for showing data that changes over time, like temperature across days." },
+  { topic: "📈 Line Graphs", q: "On a line graph, the horizontal axis (x-axis) usually represents:", choices: ["Data values", "Titles", "Time or categories", "The average"], answer: 2, hint: "Think of time going from left to right — like a timeline!", explain: "The horizontal (x-axis) typically shows time or categories. The vertical (y-axis) shows data values." },
+
+  // === PROBABILITY ===
+  { topic: "🎲 Probability", q: "If you toss a fair coin, what is the probability of getting HEADS?", choices: ["1/4", "1/3", "1/2", "2/3"], answer: 2, hint: "A coin has 2 sides: heads and tails. What fraction is just the heads?", explain: "There is 1 favorable outcome (heads) out of 2 total outcomes. P(heads) = 1/2." },
+  { topic: "🎲 Probability", q: "A bag has 3 red marbles and 7 blue marbles. What is the probability of picking a RED marble?", choices: ["3/10", "7/10", "3/7", "1/3"], answer: 0, hint: "Total marbles = 3 + 7 = 10. Red marbles = 3. Probability = red/total!", explain: "P(red) = 3 red ÷ 10 total = 3/10." },
+  { topic: "🎲 Probability", q: "Which word describes an event that is CERTAIN to happen?", choices: ["Impossible", "Unlikely", "Likely", "Certain"], answer: 3, hint: "If something WILL definitely happen no matter what, what word describes that?", explain: "An event with probability = 1 (or 100%) is described as 'certain' — it always happens." },
+];
+
+let currentMode = 'reviewer';
+let currentIndex = 0;
+let userAnswers = [];
+let submitted = [];
+let timerInterval = null;
+let timeLeft = 1800; // 30 min
+
+function startQuiz(mode) {
+  currentMode = mode;
+  currentIndex = 0;
+  userAnswers = new Array(ALL_QUESTIONS.length).fill(null);
+  submitted = new Array(ALL_QUESTIONS.length).fill(false);
+
+  document.getElementById('startScreen').style.display = 'none';
+  document.getElementById('quizArea').classList.add('show');
+  document.getElementById('scoreScreen').classList.remove('show');
+
+  if (mode === 'exam') {
+    timeLeft = 1800;
+    const tb = document.getElementById('timerBox');
+    tb.classList.add('show');
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      updateTimerDisplay();
+      if (timeLeft <= 60) document.getElementById('timerBox').classList.add('urgent');
+      if (timeLeft <= 0) { clearInterval(timerInterval); submitAll(); }
+    }, 1000);
+  } else {
+    document.getElementById('timerBox').classList.remove('show');
+  }
+
+  renderQuestion();
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(timeLeft / 60).toString().padStart(2,'0');
+  const s = (timeLeft % 60).toString().padStart(2,'0');
+  document.getElementById('timerDisplay').textContent = `${m}:${s}`;
+}
+
+function renderQuestion() {
+  const q = ALL_QUESTIONS[currentIndex];
+  const total = ALL_QUESTIONS.length;
+
+  document.getElementById('topicBadge').textContent = q.topic;
+  document.getElementById('questionNumber').textContent = `Question ${currentIndex + 1}`;
+  document.getElementById('questionText').textContent = q.q;
+
+  const pct = ((currentIndex + 1) / total) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = `Question ${currentIndex+1} of ${total}`;
+
+  // Choices
+  const ca = document.getElementById('choicesArea');
+  ca.innerHTML = '';
+  const labels = ['A', 'B', 'C', 'D'];
+  q.choices.forEach((ch, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.innerHTML = `<strong>${labels[i]}.</strong> ${ch}`;
+    btn.onclick = () => selectAnswer(i);
+    ca.appendChild(btn);
+  });
+
+  // Hint area (reviewer only)
+  const ha = document.getElementById('hintArea');
+  ha.innerHTML = '';
+  if (currentMode === 'reviewer') {
+    ha.innerHTML = `<button class="hint-btn" onclick="toggleHint(this)">💡 Show Hint</button>
+    <div class="hint-text">${q.hint}</div>`;
+  }
+
+  // Feedback
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback';
+  fb.textContent = '';
+
+  // Restore state
+  if (submitted[currentIndex]) {
+    restoreAnswerState();
+  } else if (userAnswers[currentIndex] !== null && currentMode === 'exam') {
+    // highlight selected but not submitted
+    const btns = ca.querySelectorAll('.choice-btn');
+    btns[userAnswers[currentIndex]].style.background = '#E3F2FD';
+  }
+
+  // Nav buttons
+  document.getElementById('prevBtn').style.display = currentIndex === 0 ? 'none' : '';
+  const isLast = currentIndex === total - 1;
+  document.getElementById('nextBtn').style.display = isLast ? 'none' : '';
+  document.getElementById('submitBtn').style.display = (isLast && currentMode === 'exam') ? '' : 'none';
+
+  // Animate card
+  const card = document.getElementById('questionCard');
+  card.style.animation = 'none';
+  card.offsetHeight;
+  card.style.animation = 'cardPop 0.4s cubic-bezier(.36,1.56,.64,1)';
+}
+
+function toggleHint(btn) {
+  const ht = btn.nextElementSibling;
+  if (ht.classList.contains('show')) {
+    ht.classList.remove('show');
+    btn.textContent = '💡 Show Hint';
+  } else {
+    ht.classList.add('show');
+    btn.textContent = '🙈 Hide Hint';
+  }
+}
+
+function selectAnswer(i) {
+  if (submitted[currentIndex]) return;
+  if (currentMode === 'exam') {
+    // Just store, no reveal
+    userAnswers[currentIndex] = i;
+    const btns = document.querySelectorAll('.choice-btn');
+    btns.forEach(b => b.style.background = '');
+    btns[i].style.background = '#E3F2FD';
+    btns[i].style.borderColor = '#1976D2';
+
+    // Auto advance if not last
+    if (currentIndex < ALL_QUESTIONS.length - 1) {
+      setTimeout(() => navigate(1), 300);
+    }
+    return;
+  }
+
+  // Reviewer mode — immediate feedback
+  submitted[currentIndex] = true;
+  userAnswers[currentIndex] = i;
+  const q = ALL_QUESTIONS[currentIndex];
+  const btns = document.querySelectorAll('.choice-btn');
+  btns.forEach(b => b.disabled = true);
+
+  if (i === q.answer) {
+    btns[i].classList.add('correct');
+    showFeedback(true, q.explain);
+  } else {
+    btns[i].classList.add('wrong');
+    btns[q.answer].classList.add('revealed');
+    showFeedback(false, q.explain);
+  }
+
+  // Auto next after 2.5s if not last
+  if (currentIndex < ALL_QUESTIONS.length - 1) {
+    setTimeout(() => navigate(1), 2600);
+  }
+}
+
+function showFeedback(correct, explain) {
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback ' + (correct ? 'correct-fb' : 'wrong-fb') + ' show';
+  fb.innerHTML = (correct ? '🎉 Correct! ' : '❌ Not quite! ') + explain;
+}
+
+function restoreAnswerState() {
+  const q = ALL_QUESTIONS[currentIndex];
+  const btns = document.querySelectorAll('.choice-btn');
+  btns.forEach(b => b.disabled = true);
+  const ua = userAnswers[currentIndex];
+
+  if (currentMode === 'reviewer') {
+    if (ua !== null) {
+      if (ua === q.answer) { btns[ua].classList.add('correct'); }
+      else { btns[ua].classList.add('wrong'); btns[q.answer].classList.add('revealed'); }
+    }
+    showFeedback(ua === q.answer, q.explain);
+  } else {
+    if (ua !== null) {
+      const isCorrect = ua === q.answer;
+      btns[ua].classList.add(isCorrect ? 'correct' : 'wrong');
+      if (!isCorrect) btns[q.answer].classList.add('revealed');
+      showFeedback(isCorrect, q.explain);
+    }
+  }
+}
+
+function navigate(dir) {
+  currentIndex += dir;
+  if (currentIndex < 0) currentIndex = 0;
+  if (currentIndex >= ALL_QUESTIONS.length) currentIndex = ALL_QUESTIONS.length - 1;
+  renderQuestion();
+}
+
+function submitAll() {
+  if (timerInterval) clearInterval(timerInterval);
+
+  // Mark all as submitted
+  for (let i = 0; i < ALL_QUESTIONS.length; i++) {
+    submitted[i] = true;
+  }
+
+  // Calculate score
+  let score = 0;
+  const topicScores = {};
+  ALL_QUESTIONS.forEach((q, i) => {
+    if (!topicScores[q.topic]) topicScores[q.topic] = { correct: 0, total: 0 };
+    topicScores[q.topic].total++;
+    if (userAnswers[i] === q.answer) { score++; topicScores[q.topic].correct++; }
+  });
+
+  document.getElementById('quizArea').classList.remove('show');
+  const ss = document.getElementById('scoreScreen');
+  ss.classList.add('show');
+
+  const pct = Math.round((score / ALL_QUESTIONS.length) * 100);
+  document.getElementById('scoreNumber').textContent = `${score} / ${ALL_QUESTIONS.length}`;
+
+  let emoji, title, msg;
+  if (pct >= 90) { emoji='🏆'; title='Outstanding!'; msg='Amazing work, Yumi! You really know your math! 🌟'; }
+  else if (pct >= 75) { emoji='🎉'; title='Great Job!'; msg='You did really well! A little more review and you\'ll be unstoppable! 💪'; }
+  else if (pct >= 60) { emoji='😊'; title='Good Effort!'; msg='You\'re getting there! Review the topics you missed and try again! 📚'; }
+  else { emoji='💪'; title='Keep Practicing!'; msg='Don\'t give up! Every mistake helps you learn. You\'ve got this! 🌈'; }
+
+  document.getElementById('scoreEmoji').textContent = emoji;
+  document.getElementById('scoreTitle').textContent = title;
+  document.getElementById('scoreMessage').innerHTML = `${msg}<br><br><strong>${pct}% — ${score} out of ${ALL_QUESTIONS.length} correct</strong>`;
+
+  // Topic breakdown
+  const tb = document.getElementById('topicBreakdown');
+  tb.innerHTML = '<h3>📊 Topic Breakdown:</h3>';
+  Object.entries(topicScores).forEach(([topic, s]) => {
+    const tpct = Math.round((s.correct / s.total) * 100);
+    tb.innerHTML += `
+      <div class="topic-row">
+        <span class="t-label">${topic}</span>
+        <div class="mini-bar-wrap"><div class="mini-bar" style="width:${tpct}%"></div></div>
+        <span class="t-score">${s.correct}/${s.total}</span>
+      </div>`;
+  });
+}
+
+function restartQuiz() {
+  document.getElementById('scoreScreen').classList.remove('show');
+  startQuiz(currentMode);
+}
+
+function switchMode() {
+  document.getElementById('scoreScreen').classList.remove('show');
+  document.getElementById('startScreen').style.display = '';
+  document.getElementById('quizArea').classList.remove('show');
+  if (timerInterval) clearInterval(timerInterval);
+}
+
+// Start showing the start screen
+document.getElementById('quizArea').classList.remove('show');
+</script>
+</body>
+</html>

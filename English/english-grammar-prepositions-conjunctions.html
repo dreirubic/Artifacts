@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Grammar – Prepositions & Conjunctions</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose:   #F06292;
+    --amber:  #FFB300;
+    --teal:   #26C6DA;
+    --mint:   #66BB6A;
+    --indigo: #3949AB;
+    --cream:  #FFF8F0;
+    --dark:   #1C1C2E;
+    --shadow: 0 8px 28px rgba(0,0,0,0.13);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Quicksand', sans-serif;
+    background: #FFF0F5;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated pastel background blobs */
+  .blob {
+    position: fixed; border-radius: 50%; filter: blur(60px);
+    opacity: 0.18; pointer-events: none; z-index: 0;
+    animation: drift 12s ease-in-out infinite alternate;
+  }
+  .blob1 { width:400px;height:400px;background:var(--rose);top:-120px;left:-100px; }
+  .blob2 { width:300px;height:300px;background:var(--teal);bottom:-80px;right:-80px;animation-delay:4s; }
+  .blob3 { width:200px;height:200px;background:var(--amber);top:50%;left:60%;animation-delay:8s; }
+  @keyframes drift { from{transform:translate(0,0) scale(1)} to{transform:translate(30px,20px) scale(1.08)} }
+
+  /* ===== HEADER ===== */
+  header {
+    background: var(--indigo);
+    color: white;
+    text-align: center;
+    padding: 30px 20px 22px;
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 6px 24px rgba(57,73,171,0.4);
+    overflow: hidden;
+  }
+  header::before {
+    content:'';
+    position:absolute; inset:0;
+    background: repeating-linear-gradient(45deg,rgba(255,255,255,0.03) 0px,rgba(255,255,255,0.03) 2px,transparent 2px,transparent 12px);
+  }
+  .header-badge {
+    display: inline-block;
+    background: var(--amber);
+    color: var(--dark);
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 16px;
+    border-radius: 50px;
+    margin-bottom: 10px;
+  }
+  header h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(1.5rem, 5vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: white;
+    text-shadow: 2px 3px 0 rgba(0,0,0,0.25);
+  }
+  header p { font-size: 0.95rem; opacity: 0.8; margin-top: 6px; }
+
+  /* ===== TABS ===== */
+  nav {
+    display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
+    padding: 20px 16px 10px; position: relative; z-index: 10;
+  }
+  .tab-btn {
+    font-family: 'Baloo 2', cursive; font-weight: 700; font-size: 1rem;
+    padding: 11px 24px; border: none; border-radius: 50px; cursor: pointer;
+    transition: all 0.22s ease; box-shadow: 0 4px 14px rgba(0,0,0,0.14);
+    letter-spacing: 0.3px;
+  }
+  .tab-btn[data-tab="reviewer"] { background: #FCE4EC; color: var(--rose); }
+  .tab-btn[data-tab="practice"] { background: #E0F7FA; color: #00838F; }
+  .tab-btn[data-tab="exam"]     { background: #FFF3E0; color: #E65100; }
+  .tab-btn.active, .tab-btn:hover { transform: translateY(-3px) scale(1.06); box-shadow: 0 8px 22px rgba(0,0,0,0.18); }
+  .tab-btn.active { outline: 3px solid var(--indigo); }
+
+  /* ===== SECTIONS ===== */
+  .section { display:none; padding:12px 16px 50px; position:relative; z-index:10; max-width:880px; margin:0 auto; }
+  .section.active { display:block; }
+
+  .section-intro {
+    text-align:center; font-size:1rem; color:#555; margin-bottom:20px;
+    background:white; border-radius:18px; padding:16px 20px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.07);
+  }
+
+  /* ===== REVIEWER ===== */
+  .lesson-card {
+    background: white; border-radius: 26px; padding: 30px;
+    margin-bottom: 26px; box-shadow: var(--shadow);
+    border-top: 7px solid; animation: rise 0.4s ease both;
+  }
+  .lesson-card:nth-child(1) { border-color: var(--rose); animation-delay: 0.05s; }
+  .lesson-card:nth-child(2) { border-color: var(--teal); animation-delay: 0.15s; }
+  .lesson-card:nth-child(3) { border-color: var(--mint); animation-delay: 0.25s; }
+  @keyframes rise { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:none} }
+
+  .lesson-tag {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; opacity: 0.4; margin-bottom: 4px;
+  }
+  .lesson-title {
+    font-family: 'Baloo 2', cursive; font-size: 1.55rem;
+    font-weight: 800; color: var(--indigo); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .lesson-title .icon { font-size: 1.9rem; }
+
+  .definition-box {
+    background: linear-gradient(135deg, #EDE7F6, #D1C4E9);
+    border-radius: 16px; padding: 16px 20px; margin-bottom: 18px;
+    font-size: 1rem; color: #311B92; font-weight: 600;
+    border-left: 5px solid #7E57C2;
+  }
+
+  /* Prep table */
+  .prep-table { width:100%; border-collapse: collapse; font-size:0.95rem; margin-top:10px; border-radius:16px; overflow:hidden; }
+  .prep-table th { background: var(--indigo); color:white; padding:10px 14px; text-align:left; font-family:'Baloo 2',cursive; font-size:1rem; }
+  .prep-table td { padding:10px 14px; border-bottom:1px solid #F0F0F0; }
+  .prep-table tr:nth-child(even) td { background:#F8F0FF; }
+  .prep-table tr:last-child td { border-bottom:none; }
+  .prep-table .prep-word { font-family:'Baloo 2',cursive; font-weight:700; color:var(--rose); font-size:1.05rem; }
+
+  /* Example sentences */
+  .examples-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; margin-top:14px; }
+  .example-chip {
+    background: var(--cream); border-radius:16px; padding:14px 16px;
+    font-size:0.93rem; border:2px solid #FFE0E9; transition:all 0.2s;
+  }
+  .example-chip:hover { border-color:var(--rose); transform:scale(1.02); }
+  .example-chip em { color:var(--rose); font-style:normal; font-weight:700; }
+
+  /* Conjunction cards */
+  .conj-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:14px; margin-top:14px; }
+  .conj-card {
+    border-radius:20px; padding:18px 16px; text-align:center;
+    box-shadow:0 4px 14px rgba(0,0,0,0.09); transition:all 0.2s; cursor:default;
+  }
+  .conj-card:hover { transform:translateY(-4px); box-shadow:0 10px 24px rgba(0,0,0,0.14); }
+  .conj-card.and { background:linear-gradient(135deg,#E8F5E9,#C8E6C9); border-bottom:4px solid #66BB6A; }
+  .conj-card.or  { background:linear-gradient(135deg,#E3F2FD,#BBDEFB); border-bottom:4px solid #42A5F5; }
+  .conj-card.but { background:linear-gradient(135deg,#FFF3E0,#FFE0B2); border-bottom:4px solid #FFA726; }
+  .conj-card.so  { background:linear-gradient(135deg,#FCE4EC,#F8BBD0); border-bottom:4px solid #EC407A; }
+  .conj-word { font-family:'Baloo 2',cursive; font-size:1.8rem; font-weight:800; color:var(--indigo); }
+  .conj-use  { font-size:0.82rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; opacity:0.55; margin:4px 0 8px; }
+  .conj-example { font-size:0.88rem; line-height:1.4; color:#333; }
+
+  .tip-box {
+    background:linear-gradient(135deg,#FFFDE7,#FFF9C4);
+    border-radius:16px; padding:14px 18px; margin-top:16px;
+    font-size:0.95rem; border-left:5px solid var(--amber);
+    color:#5D4037;
+  }
+  .tip-box strong { color:#E65100; }
+
+  /* ===== QUIZ SHARED ===== */
+  .quiz-header {
+    text-align:center; margin-bottom:22px; padding:22px 20px;
+    background:white; border-radius:22px; box-shadow:var(--shadow);
+  }
+  .quiz-header h2 { font-family:'Baloo 2',cursive; font-size:1.9rem; color:var(--indigo); font-weight:800; }
+  .quiz-header p  { font-size:0.95rem; color:#666; margin-top:6px; }
+
+  .pbar-wrap { background:#E8EAF6; border-radius:20px; height:13px; margin:14px 0 4px; overflow:hidden; }
+  .pbar { height:100%; border-radius:20px; background:linear-gradient(90deg,var(--rose),var(--teal)); transition:width 0.4s; }
+  .pbar-text { font-size:0.82rem; color:#888; text-align:right; }
+
+  .q-card {
+    background:white; border-radius:24px; padding:28px;
+    margin-bottom:20px; box-shadow:var(--shadow); animation:rise 0.3s ease both;
+  }
+  .q-num   { font-size:0.75rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#aaa; margin-bottom:6px; }
+  .q-emoji { font-size:2.2rem; display:block; margin-bottom:8px; }
+  .q-text  { font-size:1.12rem; font-weight:700; color:var(--indigo); margin-bottom:18px; line-height:1.55; }
+  .q-text .blank { display:inline-block; min-width:70px; border-bottom:3px solid var(--rose); text-align:center; color:var(--rose); }
+
+  .choices { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  @media(max-width:480px){ .choices{grid-template-columns:1fr} }
+
+  .cbtn {
+    font-family:'Quicksand',sans-serif; font-weight:700; font-size:0.97rem;
+    padding:13px 15px; border:3px solid #E8EAF6; border-radius:16px;
+    background:#F8F9FF; cursor:pointer; transition:all 0.2s ease;
+    text-align:left; line-height:1.35; display:flex; align-items:center; gap:10px;
+  }
+  .cbtn:hover:not(:disabled) { border-color:var(--teal); background:#E0F7FA; transform:scale(1.02); }
+  .cbtn.correct { background:#E8F5E9; border-color:var(--mint); color:#1B5E20; }
+  .cbtn.wrong   { background:#FFEBEE; border-color:var(--rose); color:#B71C1C; }
+  .cbtn:disabled { cursor:default; }
+  .cletter {
+    width:30px;height:30px;border-radius:50%;background:var(--indigo);color:white;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Baloo 2',cursive;font-size:0.88rem;flex-shrink:0;
+  }
+  .cbtn.correct .cletter { background:var(--mint); }
+  .cbtn.wrong   .cletter { background:var(--rose); }
+
+  .fb-msg { display:none; margin-top:13px; padding:12px 16px; border-radius:14px; font-size:0.97rem; font-weight:700; animation:pop 0.28s ease; }
+  .fb-msg.show { display:flex; align-items:center; gap:8px; }
+  .fb-msg.correct-fb { background:#E8F5E9; color:#1B5E20; border:2px solid var(--mint); }
+  .fb-msg.wrong-fb   { background:#FFEBEE; color:#B71C1C; border:2px solid var(--rose); }
+  @keyframes pop { from{transform:scale(0.8);opacity:0} to{transform:scale(1);opacity:1} }
+
+  /* ===== RESULT PANEL ===== */
+  .result-panel { display:none; text-align:center; background:white; border-radius:30px; padding:44px 30px; box-shadow:var(--shadow); animation:rise 0.4s ease; }
+  .result-panel.show { display:block; }
+  .result-emoji { font-size:5rem; margin-bottom:10px; }
+  .result-panel h2 { font-family:'Baloo 2',cursive; font-size:2.1rem; color:var(--indigo); font-weight:800; }
+  .score-num { font-family:'Baloo 2',cursive; font-size:3.6rem; margin:14px 0; }
+  .sbar-wrap { background:#E8EAF6; border-radius:20px; height:18px; margin:10px auto 6px; max-width:300px; overflow:hidden; }
+  .sbar { height:100%; border-radius:20px; transition:width 1s ease; }
+  .result-msg { font-size:1.05rem; color:#555; margin:10px 0 24px; }
+  .retry-btn {
+    font-family:'Baloo 2',cursive; font-weight:700; font-size:1.05rem;
+    padding:13px 34px; border:none; border-radius:50px; cursor:pointer;
+    transition:all 0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.14); margin:6px;
+  }
+  .retry-btn:hover { transform:translateY(-3px) scale(1.04); }
+  .retry-btn.rose   { background:var(--rose); color:white; }
+  .retry-btn.indigo { background:var(--indigo); color:white; }
+
+  .ans-review { text-align:left; margin-top:24px; }
+  .ans-item {
+    background:#F8F9FF; border-radius:16px; padding:13px 16px;
+    margin-bottom:9px; border-left:5px solid; font-size:0.93rem;
+  }
+  .ans-item.c { border-color:var(--mint); }
+  .ans-item.w { border-color:var(--rose); }
+  .ans-item strong { color:var(--indigo); }
+
+  .submit-row { text-align:center; margin-top:22px; }
+  .submit-btn {
+    font-family:'Baloo 2',cursive; font-weight:800; font-size:1.2rem;
+    padding:16px 52px; border:none; border-radius:50px;
+    background:linear-gradient(135deg,var(--rose),#E91E63);
+    color:white; cursor:pointer; box-shadow:0 6px 20px rgba(240,98,146,0.4);
+    transition:all 0.2s;
+  }
+  .submit-btn:hover { transform:translateY(-3px) scale(1.04); }
+
+  .grade-badge {
+    display:inline-block; font-family:'Baloo 2',cursive; font-size:1.3rem;
+    background:var(--amber); color:var(--dark); border-radius:14px;
+    padding:4px 18px; margin:4px; font-weight:800;
+  }
+</style>
+</head>
+<body>
+
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+
+<header>
+  <div class="header-badge">✏️ Grade 2 English</div>
+  <h1>📝 Prepositions & Conjunctions</h1>
+  <p>Quarter Reviewer · S.Y. 2025–2026</p>
+</header>
+
+<nav>
+  <button class="tab-btn active" data-tab="reviewer">📖 Reviewer</button>
+  <button class="tab-btn" data-tab="practice">🎯 Practice Quiz</button>
+  <button class="tab-btn" data-tab="exam">🏆 Exam</button>
+</nav>
+
+<!-- ========== REVIEWER ========== -->
+<section id="reviewer" class="section active">
+  <div class="section-intro">📖 Read and study each lesson carefully before taking the quiz! 🌟</div>
+
+  <!-- LESSON 1: Prepositions of Place -->
+  <div class="lesson-card">
+    <div class="lesson-tag">Lesson 1</div>
+    <div class="lesson-title"><span class="icon">📍</span> Prepositions of Place</div>
+    <div class="definition-box">
+      A <strong>preposition of place</strong> tells us <em>WHERE</em> something or someone is. It gives us the location! 📌
+    </div>
+    <table class="prep-table">
+      <thead><tr><th>Preposition</th><th>Meaning</th><th>Example Sentence</th></tr></thead>
+      <tbody>
+        <tr><td class="prep-word">in</td><td>inside something</td><td>The cat is <strong>in</strong> the box.</td></tr>
+        <tr><td class="prep-word">on</td><td>on top of a surface</td><td>The book is <strong>on</strong> the table.</td></tr>
+        <tr><td class="prep-word">under</td><td>below something</td><td>The dog is <strong>under</strong> the chair.</td></tr>
+        <tr><td class="prep-word">behind</td><td>at the back of</td><td>The ball is <strong>behind</strong> the door.</td></tr>
+        <tr><td class="prep-word">in front of</td><td>at the front of</td><td>She stands <strong>in front of</strong> the class.</td></tr>
+        <tr><td class="prep-word">beside / next to</td><td>at the side of</td><td>He sits <strong>beside</strong> his friend.</td></tr>
+        <tr><td class="prep-word">between</td><td>in the middle of two things</td><td>The park is <strong>between</strong> two buildings.</td></tr>
+        <tr><td class="prep-word">above</td><td>higher than something</td><td>The bird flies <strong>above</strong> the tree.</td></tr>
+      </tbody>
+    </table>
+    <div class="tip-box"><strong>⭐ Tip:</strong> Ask yourself — "WHERE is it?" — and use a preposition of place to answer! 📍</div>
+  </div>
+
+  <!-- LESSON 2: Prepositions of Time -->
+  <div class="lesson-card">
+    <div class="lesson-tag">Lesson 2</div>
+    <div class="lesson-title"><span class="icon">⏰</span> Prepositions of Time</div>
+    <div class="definition-box">
+      A <strong>preposition of time</strong> tells us <em>WHEN</em> something happens. It gives us the time! 🕐
+    </div>
+    <table class="prep-table">
+      <thead><tr><th>Preposition</th><th>Used for…</th><th>Example Sentence</th></tr></thead>
+      <tbody>
+        <tr><td class="prep-word">at</td><td>specific time (hours)</td><td>School starts <strong>at</strong> 7:30 AM.</td></tr>
+        <tr><td class="prep-word">in</td><td>months, years, seasons, parts of day</td><td>We play <strong>in</strong> the afternoon.</td></tr>
+        <tr><td class="prep-word">on</td><td>specific days and dates</td><td>We go to church <strong>on</strong> Sunday.</td></tr>
+        <tr><td class="prep-word">before</td><td>earlier than</td><td>Brush your teeth <strong>before</strong> sleeping.</td></tr>
+        <tr><td class="prep-word">after</td><td>later than</td><td>We eat dessert <strong>after</strong> dinner.</td></tr>
+        <tr><td class="prep-word">during</td><td>while something is happening</td><td>I napped <strong>during</strong> the vacation.</td></tr>
+      </tbody>
+    </table>
+    <div class="tip-box">
+      <strong>⭐ Easy Rule:</strong><br>
+      Use <strong>AT</strong> for time (at 3 PM) · Use <strong>ON</strong> for days (on Monday) · Use <strong>IN</strong> for months/seasons (in December, in summer) 🕐
+    </div>
+  </div>
+
+  <!-- LESSON 3: Coordinating Conjunctions -->
+  <div class="lesson-card">
+    <div class="lesson-tag">Lesson 3</div>
+    <div class="lesson-title"><span class="icon">🔗</span> Coordinating Conjunctions</div>
+    <div class="definition-box">
+      A <strong>conjunction</strong> is a word that <em>connects</em> two ideas, words, or sentences together. Think of it as a bridge! 🌉
+    </div>
+    <div class="conj-grid">
+      <div class="conj-card and">
+        <div class="conj-word">AND</div>
+        <div class="conj-use">adds ideas together</div>
+        <div class="conj-example">I like cats <strong>and</strong> dogs.<br>She reads <strong>and</strong> draws.</div>
+      </div>
+      <div class="conj-card or">
+        <div class="conj-word">OR</div>
+        <div class="conj-use">shows a choice</div>
+        <div class="conj-example">Do you want juice <strong>or</strong> water?<br>We can walk <strong>or</strong> ride a bike.</div>
+      </div>
+      <div class="conj-card but">
+        <div class="conj-word">BUT</div>
+        <div class="conj-use">shows a difference</div>
+        <div class="conj-example">I like apples <strong>but</strong> not oranges.<br>She is tall <strong>but</strong> he is short.</div>
+      </div>
+      <div class="conj-card so">
+        <div class="conj-word">SO</div>
+        <div class="conj-use">shows a result</div>
+        <div class="conj-example">It was raining, <strong>so</strong> I used an umbrella.<br>She was tired, <strong>so</strong> she slept early.</div>
+      </div>
+    </div>
+    <div class="tip-box">
+      <strong>⭐ Memory Trick:</strong> Think of <strong>BOAS</strong> — <strong>B</strong>ut, <strong>O</strong>r, <strong>A</strong>nd, <strong>S</strong>o!<br>
+      AND = adds · OR = choice · BUT = difference · SO = result 🔗
+    </div>
+  </div>
+</section>
+
+<!-- ========== PRACTICE QUIZ ========== -->
+<section id="practice" class="section">
+  <div class="quiz-header">
+    <h2>🎯 Practice Quiz</h2>
+    <p>Choose the best answer for each question. You'll get feedback right away! 💪</p>
+  </div>
+  <div id="pq-area"></div>
+  <div id="pq-result" class="result-panel"></div>
+</section>
+
+<!-- ========== EXAM ========== -->
+<section id="exam" class="section">
+  <div class="quiz-header">
+    <h2>🏆 Exam</h2>
+    <p>Answer all questions, then click <strong>Submit</strong> to see your score!</p>
+  </div>
+  <div id="eq-area"></div>
+  <div id="eq-result" class="result-panel"></div>
+</section>
+
+<script>
+// ===== TAB SWITCHING =====
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ===== QUESTION DATA =====
+const practiceQs = [
+  // Prepositions of Place
+  { topic:'📍 Prepositions of Place', emoji:'🐱', text:'The cat is sleeping ___ the bed.', blank:true, choices:['under','during','on Sunday','before'], answer:0, exp:'UNDER means below something. The cat is below the bed! 🛏️' },
+  { topic:'📍 Prepositions of Place', emoji:'📚', text:'The pencil is ___ the table.', blank:true, choices:['at 6 o\'clock','on','in March','after'], answer:1, exp:'ON is used when something is on top of a surface! ✏️' },
+  { topic:'📍 Prepositions of Place', emoji:'🏫', text:'The teacher is standing ___ the class.', blank:true, choices:['in front of','during','but','so'], answer:0, exp:'IN FRONT OF means at the front of something! 🧑‍🏫' },
+  { topic:'📍 Prepositions of Place', emoji:'🎒', text:'My bag is ___ the chair and the desk.', blank:true, choices:['above','between','at','on'], answer:1, exp:'BETWEEN means in the middle of two things! 🎒' },
+  { topic:'📍 Prepositions of Place', emoji:'🐦', text:'The bird is flying ___ the tree.', blank:true, choices:['under','in','above','and'], answer:2, exp:'ABOVE means higher than something. The bird is higher than the tree! 🌳' },
+  { topic:'📍 Prepositions of Place', emoji:'🐶', text:'The dog is hiding ___ the sofa.', blank:true, choices:['after','behind','or','at'], answer:1, exp:'BEHIND means at the back of something! 🐕' },
+
+  // Prepositions of Time
+  { topic:'⏰ Prepositions of Time', emoji:'☀️', text:'We eat breakfast ___ the morning.', blank:true, choices:['on','in','at','behind'], answer:1, exp:'Use IN for parts of the day — in the morning, in the afternoon! ☀️' },
+  { topic:'⏰ Prepositions of Time', emoji:'🎉', text:'My birthday party is ___ Saturday.', blank:true, choices:['in','at','on','under'], answer:2, exp:'Use ON for specific days — on Saturday, on Monday! 🎂' },
+  { topic:'⏰ Prepositions of Time', emoji:'⏰', text:'School starts ___ 7:30 in the morning.', blank:true, choices:['on','before','at','in'], answer:2, exp:'Use AT for specific times — at 7:30, at noon! ⏰' },
+  { topic:'⏰ Prepositions of Time', emoji:'🌙', text:'We pray ___ eating dinner.', blank:true, choices:['before','above','and','in'], answer:0, exp:'BEFORE means earlier than — we pray before eating! 🙏' },
+  { topic:'⏰ Prepositions of Time', emoji:'🍦', text:'We had ice cream ___ the movie.', blank:true, choices:['on','after','in front of','or'], answer:1, exp:'AFTER means later than — ice cream came after the movie! 🎬' },
+  { topic:'⏰ Prepositions of Time', emoji:'🌸', text:'Flowers bloom ___ spring.', blank:true, choices:['at','on','in','behind'], answer:2, exp:'Use IN for seasons — in spring, in summer! 🌷' },
+
+  // Conjunctions
+  { topic:'🔗 Conjunctions', emoji:'🍎', text:'I like apples ___ oranges.', blank:true, choices:['but','and','so','under'], answer:1, exp:'AND adds two ideas together — apples AND oranges! 🍊' },
+  { topic:'🔗 Conjunctions', emoji:'🌧️', text:'It was raining, ___ I stayed inside.', blank:true, choices:['or','but','so','in'], answer:2, exp:'SO shows a result — it rained, SO I stayed inside! ☂️' },
+  { topic:'🔗 Conjunctions', emoji:'🎨', text:'She loves to paint, ___ she is not good at drawing.', blank:true, choices:['and','or','but','at'], answer:2, exp:'BUT shows a difference or contrast! 🖌️' },
+  { topic:'🔗 Conjunctions', emoji:'🍕', text:'Do you want pizza ___ pasta for dinner?', blank:true, choices:['and','but','so','or'], answer:3, exp:'OR shows a choice — pizza OR pasta! 🍝' },
+  { topic:'🔗 Conjunctions', emoji:'📖', text:'Leo reads books ___ his sister watches videos.', blank:true, choices:['or','while','but','so'], answer:2, exp:'BUT connects two contrasting ideas! 📱' },
+  { topic:'🔗 Conjunctions', emoji:'🤒', text:'She was sick, ___ she did not go to school.', blank:true, choices:['but','or','and','so'], answer:3, exp:'SO shows a result — sick SO she stayed home! 🏠' },
+];
+
+const examQs = [
+  { emoji:'📦', text:'The toys are ___ the box.', choices:['in','at 3 PM','so','on Monday'], answer:0 },
+  { emoji:'🧸', text:'The teddy bear is ___ the bed.', choices:['during','before','on','so'], answer:2 },
+  { emoji:'🌳', text:'The swing is ___ the big tree.', choices:['but','beside','after','in March'], answer:1 },
+  { emoji:'🐟', text:'The fish are swimming ___ the bowl.', choices:['under','in','above','or'], answer:1 },
+  { emoji:'🚗', text:'The car is parked ___ the house.', choices:['at 7 AM','in front of','during','and'], answer:1 },
+  { emoji:'🕖', text:'We have PE class ___ 2 o\'clock.', choices:['on','in','at','between'], answer:2 },
+  { emoji:'🗓️', text:'We have no classes ___ Sunday.', choices:['in','at','on','above'], answer:2 },
+  { emoji:'❄️', text:'It is cold ___ December.', choices:['on','at','in','behind'], answer:2 },
+  { emoji:'🦷', text:'Always brush your teeth ___ sleeping.', choices:['during','before','in','and'], answer:1 },
+  { emoji:'🌮', text:'We ate tacos ___ the movie.', choices:['during','on','in front of','or'], answer:0 },
+  { emoji:'🍩', text:'I like donuts ___ cake.', choices:['so','or','between','in'], answer:1 },
+  { emoji:'📵', text:'I wanted to play, ___ it was already dark.', choices:['and','or','but','above'], answer:2 },
+  { emoji:'😴', text:'She was sleepy, ___ she went to bed early.', choices:['so','and','in','under'], answer:0 },
+  { emoji:'🎸', text:'He can sing ___ play the guitar.', choices:['but','or','so','and'], answer:3 },
+  { emoji:'🐕', text:'The puppy is hiding ___ the big rock.', choices:['at','in','behind','on'], answer:2 },
+  { emoji:'🌻', text:'The flowers are growing ___ the garden.', choices:['in','so','or','at'], answer:0 },
+  { emoji:'✏️', text:'Do you want to write in pencil ___ pen?', choices:['but','and','so','or'], answer:3 },
+  { emoji:'📅', text:'We have a field trip ___ March.', choices:['on','at','in','above'], answer:2 },
+  { emoji:'🎒', text:'My lunchbox is ___ my bag and my books.', choices:['above','between','during','but'], answer:1 },
+  { emoji:'🏃', text:'He was late, ___ he ran very fast.', choices:['but','or','so','in'], answer:2 },
+];
+
+// ===== BUILD PRACTICE =====
+(function() {
+  const area = document.getElementById('pq-area');
+  const result = document.getElementById('pq-result');
+  const total = practiceQs.length;
+  let answered = 0, score = 0;
+
+  // progress
+  area.innerHTML = `<div class="pbar-wrap"><div class="pbar" id="pb" style="width:0%"></div></div><div class="pbar-text" id="pt">0 / ${total} answered</div>`;
+
+  practiceQs.forEach((q, qi) => {
+    const card = document.createElement('div');
+    card.className = 'q-card'; card.id = `pc${qi}`;
+    const qDisplay = q.blank ? q.text.replace('___', '<span class="blank">___</span>') : q.text;
+    const opts = q.choices.map((c,ci)=>`<button class="cbtn" onclick="ansP(${qi},${ci})"><span class="cletter">${'ABCD'[ci]}</span>${c}</button>`).join('');
+    card.innerHTML = `<div class="q-num">Q${qi+1} of ${total} · ${q.topic}</div><span class="q-emoji">${q.emoji}</span><div class="q-text">${qDisplay}</div><div class="choices">${opts}</div><div class="fb-msg" id="pfb${qi}"></div>`;
+    area.appendChild(card);
+  });
+
+  window.ansP = function(qi, ci) {
+    const q = practiceQs[qi];
+    const card = document.getElementById(`pc${qi}`);
+    const btns = card.querySelectorAll('.cbtn');
+    const fb = document.getElementById(`pfb${qi}`);
+    if (btns[0].disabled) return;
+    btns.forEach(b => b.disabled = true);
+    if (ci === q.answer) {
+      btns[ci].classList.add('correct'); score++;
+      fb.className = 'fb-msg correct-fb show';
+      fb.innerHTML = `✅ Correct! ${q.exp}`;
+    } else {
+      btns[ci].classList.add('wrong'); btns[q.answer].classList.add('correct');
+      fb.className = 'fb-msg wrong-fb show';
+      fb.innerHTML = `❌ The answer is <strong>${q.choices[q.answer]}</strong>. ${q.exp}`;
+    }
+    answered++;
+    document.getElementById('pb').style.width = Math.round(answered/total*100)+'%';
+    document.getElementById('pt').textContent = `${answered} / ${total} answered`;
+    if (answered === total) setTimeout(() => showPRes(score, total), 600);
+  };
+
+  function showPRes(s, t) {
+    const pct = Math.round(s/t*100);
+    let emoji, msg, col;
+    if (pct>=90){emoji='🌟🌟🌟';msg='Amazing! You are a Grammar Star! ⭐';col='var(--mint)';}
+    else if(pct>=75){emoji='🌟🌟';msg='Great job! You really know your grammar!';col='var(--teal)';}
+    else if(pct>=50){emoji='🌟';msg='Good try! Review the lessons and keep going!';col='var(--amber)';}
+    else{emoji='📖';msg='Keep studying! Read the reviewer again — you can do it!';col='var(--rose)';}
+    result.innerHTML = `<div class="result-emoji">${emoji}</div><h2>Practice Done!</h2><div class="score-num" style="color:${col}">${s} / ${t}</div><div class="sbar-wrap"><div class="sbar" id="psb" style="width:0%;background:${col}"></div></div><div class="result-msg">${msg}</div><button class="retry-btn rose" onclick="location.reload()">🔄 Try Again</button><button class="retry-btn indigo" onclick="document.querySelector('[data-tab=\\'reviewer\\']').click()">📖 Reviewer</button>`;
+    result.classList.add('show');
+    result.scrollIntoView({behavior:'smooth'});
+    setTimeout(()=>{document.getElementById('psb').style.width=pct+'%'},200);
+  }
+})();
+
+// ===== BUILD EXAM =====
+(function() {
+  const area = document.getElementById('eq-area');
+  const result = document.getElementById('eq-result');
+  const total = examQs.length;
+  const ua = new Array(total).fill(null);
+
+  examQs.forEach((q,qi) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    const opts = q.choices.map((c,ci)=>`<button class="cbtn" id="eb${qi}-${ci}" onclick="selE(${qi},${ci})"><span class="cletter">${'ABCD'[ci]}</span>${c}</button>`).join('');
+    card.innerHTML = `<div class="q-num">Question ${qi+1} of ${total}</div><span class="q-emoji">${q.emoji}</span><div class="q-text">Choose the correct word: <span class="blank">___</span><br><br>${q.text.replace('___','<span class="blank">___</span>')}</div><div class="choices">${opts}</div>`;
+    area.appendChild(card);
+  });
+
+  const sr = document.createElement('div');
+  sr.className='submit-row'; sr.id='esrow';
+  sr.innerHTML='<button class="submit-btn" onclick="submitE()">🏆 Submit My Answers</button>';
+  area.appendChild(sr);
+
+  window.selE = function(qi,ci) {
+    if (document.getElementById(`eb${qi}-0`).disabled) return;
+    examQs[qi].choices.forEach((_,i)=>{
+      const b=document.getElementById(`eb${qi}-${i}`);
+      b.style.background=''; b.style.borderColor=''; b.style.color='';
+    });
+    ua[qi]=ci;
+    const btn=document.getElementById(`eb${qi}-${ci}`);
+    btn.style.background='#E8EAF6'; btn.style.borderColor='var(--indigo)'; btn.style.color='var(--indigo)';
+  };
+
+  window.submitE = function() {
+    const un = ua.filter(a=>a===null).length;
+    if (un>0){alert(`⚠️ Please answer all ${un} remaining question(s) before submitting!`);return;}
+    examQs.forEach((q,qi)=>{
+      q.choices.forEach((_,ci)=>{
+        const b=document.getElementById(`eb${qi}-${ci}`);
+        b.disabled=true;
+        if(ci===q.answer) b.classList.add('correct');
+        else if(ci===ua[qi]) b.classList.add('wrong');
+      });
+    });
+    const s = ua.filter((a,i)=>a===examQs[i].answer).length;
+    const pct = Math.round(s/total*100);
+    let emoji,msg,col,grade;
+    if(pct>=95){emoji='🏆🌟';msg='PERFECT! You are a Grammar Champion!';col='var(--mint)';grade='Excellent';}
+    else if(pct>=85){emoji='🥇';msg='Very Good! You really know your prepositions and conjunctions!';col='var(--teal)';grade='Very Good';}
+    else if(pct>=75){emoji='🥈';msg='Good! You passed! Keep practicing!';col='#7E57C2';grade='Good';}
+    else if(pct>=60){emoji='📖';msg='Fair. Review your lessons a bit more!';col='var(--amber)';grade='Fair';}
+    else{emoji='💪';msg='Keep trying! Read the reviewer and practice again!';col='var(--rose)';grade='Needs Improvement';}
+
+    const revHTML = examQs.map((q,qi)=>{
+      const ok=ua[qi]===q.answer;
+      return `<div class="ans-item ${ok?'c':'w'}"><strong>${ok?'✅':'❌'} Q${qi+1}:</strong> ${q.text}<br>Your answer: <strong>${q.choices[ua[qi]]}</strong>${!ok?` → Correct: <strong style="color:var(--mint)">${q.choices[q.answer]}</strong>`:''}</div>`;
+    }).join('');
+
+    result.innerHTML = `<div class="result-emoji">${emoji}</div><h2>Exam Results!</h2><div class="score-num" style="color:${col}">${s} / ${total}</div><div class="sbar-wrap"><div class="sbar" id="esb" style="width:0%;background:${col}"></div></div><span class="grade-badge">${grade}</span><div class="result-msg">${msg}</div><button class="retry-btn rose" onclick="location.reload()">🔄 Try Again</button><button class="retry-btn indigo" onclick="document.querySelector('[data-tab=\\'reviewer\\']').click()">📖 Reviewer</button><div class="ans-review"><h3 style="font-family:'Baloo 2',cursive;color:var(--indigo);margin-bottom:12px;font-size:1.15rem">📋 Answer Review</h3>${revHTML}</div>`;
+    result.classList.add('show');
+    document.getElementById('esrow').remove();
+    result.scrollIntoView({behavior:'smooth'});
+    setTimeout(()=>{document.getElementById('esb').style.width=pct+'%'},200);
+  };
+})();
+</script>
+</body>
+</html>

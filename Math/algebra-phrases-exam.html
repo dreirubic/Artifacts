@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Algebra Expressions Exam – Grade 7</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --ink2: #2d2d44;
+    --muted: #6b7280;
+    --rule: #e2e8f0;
+    --bg: #f8f7f4;
+    --paper: #ffffff;
+    --accent: #c0392b;
+    --accent2: #2c3e8c;
+    --gold: #b7860b;
+    --green: #166534;
+    --green-bg: #dcfce7;
+    --red-bg: #fee2e2;
+    --yellow-bg: #fefce8;
+    --blue-bg: #eff6ff;
+    --section-a: #2c3e8c;
+    --section-b: #7c2d12;
+    --section-c: #14532d;
+    --section-d: #4c1d95;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 32px 16px 64px;
+  }
+
+  /* EXAM PAPER */
+  .exam-paper {
+    max-width: 780px;
+    margin: 0 auto;
+    background: var(--paper);
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.06), 0 12px 40px rgba(0,0,0,.08);
+    overflow: hidden;
+  }
+
+  /* TOP STRIPE */
+  .stripe {
+    height: 6px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent2) 50%, var(--gold) 100%);
+  }
+
+  /* HEADER */
+  .exam-header {
+    padding: 28px 36px 20px;
+    border-bottom: 2px solid var(--ink);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: start;
+  }
+  .school-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+  .exam-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .exam-title span { color: var(--accent); }
+  .exam-sub {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 5px;
+    font-weight: 500;
+  }
+  .score-box {
+    text-align: right;
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .score-box .big {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    color: var(--ink);
+    line-height: 1;
+    display: block;
+  }
+
+  /* INFO ROW */
+  .info-row {
+    display: flex;
+    gap: 0;
+    padding: 14px 36px;
+    border-bottom: 1px solid var(--rule);
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--muted);
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .info-row span strong { color: var(--ink); }
+
+  /* INSTRUCTIONS */
+  .instructions {
+    margin: 20px 36px;
+    background: var(--blue-bg);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    font-size: 0.82rem;
+    color: var(--ink2);
+    line-height: 1.7;
+  }
+  .instructions strong { color: var(--accent2); }
+
+  /* PROGRESS BAR */
+  .prog-wrap {
+    padding: 0 36px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .prog-label { font-size: 0.75rem; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  .prog-track {
+    flex: 1;
+    height: 5px;
+    background: var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .prog-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    border-radius: 10px;
+    transition: width .4s ease;
+    width: 0%;
+  }
+
+  /* SECTION HEADERS */
+  .section-block { padding: 0 36px; margin-bottom: 8px; }
+  .section-hd {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 28px 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 1.5px solid var(--rule);
+  }
+  .section-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 0.68rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 3px;
+    color: white;
+  }
+  .sec-a .section-num { background: var(--section-a); }
+  .sec-b .section-num { background: var(--section-b); }
+  .sec-c .section-num { background: var(--section-c); }
+  .sec-d .section-num { background: var(--section-d); }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    color: var(--ink);
+  }
+  .section-pts {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .section-direction {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 14px;
+    line-height: 1.6;
+  }
+
+  /* QUESTION ROWS */
+  .q-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 18px;
+    align-items: flex-start;
+  }
+  .q-num-badge {
+    font-family: 'DM Serif Display', serif;
+    font-size: 0.85rem;
+    color: var(--muted);
+    min-width: 24px;
+    padding-top: 2px;
+    font-weight: 400;
+  }
+  .q-body { flex: 1; }
+  .q-stem {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+  .q-stem em { font-style: italic; color: var(--accent2); font-weight: 600; }
+  .q-stem strong { color: var(--ink); }
+
+  /* MC OPTIONS */
+  .mc-opts { display: flex; flex-direction: column; gap: 7px; }
+  .mc-opt {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    background: var(--bg);
+    border: 1.5px solid var(--rule);
+    border-radius: 6px;
+    padding: 8px 13px;
+    cursor: pointer;
+    font-size: 0.87rem;
+    font-weight: 500;
+    color: var(--ink2);
+    transition: all .16s;
+  }
+  .mc-opt .opt-key {
+    font-family: 'DM Serif Display', serif;
+    font-size: 0.8rem;
+    width: 20px; height: 20px;
+    border-radius: 3px;
+    background: var(--rule);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: background .16s;
+    color: var(--muted);
+  }
+  .mc-opt:hover:not(:disabled):not(.locked) { border-color: var(--accent2); background: var(--blue-bg); }
+  .mc-opt:hover:not(:disabled):not(.locked) .opt-key { background: var(--accent2); color: white; }
+  .mc-opt.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .mc-opt.correct .opt-key { background: var(--green); color: white; }
+  .mc-opt.wrong   { background: var(--red-bg);   border-color: var(--accent); color: var(--accent); }
+  .mc-opt.wrong .opt-key { background: var(--accent); color: white; }
+  .mc-opt:disabled, .mc-opt.locked { cursor: default; }
+
+  /* T/F */
+  .tf-opts { display: flex; gap: 10px; }
+  .tf-opt {
+    flex: 1;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1.5px solid var(--rule);
+    background: var(--bg);
+    font-family: 'DM Serif Display', serif;
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: all .16s;
+    color: var(--ink);
+    text-align: center;
+  }
+  .tf-opt:hover:not(:disabled):not(.locked) { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(0,0,0,.08); }
+  .tf-opt.t-opt:hover:not(:disabled):not(.locked) { border-color: var(--green); background: var(--green-bg); color: var(--green); }
+  .tf-opt.f-opt:hover:not(:disabled):not(.locked) { border-color: var(--accent); background: var(--red-bg); color: var(--accent); }
+  .tf-opt.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .tf-opt.wrong   { background: var(--red-bg);   border-color: var(--accent); color: var(--accent); }
+  .tf-opt:disabled, .tf-opt.locked { cursor: default; }
+
+  /* FITB */
+  .fitb-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+  .fitb-line span { font-size: 0.9rem; font-weight: 500; }
+  .fitb-input {
+    background: var(--bg);
+    border: none;
+    border-bottom: 2px solid var(--ink2);
+    padding: 4px 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--ink);
+    width: 100px;
+    text-align: center;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .fitb-input:focus { border-color: var(--accent2); }
+  .fitb-input.correct { border-color: var(--green); color: var(--green); background: var(--green-bg); border-radius: 4px 4px 0 0; }
+  .fitb-input.wrong   { border-color: var(--accent); color: var(--accent); background: var(--red-bg); border-radius: 4px 4px 0 0; }
+  .fitb-input:disabled { cursor: default; }
+
+  /* MATCHING */
+  .match-area { display: flex; gap: 14px; }
+  .match-col { flex: 1; display: flex; flex-direction: column; gap: 7px; }
+  .match-col-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+    padding-left: 2px;
+  }
+  .match-phrase-item {
+    background: var(--bg);
+    border: 1.5px solid var(--rule);
+    border-radius: 6px;
+    padding: 9px 12px;
+    font-size: 0.83rem;
+    font-weight: 500;
+    color: var(--ink2);
+    cursor: pointer;
+    transition: all .16s;
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .match-phrase-item .item-tag {
+    font-family: 'DM Serif Display', serif;
+    font-size: 0.78rem;
+    color: var(--muted);
+    min-width: 16px;
+  }
+  .match-phrase-item:hover:not(.locked) { border-color: var(--accent2); background: var(--blue-bg); }
+  .match-phrase-item.active { border-color: var(--gold); background: var(--yellow-bg); }
+  .match-phrase-item.matched-ok { border-color: var(--green); background: var(--green-bg); color: var(--green); }
+  .match-phrase-item.matched-no { border-color: var(--accent); background: var(--red-bg); color: var(--accent); }
+
+  .match-expr-item {
+    background: var(--bg);
+    border: 1.5px solid var(--rule);
+    border-radius: 6px;
+    padding: 9px 12px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--accent2);
+    cursor: pointer;
+    text-align: center;
+    transition: all .16s;
+  }
+  .match-expr-item:hover:not(.used):not(.locked) { border-color: var(--accent2); background: var(--blue-bg); }
+  .match-expr-item.used { opacity: .35; cursor: default; }
+  .match-expr-item.correct { border-color: var(--green); background: var(--green-bg); color: var(--green); }
+  .match-expr-item.wrong   { border-color: var(--accent); background: var(--red-bg); color: var(--accent); }
+
+  /* FEEDBACK */
+  .fb {
+    display: none;
+    margin-top: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 7px 11px;
+    border-radius: 5px;
+    line-height: 1.5;
+  }
+  .fb.show { display: block; }
+  .fb.ok  { background: var(--green-bg); color: var(--green); }
+  .fb.err { background: var(--red-bg);   color: var(--accent); }
+
+  /* CHECK ROW */
+  .check-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .check-btn {
+    background: var(--ink);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 7px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: .5px;
+    transition: background .16s;
+  }
+  .check-btn:hover { background: var(--accent2); }
+  .check-btn:disabled { background: var(--rule); color: var(--muted); cursor: default; }
+
+  /* DIVIDER */
+  .q-divider { border: none; border-top: 1px dashed var(--rule); margin: 4px 0 18px; }
+
+  /* SUBMIT */
+  .submit-zone {
+    padding: 24px 36px 32px;
+    border-top: 2px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .score-tally { font-size: 0.85rem; color: var(--muted); font-weight: 600; }
+  .score-tally span { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: var(--ink); }
+  .submit-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 12px 34px;
+    border-radius: 5px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    letter-spacing: .5px;
+    transition: opacity .18s;
+  }
+  .submit-btn:hover { opacity: .88; }
+  .submit-btn:disabled { background: var(--rule); color: var(--muted); cursor: default; }
+
+  /* RESULTS PANEL */
+  #resultPanel {
+    display: none;
+    padding: 36px;
+    border-top: 2px solid var(--ink);
+    text-align: center;
+  }
+  #resultPanel.show { display: block; }
+  .result-grade {
+    font-family: 'DM Serif Display', serif;
+    font-size: 5rem;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .result-over { font-size: 1rem; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
+  .result-pct {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    margin-bottom: 4px;
+  }
+  .result-remark {
+    display: inline-block;
+    padding: 4px 18px;
+    border-radius: 3px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .remark-pass { background: var(--green-bg); color: var(--green); }
+  .remark-fail { background: var(--red-bg); color: var(--accent); }
+  .result-msg { font-size: 0.95rem; color: var(--muted); margin-bottom: 24px; line-height: 1.7; }
+  .retry-btn {
+    background: var(--ink);
+    color: white;
+    border: none;
+    padding: 11px 30px;
+    border-radius: 5px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background .18s;
+  }
+  .retry-btn:hover { background: var(--accent2); }
+
+  /* BOTTOM STRIPE */
+  .bottom-stripe { height: 4px; background: linear-gradient(90deg, var(--gold), var(--accent2), var(--accent)); }
+
+  @media(max-width:560px){
+    .exam-header { grid-template-columns: 1fr; }
+    .score-box { text-align: left; }
+    .section-block, .exam-header, .info-row, .submit-zone, #resultPanel { padding-left: 20px; padding-right: 20px; }
+    .prog-wrap { padding: 0 20px; }
+    .match-area { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="exam-paper">
+  <div class="stripe"></div>
+
+  <!-- HEADER -->
+  <div class="exam-header">
+    <div>
+      <div class="school-name">Mathematics — Grade 7</div>
+      <div class="exam-title">Translating Verbal Phrases<br>to <span>Algebraic Expressions</span></div>
+      <div class="exam-sub">Quarter Examination &nbsp;·&nbsp; Algebra — Operations &amp; Keywords</div>
+    </div>
+    <div class="score-box">
+      <span class="big"><span id="liveSc">0</span><span style="font-size:1.2rem;color:var(--rule)">/20</span></span>
+      Current Score
+    </div>
+  </div>
+
+  <!-- INFO ROW -->
+  <div class="info-row">
+    <span>Name: <strong>_______________________</strong></span>
+    <span>Section: <strong>_______________</strong></span>
+    <span>Date: <strong>_______________</strong></span>
+    <span>Score: <strong>_______ / 20</strong></span>
+  </div>
+
+  <!-- INSTRUCTIONS -->
+  <div class="instructions">
+    <strong>Directions:</strong> This exam has <strong>four sections</strong> worth 20 points total (1 point each).
+    Read each item carefully. For interactive items, click your answer. For fill-in-the-blank, type your answer and click <em>Check</em>.
+    For matching, click a phrase then click the expression it matches.
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="prog-wrap">
+    <span class="prog-label">Progress</span>
+    <div class="prog-track"><div class="prog-fill" id="pBar"></div></div>
+    <span class="prog-label" id="progTxt">0 / 20</span>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SECTION A — MULTIPLE CHOICE (8 items)
+  ══════════════════════════════════════ -->
+  <div class="section-block">
+    <div class="section-hd sec-a">
+      <span class="section-num">Section A</span>
+      <span class="section-title">Multiple Choice</span>
+      <span class="section-pts">8 pts</span>
+    </div>
+    <p class="section-direction">Choose the letter of the best answer. Click your choice.</p>
+
+    <!-- A1 -->
+    <div class="q-row" id="qrow-1">
+      <div class="q-num-badge">1.</div>
+      <div class="q-body">
+        <div class="q-stem">Which expression means <em>"the sum of n and 9"</em>?</div>
+        <div class="mc-opts">
+          <div class="mc-opt" data-correct="false"><span class="opt-key">A</span> 9 − n</div>
+          <div class="mc-opt" data-correct="true"><span class="opt-key">B</span> n + 9</div>
+          <div class="mc-opt" data-correct="false"><span class="opt-key">C</span> 9n</div>
+          <div class="mc-opt" data-correct="false"><span class="opt-key">D</span> n ÷ 9</div>
+        </div>
+        <div class="fb"></div>
+      </div>
+    </div>
+    <hr class="q-divider">
+
+    <!-- A2 -->
+    <div class="q-row" id="qrow-2">
+      <div class="q-num-badge">2.</div>
+      <div class="q-body">
+        <div class="q-stem">Translate: <em>"6 less than x"</em></div>
+        <div class="mc-opts">
+          <div class="mc-opt" data-correct="false"><span class="opt-key">A</span> 6 − x</div>
+          <div class="mc-opt" data-correct="true"><span class="opt-key">B</span> x − 6</div>
+          <div class="mc-opt" data-correct="false"><span class="opt-key">C</span> x + 6</div>
+          <div class="mc-opt" data-correct="false"><span class="opt-key">D</span> 6x</div>
+        </div>
+        <div class="fb"></div>
+      </div>
+    </div>
+    <hr class="q-divider">
+
+    <!-- A3 -->
+    <div class="q-row" id="qrow-3">
+      <div class="q-num-badge">3.</div>
+      <div class="q-body">
+        <div class="q-stem">Which keyword signals <strong>multiplication</strong>?</div>
+        <div class="mc-opts">
+          <div class="mc-opt" data-correct="false"><span class="opt-key">A</span> increased by</div>
+          <div class="mc-opt" data-correct="false"><span class="opt-key">B</span> reduced by</div>
+          <div class="mc-opt" data-correct="true"><span class="opt-key">C</span> product of</div>
+          <div class="mc-opt" data-correct="false"><span class="opt-key">D</span> ratio of</div>
+        </div>
+        <div class="fb"></div>
+      </div>
+    </div>
+    <hr class="q-divider">
+
+    <!-- A4 -->
+    <div class="q-row" id="qrow-4">
+      <div class="q-num-badge">4.</div>
+      <div class="q-body">
+        <div class="q-stem">What is the algebraic expression for <em>"the quotient of a and 5"</em>?</div>
+        <div class="mc-opts">
+          <div class="mc-opt" data-correct="false"><span class="opt-key">A</span> 5a</div>
+          <div class="mc-opt" data-correct="false"><span class="opt-key">B</span> a − 5</div>
+          <div class="mc-opt" data-correct="true"><span class="opt-key">C</span> a ÷ 5</div>
+          <div class="mc-opt" data-correct="false"><span class="opt-key">D</span> a + 5</div>
+        </div>
+        <div class="fb"></div>
+      </div>
+    </div>
+    <hr class="q-divider">
+
+    <!-- A5 -->
+    <div class="q-row" id="qrow-5">
+      <div class="q-num-badge">5.</div>
+      <div class="q-body">
+        <div class="q-stem">Liza has <em>x</em> stickers. She bought <strong>12 more</strong>. Which expression shows the total?</div>
+        <div class="mc-opts">
+          <div class="mc-opt" data-correct="false"><span class="opt-key">A</span> x − 12</div>
+          <div class="mc-opt" data-correct="true"><span class="opt-key">B</span> x + 12</div>
+          <div class="mc-opt" data-correct="false"><span class="opt-key">C</span> 12x</div>
+          <div class="mc-opt" data-correct="false"><span class="opt-key">D</span> x ÷ 12</div>
+        </div>
+        <div class="fb"></div>
+      </div>
+    </div>
+    <hr class="q-divider">
+
+    <!-- A6 -->
+    <div class="q-row" id="qrow-6">
+      <div class="q-num-badge">6.</div>
+      <div class="q-body">
+        <div class="q-stem">Which verbal phrase matches the expression <strong>3m</strong>?</div>
+        <div class="mc-opts">
+          <div class="mc-opt" data-correct="false"><span class="opt-key">A</span> m divided by 3</div>
+          <div class="mc-opt" data-correct="false"><span class="opt-key">B</span> m increased by 3</div>
+          <div class="mc-opt" data-correct="true"><span class="opt-key">C</span> 3 times m</div>
+          <div class="mc-opt" data-correct="false"><span class="opt-key">D</span> 3 less than m</div>
+        </div>
+        <div class="fb"></div>
+      </div>
+    </div>
+    <hr class="q-divider">
+
+    <!-- A7 -->
+    <div class="q-row" id="qrow-7">
+      <div class="q-num-badge">7.</div>
+      <div class="q-body">
+        <div class="q-stem">Translate: <em>"twice a number n, decreased by 4"</em></div>
+        <div class="mc-opts">
+          <div class="mc-opt" data-correct="false"><span class="opt-key">A</span> 2 + n − 4</div>
+          <div class="mc-opt" data-correct="false"><span class="opt-key">B</span> 2n + 4</div>
+          <div class="mc-opt" data-correct="true"><span class="opt-key">C</span> 2n − 4</div>
+          <div class="mc-opt" data-correct="false"><span class="opt-key">D</span> 4 − 2n</div>
+        </div>
+        <div class="fb"></div>
+      </div>
+    </div>
+    <hr class="q-divider">
+
+    <!-- A8 -->
+    <div class="q-row" id="qrow-8">
+      <div class="q-num-badge">8.</div>
+      <div class="q-body">
+        <div class="q-stem">A class of <em>s</em> students was split into <strong>4 equal groups</strong>. Which expression shows the number of students per group?</div>
+        <div class="mc-opts">
+          <div class="mc-opt" data-correct="false"><span class="opt-key">A</span> s − 4</div>
+          <div class="mc-opt" data-correct="false"><span class="opt-key">B</span> 4s</div>
+          <div class="mc-opt" data-correct="true"><span class="opt-key">C</span> s ÷ 4</div>
+          <div class="mc-opt" data-correct="false"><span class="opt-key">D</span> s + 4</div>
+        </div>
+        <div class="fb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SECTION B — TRUE OR FALSE (5 items)
+  ══════════════════════════════════════ -->
+  <div class="section-block">
+    <div class="section-hd sec-b">
+      <span class="section-num">Section B</span>
+      <span class="section-title">True or False</span>
+      <span class="section-pts">5 pts</span>
+    </div>
+    <p class="section-direction">Write TRUE if the translation is correct. Write FALSE if it is wrong. Click your answer.</p>
+
+    <!-- B1 = Q9 -->
+    <div class="q-row" id="qrow-9">
+      <div class="q-num-badge">9.</div>
+      <div class="q-body">
+        <div class="q-stem"><em>"The difference of 10 and y"</em> → <strong>10 − y</strong></div>
+        <div class="tf-opts">
+          <div class="tf-opt t-opt" data-correct="true">TRUE</div>
+          <div class="tf-opt f-opt" data-correct="false">FALSE</div>
+        </div>
+        <div class="fb"></div>
+      </div>
+    </div>
+    <hr class="q-divider">
+
+    <!-- B2 = Q10 -->
+    <div class="q-row" id="qrow-10">
+      <div class="q-num-badge">10.</div>
+      <div class="q-body">
+        <div class="q-stem"><em>"5 subtracted from p"</em> → <strong>5 − p</strong></div>
+        <div class="tf-opts">
+          <div class="tf-opt t-opt" data-correct="false">TRUE</div>
+          <div class="tf-opt f-opt" data-correct="true">FALSE</div>
+        </div>
+        <div class="fb"></div>
+      </div>
+    </div>
+    <hr class="q-divider">
+
+    <!-- B3 = Q11 -->
+    <div class="q-row" id="qrow-11">
+      <div class="q-num-badge">11.</div>
+      <div class="q-body">
+        <div class="q-stem"><em>"The ratio of b to 7"</em> → <strong>b ÷ 7</strong></div>
+        <div class="tf-opts">
+          <div class="tf-opt t-opt" data-correct="true">TRUE</div>
+          <div class="tf-opt f-opt" data-correct="false">FALSE</div>
+        </div>
+        <div class="fb"></div>
+      </div>
+    </div>
+    <hr class="q-divider">
+
+    <!-- B4 = Q12 -->
+    <div class="q-row" id="qrow-12">
+      <div class="q-num-badge">12.</div>
+      <div class="q-body">
+        <div class="q-stem"><em>"11 greater than k"</em> → <strong>11 + k</strong></div>
+        <div class="tf-opts">
+          <div class="tf-opt t-opt" data-correct="false">TRUE</div>
+          <div class="tf-opt f-opt" data-correct="true">FALSE</div>
+        </div>
+        <div class="fb"></div>
+      </div>
+    </div>
+    <hr class="q-divider">
+
+    <!-- B5 = Q13 -->
+    <div class="q-row" id="qrow-13">
+      <div class="q-num-badge">13.</div>
+      <div class="q-body">
+        <div class="q-stem"><em>"The product of 6 and x, added to 2"</em> → <strong>6x + 2</strong></div>
+        <div class="tf-opts">
+          <div class="tf-opt t-opt" data-correct="true">TRUE</div>
+          <div class="tf-opt f-opt" data-correct="false">FALSE</div>
+        </div>
+        <div class="fb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SECTION C — FILL IN THE BLANK (4 items)
+  ══════════════════════════════════════ -->
+  <div class="section-block">
+    <div class="section-hd sec-c">
+      <span class="section-num">Section C</span>
+      <span class="section-title">Fill in the Blank</span>
+      <span class="section-pts">4 pts</span>
+    </div>
+    <p class="section-direction">Complete each algebraic expression or verbal phrase. Type your answer and click <em>Check</em>.</p>
+
+    <!-- C1 = Q14 -->
+    <div class="q-row" id="qrow-14">
+      <div class="q-num-badge">14.</div>
+      <div class="q-body">
+        <div class="q-stem"><em>"8 more than a number t"</em></div>
+        <div class="fitb-line">
+          <span>Expression: t</span>
+          <input class="fitb-input" id="f14" type="text" placeholder="__" data-correct="+" data-accept="+,plus">
+          <span>8</span>
+        </div>
+        <div style="font-size:.76rem;color:var(--muted);margin-bottom:6px;">Type the operation symbol.</div>
+        <div class="check-row">
+          <button class="check-btn" onclick="checkFitb(14)">Check</button>
+        </div>
+        <div class="fb"></div>
+      </div>
+    </div>
+    <hr class="q-divider">
+
+    <!-- C2 = Q15 -->
+    <div class="q-row" id="qrow-15">
+      <div class="q-num-badge">15.</div>
+      <div class="q-body">
+        <div class="q-stem">Complete the expression: <em>"thrice a number w"</em></div>
+        <div class="fitb-line">
+          <span>Expression:</span>
+          <input class="fitb-input" id="f15" type="text" placeholder="____" data-correct="3w" style="width:80px;">
+        </div>
+        <div style="font-size:.76rem;color:var(--muted);margin-bottom:6px;">Write the full expression (e.g., 2x).</div>
+        <div class="check-row">
+          <button class="check-btn" onclick="checkFitb(15)">Check</button>
+        </div>
+        <div class="fb"></div>
+      </div>
+    </div>
+    <hr class="q-divider">
+
+    <!-- C3 = Q16 -->
+    <div class="q-row" id="qrow-16">
+      <div class="q-num-badge">16.</div>
+      <div class="q-body">
+        <div class="q-stem">Complete the verbal phrase for <strong>n − 7</strong>:<br><em>"7 __________ n"</em></div>
+        <div class="fitb-line">
+          <span>7</span>
+          <input class="fitb-input" id="f16" type="text" placeholder="keyword" data-correct="subtracted from" style="width:160px;">
+          <span>n</span>
+        </div>
+        <div style="font-size:.76rem;color:var(--muted);margin-bottom:6px;">Accepted: "subtracted from" or "less than"</div>
+        <div class="check-row">
+          <button class="check-btn" onclick="checkFitb(16)">Check</button>
+        </div>
+        <div class="fb"></div>
+      </div>
+    </div>
+    <hr class="q-divider">
+
+    <!-- C4 = Q17 -->
+    <div class="q-row" id="qrow-17">
+      <div class="q-num-badge">17.</div>
+      <div class="q-body">
+        <div class="q-stem">Marco earns <em>p</em> pesos per hour. He worked for <strong>8 hours</strong>. Write the expression for his total earnings.</div>
+        <div class="fitb-line">
+          <span>Total earnings:</span>
+          <input class="fitb-input" id="f17" type="text" placeholder="____" data-correct="8p" style="width:80px;">
+        </div>
+        <div style="font-size:.76rem;color:var(--muted);margin-bottom:6px;">Accepted: "8p" or "p×8" or "8×p"</div>
+        <div class="check-row">
+          <button class="check-btn" onclick="checkFitb(17)">Check</button>
+        </div>
+        <div class="fb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SECTION D — MATCHING (3 pairs = 3 pts)
+  ══════════════════════════════════════ -->
+  <div class="section-block">
+    <div class="section-hd sec-d">
+      <span class="section-num">Section D</span>
+      <span class="section-title">Matching Type</span>
+      <span class="section-pts">3 pts</span>
+    </div>
+    <p class="section-direction">Click a verbal phrase on Column A, then click the matching algebraic expression in Column B. Match all 3 pairs, then click <em>Check Matches</em>.</p>
+
+    <!-- MATCH SET 1: Q18-20 -->
+    <div class="q-row" style="align-items:flex-start;">
+      <div class="q-num-badge">18–20.</div>
+      <div class="q-body" style="width:100%">
+        <div class="match-area" id="matchArea">
+          <div class="match-col">
+            <div class="match-col-label">Column A — Verbal Phrase</div>
+            <div class="match-phrase-item" data-idx="0" data-correct="y + 15">
+              <span class="item-tag">a.</span> 15 added to y
+            </div>
+            <div class="match-phrase-item" data-idx="1" data-correct="m ÷ 3">
+              <span class="item-tag">b.</span> m divided by 3
+            </div>
+            <div class="match-phrase-item" data-idx="2" data-correct="9 − k">
+              <span class="item-tag">c.</span> k subtracted from 9
+            </div>
+          </div>
+          <div class="match-col">
+            <div class="match-col-label">Column B — Expression</div>
+            <div class="match-expr-item" data-expr="9 − k">9 − k</div>
+            <div class="match-expr-item" data-expr="y + 15">y + 15</div>
+            <div class="match-expr-item" data-expr="m ÷ 3">m ÷ 3</div>
+          </div>
+        </div>
+        <div style="margin-top:12px;">
+          <button class="check-btn" id="matchCheckBtn" onclick="checkMatches()">Check Matches</button>
+        </div>
+        <div class="fb" id="matchFb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-zone">
+    <div class="score-tally">Items answered: <span id="answered">0</span> / 20 &nbsp;·&nbsp; Score: <span id="finalSc">0</span> / 20</div>
+    <button class="submit-btn" id="submitBtn" onclick="submitExam()">Submit Exam →</button>
+  </div>
+
+  <!-- RESULT PANEL -->
+  <div id="resultPanel">
+    <div class="result-grade" id="resGrade">0</div>
+    <div class="result-over">out of 20</div>
+    <div class="result-pct" id="resPct"></div>
+    <div class="result-remark" id="resRemark"></div>
+    <div class="result-msg" id="resMsg"></div>
+    <button class="retry-btn" onclick="retryExam()">↩ Try Again</button>
+  </div>
+
+  <div class="bottom-stripe"></div>
+</div>
+
+<script>
+  let score = 0;
+  let answered = 0;
+  const TOTAL = 20;
+
+  /* ── UI sync ── */
+  function syncUI() {
+    document.getElementById('liveSc').textContent = score;
+    document.getElementById('finalSc').textContent = score;
+    document.getElementById('answered').textContent = answered;
+    const pct = Math.round(answered / TOTAL * 100);
+    document.getElementById('pBar').style.width = pct + '%';
+    document.getElementById('progTxt').textContent = answered + ' / ' + TOTAL;
+  }
+
+  function showFb(qrow, ok, msg) {
+    const row = document.getElementById('qrow-' + qrow);
+    const fb = row.querySelector('.fb');
+    fb.textContent = msg;
+    fb.className = 'fb show ' + (ok ? 'ok' : 'err');
+  }
+
+  /* ── MULTIPLE CHOICE ── */
+  document.querySelectorAll('.mc-opts').forEach(opts => {
+    opts.querySelectorAll('.mc-opt').forEach(opt => {
+      opt.addEventListener('click', function() {
+        if (this.classList.contains('locked')) return;
+        opts.querySelectorAll('.mc-opt').forEach(o => { o.classList.add('locked'); });
+        const ok = this.dataset.correct === 'true';
+        this.classList.add(ok ? 'correct' : 'wrong');
+        if (!ok) opts.querySelectorAll('.mc-opt').forEach(o => {
+          if (o.dataset.correct === 'true') o.classList.add('correct');
+        });
+        const qrow = parseInt(this.closest('.q-row').id.replace('qrow-',''));
+        const correctText = [...opts.querySelectorAll('.mc-opt')].find(o=>o.dataset.correct==='true').textContent.replace(/^[A-D]/,'').trim();
+        if (ok) score++;
+        answered++;
+        syncUI();
+        showFb(qrow, ok, ok ? '✓ Correct!' : '✗ Incorrect. Correct answer: ' + correctText);
+      });
+    });
+  });
+
+  /* ── TRUE / FALSE ── */
+  document.querySelectorAll('.tf-opts').forEach(opts => {
+    opts.querySelectorAll('.tf-opt').forEach(opt => {
+      opt.addEventListener('click', function() {
+        if (this.classList.contains('locked')) return;
+        opts.querySelectorAll('.tf-opt').forEach(o => o.classList.add('locked'));
+        const ok = this.dataset.correct === 'true';
+        this.classList.add(ok ? 'correct' : 'wrong');
+        if (!ok) opts.querySelectorAll('.tf-opt').forEach(o => {
+          if (o.dataset.correct === 'true') o.classList.add('correct');
+        });
+        const qrow = parseInt(this.closest('.q-row').id.replace('qrow-',''));
+        const tfExplanations = {
+          9:  'TRUE. "Difference of 10 and y" → 10 − y. ✓',
+          10: 'FALSE. "5 subtracted from p" → p − 5. The variable comes first.',
+          11: 'TRUE. "Ratio of b to 7" → b ÷ 7. ✓',
+          12: 'FALSE. "11 greater than k" → k + 11, not 11 + k (order matters for context).',
+          13: 'TRUE. "Product of 6 and x, added to 2" → 6x + 2. ✓',
+        };
+        if (ok) score++;
+        answered++;
+        syncUI();
+        showFb(qrow, ok, ok ? '✓ Correct! ' + (tfExplanations[qrow]||'') : '✗ Incorrect. ' + (tfExplanations[qrow]||''));
+      });
+    });
+  });
+
+  /* ── FILL IN THE BLANK ── */
+  const fitbAccept = {
+    14: ['+', 'plus'],
+    15: ['3w', 'w×3', 'w*3', '3×w'],
+    16: ['subtracted from', 'less than'],
+    17: ['8p', 'p×8', '8×p', 'p*8', '8*p'],
+  };
+
+  function checkFitb(n) {
+    const inp = document.getElementById('f' + n);
+    const val = inp.value.toLowerCase().trim();
+    const ok = fitbAccept[n].map(a=>a.toLowerCase()).includes(val);
+    inp.disabled = true;
+    inp.classList.add(ok ? 'correct' : 'wrong');
+    const row = document.getElementById('qrow-' + n);
+    row.querySelector('.check-btn').disabled = true;
+    if (ok) score++;
+    answered++;
+    syncUI();
+    showFb(n, ok, ok
+      ? '✓ Correct!'
+      : '✗ Incorrect. Accepted answer: ' + fitbAccept[n][0]);
+  }
+
+  /* ── MATCHING ── */
+  let matchSelected = null;
+  const matchAssignments = {}; // idx → expr assigned
+
+  document.querySelectorAll('.match-phrase-item').forEach(ph => {
+    ph.addEventListener('click', function() {
+      if (this.classList.contains('locked')) return;
+      document.querySelectorAll('.match-phrase-item').forEach(p => p.classList.remove('active'));
+      this.classList.add('active');
+      matchSelected = this;
+    });
+  });
+
+  document.querySelectorAll('.match-expr-item').forEach(expr => {
+    expr.addEventListener('click', function() {
+      if (!matchSelected || this.classList.contains('used') || this.classList.contains('locked')) return;
+      const idx = matchSelected.dataset.idx;
+      // undo previous assignment if re-selecting
+      if (matchAssignments[idx]) {
+        const prev = matchAssignments[idx];
+        document.querySelectorAll('.match-expr-item').forEach(e => {
+          if (e.dataset.expr === prev) e.classList.remove('used');
+        });
+      }
+      matchAssignments[idx] = this.dataset.expr;
+      // show on phrase
+      const origText = matchSelected.querySelector('.item-tag').outerHTML + ' ' +
+        matchSelected.textContent.split('→')[0].replace(/^[a-c]\.\s*/, '').trim();
+      matchSelected.innerHTML = matchSelected.querySelector('.item-tag').outerHTML + ' ' +
+        matchSelected.textContent.split('→')[0].replace(/^[a-c]\.\s*/, '').trim() + ' → ' + this.dataset.expr;
+      this.classList.add('used');
+      matchSelected.classList.remove('active');
+      matchSelected = null;
+    });
+  });
+
+  function checkMatches() {
+    const phrases = document.querySelectorAll('.match-phrase-item');
+    const exprs   = document.querySelectorAll('.match-expr-item');
+    document.getElementById('matchCheckBtn').disabled = true;
+    phrases.forEach(p => p.classList.add('locked'));
+    exprs.forEach(e => e.classList.add('locked'));
+
+    let allOk = true;
+    let correctCount = 0;
+
+    phrases.forEach(ph => {
+      const idx = ph.dataset.idx;
+      const assigned = matchAssignments[idx];
+      const correct = ph.dataset.correct;
+      const isOk = assigned === correct;
+      if (isOk) { ph.classList.add('matched-ok'); correctCount++; }
+      else { ph.classList.add('matched-no'); allOk = false; }
+    });
+
+    // highlight correct exprs
+    exprs.forEach(e => {
+      const isCorrectlyUsed = [...phrases].some(p => matchAssignments[p.dataset.idx] === e.dataset.expr && e.dataset.expr === p.dataset.correct);
+      if (isCorrectlyUsed) e.classList.add('correct');
+      else if (e.classList.contains('used')) e.classList.add('wrong');
+    });
+
+    score += correctCount;
+    answered += 3;
+    syncUI();
+
+    const fb = document.getElementById('matchFb');
+    fb.className = 'fb show ' + (allOk ? 'ok' : 'err');
+    fb.textContent = allOk
+      ? '✓ All 3 matched correctly! Perfect!'
+      : `✗ ${correctCount}/3 correct. Correct pairs: a→y+15, b→m÷3, c→9−k`;
+  }
+
+  /* ── SUBMIT ── */
+  function submitExam() {
+    document.getElementById('submitBtn').disabled = true;
+    const panel = document.getElementById('resultPanel');
+    panel.classList.add('show');
+    document.getElementById('resGrade').textContent = score;
+    const pct = Math.round(score / TOTAL * 100);
+    document.getElementById('resPct').textContent = pct + '%';
+    const pass = score >= 12;
+    document.getElementById('resRemark').textContent = pass ? 'PASSED' : 'NEEDS IMPROVEMENT';
+    document.getElementById('resRemark').className = 'result-remark ' + (pass ? 'remark-pass' : 'remark-fail');
+    let msg = '';
+    if (score === 20)     msg = 'A perfect score! You have mastered translating verbal phrases to algebraic expressions. Outstanding work!';
+    else if (score >= 18) msg = 'Excellent performance! You clearly understand the keywords and translations. Just a tiny bit more practice!';
+    else if (score >= 15) msg = 'Very good! You have a strong grasp of the topic. Review the items you missed and you will be perfect.';
+    else if (score >= 12) msg = 'Good job — you passed! Review the subtraction order rule and the matching section to sharpen your skills.';
+    else if (score >= 8)  msg = 'You are getting there! Focus on memorizing the operation keywords and practice translating more phrases.';
+    else                  msg = 'Keep studying! Go back to the keyword chart, practice each operation one at a time, and try again. You can do it!';
+    document.getElementById('resMsg').textContent = msg;
+    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /* ── RETRY ── */
+  function retryExam() {
+    score = 0; answered = 0;
+    syncUI();
+
+    // reset MC
+    document.querySelectorAll('.mc-opt').forEach(o => { o.classList.remove('correct','wrong','locked'); });
+    // reset TF
+    document.querySelectorAll('.tf-opt').forEach(o => { o.classList.remove('correct','wrong','locked'); });
+    // reset FITB
+    [14,15,16,17].forEach(n => {
+      const inp = document.getElementById('f'+n);
+      inp.value = ''; inp.disabled = false;
+      inp.classList.remove('correct','wrong');
+      document.getElementById('qrow-'+n).querySelector('.check-btn').disabled = false;
+    });
+    // reset match
+    matchSelected = null;
+    Object.keys(matchAssignments).forEach(k => delete matchAssignments[k]);
+    document.querySelectorAll('.match-phrase-item').forEach(p => {
+      p.classList.remove('active','matched-ok','matched-no','locked');
+      const tag = p.querySelector('.item-tag').outerHTML;
+      const phrases = { '0': '15 added to y', '1': 'm divided by 3', '2': 'k subtracted from 9' };
+      p.innerHTML = tag + ' ' + phrases[p.dataset.idx];
+    });
+    document.querySelectorAll('.match-expr-item').forEach(e => {
+      e.classList.remove('used','correct','wrong','locked');
+    });
+    document.getElementById('matchCheckBtn').disabled = false;
+    document.getElementById('matchFb').className = 'fb';
+
+    // reset fbs
+    document.querySelectorAll('.fb').forEach(fb => fb.className = 'fb');
+
+    // reset submit
+    document.getElementById('submitBtn').disabled = false;
+    document.getElementById('resultPanel').classList.remove('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>

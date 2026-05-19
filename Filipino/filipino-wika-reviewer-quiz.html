@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="fil">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Filipino Wika Reviewer 📚</title>
+<link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pula:   #E63946;
+    --dilaw:  #F4A300;
+    --berde:  #2DC653;
+    --asul:   #1D7ED8;
+    --lila:   #9B5DE5;
+    --rosas:  #F72585;
+    --bg:     #FFFBF2;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    color: #222;
+    overflow-x: hidden;
+  }
+
+  /* BANNER */
+  .banner {
+    background: linear-gradient(135deg, #E63946 0%, #F4A300 100%);
+    text-align: center;
+    padding: 38px 20px 52px;
+    clip-path: ellipse(130% 100% at 50% 0%);
+  }
+  .banner h1 {
+    font-family: 'Bubblegum Sans', cursive;
+    font-size: clamp(1.9rem, 5.5vw, 3.2rem);
+    color: #fff;
+    text-shadow: 2px 4px 0 rgba(0,0,0,0.18);
+    line-height: 1.15;
+  }
+  .banner p { color: #FFE8C0; font-weight: 700; margin-top: 6px; font-size: 1rem; }
+
+  /* TABS */
+  .tabs {
+    display: flex; justify-content: center;
+    gap: 10px; padding: 16px 12px 8px; flex-wrap: wrap;
+  }
+  .tab-btn {
+    font-family: 'Bubblegum Sans', cursive;
+    font-size: 0.93rem; padding: 9px 18px;
+    border-radius: 50px; border: 3px solid #ddd;
+    background: white; color: #666;
+    cursor: pointer; box-shadow: 0 3px 0 #ccc;
+    transition: all 0.18s;
+  }
+  .tab-btn:hover { transform: translateY(-2px); }
+  .t0 { background:#E63946; color:#fff; border-color:#a8222b; box-shadow:0 3px 0 #a8222b; }
+  .t1 { background:#F4A300; color:#fff; border-color:#b87a00; box-shadow:0 3px 0 #b87a00; }
+  .t2 { background:#1D7ED8; color:#fff; border-color:#1159a0; box-shadow:0 3px 0 #1159a0; }
+  .t3 { background:#9B5DE5; color:#fff; border-color:#6c38b0; box-shadow:0 3px 0 #6c38b0; }
+
+  /* SECTIONS */
+  .sec { display:none; padding: 6px 14px 70px; max-width:860px; margin:0 auto; }
+  .sec.active { display:block; }
+
+  /* REVIEWER CARDS */
+  .topic-hdr {
+    display:flex; align-items:center; gap:12px;
+    margin: 22px 0 14px;
+  }
+  .topic-hdr h2 { font-family:'Bubblegum Sans',cursive; font-size:1.55rem; }
+  .topic-icon { font-size:2.2rem; }
+
+  .card {
+    background: #fff; border-radius: 22px;
+    padding: 20px 22px; margin-bottom: 16px;
+    box-shadow: 0 5px 0 #e6ddd0;
+    border: 2.5px solid #f2ebe0;
+    animation: popUp 0.35s ease both;
+  }
+  @keyframes popUp {
+    from { opacity:0; transform:translateY(14px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .card h3 {
+    font-family: 'Bubblegum Sans', cursive;
+    font-size: 1.18rem; margin-bottom: 10px;
+  }
+  .h-pula   { color: var(--pula); }
+  .h-dilaw  { color: var(--dilaw); }
+  .h-berde  { color: var(--berde); }
+  .h-asul   { color: var(--asul); }
+  .h-lila   { color: var(--lila); }
+  .h-rosas  { color: var(--rosas); }
+
+  .ibox {
+    border-left: 5px solid var(--pula);
+    background: #FFF3F4; border-radius: 0 14px 14px 0;
+    padding: 10px 14px; margin: 8px 0;
+    font-size: 0.97rem; line-height: 1.8; font-weight: 600;
+  }
+  .ibox.dilaw  { border-color:var(--dilaw); background:#FFF8E6; }
+  .ibox.berde  { border-color:var(--berde); background:#EDFBF2; }
+  .ibox.asul   { border-color:var(--asul);  background:#EAF4FF; }
+  .ibox.lila   { border-color:var(--lila);  background:#F5EEFF; }
+  .ibox.rosas  { border-color:var(--rosas); background:#FEE9F3; }
+
+  .ex-box {
+    background: #FFFBE6; border: 2px dashed #F4A300;
+    border-radius: 14px; padding: 10px 14px;
+    margin: 8px 0; font-size: 0.95rem; line-height: 1.8;
+    font-weight: 600;
+  }
+  .hl { color: var(--pula); font-weight: 800; }
+  .hl-b { color: var(--asul); font-weight: 800; }
+  .hl-g { color: var(--berde); font-weight: 800; }
+  .hl-l { color: var(--lila); font-weight: 800; }
+
+  .uri-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px; margin: 12px 0;
+  }
+  .uri-card {
+    border-radius: 18px; padding: 16px 14px;
+    text-align: center; font-weight: 700; font-size: 0.93rem; line-height: 1.5;
+  }
+  .uc-p { background:#FFF3F4; border:3px solid var(--pula); }
+  .uc-b { background:#EAF4FF; border:3px solid var(--asul); }
+  .uc-g { background:#EDFBF2; border:3px solid var(--berde); }
+  .uc-l { background:#F5EEFF; border:3px solid var(--lila); }
+  .uri-card .icon { font-size:1.8rem; display:block; margin-bottom:6px; }
+  .uri-card .label { font-family:'Bubblegum Sans',cursive; font-size:1rem; display:block; margin-bottom:4px; }
+  .uri-card .bantas { font-size:1.4rem; font-weight:900; }
+
+  .bahagi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 10px; margin: 12px 0;
+  }
+  .bahagi-chip {
+    border-radius: 16px; padding: 14px;
+    font-size: 0.9rem; line-height: 1.55; font-weight: 700;
+  }
+  .bc1 { background:#FFF3F4; border:2.5px solid var(--pula); }
+  .bc2 { background:#FFF8E6; border:2.5px solid var(--dilaw); }
+  .bc3 { background:#EDFBF2; border:2.5px solid var(--berde); }
+  .bc4 { background:#EAF4FF; border:2.5px solid var(--asul); }
+  .bc5 { background:#F5EEFF; border:2.5px solid var(--lila); }
+  .bc6 { background:#FEE9F3; border:2.5px solid var(--rosas); }
+  .bc7 { background:#FFF8E6; border:2.5px solid #e08800; }
+  .bahagi-chip .b-name { font-family:'Bubblegum Sans',cursive; font-size:1rem; color:#333; display:block; margin-bottom:4px; }
+
+  .divider { text-align:center; font-size:1.5rem; opacity:0.3; margin: 8px 0; }
+
+  /* QUIZ */
+  .quiz-hdr { text-align:center; margin:16px 0 20px; }
+  .quiz-hdr h2 { font-family:'Bubblegum Sans',cursive; font-size:1.9rem; }
+  .quiz-hdr p  { font-weight:600; color:#777; margin-top:4px; }
+
+  .scoreboard { display:flex; justify-content:center; gap:16px; margin-bottom:14px; flex-wrap:wrap; }
+  .sbox {
+    background:#fff; border-radius:14px; padding:10px 22px;
+    font-family:'Bubblegum Sans',cursive; font-size:1rem;
+    box-shadow:0 3px 0 #ddd; text-align:center; min-width:100px;
+  }
+  .sbox span { font-size:1.7rem; display:block; }
+
+  .prog-wrap { background:#e6ddd0; border-radius:50px; height:13px; margin-bottom:18px; overflow:hidden; }
+  .prog-fill { height:100%; border-radius:50px; transition:width 0.4s ease; }
+  .pf-r { background:linear-gradient(90deg,#E63946,#F4A300); }
+  .pf-b { background:linear-gradient(90deg,#1D7ED8,#9B5DE5); }
+  .pf-m { background:linear-gradient(90deg,#F72585,#2DC653); }
+
+  .q-card {
+    background:#fff; border-radius:22px; padding:24px;
+    box-shadow:0 5px 0 #e6ddd0; border:2.5px solid #f2ebe0; margin-bottom:16px;
+  }
+  .q-label {
+    font-family:'Bubblegum Sans',cursive; font-size:0.88rem; color:#fff;
+    display:inline-block; padding:3px 14px; border-radius:50px; margin-bottom:10px;
+  }
+  .ql-r { background:var(--pula); }
+  .ql-b { background:var(--asul); }
+  .ql-m { background:var(--lila); }
+
+  .q-emoji { font-size:2rem; text-align:center; margin-bottom:6px; }
+  .q-text  { font-size:1.08rem; font-weight:700; margin-bottom:16px; line-height:1.6; }
+
+  .choices { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  @media(max-width:480px){ .choices{grid-template-columns:1fr;} }
+
+  .choice-btn {
+    padding:12px 14px; border-radius:14px;
+    border:3px solid #e6ddd0; background:#faf6ee;
+    font-family:'Nunito',sans-serif; font-size:0.97rem; font-weight:700;
+    cursor:pointer; transition:all 0.15s; text-align:left;
+  }
+  .choice-btn:hover:not(:disabled) { border-color:var(--pula); background:#fff3f4; transform:translateY(-2px); }
+  .choice-btn.correct { background:#edfbf2; border-color:var(--berde); color:#0a5c28; }
+  .choice-btn.wrong   { background:#fee9ea; border-color:var(--pula);  color:#7a0a12; }
+  .choice-btn:disabled { cursor:default; }
+
+  .fb-msg { margin-top:12px; padding:10px 14px; border-radius:12px; font-weight:700; display:none; }
+  .fb-ok  { background:#edfbf2; color:#0a5c28; display:block; }
+  .fb-no  { background:#fee9ea; color:#7a0a12; display:block; }
+
+  .qctrl { display:flex; justify-content:center; gap:12px; margin-top:16px; flex-wrap:wrap; }
+  .btn-go {
+    font-family:'Bubblegum Sans',cursive; font-size:1.05rem;
+    padding:11px 30px; border-radius:50px; border:3px solid;
+    cursor:pointer; box-shadow:0 4px 0; transition:all 0.15s;
+    color:#fff;
+  }
+  .btn-go:hover { transform:translateY(-2px); }
+  .bg-r { background:var(--pula); border-color:#a8222b; box-shadow:0 4px 0 #a8222b; }
+  .bg-b { background:var(--asul); border-color:#1159a0; box-shadow:0 4px 0 #1159a0; }
+  .bg-l { background:var(--lila); border-color:#6c38b0; box-shadow:0 4px 0 #6c38b0; }
+  .bg-g { background:var(--berde); border-color:#1a8a40; box-shadow:0 4px 0 #1a8a40; }
+
+  /* RESULT */
+  .result-box { display:none; text-align:center; padding:36px 16px; }
+  .result-box .medal { font-size:4.5rem; margin-bottom:8px; }
+  .result-box h2 { font-family:'Bubblegum Sans',cursive; font-size:2.2rem; margin-bottom:6px; }
+  .result-box .big-score { font-family:'Bubblegum Sans',cursive; font-size:3.8rem; color:var(--pula); }
+  .result-box p { font-weight:600; color:#666; font-size:1rem; margin-top:8px; }
+
+  /* floating bg */
+  .bg-d { position:fixed; font-size:2rem; opacity:0.08; pointer-events:none; animation:fl 7s ease-in-out infinite; }
+  @keyframes fl { 0%,100%{transform:translateY(0);}50%{transform:translateY(-20px);} }
+  .bg-d:nth-child(1){top:6%;left:2%;animation-delay:0s;}
+  .bg-d:nth-child(2){top:20%;right:3%;animation-delay:1.5s;}
+  .bg-d:nth-child(3){top:55%;left:1%;animation-delay:3s;}
+  .bg-d:nth-child(4){bottom:12%;right:2%;animation-delay:0.8s;}
+  .bg-d:nth-child(5){bottom:35%;left:3%;animation-delay:2s;}
+</style>
+</head>
+<body>
+
+<div class="bg-d">📖</div>
+<div class="bg-d">✏️</div>
+<div class="bg-d">🎓</div>
+<div class="bg-d">📝</div>
+<div class="bg-d">⭐</div>
+
+<div class="banner">
+  <h1>📖 Filipino — Wika Reviewer!</h1>
+  <p>Pang-abay na Pamaraan • Mga Uri ng Pangungusap • Mga Bahagi ng Aklat</p>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn t0" onclick="showTab('reviewer')">📖 Reviewer</button>
+  <button class="tab-btn" onclick="showTab('q1')">🏃 Quiz 1: Pang-abay</button>
+  <button class="tab-btn" onclick="showTab('q2')">💬 Quiz 2: Pangungusap</button>
+  <button class="tab-btn" onclick="showTab('q3')">🏆 Mixed Quiz</button>
+</div>
+
+<!-- ============ REVIEWER ============ -->
+<div id="reviewer" class="sec active">
+
+  <!-- PANG-ABAY NA PAMARAAN -->
+  <div class="topic-hdr">
+    <div class="topic-icon">🏃</div>
+    <h2 class="h-pula">Pang-abay na Pamaraan</h2>
+  </div>
+
+  <div class="card">
+    <h3 class="h-pula">📌 Ano ang Pang-abay na Pamaraan?</h3>
+    <div class="ibox">
+      Ang <b>pang-abay na pamaraan</b> ay isang uri ng pang-abay na nagsasabi kung <b>paano ginawa o naganap</b> ang kilos o pangyayari.
+    </div>
+    <div class="ibox">
+      💡 Ang pang-abay na pamaraan ay <b>naglalarawan sa pandiwa</b> (action word). Sinasabi nito kung PAANO ginawa ang bagay!
+    </div>
+    <div class="ex-box">
+      <b>Mga Halimbawa:</b><br>
+      🐌 <span class="hl">Mabagal</span> kumilos si Annie. → (Paano kumilos? — <span class="hl">Mabagal</span>)<br>
+      🤫 Ang mga bata ay <span class="hl">patagong</span> umalis. → (Paano umalis? — <span class="hl">Patagong</span>)<br>
+      😊 Siya ay <span class="hl">masayang</span> humarap sa mga panauhin. → (Paano humarap? — <span class="hl">Masayang</span>)
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="h-pula">📚 Mga Halimbawa mula sa Kwento ni David</h3>
+    <div class="ex-box">
+      💪 <span class="hl">Matabang</span> na lumaban si David kay Goliath.<br>
+      🎵 <span class="hl">Masayang</span> umaawit si David habang nagpapastol.<br>
+      😡 <span class="hl">Painsultong</span> kinausap ni Goliath si David.<br>
+      🙏 <span class="hl">Mapagkumbabang</span> humarap si David kay Haring Saul.<br>
+      ❤️ Tinanggap nang <span class="hl">buong puso</span> ang paglapit ni David.
+    </div>
+    <div class="ibox">
+      🔑 <b>Trick:</b> Tanungin ang pandiwa ng "PAANO?" — ang sagot ay ang pang-abay na pamaraan!
+    </div>
+  </div>
+
+  <div class="divider">— ✦ —</div>
+
+  <!-- MGA URI NG PANGUNGUSAP -->
+  <div class="topic-hdr">
+    <div class="topic-icon">💬</div>
+    <h2 class="h-asul">Mga Uri ng Pangungusap</h2>
+  </div>
+
+  <div class="card">
+    <h3 class="h-asul">📌 Ano ang Pangungusap?</h3>
+    <div class="ibox asul">
+      Ang <b>pangungusap</b> ay isang lipon o grupo ng mga salita na nagsasaad ng <b>buong diwa</b>. Ito ay may <b>apat (4) na uri</b>.
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="h-asul">📋 Ang 4 na Uri ng Pangungusap</h3>
+    <div class="uri-grid">
+      <div class="uri-card uc-p">
+        <span class="icon">📢</span>
+        <span class="label">Pasalaysay</span>
+        <span>Nagsasalaysay o nagkukuwento. Nagtatapos sa <b>tuldok</b>.</span>
+        <div class="bantas" style="color:var(--pula);">.</div>
+      </div>
+      <div class="uri-card uc-b">
+        <span class="icon">❓</span>
+        <span class="label">Patanong</span>
+        <span>Nagtatanong. Gumagamit ng <b>tandang pananong</b>.</span>
+        <div class="bantas" style="color:var(--asul);">?</div>
+      </div>
+      <div class="uri-card uc-g">
+        <span class="icon">👆</span>
+        <span class="label">Pautos / Pakiusap</span>
+        <span>Nag-uutos o nakikiusap. Nagtatapos sa <b>tuldok</b>.</span>
+        <div class="bantas" style="color:var(--berde);">.</div>
+      </div>
+      <div class="uri-card uc-l">
+        <span class="icon">😲</span>
+        <span class="label">Padamdam</span>
+        <span>Nagsasaad ng matinding damdamin. Gumagamit ng <b>tandang padamdam</b>.</span>
+        <div class="bantas" style="color:var(--lila);">!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="h-asul">📝 Mga Halimbawa ng Bawat Uri</h3>
+    <div class="ibox asul">
+      📢 <b>Pasalaysay:</b> Ang Puerto Princesa Underground River ay matatagpuan sa Palawan<span class="hl-b">.</span><br>
+      <small>→ Nagkukuwento / nagsasabi ng impormasyon. Nagtatapos sa <b>tuldok (.)</b></small>
+    </div>
+    <div class="ibox dilaw">
+      ❓ <b>Patanong:</b> Kailan ka magbabakasyon sa lalawigan<span class="hl">?</span><br>
+      <small>→ Nagtatanong. Nagtatapos sa <b>tandang pananong (?)</b></small>
+    </div>
+    <div class="ibox berde">
+      👆 <b>Pakiusap:</b> Pakiabot ang baso<span class="hl-g">.</span><br>
+      👆 <b>Pautos:</b> Lumakad ka na<span class="hl-g">.</span><br>
+      <small>→ Nag-uutos o nakikiusap. Nagtatapos sa <b>tuldok (.)</b>. Sa pakiusap, may "paki–" o "maaari ba" / "puwede ba".</small>
+    </div>
+    <div class="ibox lila">
+      😲 <b>Padamdam:</b> Naku! Mag-ingat ka sa aso nila<span class="hl-l">!</span><br>
+      <small>→ Matinding damdamin. Nagtatapos sa <b>tandang padamdam (!)</b></small>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="h-asul">💡 Madaling Paraan para Malaman ang Uri</h3>
+    <div class="ex-box">
+      🔍 Tingnan ang <b>bantas sa dulo</b> ng pangungusap:<br><br>
+      &nbsp;&nbsp;<b>( . )</b> tuldok → Pasalaysay o Pautos/Pakiusap<br>
+      &nbsp;&nbsp;<b>( ? )</b> tandang pananong → Patanong<br>
+      &nbsp;&nbsp;<b>( ! )</b> tandang padamdam → Padamdam<br><br>
+      💡 Kung tuldok ang bantas — tanungin: "Nag-uutos ba? Nakikiusap?" → Pautos/Pakiusap. Kung hindi → Pasalaysay.
+    </div>
+  </div>
+
+  <div class="divider">— ✦ —</div>
+
+  <!-- MGA BAHAGI NG AKLAT -->
+  <div class="topic-hdr">
+    <div class="topic-icon">📚</div>
+    <h2 class="h-berde">Mga Bahagi ng Aklat</h2>
+  </div>
+
+  <div class="card">
+    <h3 class="h-berde">📌 Bakit Kailangan Malaman ang Bahagi ng Aklat?</h3>
+    <div class="ibox berde">
+      Mahalaga na malaman ang mga bahagi ng aklat upang <b>makitulungan ang mga mahahalagang impormasyon</b> kung saan matatagpuan ang mga ito.
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="h-berde">📋 Mga Bahagi ng Aklat</h3>
+    <div class="bahagi-grid">
+      <div class="bahagi-chip bc1">
+        <span class="b-name">📕 1. Pabalat</span>
+        Ang <b>cover o harapan ng aklat</b>. Nakasulat dito ang pangalan ng akda at ang pangalan ng may-akda.
+      </div>
+      <div class="bahagi-chip bc2">
+        <span class="b-name">📄 2. Pahina ng Pamagat</span>
+        Matatagpuan sa bahaging ito ang <b>pamagat ng aklat</b>, ang pangalan ng may-akda, at ang pangalan ng kumpanyang naglimbag.
+      </div>
+      <div class="bahagi-chip bc3">
+        <span class="b-name">📊 3. Paunang Salita</span>
+        Sa bahaging ito ay mababasa ang <b>tungkol sa aklat</b> at para sa mga mambabasa nito.
+      </div>
+      <div class="bahagi-chip bc4">
+        <span class="b-name">📑 4. Talaan ng mga Nilalaman</span>
+        Ito ang bahagi ng aklat na may mga <b>nakatala ang mga paksa</b> at mga pahinang nakapalooob. Dito malalaman kung saan nakatala ang bawat paksa.
+      </div>
+      <div class="bahagi-chip bc5">
+        <span class="b-name">📂 5. Katawan ng Aklat</span>
+        Ito ang <b>pangunahing paksa</b> ng aklat — matatagpuan dito ang mga babasanhing paksa.
+      </div>
+      <div class="bahagi-chip bc6">
+        <span class="b-name">🔤 6. Talahuluganan o Indeks</span>
+        Dito makikita ang mga <b>paksa na nakaayos sa alpabeto</b>. Sa tapat ng bawat paksa ay nakasulat ang pahina kung saan ito matatagpuan.
+      </div>
+      <div class="bahagi-chip bc7">
+        <span class="b-name">📘 7. Talitinigan o Glosari</span>
+        Bahagi ng aklat na nagtatala ng <b>mga mahihalangang salita</b>, ang kahulugan, at kung saan matatagpuan ang salita sa aklat.
+      </div>
+    </div>
+  </div>
+
+</div><!-- end reviewer -->
+
+<!-- ============ QUIZ 1: PANG-ABAY ============ -->
+<div id="q1" class="sec">
+  <div class="quiz-hdr">
+    <h2 style="color:var(--pula);">🏃 Quiz: Pang-abay na Pamaraan</h2>
+    <p>Hanapin ang tamang sagot! Kaya mo ito! 💪</p>
+  </div>
+  <div class="scoreboard">
+    <div class="sbox">⭐ Puntos<span id="a-sc">0</span></div>
+    <div class="sbox">📋 Tanong<span id="a-qn">1/10</span></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill pf-r" id="a-prog" style="width:0%"></div></div>
+  <div id="a-area"></div>
+  <div id="a-result" class="result-box">
+    <div class="medal" id="a-medal"></div>
+    <h2 id="a-rtitle" style="color:var(--pula);"></h2>
+    <div class="big-score" id="a-rscore"></div>
+    <p id="a-rmsg"></p>
+    <div class="qctrl" style="margin-top:22px;">
+      <button class="btn-go bg-r" onclick="restartQ('abay')">🔄 Subukan Uli</button>
+      <button class="btn-go bg-b" onclick="showTab('q2')">Susunod →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ QUIZ 2: PANGUNGUSAP + BAHAGI ============ -->
+<div id="q2" class="sec">
+  <div class="quiz-hdr">
+    <h2 style="color:var(--asul);">💬 Quiz: Pangungusap at Bahagi ng Aklat</h2>
+    <p>Anong uri ng pangungusap? Aling bahagi ng aklat? 📖</p>
+  </div>
+  <div class="scoreboard">
+    <div class="sbox">⭐ Puntos<span id="p-sc">0</span></div>
+    <div class="sbox">📋 Tanong<span id="p-qn">1/10</span></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill pf-b" id="p-prog" style="width:0%"></div></div>
+  <div id="p-area"></div>
+  <div id="p-result" class="result-box">
+    <div class="medal" id="p-medal"></div>
+    <h2 id="p-rtitle" style="color:var(--asul);"></h2>
+    <div class="big-score" id="p-rscore"></div>
+    <p id="p-rmsg"></p>
+    <div class="qctrl" style="margin-top:22px;">
+      <button class="btn-go bg-b" onclick="restartQ('pang')">🔄 Subukan Uli</button>
+      <button class="btn-go bg-l" onclick="showTab('q3')">Susunod →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ QUIZ 3: MIXED ============ -->
+<div id="q3" class="sec">
+  <div class="quiz-hdr">
+    <h2 style="color:var(--lila);">🏆 Mixed Quiz — Lahat ng Paksa!</h2>
+    <p>Halo-halo ang mga tanong — ipakita ang iyong talino! 🌟</p>
+  </div>
+  <div class="scoreboard">
+    <div class="sbox">⭐ Puntos<span id="m-sc">0</span></div>
+    <div class="sbox">📋 Tanong<span id="m-qn">1/10</span></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill pf-m" id="m-prog" style="width:0%"></div></div>
+  <div id="m-area"></div>
+  <div id="m-result" class="result-box">
+    <div class="medal" id="m-medal"></div>
+    <h2 id="m-rtitle" style="color:var(--lila);"></h2>
+    <div class="big-score" id="m-rscore"></div>
+    <p id="m-rmsg"></p>
+    <div class="qctrl" style="margin-top:22px;">
+      <button class="btn-go bg-l" onclick="restartQ('mixed')">🔄 Subukan Uli</button>
+      <button class="btn-go bg-r" onclick="showTab('reviewer')">📖 Mag-review Uli</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- TABS ----
+function showTab(id) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    b.className = 'tab-btn';
+    const cls = ['t0','t1','t2','t3'];
+    if ((['reviewer','q1','q2','q3'][i]) === id) b.classList.add(cls[i]);
+  });
+  document.getElementById(id).classList.add('active');
+  // re-apply active tab
+  const ids = ['reviewer','q1','q2','q3'];
+  const cls = ['t0','t1','t2','t3'];
+  ids.forEach((tid,i) => {
+    if(tid===id) document.querySelectorAll('.tab-btn')[i].classList.add(cls[i]);
+  });
+}
+
+// ---- QUESTIONS ----
+const abayQs = [
+  {e:"🏃",q:"Ano ang tinatawag na pang-abay na pamaraan?",c:["Nagsasabi ng PAANO ginawa ang kilos","Nagsasabi ng KAILAN nangyari","Nagsasabi ng SAAN nangyari","Nagsasabi ng SINO ang gumagawa"],a:"Nagsasabi ng PAANO ginawa ang kilos",h:"Ang pang-abay na pamaraan ay nagsasabi kung PAANO ginawa o naganap ang isang bagay!"},
+  {e:"💪",q:"Sa pangungusap na 'MATABANG na lumaban si David', anong salita ang pang-abay na pamaraan?",c:["Matabang","lumaban","si David","na"],a:"Matabang",h:"'Matabang' ang nagsasabi kung PAANO lumaban si David — ito ang pang-abay na pamaraan!"},
+  {e:"🎵",q:"Sa pangungusap na 'MASAYANG umaawit si David', anong salita ang pang-abay na pamaraan?",c:["Masayang","umaawit","si David","habang"],a:"Masayang",h:"'Masayang' ang nagsasabi kung PAANO umaawit si David — masaya ang paraan!"},
+  {e:"😡",q:"Sa pangungusap na 'PAINSULTONG kinausap ni Goliath si David', ano ang pang-abay na pamaraan?",c:["Painsultong","kinausap","ni Goliath","si David"],a:"Painsultong",h:"'Painsultong' ang nagsasabi kung PAANO kinausap — may pang-iinsulto ang paraan!"},
+  {e:"🙏",q:"'MAPAGKUMBABANG humarap si David kay Haring Saul.' Ang pang-abay na pamaraan dito ay...",c:["Mapagkumbabang","humarap","si David","Haring Saul"],a:"Mapagkumbabang",h:"'Mapagkumbabang' ang nagsasabi kung PAANO humarap si David — may kababaang-loob!"},
+  {e:"🐌",q:"Sa 'Mabagal kumilos si Annie', ang pang-abay na pamaraan ay...",c:["Mabagal","kumilos","si Annie","ay"],a:"Mabagal",h:"'Mabagal' ang nagsasabi kung PAANO kumilos si Annie — dahan-dahan!"},
+  {e:"🤫",q:"'Ang mga bata ay PATAGONG umalis.' Ang pang-abay na pamaraan ay?",c:["Patagong","umalis","ang mga bata","ay"],a:"Patagong",h:"'Patagong' ang nagsasabi kung PAANO umalis ang mga bata — lihim na lumabas!"},
+  {e:"❓",q:"Tanungin ang pandiwa ng 'PAANO?' para mahanap ang?",c:["Pang-abay na Pamaraan","Panghalip","Pangngalan","Pandiwa"],a:"Pang-abay na Pamaraan",h:"Ang trick ay tanungin ang pandiwa ng PAANO? — ang sagot ay ang pang-abay na pamaraan!"},
+  {e:"📝",q:"Alin sa mga ito ang halimbawa ng pang-abay na pamaraan?",c:["Tahimik","Kahapon","Doon","Kanya"],a:"Tahimik",h:"'Tahimik' ay nagsasabi ng PAANO — ito ang pang-abay na pamaraan!"},
+  {e:"🌟",q:"Alin ang pang-abay na pamaraan sa 'Mabilis tumakbo si Pedro'?",c:["Mabilis","tumakbo","si Pedro","ay"],a:"Mabilis",h:"'Mabilis' ang nagsasabi kung PAANO tumakbo si Pedro — mabilis ang paraan!"},
+  {e:"😊",q:"'Siya ay MASAYANG humarap sa mga panauhin.' Ang pang-abay na pamaraan ay?",c:["Masayang","humarap","siya","mga panauhin"],a:"Masayang",h:"'Masayang' ang nagsasabi kung PAANO humarap siya — masaya ang paraan!"},
+  {e:"📖",q:"Ang pang-abay na pamaraan ay naglalarawan sa?",c:["Pandiwa (action word)","Pangngalan","Panghalip","Pang-uri"],a:"Pandiwa (action word)",h:"Ang pang-abay na pamaraan ay naglalarawan sa PANDIWA — sinasabi nito kung PAANO ginawa ang kilos!"},
+  {e:"🔍",q:"Alin dito ang HINDI pang-abay na pamaraan?",c:["Bukas (bukas na araw)","Dahan-dahan","Maingat","Buong puso"],a:"Bukas (bukas na araw)",h:"'Bukas' bilang oras (kailan?) ay pang-abay na panahon — hindi pamaraan. Ang pamaraan ay nagsasabi ng PAANO!"},
+  {e:"💬",q:"'Buong puso niyang tinanggap ang bisita.' Ang pang-abay na pamaraan dito ay?",c:["Buong puso","tinanggap","bisita","niyang"],a:"Buong puso",h:"'Buong puso' ang nagsasabi kung PAANO tinanggap — nang may buong puso!"},
+  {e:"⭐",q:"Alin sa mga salitang ito ang pang-abay na pamaraan?",c:["Maingat","Sila","Laro","Bahay"],a:"Maingat",h:"'Maingat' ay nagsasabi ng PAANO — ito ang pang-abay na pamaraan!"}
+];
+
+const pangQs = [
+  {e:"📢",q:"Ano ang tawag sa pangungusap na nagkukuwento o nagsasalaysay?",c:["Pangungusap na Pasalaysay","Pangungusap na Patanong","Pangungusap na Padamdam","Pangungusap na Pautos"],a:"Pangungusap na Pasalaysay",h:"Ang Pasalaysay ay nagkukuwento o nagsasalaysay. Nagtatapos ito sa TULDOK (.)"},
+  {e:"❓",q:"Anong bantas ang ginagamit ng Pangungusap na Patanong?",c:["Tandang pananong (?)","Tuldok (.)","Tandang padamdam (!)","Kuwit (,)"],a:"Tandang pananong (?)",h:"Ang Pangungusap na Patanong ay nagtatapos sa TANDANG PANANONG (?)!"},
+  {e:"😲",q:"Anong bantas ang ginagamit ng Pangungusap na Padamdam?",c:["Tandang padamdam (!)","Tuldok (.)","Tandang pananong (?)","Wala"],a:"Tandang padamdam (!)",h:"Ang Pangungusap na Padamdam ay nagtatapos sa TANDANG PADAMDAM (!)!"},
+  {e:"💬",q:"'Ang Puerto Princesa Underground River ay matatagpuan sa Palawan.' Anong uri ito?",c:["Pasalaysay","Patanong","Padamdam","Pautos"],a:"Pasalaysay",h:"Nagkukuwento ito at nagtatapos sa tuldok (.) — Pasalaysay!"},
+  {e:"❓",q:"'Kailan ka magbabakasyon sa lalawigan?' Anong uri ng pangungusap ito?",c:["Patanong","Pasalaysay","Padamdam","Pakiusap"],a:"Patanong",h:"Nagtatanong ito at may tandang pananong (?) — Patanong!"},
+  {e:"😲",q:"'Naku! Mag-ingat ka sa aso nila!' Anong uri ng pangungusap ito?",c:["Padamdam","Pasalaysay","Patanong","Pautos"],a:"Padamdam",h:"Nagsasaad ng matinding damdamin at may (!) — Padamdam!"},
+  {e:"👆",q:"'Pakiabot ang baso.' Anong uri ng pangungusap ito?",c:["Pakiusap","Patanong","Padamdam","Pasalaysay"],a:"Pakiusap",h:"Nakikiusap ito at gumagamit ng 'paki–' — Pakiusap!"},
+  {e:"👆",q:"'Lumakad ka na.' Anong uri ng pangungusap ito?",c:["Pautos","Patanong","Padamdam","Pasalaysay"],a:"Pautos",h:"Nag-uutos ito at nagtatapos sa tuldok (.) — Pautos!"},
+  {e:"📕",q:"Ang PABALAT ng aklat ay naglalaman ng?",c:["Pamagat ng aklat at pangalan ng may-akda","Mga talaan ng mga paksa at pahina","Kahulugan ng mga salita","Paunang pahayag ng may-akda"],a:"Pamagat ng aklat at pangalan ng may-akda",h:"Ang Pabalat ay ang cover o harapan ng aklat. Nakasulat dito ang pamagat at ang pangalan ng may-akda."},
+  {e:"📑",q:"Saan matatagpuan ang mga paksa at ang kanilang pahinang numero sa aklat?",c:["Talaan ng mga Nilalaman","Pabalat","Talitinigan","Paunang Salita"],a:"Talaan ng mga Nilalaman",h:"Ang Talaan ng mga Nilalaman ay nagpapakita ng mga paksa at kung aling pahina ang bawat isa!"},
+  {e:"🔤",q:"Kung hindi mo alam ang kahulugan ng isang salita sa aklat, saan ka titingin?",c:["Talitinigan o Glosari","Pabalat","Paunang Salita","Talaan ng mga Nilalaman"],a:"Talitinigan o Glosari",h:"Ang Talitinigan o Glosari ay nagbibigay ng kahulugan ng mga mahihalangang salita!"},
+  {e:"📊",q:"Ang bahagi ng aklat na nagsasabi kung PARA SAAN ang aklat ay tinatawag na?",c:["Paunang Salita","Pabalat","Talaan ng Nilalaman","Talitinigan"],a:"Paunang Salita",h:"Ang Paunang Salita ay nagpapaliwanag kung tungkol saan ang aklat at para saan ito!"},
+  {e:"🔤",q:"Ang Talahuluganan o Indeks ay nakaayos sa?",c:["Alpabeto","Pahina","Petsa","Paksa"],a:"Alpabeto",h:"Ang mga paksa sa Talahuluganan o Indeks ay nakaayos sa ALPABETO para madaling hanapin!"},
+  {e:"📄",q:"Ang PAHINA NG PAMAGAT ay naglalaman ng?",c:["Pamagat, pangalan ng may-akda, at publisher","Mga paksa at pahina","Kahulugan ng mga salita","Paunang pahayag"],a:"Pamagat, pangalan ng may-akda, at publisher",h:"Ang Pahina ng Pamagat ay may pamagat ng aklat, pangalan ng may-akda, at pangalan ng nagpalathala!"},
+  {e:"📚",q:"Ang KATAWAN ng aklat ay ang?",c:["Pangunahing bahagi kung saan makikita ang mga paksa","Cover ng aklat","Listahan ng mga salita","Talaan ng nilalaman"],a:"Pangunahing bahagi kung saan makikita ang mga paksa",h:"Ang Katawan ng aklat ay ang pangunahing parte — dito matatagpuan ang mga lesson at paksa!"}
+];
+
+function buildMixed() {
+  return shuffle([...shuffle(abayQs).slice(0,5), ...shuffle(pangQs).slice(0,5)]);
+}
+
+function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+
+let ST = {
+  abay:  {qs:[], idx:0, sc:0},
+  pang:  {qs:[], idx:0, sc:0},
+  mixed: {qs:[], idx:0, sc:0}
+};
+
+const CFG = {
+  abay:  {area:'a-area', sc:'a-sc', qn:'a-qn', prog:'a-prog', result:'a-result', medal:'a-medal', rtitle:'a-rtitle', rscore:'a-rscore', rmsg:'a-rmsg', pfx:'a', ql:'ql-r', nb:'bg-r'},
+  pang:  {area:'p-area', sc:'p-sc', qn:'p-qn', prog:'p-prog', result:'p-result', medal:'p-medal', rtitle:'p-rtitle', rscore:'p-rscore', rmsg:'p-rmsg', pfx:'p', ql:'ql-b', nb:'bg-b'},
+  mixed: {area:'m-area', sc:'m-sc', qn:'m-qn', prog:'m-prog', result:'m-result', medal:'m-medal', rtitle:'m-rtitle', rscore:'m-rscore', rmsg:'m-rmsg', pfx:'m', ql:'ql-m', nb:'bg-l'}
+};
+
+function initQ(type) {
+  const st = ST[type];
+  st.qs  = type==='abay' ? shuffle(abayQs).slice(0,10) : type==='pang' ? shuffle(pangQs).slice(0,10) : buildMixed();
+  st.idx = 0; st.sc = 0;
+  document.getElementById(CFG[type].area).style.display = 'block';
+  document.getElementById(CFG[type].result).style.display = 'none';
+  render(type);
+}
+
+function render(type) {
+  const st = ST[type]; const c = CFG[type];
+  if (st.idx >= st.qs.length) { showResult(type); return; }
+  const q = st.qs[st.idx]; const tot = st.qs.length;
+  document.getElementById(c.sc).textContent = st.sc;
+  document.getElementById(c.qn).textContent = `${st.idx+1}/${tot}`;
+  document.getElementById(c.prog).style.width = `${(st.idx/tot)*100}%`;
+  const sh = shuffle(q.c);
+  document.getElementById(c.area).innerHTML = `
+    <div class="q-card">
+      <span class="q-label ${c.ql}">Tanong ${st.idx+1} sa ${tot}</span>
+      <div class="q-emoji">${q.e}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="choices">
+        ${sh.map(o=>`<button class="choice-btn" onclick="check('${type}','${o.replace(/'/g,"&#39;").replace(/"/g,"&quot;")}')">${o}</button>`).join('')}
+      </div>
+      <div class="fb-msg" id="${c.pfx}-fb"></div>
+    </div>
+    <div class="qctrl">
+      <button class="btn-go ${c.nb}" id="${c.pfx}-next" style="display:none" onclick="nextQ('${type}')">Susunod ➡️</button>
+    </div>`;
+}
+
+function check(type, chosen) {
+  const st = ST[type]; const c = CFG[type];
+  const q = st.qs[st.idx];
+  const btns = document.querySelectorAll(`#${c.area} .choice-btn`);
+  const fb = document.getElementById(`${c.pfx}-fb`);
+  btns.forEach(b => {
+    b.disabled = true;
+    if (b.textContent === q.a) b.classList.add('correct');
+    else if (b.textContent === chosen && chosen !== q.a) b.classList.add('wrong');
+  });
+  if (chosen === q.a) { st.sc++; fb.className='fb-msg fb-ok'; fb.textContent=`✅ Tama! ${q.e} Magaling!`; }
+  else { fb.className='fb-msg fb-no'; fb.textContent=`❌ Ang tamang sagot ay "${q.a}". 💡 ${q.h}`; }
+  document.getElementById(c.sc).textContent = st.sc;
+  document.getElementById(`${c.pfx}-next`).style.display='inline-block';
+}
+
+function nextQ(type) { ST[type].idx++; render(type); }
+
+function showResult(type) {
+  const c = CFG[type]; const st = ST[type];
+  document.getElementById(c.area).style.display = 'none';
+  document.getElementById(c.result).style.display = 'block';
+  const pct = Math.round(st.sc / st.qs.length * 100);
+  let med, title, msg;
+  if (pct===100){med='🏆';title='PERPEKTO!';msg='Napakahusay! Ikaw ay isang bituin! 🌟';}
+  else if (pct>=80){med='🥇';title='Napakahusay!';msg='Kahanga-hangang gawa! Alam mo ang aralin! 🎉';}
+  else if (pct>=60){med='🥈';title='Magaling!';msg='Mabuti! Mag-review pa kaunti at magiging perpekto ka! 💪';}
+  else {med='🥉';title='Subukan Uli!';msg='Huwag sumuko! Basahin uli ang reviewer at subukan muli! 📚';}
+  document.getElementById(c.medal).textContent = med;
+  document.getElementById(c.rtitle).textContent = title;
+  document.getElementById(c.rscore).textContent = `${st.sc} / ${st.qs.length}`;
+  document.getElementById(c.rmsg).textContent = msg;
+  document.getElementById(c.prog).style.width = '100%';
+}
+
+function restartQ(type) { initQ(type); }
+
+initQ('abay'); initQ('pang'); initQ('mixed');
+</script>
+</body>
+</html>

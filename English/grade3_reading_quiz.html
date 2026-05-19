@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 3 Reading Comprehension</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --english: #1a6b8a;
+    --english-light: #e0f4fb;
+    --english-mid: #5ab0cc;
+    --tagalog: #c0392b;
+    --tagalog-light: #fdecea;
+    --tagalog-mid: #e07b72;
+    --correct: #27ae60;
+    --wrong: #e74c3c;
+    --bg: #fdf8f0;
+    --card: #ffffff;
+    --text: #2c2c2c;
+    --muted: #888;
+    --gold: #f0a500;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ---- HEADER ---- */
+  .header {
+    background: linear-gradient(135deg, #1a6b8a 0%, #c0392b 100%);
+    padding: 32px 24px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 2px, transparent 2px, transparent 12px);
+  }
+  .header h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0.5px;
+    position: relative;
+  }
+  .header p {
+    color: rgba(255,255,255,0.85);
+    font-size: 0.95rem;
+    margin-top: 6px;
+    font-weight: 600;
+    position: relative;
+  }
+  .badges {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 14px;
+    position: relative;
+  }
+  .badge {
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .badge-en { background: rgba(255,255,255,0.2); color: #fff; border: 1px solid rgba(255,255,255,0.4); }
+  .badge-tl { background: rgba(255,255,255,0.2); color: #fff; border: 1px solid rgba(255,255,255,0.4); }
+
+  /* ---- TABS ---- */
+  .tabs {
+    display: flex;
+    max-width: 860px;
+    margin: 28px auto 0;
+    padding: 0 16px;
+    gap: 10px;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 13px 10px;
+    border: none;
+    border-radius: 12px 12px 0 0;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    opacity: 0.6;
+  }
+  .tab-btn.en { background: var(--english); color: #fff; }
+  .tab-btn.tl { background: var(--tagalog); color: #fff; }
+  .tab-btn.active { opacity: 1; transform: translateY(2px); }
+
+  /* ---- MAIN ---- */
+  .main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 16px 60px;
+  }
+
+  .story-panel { display: none; }
+  .story-panel.active { display: block; }
+
+  /* ---- STORY CARD ---- */
+  .story-card {
+    border-radius: 0 0 16px 16px;
+    padding: 28px 30px;
+    margin-bottom: 20px;
+    border-top: 5px solid;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+  .story-card.en { background: var(--english-light); border-color: var(--english); }
+  .story-card.tl { background: var(--tagalog-light); border-color: var(--tagalog); }
+
+  .story-label {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .en .story-label { color: var(--english); }
+  .tl .story-label { color: var(--tagalog); }
+
+  .story-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.45rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+  .en .story-title { color: var(--english); }
+  .tl .story-title { color: var(--tagalog); }
+
+  .story-text p {
+    font-size: 1rem;
+    line-height: 1.75;
+    margin-bottom: 12px;
+    color: #333;
+  }
+  .story-text p:last-child { margin-bottom: 0; }
+
+  /* ---- QUIZ SECTION ---- */
+  .quiz-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 26px 28px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    border: 1px solid #eee;
+  }
+
+  .section-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .en .section-title { color: var(--english); }
+  .tl .section-title { color: var(--tagalog); }
+
+  /* Multiple Choice */
+  .mc-question { margin-bottom: 22px; }
+  .mc-question:last-child { margin-bottom: 0; }
+  .mc-q-text {
+    font-weight: 700;
+    font-size: 0.97rem;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .opt-btn {
+    padding: 9px 14px;
+    border-radius: 10px;
+    border: 2px solid #ddd;
+    background: #fafafa;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.18s;
+    color: #333;
+  }
+  .opt-btn:hover:not(.locked) { border-color: #aaa; background: #f0f0f0; }
+  .opt-btn.selected { border-color: #888; background: #f0f0f0; }
+  .opt-btn.correct { background: #d4f5e2; border-color: var(--correct); color: var(--correct); }
+  .opt-btn.wrong { background: #fde8e8; border-color: var(--wrong); color: var(--wrong); }
+  .opt-btn.reveal-correct { background: #d4f5e2; border-color: var(--correct); color: var(--correct); }
+
+  /* True/False */
+  .tf-question {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid #eee;
+    background: #fafafa;
+  }
+  .tf-question:last-child { margin-bottom: 0; }
+  .tf-text { flex: 1; font-size: 0.93rem; font-weight: 600; line-height: 1.4; }
+  .tf-btns { display: flex; gap: 6px; flex-shrink: 0; }
+  .tf-btn {
+    padding: 5px 14px;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    background: #fff;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .tf-btn:hover:not(.locked) { border-color: #aaa; }
+  .tf-btn.selected { border-color: #888; background: #f0f0f0; }
+  .tf-btn.correct { background: #d4f5e2; border-color: var(--correct); color: var(--correct); }
+  .tf-btn.wrong { background: #fde8e8; border-color: var(--wrong); color: var(--wrong); }
+  .tf-btn.reveal-correct { background: #d4f5e2; border-color: var(--correct); color: var(--correct); }
+
+  /* Open Answer */
+  .open-question { margin-bottom: 18px; }
+  .open-question:last-child { margin-bottom: 0; }
+  .open-q-text { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; line-height: 1.5; }
+  .open-input {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 2px solid #ddd;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.92rem;
+    color: #333;
+    background: #fafafa;
+    resize: vertical;
+    min-height: 68px;
+    transition: border 0.15s;
+  }
+  .open-input:focus { outline: none; border-color: #aaa; background: #fff; }
+
+  /* Submit / Score */
+  .quiz-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .check-btn {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s, opacity 0.15s;
+    color: #fff;
+  }
+  .check-btn:hover { transform: translateY(-2px); opacity: 0.92; }
+  .check-btn:active { transform: translateY(0); }
+  .en .check-btn { background: var(--english); }
+  .tl .check-btn { background: var(--tagalog); }
+  .reset-btn {
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: 2px solid #ddd;
+    background: #fff;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: #666;
+    transition: all 0.15s;
+  }
+  .reset-btn:hover { border-color: #aaa; color: #333; }
+
+  .score-box {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 1rem;
+  }
+  .score-box.show { display: flex; }
+  .score-box.great { background: #d4f5e2; color: var(--correct); }
+  .score-box.ok { background: #fff3cd; color: #856404; }
+  .score-box.low { background: #fde8e8; color: var(--wrong); }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 540px) {
+    .options { grid-template-columns: 1fr; }
+    .story-card, .quiz-card { padding: 20px 18px; }
+    .header h1 { font-size: 1.55rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📖 Reading Comprehension</h1>
+  <p>Grade 3 Interactive Quiz</p>
+  <div class="badges">
+    <span class="badge badge-en">🇺🇸 English</span>
+    <span class="badge badge-tl">🇵🇭 Tagalog</span>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn en active" onclick="switchTab('en')">🇺🇸 English Story</button>
+  <button class="tab-btn tl" onclick="switchTab('tl')">🇵🇭 Tagalog na Kwento</button>
+</div>
+
+<div class="main">
+
+  <!-- ====== ENGLISH PANEL ====== -->
+  <div id="panel-en" class="story-panel en active">
+
+    <div class="story-card en">
+      <div class="story-label">English · Grade 3 Reading</div>
+      <div class="story-title">The Boy Who Forgot His Umbrella</div>
+      <div class="story-text">
+        <p>Every morning, Lucas's mom reminded him to bring his umbrella to school. "It might rain today," she would say. But Lucas always forgot. He was too busy thinking about playing with his friends.</p>
+        <p>One Tuesday, dark clouds filled the sky when school ended. Lucas walked out with his classmates and looked up. Before he could run back inside, the rain began to pour down hard.</p>
+        <p>His classmate Maya was standing nearby, holding a big yellow umbrella. She saw Lucas getting wet and walked over to him. "We can share," she said with a smile. Together, they walked to the school gate, both staying dry under Maya's umbrella.</p>
+        <p>The next morning, Lucas packed his umbrella first before anything else. He even put a small sticker on it that said "REMEMBER!" so he would never forget again. He also decided that the next time someone needed help, he would be the one to share.</p>
+      </div>
+    </div>
+
+    <!-- MC -->
+    <div class="quiz-card">
+      <div class="section-title">🔵 Part A: Choose the best answer.</div>
+
+      <div class="mc-question" data-answer="b">
+        <div class="mc-q-text">1. Why did Lucas always forget his umbrella?</div>
+        <div class="options">
+          <button class="opt-btn" data-val="a">He didn't own one.</button>
+          <button class="opt-btn" data-val="b">He was too busy thinking about playing.</button>
+          <button class="opt-btn" data-val="c">His mom never reminded him.</button>
+          <button class="opt-btn" data-val="d">He lost it at school.</button>
+        </div>
+      </div>
+
+      <div class="mc-question" data-answer="c">
+        <div class="mc-q-text">2. What color was Maya's umbrella?</div>
+        <div class="options">
+          <button class="opt-btn" data-val="a">Red</button>
+          <button class="opt-btn" data-val="b">Blue</button>
+          <button class="opt-btn" data-val="c">Yellow</button>
+          <button class="opt-btn" data-val="d">Green</button>
+        </div>
+      </div>
+
+      <div class="mc-question" data-answer="a">
+        <div class="mc-q-text">3. On what day did it rain heavily after school?</div>
+        <div class="options">
+          <button class="opt-btn" data-val="a">Tuesday</button>
+          <button class="opt-btn" data-val="b">Monday</button>
+          <button class="opt-btn" data-val="c">Friday</button>
+          <button class="opt-btn" data-val="d">Wednesday</button>
+        </div>
+      </div>
+
+      <div class="mc-question" data-answer="d">
+        <div class="mc-q-text">4. What did Lucas put on his umbrella the next morning?</div>
+        <div class="options">
+          <button class="opt-btn" data-val="a">His name</button>
+          <button class="opt-btn" data-val="b">A flower drawing</button>
+          <button class="opt-btn" data-val="c">A smiley face</button>
+          <button class="opt-btn" data-val="d">A sticker that said "REMEMBER!"</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- T/F -->
+    <div class="quiz-card">
+      <div class="section-title">✅ Part B: True or False?</div>
+
+      <div class="tf-question" data-answer="false">
+        <div class="tf-text">5. Lucas's mom never reminded him to bring his umbrella.</div>
+        <div class="tf-btns">
+          <button class="tf-btn" data-val="true">True</button>
+          <button class="tf-btn" data-val="false">False</button>
+        </div>
+      </div>
+      <div class="tf-question" data-answer="true">
+        <div class="tf-text">6. Maya shared her umbrella with Lucas.</div>
+        <div class="tf-btns">
+          <button class="tf-btn" data-val="true">True</button>
+          <button class="tf-btn" data-val="false">False</button>
+        </div>
+      </div>
+      <div class="tf-question" data-answer="false">
+        <div class="tf-text">7. Lucas and Maya got very wet walking home.</div>
+        <div class="tf-btns">
+          <button class="tf-btn" data-val="true">True</button>
+          <button class="tf-btn" data-val="false">False</button>
+        </div>
+      </div>
+      <div class="tf-question" data-answer="true">
+        <div class="tf-text">8. Lucas decided to help others the next time someone needed it.</div>
+        <div class="tf-btns">
+          <button class="tf-btn" data-val="true">True</button>
+          <button class="tf-btn" data-val="false">False</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Open -->
+    <div class="quiz-card">
+      <div class="section-title">✏️ Part C: Answer in your own words.</div>
+      <div class="open-question">
+        <div class="open-q-text">9. Why is it important to listen to your parents' reminders? Write 2 sentences.</div>
+        <textarea class="open-input" placeholder="Write your answer here..."></textarea>
+      </div>
+      <div class="open-question">
+        <div class="open-q-text">10. Have you ever helped a friend like Maya helped Lucas? What did you do?</div>
+        <textarea class="open-input" placeholder="Write your answer here..."></textarea>
+      </div>
+    </div>
+
+    <div class="quiz-actions">
+      <button class="check-btn" onclick="checkQuiz('en')">Check My Answers ✓</button>
+      <button class="reset-btn" onclick="resetQuiz('en')">↺ Try Again</button>
+      <div id="score-en" class="score-box"></div>
+    </div>
+  </div>
+
+  <!-- ====== TAGALOG PANEL ====== -->
+  <div id="panel-tl" class="story-panel tl">
+
+    <div class="story-card tl">
+      <div class="story-label">Tagalog · Grade 3 na Pagbabasa</div>
+      <div class="story-title">Ang Punong Mangga ni Lolo</div>
+      <div class="story-text">
+        <p>Sa likod ng bahay ni Amara ay may malaking punong mangga. Itinatanim iyon ng kanyang lolo noong bata pa siya. Bawat tag-init, nagbubunga ng maraming mangga ang puno at nagagalak ang buong pamilya.</p>
+        <p>Isang hapon, napansin ni Amara na may malalim na sugat sa puno. Tinawag niya ang kanyang lolo at itinanong kung ano ito. "Tinanggal ng ating kapitbahay ang isang malaking sanga para hindi mahulog sa kanilang bubong," paliwanag ng lolo nang may lungkot sa mukha.</p>
+        <p>Naawa si Amara. Naisip niya na gawin ang isang bagay para tulungan ang puno. Pumunta siya sa tindahan kasama ang kanyang nanay at bumili ng espesyal na gamot para sa puno. Maingat niyang nilagyan ng gamot ang sugat at tinakpan ito ng tela.</p>
+        <p>Pagkatapos ng ilang linggo, nagpasalamat si Lolo kay Amara. "Dahil sa iyong pagmamahal at pag-aalaga, lalago ulit ang ating puno," sabi niya. Ngumiti si Amara. Natuto siya na ang pagmamahal sa kalikasan ay isang uri ng pagmamahal sa pamilya.</p>
+      </div>
+    </div>
+
+    <!-- MC -->
+    <div class="quiz-card">
+      <div class="section-title">🔴 Bahagi A: Piliin ang pinakamabuting sagot.</div>
+
+      <div class="mc-question" data-answer="c">
+        <div class="mc-q-text">1. Sino ang nagtanim ng punong mangga?</div>
+        <div class="options">
+          <button class="opt-btn" data-val="a">Si Amara</button>
+          <button class="opt-btn" data-val="b">Ang nanay ni Amara</button>
+          <button class="opt-btn" data-val="c">Ang lolo ni Amara</button>
+          <button class="opt-btn" data-val="d">Ang kapitbahay</button>
+        </div>
+      </div>
+
+      <div class="mc-question" data-answer="b">
+        <div class="mc-q-text">2. Bakit may sugat ang punong mangga?</div>
+        <div class="options">
+          <button class="opt-btn" data-val="a">Tinamaan ito ng kidlat.</button>
+          <button class="opt-btn" data-val="b">Tinanggal ng kapitbahay ang isang sanga.</button>
+          <button class="opt-btn" data-val="c">Pinutol ito ng lolo.</button>
+          <button class="opt-btn" data-val="d">Nahulog ito sa bagyo.</button>
+        </div>
+      </div>
+
+      <div class="mc-question" data-answer="a">
+        <div class="mc-q-text">3. Saan pumunta si Amara para makakuha ng gamot sa puno?</div>
+        <div class="options">
+          <button class="opt-btn" data-val="a">Sa tindahan</button>
+          <button class="opt-btn" data-val="b">Sa ospital</button>
+          <button class="opt-btn" data-val="c">Sa kapitbahay</button>
+          <button class="opt-btn" data-val="d">Sa paaralan</button>
+        </div>
+      </div>
+
+      <div class="mc-question" data-answer="d">
+        <div class="mc-q-text">4. Ano ang natutunan ni Amara sa kwentong ito?</div>
+        <div class="options">
+          <button class="opt-btn" data-val="a">Ang mangga ay masarap.</button>
+          <button class="opt-btn" data-val="b">Ang mga puno ay mabilis lumago.</button>
+          <button class="opt-btn" data-val="c">Ang kapitbahay ay masama.</button>
+          <button class="opt-btn" data-val="d">Ang pagmamahal sa kalikasan ay pagmamahal sa pamilya.</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- T/F -->
+    <div class="quiz-card">
+      <div class="section-title">✅ Bahagi B: Tama o Mali?</div>
+
+      <div class="tf-question" data-answer="true">
+        <div class="tf-text">5. Nagbubunga ng mangga ang puno tuwing tag-init.</div>
+        <div class="tf-btns">
+          <button class="tf-btn" data-val="true">Tama</button>
+          <button class="tf-btn" data-val="false">Mali</button>
+        </div>
+      </div>
+      <div class="tf-question" data-answer="false">
+        <div class="tf-text">6. Masaya ang lolo nang makita ang sugat ng puno.</div>
+        <div class="tf-btns">
+          <button class="tf-btn" data-val="true">Tama</button>
+          <button class="tf-btn" data-val="false">Mali</button>
+        </div>
+      </div>
+      <div class="tf-question" data-answer="true">
+        <div class="tf-text">7. Tinakpan ni Amara ng tela ang sugat ng puno.</div>
+        <div class="tf-btns">
+          <button class="tf-btn" data-val="true">Tama</button>
+          <button class="tf-btn" data-val="false">Mali</button>
+        </div>
+      </div>
+      <div class="tf-question" data-answer="false">
+        <div class="tf-text">8. Ang lolo ang bumili ng gamot para sa puno.</div>
+        <div class="tf-btns">
+          <button class="tf-btn" data-val="true">Tama</button>
+          <button class="tf-btn" data-val="false">Mali</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Open -->
+    <div class="quiz-card">
+      <div class="section-title">✏️ Bahagi C: Sagutin sa sariling salita.</div>
+      <div class="open-question">
+        <div class="open-q-text">9. Bakit mahalaga ang pag-aalaga ng mga halaman o puno? Sumulat ng 2 pangungusap.</div>
+        <textarea class="open-input" placeholder="Isulat ang iyong sagot dito..."></textarea>
+      </div>
+      <div class="open-question">
+        <div class="open-q-text">10. Mayroon ka bang paboritong puno o halaman sa inyong bakuran? Ilarawan ito.</div>
+        <textarea class="open-input" placeholder="Isulat ang iyong sagot dito..."></textarea>
+      </div>
+    </div>
+
+    <div class="quiz-actions">
+      <button class="check-btn" onclick="checkQuiz('tl')">Suriin ang mga Sagot ✓</button>
+      <button class="reset-btn" onclick="resetQuiz('tl')">↺ Subukang Muli</button>
+      <div id="score-tl" class="score-box"></div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+  function switchTab(lang) {
+    document.querySelectorAll('.story-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + lang).classList.add('active');
+    document.querySelector('.tab-btn.' + lang).classList.add('active');
+  }
+
+  // Option selection
+  document.querySelectorAll('.mc-question').forEach(q => {
+    q.querySelectorAll('.opt-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (q.classList.contains('answered')) return;
+        q.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+      });
+    });
+  });
+
+  document.querySelectorAll('.tf-question').forEach(q => {
+    q.querySelectorAll('.tf-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (q.classList.contains('answered')) return;
+        q.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+      });
+    });
+  });
+
+  function checkQuiz(lang) {
+    const panel = document.getElementById('panel-' + lang);
+    let total = 0, correct = 0;
+
+    // MC
+    panel.querySelectorAll('.mc-question').forEach(q => {
+      const answer = q.dataset.answer;
+      const selected = q.querySelector('.opt-btn.selected');
+      total++;
+      q.classList.add('answered');
+      q.querySelectorAll('.opt-btn').forEach(b => b.classList.add('locked'));
+      if (selected) {
+        if (selected.dataset.val === answer) {
+          selected.classList.add('correct');
+          correct++;
+        } else {
+          selected.classList.add('wrong');
+          q.querySelectorAll('.opt-btn').forEach(b => {
+            if (b.dataset.val === answer) b.classList.add('reveal-correct');
+          });
+        }
+      } else {
+        q.querySelectorAll('.opt-btn').forEach(b => {
+          if (b.dataset.val === answer) b.classList.add('reveal-correct');
+        });
+      }
+    });
+
+    // T/F
+    panel.querySelectorAll('.tf-question').forEach(q => {
+      const answer = q.dataset.answer;
+      const selected = q.querySelector('.tf-btn.selected');
+      total++;
+      q.classList.add('answered');
+      q.querySelectorAll('.tf-btn').forEach(b => b.classList.add('locked'));
+      if (selected) {
+        if (selected.dataset.val === answer) {
+          selected.classList.add('correct');
+          correct++;
+        } else {
+          selected.classList.add('wrong');
+          q.querySelectorAll('.tf-btn').forEach(b => {
+            if (b.dataset.val === answer) b.classList.add('reveal-correct');
+          });
+        }
+      } else {
+        q.querySelectorAll('.tf-btn').forEach(b => {
+          if (b.dataset.val === answer) b.classList.add('reveal-correct');
+        });
+      }
+    });
+
+    const box = document.getElementById('score-' + lang);
+    const pct = Math.round((correct / total) * 100);
+    box.textContent = `Score: ${correct} / ${total} (${pct}%) ${pct >= 75 ? '🌟' : pct >= 50 ? '👍' : '💪'}`;
+    box.className = 'score-box show ' + (pct >= 75 ? 'great' : pct >= 50 ? 'ok' : 'low');
+  }
+
+  function resetQuiz(lang) {
+    const panel = document.getElementById('panel-' + lang);
+    panel.querySelectorAll('.opt-btn, .tf-btn').forEach(b => {
+      b.className = b.classList.contains('opt-btn') ? 'opt-btn' : 'tf-btn';
+    });
+    panel.querySelectorAll('.mc-question, .tf-question').forEach(q => {
+      q.classList.remove('answered');
+    });
+    panel.querySelectorAll('.open-input').forEach(t => t.value = '');
+    const box = document.getElementById('score-' + lang);
+    box.className = 'score-box';
+    box.textContent = '';
+  }
+</script>
+</body>
+</html>

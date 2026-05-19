@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="fil">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Filipino 2 — Ikaapat na Markahan</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #f5a623;
+    --gold-light: #fff3d6;
+    --gold-dark: #c47d00;
+    --green: #2d7a3a;
+    --green-light: #e6f4e8;
+    --red: #c0392b;
+    --red-light: #fdecea;
+    --blue: #1a5276;
+    --blue-light: #eaf2fb;
+    --bg: #fffdf5;
+    --card: #ffffff;
+    --text: #2c2c2c;
+    --muted: #7a7a7a;
+    --border: #e8dfc0;
+    --radius: 18px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, #1a3a1f 0%, #2d7a3a 60%, #f5a623 100%);
+    padding: 28px 20px 22px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .school-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50px;
+    padding: 4px 16px;
+    font-size: 11px;
+    color: #fff;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  header h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(22px, 5vw, 36px);
+    font-weight: 800;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  header p {
+    color: rgba(255,255,255,0.85);
+    font-size: 14px;
+    margin-top: 4px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    padding: 16px 12px;
+    background: #fff;
+    border-bottom: 2px solid var(--border);
+    flex-wrap: wrap;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+  nav button {
+    font-family: 'Baloo 2', cursive;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 8px 16px;
+    border: 2px solid var(--border);
+    border-radius: 50px;
+    background: #fff;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all .2s;
+  }
+  nav button.active, nav button:hover {
+    background: var(--green);
+    color: #fff;
+    border-color: var(--green);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(45,122,58,0.3);
+  }
+
+  /* ── SECTIONS ── */
+  section { display: none; padding: 24px 16px 40px; max-width: 800px; margin: 0 auto; }
+  section.active { display: block; }
+
+  /* ── REVIEWER CARDS ── */
+  .topic-block {
+    margin-bottom: 28px;
+  }
+  .topic-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--green);
+    background: var(--green-light);
+    border-left: 5px solid var(--green);
+    padding: 10px 16px;
+    border-radius: 0 12px 12px 0;
+    margin-bottom: 12px;
+  }
+  .card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .card h4 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--gold-dark);
+    margin-bottom: 6px;
+  }
+  .card p, .card li {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .card ul { padding-left: 20px; }
+  .card li { margin-bottom: 4px; }
+  .example-box {
+    background: var(--gold-light);
+    border: 1.5px dashed var(--gold);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-top: 8px;
+    font-size: 13px;
+  }
+  .example-box b { color: var(--gold-dark); }
+
+  /* ── QUIZ / EXAM ── */
+  .q-block {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: border-color .2s;
+  }
+  .q-num {
+    font-family: 'Baloo 2', cursive;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--green);
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 50px;
+    margin-bottom: 8px;
+  }
+  .q-text {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+  .choices label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 7px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all .15s;
+    user-select: none;
+  }
+  .choices label:hover { border-color: var(--green); background: var(--green-light); }
+  .choices input[type=radio] { accent-color: var(--green); width: 16px; height: 16px; flex-shrink: 0; }
+  .choices label.correct { border-color: var(--green); background: var(--green-light); font-weight: 700; }
+  .choices label.wrong { border-color: var(--red); background: var(--red-light); }
+  .feedback {
+    font-size: 13px;
+    margin-top: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct { background: var(--green-light); color: var(--green); font-weight: 700; }
+  .feedback.wrong { background: var(--red-light); color: var(--red); }
+
+  .submit-btn {
+    display: block;
+    width: 100%;
+    max-width: 340px;
+    margin: 24px auto 0;
+    padding: 14px;
+    font-family: 'Baloo 2', cursive;
+    font-size: 17px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--green), #1a5e25);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(45,122,58,0.35);
+    transition: transform .15s, box-shadow .15s;
+  }
+  .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(45,122,58,0.4); }
+
+  .score-box {
+    display: none;
+    background: linear-gradient(135deg, #1a3a1f, #2d7a3a);
+    color: #fff;
+    border-radius: var(--radius);
+    padding: 28px;
+    text-align: center;
+    margin-top: 24px;
+  }
+  .score-box.show { display: block; }
+  .score-big {
+    font-family: 'Baloo 2', cursive;
+    font-size: 52px;
+    font-weight: 800;
+    color: var(--gold);
+  }
+  .score-label { font-size: 16px; opacity: .85; margin-top: 4px; }
+  .score-msg { font-size: 18px; font-weight: 700; margin-top: 12px; }
+  .retry-btn {
+    margin-top: 16px;
+    padding: 10px 28px;
+    font-family: 'Baloo 2', cursive;
+    font-size: 15px;
+    font-weight: 700;
+    background: var(--gold);
+    color: #1a3a1f;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform .15s;
+  }
+  .retry-btn:hover { transform: scale(1.04); }
+
+  .section-label {
+    font-family: 'Baloo 2', cursive;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--blue);
+    background: var(--blue-light);
+    border-left: 5px solid var(--blue);
+    padding: 10px 16px;
+    border-radius: 0 12px 12px 0;
+    margin: 24px 0 14px;
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  .instructions {
+    background: var(--gold-light);
+    border: 1.5px solid var(--gold);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 13px;
+    margin-bottom: 20px;
+    color: var(--gold-dark);
+  }
+  .instructions b { font-weight: 700; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="school-badge">🏫 Diliman Preparatory School · S.Y. 2025–2026</div>
+  <h1>📚 Filipino 2 — Ikaapat na Markahan</h1>
+  <p>Balangkas ng Kurso · Reviewer, Practice Quiz & Exam</p>
+</header>
+
+<nav>
+  <button class="active" onclick="showTab('reviewer')">📖 Reviewer</button>
+  <button onclick="showTab('quiz')">✏️ Practice Quiz</button>
+  <button onclick="showTab('exam')">📝 Exam</button>
+</nav>
+
+<!-- ════════════ REVIEWER ════════════ -->
+<section id="reviewer" class="active">
+
+  <div class="topic-block">
+    <div class="topic-title">I. PAGBASA</div>
+
+    <div class="card">
+      <h4>A. Pagbasa at Pa-unawa sa Kuwento</h4>
+      <p>Ang pagbasa at pa-unawa ay ang kakayahang maunawaan ang kahulugan ng isang kuwento — hindi lamang ang mga salita, kundi ang buong mensahe at tema nito.</p>
+      <div class="example-box"><b>Tandaan:</b> Basahin nang mabuti. Pag-isipan ang simula, gitna, at katapusan ng kuwento.</div>
+    </div>
+
+    <div class="card">
+      <h4>B. Pagsagot sa Tiyak na Detalye ng Kuwento</h4>
+      <p>Ang tiyak na detalye ay ang mga partikular na impormasyon sa kuwento — sino ang tauhan, saan nangyari, kailan, at paano.</p>
+      <ul>
+        <li><b>Sino</b> — ang mga tauhan</li>
+        <li><b>Saan</b> — lugar ng pangyayari (tagpuan)</li>
+        <li><b>Kailan</b> — oras o panahon</li>
+        <li><b>Ano</b> — ang nangyari</li>
+      </ul>
+      <div class="example-box"><b>Halimbawa:</b> "Sino ang pangunahing tauhan ng kuwento?" · "Saan naganap ang kuwento?"</div>
+    </div>
+
+    <div class="card">
+      <h4>C. Pagsunod-sunod ng mga Pangyayari sa Kuwento</h4>
+      <p>Ang pagkakasunod-sunod ng mga pangyayari ay nagsisimula sa <b>simula</b>, patungo sa <b>gitna</b> (suliranin/problema), at nagtatapos sa <b>katapusan</b> (solusyon).</p>
+      <div class="example-box">
+        <b>Simula →</b> Ipinakikilala ang mga tauhan at tagpuan.<br>
+        <b>Gitna →</b> Lumitaw ang suliranin.<br>
+        <b>Katapusan →</b> Naayos ang suliranin.
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>D. Pagtukoy sa mga Tauhan sa Kuwento</h4>
+      <p>Ang <b>tauhan</b> ay ang mga tao (o hayop/bagay na gumaganap bilang tao) sa kuwento.</p>
+      <ul>
+        <li><b>Pangunahing Tauhan</b> — ang sentro ng kuwento</li>
+        <li><b>Pangalawang Tauhan</b> — tumutulong o sumasalungat sa pangunahing tauhan</li>
+        <li><b>Bida</b> — ang mabuting tauhan</li>
+        <li><b>Kontrabida</b> — ang masamang tauhan</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="topic-block">
+    <div class="topic-title">II. WIKA</div>
+
+    <div class="card">
+      <h4>Unang Linggo: Pag-abay na Panlunan (ph. 186–190)</h4>
+      <p>Ang <b>pang-abay na panlunan</b> ay nagpapakita ng <b>lugar</b> o <b>direksyon</b> ng kilos.</p>
+      <ul>
+        <li>Dito, diyan, doon</li>
+        <li>Rito, riyan, roon</li>
+        <li>Narito, nariyan, naroon</li>
+        <li>Parito, pariyan, paroon</li>
+      </ul>
+      <div class="example-box">
+        <b>Halimbawa:</b><br>
+        "Pumunta siya <u>doon</u> sa paaralan." (pang-abay na panlunan)<br>
+        "Nandito ang aking bag."
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>Ikalawang Linggo: Uri ng Pang-ukol (ph. 201–204)</h4>
+      <p>Ang <b>pang-ukol</b> ay nagpapakita ng ugnayan ng isang salita sa iba. Ang mga uri nito:</p>
+      <ul>
+        <li><b>Lugar</b> — sa, nasa, patungo sa <span style="color:var(--muted)">(Pumunta siya <u>sa</u> palengke.)</span></li>
+        <li><b>Panahon</b> — noong, sa, tuwing <span style="color:var(--muted)">(Pumunta kami <u>noong</u> Lunes.)</span></li>
+        <li><b>Paraan</b> — sa pamamagitan ng <span style="color:var(--muted)">(Ginawa niya ito <u>sa pamamagitan ng</u> tinapay.)</span></li>
+        <li><b>Sanhi</b> — dahil sa, bunga ng</li>
+        <li><b>Katungkulan</b> — para sa, para kay</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h4>Ikatlong Linggo: Pang-angkop (ph. 216–218)</h4>
+      <p>Ang <b>pang-angkop</b> ay nagsisilbing tulay o koneksyon sa pagitan ng dalawang salita.</p>
+      <ul>
+        <li><b>-ng</b> — ginagamit kapag nagtatapos ang salita sa patinig (vowel) o letrang <i>n</i></li>
+        <li><b>na</b> — ginagamit kapag nagtatapos ang salita sa katinig (consonant), maliban sa <i>n</i></li>
+      </ul>
+      <div class="example-box">
+        <b>Halimbawa:</b><br>
+        "batang <u>maganda</u>" → bata<b>ng</b> maganda (nagtatapos sa "a")<br>
+        "mabilis <u>na</u> bata" → mabilis <b>na</b> bata (nagtatapos sa "s")<br>
+        "asong <u>mabait</u>" → aso + ng = asong mabait
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>Ikaapat na Linggo: Pangungusap at mga Bahagi Nito (ph. 230–234)</h4>
+      <p>Ang <b>pangungusap</b> ay isang grupo ng mga salitang nagpapahayag ng kumpletong kaisipan.</p>
+      <ul>
+        <li><b>Simuno</b> — ang paksa o pinag-uusapan sa pangungusap <span style="color:var(--muted)">(Sino o ano ang ginagawa?)</span></li>
+        <li><b>Panaguri</b> — ang nagsasabi kung ano ang ginagawa, nararamdaman, o katangian ng simuno</li>
+        <li><b>Talata</b> — pangkat ng mga pangungusap na may iisang paksa</li>
+      </ul>
+      <div class="example-box">
+        <b>Halimbawa:</b><br>
+        "<u>Si Maria</u> | ay <u>mabait na bata</u>."<br>
+        (Simuno: Si Maria | Panaguri: ay mabait na bata)
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>Ikalimang Linggo: Uri ng Pangungusap (ph. 244–249)</h4>
+      <p>May apat na uri ng pangungusap ayon sa layunin, at tig-isang bantas ang bawat isa:</p>
+      <ul>
+        <li><b>A. Pasalaysay</b> — nagbibigay ng impormasyon. Nagtatapos sa <b>tuldok (.)</b><br><span style="color:var(--muted)">Hal: Ang langit ay asul.</span></li>
+        <li><b>B. Pautos at Pakiusap</b> — nag-uutos o humihiling. Nagtatapos sa <b>tuldok (.) o tandang padamdam (!)</b><br><span style="color:var(--muted)">Hal: Manahimik ka. / Pakiusap, tulungan mo siya!</span></li>
+        <li><b>C. Patanong</b> — nagtatanong. Nagtatapos sa <b>tandang pananong (?)</b><br><span style="color:var(--muted)">Hal: Nasaan ka?</span></li>
+        <li><b>D. Padamdam</b> — nagpapahayag ng matinding damdamin. Nagtatapos sa <b>tandang padamdam (!)</b><br><span style="color:var(--muted)">Hal: Ang ganda-ganda naman!</span></li>
+      </ul>
+      <div class="example-box">
+        <b>MGA BANTAS:</b><br>
+        <b>Tuldok (.)</b> — pasalaysay, pautos<br>
+        <b>Tandang Pananong (?)</b> — patanong<br>
+        <b>Tandang Padamdam (!)</b> — padamdam, matinding pautos
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ PRACTICE QUIZ ════════════ -->
+<section id="quiz">
+  <div class="instructions">
+    <b>📝 Panuto:</b> Piliin ang tamang sagot. Makikita agad ang resulta pagkatapos pumili. May <b>20 tanong</b> sa practice quiz na ito.
+  </div>
+
+  <div id="quiz-container"></div>
+  <button class="submit-btn" onclick="submitQuiz('quiz')">Suriin ang mga Sagot ✅</button>
+  <div class="score-box" id="quiz-score">
+    <div class="score-big" id="quiz-score-num"></div>
+    <div class="score-label" id="quiz-score-label"></div>
+    <div class="score-msg" id="quiz-score-msg"></div>
+    <button class="retry-btn" onclick="resetQuiz('quiz')">🔄 Subukan Ulit</button>
+  </div>
+</section>
+
+<!-- ════════════ EXAM ════════════ -->
+<section id="exam">
+  <div class="instructions">
+    <b>📋 Panuto:</b> Ito ang pagsasanay na pagsusulit. May <b>30 tanong</b>. Sagutin ang lahat bago isumite. Hindi agad makikita ang tamang sagot — ipakikita lamang pagkatapos isumite.
+  </div>
+
+  <div id="exam-container"></div>
+  <button class="submit-btn" onclick="submitExam()">Isumite ang Pagsusulit 📩</button>
+  <div class="score-box" id="exam-score">
+    <div class="score-big" id="exam-score-num"></div>
+    <div class="score-label" id="exam-score-label"></div>
+    <div class="score-msg" id="exam-score-msg"></div>
+    <button class="retry-btn" onclick="resetExam()">🔄 Subukan Ulit</button>
+  </div>
+</section>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────
+const ALL_QUESTIONS = [
+  // PAGBASA
+  { section:"I. Pagbasa", q:"Ano ang tinatawag na 'tiyak na detalye' sa isang kuwento?", choices:["Ang damdamin ng mambabasa","Ang partikular na impormasyon tulad ng sino, saan, kailan","Ang pangkalahatang paksa ng kuwento","Ang katapusan ng kuwento"], ans:1, exp:"Ang tiyak na detalye ay tumutugon sa mga tanong: sino, saan, kailan, at ano." },
+  { section:"I. Pagbasa", q:"Alin ang bahagi ng kuwento kung saan ipinakikilala ang mga tauhan at tagpuan?", choices:["Gitna","Katapusan","Simula","Suliranin"], ans:2, exp:"Sa simula ng kuwento, ipinakikilala ang mga tauhan, tagpuan, at sitwasyon." },
+  { section:"I. Pagbasa", q:"Ano ang tawag sa bahagi ng kuwento kung saan lumitaw ang problema?", choices:["Simula","Gitna","Katapusan","Talata"], ans:1, exp:"Sa gitna ng kuwento, lumilitaw ang suliranin o problema ng pangunahing tauhan." },
+  { section:"I. Pagbasa", q:"Si Aling Rosa ang pangunahing tauhan ng kuwento. Ano ang kahulugan nito?", choices:["Siya ang masama sa kuwento","Siya ang sentro at pinaka-importanteng tauhan","Siya ang katulong ng bida","Siya ang nagkuwento"], ans:1, exp:"Ang pangunahing tauhan ang sentro ng buong kuwento." },
+  { section:"I. Pagbasa", q:"Alin sa mga sumusunod ang tamang pagkakasunod-sunod ng bahagi ng kuwento?", choices:["Gitna → Simula → Katapusan","Katapusan → Gitna → Simula","Simula → Gitna → Katapusan","Simula → Katapusan → Gitna"], ans:2, exp:"Ang tamang pagkakasunod: Simula → Gitna → Katapusan." },
+  { section:"I. Pagbasa", q:"Ang kontrabida sa isang kuwento ay ang ___.", choices:["Pangunahing tauhan","Mabuting tauhan","Masamang tauhan","Pangalawang tauhan"], ans:2, exp:"Ang kontrabida ay ang masamang tauhan na kadalasang sumasalungat sa bida." },
+
+  // PANG-ABAY NA PANLUNAN
+  { section:"II. Wika – Pang-abay na Panlunan", q:"Ang pang-abay na panlunan ay nagpapakita ng ___.", choices:["Oras ng pangyayari","Lugar o direksyon ng kilos","Dami ng bagay","Damdamin ng tauhan"], ans:1, exp:"Ang pang-abay na panlunan ay nagpapakita ng lugar o direksyon." },
+  { section:"II. Wika – Pang-abay na Panlunan", q:"Alin sa mga salita ang pang-abay na panlunan?", choices:["Mabilis","Ngayon","Doon","Marami"], ans:2, exp:"Ang 'doon' ay pang-abay na panlunan dahil nagpapakita ito ng lugar." },
+  { section:"II. Wika – Pang-abay na Panlunan", q:"'Pumunta siya ___ sa paaralan.' Alin ang tamang pang-abay na panlunan?", choices:["Kahapon","Mabilis","Doon","Masaya"], ans:2, exp:"Ang 'doon' ay nagpapakita ng direksyon ng kilos." },
+  { section:"II. Wika – Pang-abay na Panlunan", q:"Gamitin ang tamang salita: 'Nandito / Nariyan / Naroon ang aking lapis sa mesa.'", choices:["Naroon","Nandito","Nariyan","Paroon"], ans:1, exp:"'Nandito' ang ginagamit kapag ang bagay ay malapit sa nagsasalita." },
+
+  // PANG-UKOL
+  { section:"II. Wika – Pang-ukol", q:"Ang pang-ukol ay nagpapakita ng ___ ng isang salita sa iba.", choices:["Kulay","Ugnayan","Bilang","Anyo"], ans:1, exp:"Ang pang-ukol ay nagpapakita ng relasyon o ugnayan sa pagitan ng mga salita." },
+  { section:"II. Wika – Pang-ukol", q:"'Pumunta kami ___ Maynila.' Alin ang tamang pang-ukol?", choices:["Para sa","Dahil sa","Sa","Noong"], ans:2, exp:"Ang 'sa' ay pang-ukol na nagpapakita ng lugar." },
+  { section:"II. Wika – Pang-ukol", q:"'Bumili siya ___ gatas ___ kanyang anak.' Alin ang tamang pang-ukol?", choices:["sa, para sa","noong, dahil sa","sa, bunga ng","para sa, sa"], ans:0, exp:"'Sa' — nagpapakita ng lugar (tindahan). 'Para sa' — nagpapakita ng tagatanggap." },
+  { section:"II. Wika – Pang-ukol", q:"Alin ang pang-ukol na nagpapakita ng SANHI?", choices:["Para kay","Dahil sa","Sa","Tuwing"], ans:1, exp:"Ang 'dahil sa' ay nagpapakita ng sanhi o dahilan ng pangyayari." },
+
+  // PANG-ANGKOP
+  { section:"II. Wika – Pang-angkop", q:"Ang pang-angkop ay nagsisilbing ___ sa pagitan ng dalawang salita.", choices:["Sukat","Tulay o koneksyon","Diin","Bantas"], ans:1, exp:"Ang pang-angkop (-ng / na) ay nagkokonekta ng dalawang salita." },
+  { section:"II. Wika – Pang-angkop", q:"'Mabait ___ bata' — alin ang tamang pang-angkop?", choices:["-ng","na","ang","ni"], ans:1, exp:"Ginagamit ang 'na' kapag ang unang salita ay nagtatapos sa katinig maliban sa 'n'. Ang 'mabait' ay nagtatapos sa 't'." },
+  { section:"II. Wika – Pang-angkop", q:"'Batang ___ matulungin' — kumpletuhin. Ang simuno ay 'bata'.", choices:["bata na matulungin","batang matulungin","bata matulungin","bata ang matulungin"], ans:1, exp:"Ang 'bata' ay nagtatapos sa patinig 'a', kaya ginagamit ang '-ng': batang matulungin." },
+  { section:"II. Wika – Pang-angkop", q:"'Malakas ___ ulan' — alin ang tamang pang-angkop?", choices:["-ng","na","at","ng"], ans:1, exp:"Ang 'malakas' ay nagtatapos sa katinig 's', kaya 'na': malakas na ulan." },
+
+  // PANGUNGUSAP AT BAHAGI
+  { section:"II. Wika – Pangungusap", q:"Ano ang tawag sa paksa o pinag-uusapan sa pangungusap?", choices:["Panaguri","Talata","Simuno","Pangungusap"], ans:2, exp:"Ang simuno ang paksa — ito ang sinasagot sa tanong na 'sino' o 'ano'." },
+  { section:"II. Wika – Pangungusap", q:"'Si Jose ay matalino.' Ano ang simuno ng pangungusap?", choices:["ay matalino","Si Jose","matalino","Jose ay"], ans:1, exp:"Ang simuno ng pangungusap ay 'Si Jose' — ito ang pinag-uusapan." },
+  { section:"II. Wika – Pangungusap", q:"'Ang mga bata ay masaya.' Ano ang panaguri?", choices:["Ang mga bata","ay masaya","masaya ang","mga bata ay"], ans:1, exp:"Ang panaguri ay 'ay masaya' — ito ang nagsasabi kung ano ang katangian ng simuno." },
+  { section:"II. Wika – Pangungusap", q:"Ang talata ay isang ___ ng mga pangungusap na may iisang paksa.", choices:["Salita","Pangkat","Linya","Bantas"], ans:1, exp:"Ang talata ay pangkat ng mga pangungusap na may iisang paksa." },
+
+  // URI NG PANGUNGUSAP
+  { section:"II. Wika – Uri ng Pangungusap", q:"Anong uri ng pangungusap ang 'Ang araw ay mainit ngayon'?", choices:["Patanong","Padamdam","Pasalaysay","Pautos"], ans:2, exp:"Nagbibigay ng impormasyon = pasalaysay. Nagtatapos sa tuldok." },
+  { section:"II. Wika – Uri ng Pangungusap", q:"'Nasaan ang iyong bag?' — anong uri ng pangungusap ito?", choices:["Padamdam","Pasalaysay","Pautos","Patanong"], ans:3, exp:"Nagtatanong = patanong. Nagtatapos sa tandang pananong (?)." },
+  { section:"II. Wika – Uri ng Pangungusap", q:"'Ang ganda-ganda naman ng bulaklak!' — anong uri?", choices:["Pasalaysay","Padamdam","Patanong","Pautos"], ans:1, exp:"Nagpapahayag ng matinding damdamin = padamdam. Nagtatapos sa (!)." },
+  { section:"II. Wika – Uri ng Pangungusap", q:"'Manahimik ka!' — anong uri ng pangungusap ito?", choices:["Patanong","Pasalaysay","Padamdam","Pautos"], ans:3, exp:"Nag-uutos = pautos. Maaaring magtapos sa (.) o (!)." },
+  { section:"II. Wika – Uri ng Pangungusap", q:"Anong bantas ang ginagamit sa dulo ng PATANONG na pangungusap?", choices:["Tuldok (.)","Tandang Padamdam (!)","Tandang Pananong (?)","Kuwit (,)"], ans:2, exp:"Ang patanong na pangungusap ay laging nagtatapos sa tandang pananong (?)." },
+  { section:"II. Wika – Uri ng Pangungusap", q:"'Pakiusap, tulungan mo siya.' — Anong uri ng pangungusap?", choices:["Padamdam","Pasalaysay","Pautos / Pakiusap","Patanong"], ans:2, exp:"Ang pakiusap ay isang uri ng pautos — humihiling. Nagtatapos sa tuldok." },
+  { section:"II. Wika – Uri ng Pangungusap", q:"Anong bantas ang ginagamit sa dulo ng pasalaysay na pangungusap?", choices:["Tandang Pananong (?)","Tuldok (.)","Tandang Padamdam (!)","Kuwit (,)"], ans:1, exp:"Ang pasalaysay na pangungusap ay nagtatapos sa tuldok (.)." },
+  { section:"II. Wika – Uri ng Pangungusap", q:"'Mag-aral ka nang mabuti para sa iyong pagsusulit!' Anong uri ito?", choices:["Pasalaysay","Patanong","Padamdam","Pautos"], ans:3, exp:"Nag-uutos na may matinding diin = pautos na may tandang padamdam." },
+  { section:"II. Wika – Uri ng Pangungusap", q:"Alin sa mga sumusunod ang PASALAYSAY na pangungusap?", choices:["Ano ang pangalan mo?","Ang sarap ng pagkain!","Ang mga hayop ay may iba't ibang uri.","Tumayo ka na!"], ans:2, exp:"Nagbibigay ng impormasyon nang walang tanong o matinding damdamin = pasalaysay." },
+];
+
+// ── HELPERS ──────────────────────────────────────────────────
+function shuffle(arr) {
+  return [...arr].sort(() => Math.random() - 0.5);
+}
+
+function buildQuestions(container, questions, mode) {
+  container.innerHTML = '';
+  let lastSection = '';
+  questions.forEach((q, i) => {
+    if (q.section !== lastSection) {
+      const sl = document.createElement('div');
+      sl.className = 'section-label';
+      sl.textContent = q.section;
+      container.appendChild(sl);
+      lastSection = q.section;
+    }
+    const block = document.createElement('div');
+    block.className = 'q-block';
+    block.dataset.ans = q.ans;
+    block.dataset.exp = q.exp;
+    block.innerHTML = `
+      <span class="q-num">${i + 1}</span>
+      <div class="q-text">${q.q}</div>
+      <div class="choices">
+        ${q.choices.map((c, ci) => `
+          <label id="${mode}-q${i}-c${ci}">
+            <input type="radio" name="${mode}-q${i}" value="${ci}"> ${c}
+          </label>`).join('')}
+      </div>
+      <div class="feedback" id="${mode}-fb${i}"></div>
+    `;
+    container.appendChild(block);
+
+    if (mode === 'quiz') {
+      block.querySelectorAll('input[type=radio]').forEach(radio => {
+        radio.addEventListener('change', () => handleQuizAnswer(i, parseInt(radio.value), q, mode));
+      });
+    }
+  });
+}
+
+function handleQuizAnswer(qi, chosen, q, mode) {
+  const fb = document.getElementById(`${mode}-fb${qi}`);
+  q.choices.forEach((_, ci) => {
+    const lbl = document.getElementById(`${mode}-q${qi}-c${ci}`);
+    lbl.classList.remove('correct', 'wrong');
+  });
+  const chosenLbl = document.getElementById(`${mode}-q${qi}-c${chosen}`);
+  const correctLbl = document.getElementById(`${mode}-q${qi}-c${q.ans}`);
+  if (chosen === q.ans) {
+    chosenLbl.classList.add('correct');
+    fb.textContent = '✅ Tama! ' + q.exp;
+    fb.className = 'feedback show correct';
+  } else {
+    chosenLbl.classList.add('wrong');
+    correctLbl.classList.add('correct');
+    fb.textContent = '❌ Mali. ' + q.exp;
+    fb.className = 'feedback show wrong';
+  }
+  // disable
+  document.querySelectorAll(`input[name="${mode}-q${qi}"]`).forEach(r => r.disabled = true);
+}
+
+// ── QUIZ ─────────────────────────────────────────────────────
+let quizQs = [];
+function initQuiz() {
+  quizQs = shuffle(ALL_QUESTIONS).slice(0, 20);
+  buildQuestions(document.getElementById('quiz-container'), quizQs, 'quiz');
+  document.getElementById('quiz-score').classList.remove('show');
+}
+
+function submitQuiz(mode) {
+  const qs = mode === 'quiz' ? quizQs : examQs;
+  let correct = 0;
+  qs.forEach((q, i) => {
+    const sel = document.querySelector(`input[name="${mode}-q${i}"]:checked`);
+    const fb = document.getElementById(`${mode}-fb${i}`);
+    if (!sel) {
+      fb.textContent = '⚠️ Hindi nasagot. Tamang sagot: ' + q.choices[q.ans] + '. ' + q.exp;
+      fb.className = 'feedback show wrong';
+      return;
+    }
+    const chosen = parseInt(sel.value);
+    if (chosen === q.ans) correct++;
+    // show feedback for exam
+    if (mode === 'exam') {
+      const chosenLbl = document.getElementById(`${mode}-q${i}-c${chosen}`);
+      const correctLbl = document.getElementById(`${mode}-q${i}-c${q.ans}`);
+      chosenLbl.classList.remove('correct','wrong');
+      correctLbl.classList.remove('correct','wrong');
+      if (chosen === q.ans) {
+        chosenLbl.classList.add('correct');
+        fb.textContent = '✅ Tama! ' + q.exp;
+        fb.className = 'feedback show correct';
+      } else {
+        chosenLbl.classList.add('wrong');
+        correctLbl.classList.add('correct');
+        fb.textContent = '❌ Mali. ' + q.exp;
+        fb.className = 'feedback show wrong';
+      }
+      document.querySelectorAll(`input[name="${mode}-q${i}"]`).forEach(r => r.disabled = true);
+    }
+  });
+  const total = qs.length;
+  const pct = Math.round((correct / total) * 100);
+  const scoreNum = document.getElementById(`${mode}-score-num`);
+  const scoreLbl = document.getElementById(`${mode}-score-label`);
+  const scoreMsg = document.getElementById(`${mode}-score-msg`);
+  scoreNum.textContent = `${correct}/${total}`;
+  scoreLbl.textContent = `${pct}% — ${getRemark(pct)}`;
+  scoreMsg.textContent = getMsg(pct);
+  document.getElementById(`${mode}-score`).classList.add('show');
+  document.getElementById(`${mode}-score`).scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function getRemark(pct) {
+  if (pct >= 90) return 'Napakahusay!';
+  if (pct >= 80) return 'Mahusay!';
+  if (pct >= 75) return 'Pumasa!';
+  if (pct >= 60) return 'Kailangan pang mag-aral';
+  return 'Subukan ulit!';
+}
+function getMsg(pct) {
+  if (pct >= 90) return '🌟 Excellent! Patuloy kang mag-aral!';
+  if (pct >= 80) return '🎉 Magaling! Malapit ka na sa perpekto!';
+  if (pct >= 75) return '👍 Pumasa ka! Kaunting pagsisikap pa!';
+  if (pct >= 60) return '📚 Balikan mo ang reviewer at subukan ulit!';
+  return '💪 Huwag sumuko! Basahin muli ang reviewer!';
+}
+
+function resetQuiz(mode) {
+  if (mode === 'quiz') initQuiz();
+  else initExam();
+  document.getElementById(`${mode}-score`).classList.remove('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── EXAM ─────────────────────────────────────────────────────
+let examQs = [];
+function initExam() {
+  examQs = shuffle(ALL_QUESTIONS).slice(0, 30);
+  buildQuestions(document.getElementById('exam-container'), examQs, 'exam');
+  document.getElementById('exam-score').classList.remove('show');
+}
+function submitExam() {
+  submitQuiz('exam');
+}
+function resetExam() {
+  resetQuiz('exam');
+}
+
+// ── NAV ──────────────────────────────────────────────────────
+function showTab(id) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('nav button').forEach((b, i) => {
+    b.classList.remove('active');
+    if (['reviewer','quiz','exam'][i] === id) b.classList.add('active');
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── INIT ─────────────────────────────────────────────────────
+initQuiz();
+initExam();
+</script>
+</body>
+</html>

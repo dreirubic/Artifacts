@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idioms Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --bg: #0f0e17;
+  --surface: #1a1828;
+  --card: #211f33;
+  --accent: #ff6b6b;
+  --gold: #ffd166;
+  --teal: #06d6a0;
+  --purple: #a855f7;
+  --text: #f2f0ff;
+  --muted: #8b88a8;
+  --border: #2e2b45;
+  --correct: #06d6a0;
+  --wrong: #ff6b6b;
+}
+
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* animated bg blobs */
+body::before {
+  content:'';
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 600px 400px at 10% 20%, rgba(168,85,247,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 300px at 90% 80%, rgba(255,107,107,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 400px at 50% 50%, rgba(6,214,160,0.04) 0%, transparent 70%);
+}
+
+header {
+  position: relative; z-index: 1;
+  padding: 2rem 1.5rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(15,14,23,0.8);
+  backdrop-filter: blur(10px);
+}
+
+.eyebrow {
+  font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--gold); font-weight: 700; margin-bottom: 0.4rem;
+}
+
+header h1 {
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 800; line-height: 1;
+  background: linear-gradient(135deg, var(--text) 30%, var(--purple) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+header h1 span {
+  background: linear-gradient(135deg, var(--gold), var(--accent));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-sub { font-family:'Lora',serif; font-style:italic; color:var(--muted); font-size:0.85rem; margin-top:0.4rem; }
+
+.progress-row { display:flex; align-items:center; gap:0.8rem; margin-top:1.2rem; }
+.progress-track {
+  flex:1; height:3px; background:var(--border); border-radius:2px; overflow:hidden;
+}
+.progress-fill {
+  height:100%; background: linear-gradient(90deg, var(--purple), var(--accent));
+  border-radius:2px; transition:width 0.5s ease; width:0%;
+}
+.prog-num { font-size:0.7rem; color:var(--muted); white-space:nowrap; }
+
+/* SCREENS */
+#start-screen, #quiz-screen, #result-screen { display:none; position:relative; z-index:1; }
+#start-screen.active, #quiz-screen.active, #result-screen.active { display:block; }
+
+/* START */
+#start-screen {
+  max-width:580px; margin:3rem auto; padding:0 1.5rem;
+  text-align:center;
+}
+#start-screen h2 { font-size:1.4rem; font-weight:700; margin-bottom:0.6rem; }
+#start-screen p { font-family:'Lora',serif; color:var(--muted); line-height:1.8; font-size:0.9rem; margin-bottom:1.8rem; }
+
+/* WORD BANK */
+.word-bank {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.4rem;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+.wb-title {
+  font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--gold); font-weight:700; margin-bottom:0.8rem;
+}
+.wb-chips { display:flex; flex-wrap:wrap; gap:0.4rem; }
+.wb-chip {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  font-size:0.78rem; font-weight:600;
+  letter-spacing:0.03em;
+}
+
+/* QUIZ */
+#quiz-screen { max-width:700px; margin:0 auto; padding:1.5rem 1rem 5rem; }
+
+.q-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.8rem;
+  display: none;
+  animation: popIn 0.3s cubic-bezier(.34,1.56,.64,1);
+}
+.q-card.active { display:block; }
+
+@keyframes popIn {
+  from { opacity:0; transform:scale(0.97) translateY(8px); }
+  to { opacity:1; transform:scale(1) translateY(0); }
+}
+
+.q-num-badge {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  background: linear-gradient(135deg, var(--purple), var(--accent));
+  color:white; font-size:0.65rem; font-weight:700;
+  letter-spacing:0.12em; text-transform:uppercase;
+  padding:0.25rem 0.7rem; border-radius:20px; margin-bottom:1rem;
+}
+
+.q-sentence {
+  font-family: 'Lora', serif;
+  font-size: 1.05rem; line-height: 1.8;
+  color: var(--text);
+  margin-bottom: 1.4rem;
+  padding: 1rem 1.2rem;
+  background: var(--surface);
+  border-radius: 10px;
+  border-left: 3px solid var(--gold);
+}
+
+.blank-slot {
+  display: inline-block;
+  min-width: 180px;
+  border-bottom: 2px dashed var(--purple);
+  padding: 0 6px 2px;
+  color: var(--purple);
+  font-weight: 700;
+  font-style: normal;
+  cursor: pointer;
+  transition: all 0.2s;
+  vertical-align: bottom;
+  text-align: center;
+  font-size: 0.95rem;
+}
+.blank-slot:hover { border-bottom-color: var(--gold); color: var(--gold); }
+.blank-slot.filled { border-bottom-color: var(--text); color: var(--text); }
+.blank-slot.correct-blank { border-bottom-color: var(--correct)!important; color: var(--correct)!important; }
+.blank-slot.wrong-blank { border-bottom-color: var(--wrong)!important; color: var(--wrong)!important; }
+
+/* OPTIONS */
+.opts-label { font-size:0.65rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-bottom:0.6rem; }
+.opts-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; }
+@media (max-width:480px) { .opts-grid { grid-template-columns:1fr; } }
+
+.opt-btn {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  color: var(--text);
+  padding: 0.65rem 0.9rem;
+  border-radius: 9px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.82rem; font-weight: 600;
+  cursor: pointer; text-align:left;
+  transition: all 0.18s;
+  line-height:1.3;
+}
+.opt-btn:hover:not(:disabled) { border-color: var(--purple); color: var(--purple); background: rgba(168,85,247,0.08); }
+.opt-btn.selected { border-color: var(--gold); color: var(--gold); background: rgba(255,209,102,0.08); }
+.opt-btn.correct-opt { border-color: var(--correct)!important; color: var(--correct)!important; background: rgba(6,214,160,0.1)!important; }
+.opt-btn.wrong-opt { border-color: var(--wrong)!important; color: var(--wrong)!important; background: rgba(255,107,107,0.1)!important; }
+.opt-btn:disabled { cursor:default; }
+
+.feedback {
+  margin-top:1rem; padding:0.8rem 1rem;
+  border-radius:8px; font-size:0.82rem; line-height:1.6;
+  display:none;
+  font-family:'Lora',serif; font-style:italic;
+}
+.feedback.show { display:block; }
+.feedback.fb-ok { background:rgba(6,214,160,0.1); border-left:3px solid var(--correct); color:#8ef5da; }
+.feedback.fb-no { background:rgba(255,107,107,0.1); border-left:3px solid var(--wrong); color:#ffb3b3; }
+
+.nav-row {
+  display:flex; justify-content:space-between; align-items:center; margin-top:1.3rem;
+}
+.btn {
+  font-family:'Syne',sans-serif; font-size:0.8rem; font-weight:700;
+  letter-spacing:0.08em; text-transform:uppercase;
+  padding:0.6rem 1.3rem; border-radius:8px; border:none;
+  cursor:pointer; transition:all 0.2s;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--purple), var(--accent));
+  color:white;
+}
+.btn-primary:hover { opacity:0.88; transform:translateY(-1px); }
+.btn-primary:disabled { background:var(--border); color:var(--muted); cursor:default; transform:none; }
+.btn-ghost { background:transparent; border:1.5px solid var(--border); color:var(--muted); }
+.btn-ghost:hover { border-color:var(--text); color:var(--text); }
+.btn-ghost:disabled { opacity:0.3; cursor:default; }
+.btn-check {
+  background:transparent; border:1.5px solid var(--gold); color:var(--gold);
+}
+.btn-check:hover { background:rgba(255,209,102,0.1); }
+.btn-check:disabled { opacity:0.3; cursor:default; }
+
+/* RESULT */
+#result-screen { max-width:600px; margin:0 auto; padding:2rem 1rem 5rem; text-align:center; }
+
+.score-ring-wrap { margin:1.5rem auto; width:140px; height:140px; position:relative; }
+.score-ring-wrap svg { transform:rotate(-90deg); }
+.score-bg { fill:none; stroke:var(--border); stroke-width:8; }
+.score-fg { fill:none; stroke-width:8; stroke-linecap:round; transition:stroke-dashoffset 1s ease; }
+.score-inner {
+  position:absolute; inset:0;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+}
+.score-num { font-size:2.2rem; font-weight:800; }
+.score-out { font-size:0.7rem; color:var(--muted); letter-spacing:0.1em; }
+.result-msg { font-family:'Lora',serif; font-style:italic; color:var(--muted); font-size:0.9rem; line-height:1.8; margin:0.8rem 0 1.5rem; }
+
+.review-list { text-align:left; display:flex; flex-direction:column; gap:0.7rem; margin-top:1.5rem; }
+.rev-item {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:10px; padding:0.9rem 1rem;
+  border-left:4px solid var(--border);
+}
+.rev-item.ok { border-left-color:var(--correct); }
+.rev-item.bad { border-left-color:var(--wrong); }
+.rev-q { font-size:0.78rem; color:var(--muted); margin-bottom:0.3rem; }
+.rev-ans { font-size:0.85rem; font-weight:600; }
+.rev-ans span { color:var(--correct); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Language Arts · Vocabulary</div>
+  <h1>Idioms <span>Quiz</span></h1>
+  <p class="header-sub">Fill in the blank with the correct idiom from the word bank.</p>
+  <div class="progress-row">
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+    <div class="prog-num" id="prog-num">0 / 10</div>
+  </div>
+</header>
+
+<!-- START -->
+<div id="start-screen" class="active">
+  <h2>Ready to test your idioms?</h2>
+  <p>Read each sentence carefully and choose the idiom from the word bank that best completes it. Each idiom is used only once.</p>
+  <div class="word-bank">
+    <div class="wb-title">📦 Word Bank</div>
+    <div class="wb-chips" id="wb-chips"></div>
+  </div>
+  <button class="btn btn-primary" onclick="startQuiz()" style="font-size:0.9rem;padding:0.8rem 2rem;">Start Quiz →</button>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz-screen">
+  <div id="q-container"></div>
+</div>
+
+<!-- RESULT -->
+<div id="result-screen"></div>
+
+<script>
+const idioms = [
+  "gave it all",
+  "on cloud nine",
+  "cut to the chase",
+  "added fuel to the fire",
+  "go through the eye of a needle",
+  "barking up the wrong tree",
+  "a heart of gold",
+  "slip your mind",
+  "back to the drawing board",
+  "costs an arm and a leg"
+];
+
+const questions = [
+  {
+    sentence: `After winning the championship trophy, Marco felt like he was _____ — he couldn't stop smiling for days.`,
+    blank: "on cloud nine",
+    opts: ["on cloud nine", "back to the drawing board", "barking up the wrong tree", "gave it all"],
+    meaning: '"On cloud nine" means feeling extremely happy or elated.'
+  },
+  {
+    sentence: `The new gaming laptop _____ — Lena had to work three summer jobs just to afford it.`,
+    blank: "costs an arm and a leg",
+    opts: ["costs an arm and a leg", "cut to the chase", "slip your mind", "a heart of gold"],
+    meaning: '"Costs an arm and a leg" means something is very expensive.'
+  },
+  {
+    sentence: `Sofia _____ during the science fair presentation, staying up all night to perfect her project, but nerves got the better of her.`,
+    blank: "gave it all",
+    opts: ["gave it all", "added fuel to the fire", "go through the eye of a needle", "on cloud nine"],
+    meaning: '"Gave it all" means to put in maximum effort or energy.'
+  },
+  {
+    sentence: `The coach told the players to stop chatting and _____ — they only had ten minutes left in the huddle.`,
+    blank: "cut to the chase",
+    opts: ["cut to the chase", "barking up the wrong tree", "slip your mind", "back to the drawing board"],
+    meaning: '"Cut to the chase" means to get to the point without wasting time.'
+  },
+  {
+    sentence: `The volunteer nurse has _____; she spends every weekend helping the elderly in the community, asking for nothing in return.`,
+    blank: "a heart of gold",
+    opts: ["a heart of gold", "gave it all", "on cloud nine", "costs an arm and a leg"],
+    meaning: '"A heart of gold" means someone is very kind and generous.'
+  },
+  {
+    sentence: `Instead of calming the argument between the two classmates, Ryan's harsh comment only _____.`,
+    blank: "added fuel to the fire",
+    opts: ["added fuel to the fire", "cut to the chase", "go through the eye of a needle", "back to the drawing board"],
+    meaning: '"Added fuel to the fire" means to make a bad situation even worse.'
+  },
+  {
+    sentence: `The detective warned his partner that they were _____ — the real suspect had been hiding in another city all along.`,
+    blank: "barking up the wrong tree",
+    opts: ["barking up the wrong tree", "slip your mind", "added fuel to the fire", "gave it all"],
+    meaning: '"Barking up the wrong tree" means pursuing the wrong course of action or suspecting the wrong person.'
+  },
+  {
+    sentence: `Did submitting the permission form _____? The teacher said you\'re the only one who hasn\'t passed it yet.`,
+    blank: "slip your mind",
+    opts: ["slip your mind", "on cloud nine", "cut to the chase", "costs an arm and a leg"],
+    meaning: '"Slip your mind" means to forget something completely.'
+  },
+  {
+    sentence: `After the city rejected the architect\'s bridge design for the third time, the whole team had to go _____.`,
+    blank: "back to the drawing board",
+    opts: ["back to the drawing board", "barking up the wrong tree", "a heart of gold", "added fuel to the fire"],
+    meaning: '"Back to the drawing board" means to start over from the beginning because the current plan failed.'
+  },
+  {
+    sentence: `Getting accepted into that prestigious university felt like trying to _____ — only a handful of students make it each year.`,
+    blank: "go through the eye of a needle",
+    opts: ["go through the eye of a needle", "gave it all", "slip your mind", "cut to the chase"],
+    meaning: '"Go through the eye of a needle" means to accomplish something extremely difficult or nearly impossible.'
+  }
+];
+
+let current = 0, score = 0;
+let answers = new Array(10).fill(null);
+let submitted = new Array(10).fill(false);
+
+// Populate word bank
+const wbEl = document.getElementById('wb-chips');
+idioms.forEach(id => {
+  const chip = document.createElement('div');
+  chip.className = 'wb-chip';
+  chip.textContent = id;
+  wbEl.appendChild(chip);
+});
+
+function startQuiz() {
+  document.getElementById('start-screen').classList.remove('active');
+  document.getElementById('quiz-screen').classList.add('active');
+  buildCards();
+  showCard(0);
+}
+
+function buildCards() {
+  const container = document.getElementById('q-container');
+  questions.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = `card-${i}`;
+
+    // Build sentence with styled blank
+    const parts = q.sentence.split('_____');
+    const sentHTML = parts[0] + `<span class="blank-slot" id="blank-${i}">_______________</span>` + (parts[1]||'');
+
+    card.innerHTML = `
+      <div class="q-num-badge">✦ Item ${i+1} of 10</div>
+      <div class="q-sentence" id="qs-${i}">${sentHTML}</div>
+      <div class="opts-label">Choose the correct idiom:</div>
+      <div class="opts-grid" id="opts-${i}">
+        ${q.opts.map((opt,j) => `
+          <button class="opt-btn" id="opt-${i}-${j}" onclick="selectOpt(${i},${j})">${opt}</button>
+        `).join('')}
+      </div>
+      <div class="feedback" id="fb-${i}"></div>
+      <div class="nav-row">
+        <button class="btn btn-ghost" onclick="goTo(${i-1})" ${i===0?'disabled':''}>← Back</button>
+        <div style="display:flex;gap:0.5rem;">
+          <button class="btn btn-check" id="check-${i}" onclick="checkIt(${i})" disabled>Check ✓</button>
+          <button class="btn btn-primary" id="next-${i}" onclick="${i===9?'showResults()':'goTo('+(i+1)+')'}" disabled>
+            ${i===9?'Finish 🎉':'Next →'}
+          </button>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function showCard(i) {
+  document.querySelectorAll('.q-card').forEach(c => c.classList.remove('active'));
+  document.getElementById(`card-${i}`).classList.add('active');
+  current = i;
+  updateProg();
+
+  if (submitted[i]) restoreCard(i);
+}
+
+function selectOpt(qi, oi) {
+  if (submitted[qi]) return;
+  answers[qi] = oi;
+  document.querySelectorAll(`#opts-${qi} .opt-btn`).forEach((b,j) => b.classList.toggle('selected', j===oi));
+  document.getElementById(`check-${qi}`).disabled = false;
+
+  // update blank preview
+  const blank = document.getElementById(`blank-${qi}`);
+  blank.textContent = questions[qi].opts[oi];
+  blank.classList.add('filled');
+}
+
+function checkIt(qi) {
+  if (submitted[qi]) return;
+  submitted[qi] = true;
+
+  const q = questions[qi];
+  const chosen = answers[qi];
+  const isCorrect = q.opts[chosen] === q.blank;
+  if (isCorrect) score++;
+
+  document.querySelectorAll(`#opts-${qi} .opt-btn`).forEach((b,j) => {
+    b.disabled = true;
+    if (q.opts[j] === q.blank) b.classList.add('correct-opt');
+    else if (j === chosen && !isCorrect) b.classList.add('wrong-opt');
+  });
+
+  const blank = document.getElementById(`blank-${qi}`);
+  blank.textContent = q.blank;
+  blank.classList.remove('filled');
+  blank.classList.add(isCorrect ? 'correct-blank' : 'wrong-blank');
+
+  const fb = document.getElementById(`fb-${qi}`);
+  fb.className = `feedback show ${isCorrect ? 'fb-ok' : 'fb-no'}`;
+  fb.innerHTML = `<strong>${isCorrect ? '✓ Correct!' : '✗ Not quite.'}</strong> ${q.meaning}`;
+
+  document.getElementById(`check-${qi}`).disabled = true;
+  document.getElementById(`next-${qi}`).disabled = false;
+  updateProg();
+}
+
+function restoreCard(qi) {
+  const q = questions[qi];
+  const chosen = answers[qi];
+  const isCorrect = chosen !== null && q.opts[chosen] === q.blank;
+
+  document.querySelectorAll(`#opts-${qi} .opt-btn`).forEach((b,j) => {
+    b.disabled = true;
+    if (q.opts[j] === q.blank) b.classList.add('correct-opt');
+    else if (j === chosen && !isCorrect) b.classList.add('wrong-opt');
+  });
+
+  const blank = document.getElementById(`blank-${qi}`);
+  blank.textContent = q.blank;
+  blank.classList.remove('filled');
+  blank.classList.add(isCorrect ? 'correct-blank' : 'wrong-blank');
+
+  const fb = document.getElementById(`fb-${qi}`);
+  fb.className = `feedback show ${isCorrect ? 'fb-ok' : 'fb-no'}`;
+  fb.innerHTML = `<strong>${isCorrect ? '✓ Correct!' : '✗ Not quite.'}</strong> ${q.meaning}`;
+
+  document.getElementById(`check-${qi}`).disabled = true;
+  document.getElementById(`next-${qi}`).disabled = false;
+}
+
+function goTo(i) {
+  if (i < 0 || i >= questions.length) return;
+  showCard(i);
+}
+
+function updateProg() {
+  const done = submitted.filter(Boolean).length;
+  document.getElementById('prog-fill').style.width = (done/10*100)+'%';
+  document.getElementById('prog-num').textContent = `${done} / 10`;
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.remove('active');
+  document.getElementById('result-screen').classList.add('active');
+  document.getElementById('prog-fill').style.width = '100%';
+  document.getElementById('prog-num').textContent = '10 / 10';
+
+  const pct = score/10;
+  const color = pct>=0.8 ? '#06d6a0' : pct>=0.6 ? '#ffd166' : '#ff6b6b';
+  const circ = 2*Math.PI*54;
+  const offset = circ*(1-pct);
+
+  let msg = pct===1
+    ? "Perfect score! You truly have a way with words — idioms are no mystery to you! 🏆"
+    : pct>=0.8
+    ? "Excellent! You've got a strong command of idioms. Just a couple more to master! 🌟"
+    : pct>=0.6
+    ? "Good effort! Review the ones you missed and try to use them in sentences this week. 📖"
+    : "Keep practicing! Read through the word bank meanings again and try the quiz once more. 💪";
+
+  const screen = document.getElementById('result-screen');
+  screen.innerHTML = `
+    <div class="eyebrow" style="margin-bottom:0.4rem;">Quiz Complete</div>
+    <h2 style="font-size:1.8rem;font-weight:800;margin-bottom:0.2rem;">Your Score</h2>
+    <div class="score-ring-wrap">
+      <svg width="140" height="140" viewBox="0 0 140 140">
+        <circle class="score-bg" cx="70" cy="70" r="54"/>
+        <circle class="score-fg" cx="70" cy="70" r="54"
+          stroke="${color}"
+          stroke-dasharray="${circ}"
+          stroke-dashoffset="${offset}"
+          style="transition:stroke-dashoffset 1.2s ease"/>
+      </svg>
+      <div class="score-inner">
+        <div class="score-num" style="color:${color}">${score}</div>
+        <div class="score-out">out of 10</div>
+      </div>
+    </div>
+    <p class="result-msg">${msg}</p>
+    <button class="btn btn-primary" onclick="restartQuiz()" style="font-size:0.9rem;padding:0.75rem 1.8rem;">Try Again</button>
+    <div class="review-list">
+      ${questions.map((q,i) => {
+        const chosen = answers[i];
+        const isOk = chosen!==null && q.opts[chosen]===q.blank;
+        return `
+          <div class="rev-item ${isOk?'ok':'bad'}">
+            <div class="rev-q">Item ${i+1}: "${q.sentence.replace('_____','______')}"</div>
+            <div class="rev-ans">Answer: <span>${q.blank}</span></div>
+          </div>`;
+      }).join('')}
+    </div>
+  `;
+}
+
+function restartQuiz() {
+  current=0; score=0;
+  answers=new Array(10).fill(null);
+  submitted=new Array(10).fill(false);
+  document.getElementById('result-screen').classList.remove('active');
+  document.getElementById('q-container').innerHTML='';
+  document.getElementById('quiz-screen').classList.add('active');
+  buildCards();
+  showCard(0);
+  updateProg();
+}
+</script>
+</body>
+</html>

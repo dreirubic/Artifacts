@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yumi's Grade 5 Math Reviewer</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f1923;
+  --card: #1a2735;
+  --card2: #1f3044;
+  --accent1: #FF6B9D;
+  --accent2: #FFD93D;
+  --accent3: #6BCEFF;
+  --accent4: #6BFF9E;
+  --accent5: #C77DFF;
+  --text: #F0F4FF;
+  --muted: #8899AA;
+  --border: rgba(255,255,255,0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* BG STARS */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 20% 15%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 25%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 65% 75%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10% 85%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 50%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(2px 2px at 55% 30%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(2px 2px at 30% 45%, rgba(255,255,255,0.2) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 30px 20px 80px; }
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 50px 20px 40px;
+  margin-bottom: 10px;
+}
+
+.hero-tag {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--accent1), var(--accent5));
+  color: white;
+  font-family: 'Baloo 2', cursive;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 4px 16px;
+  border-radius: 50px;
+  margin-bottom: 16px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  font-family: 'Baloo 2', cursive;
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #fff 0%, var(--accent3) 50%, var(--accent2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero p {
+  font-size: 1rem;
+  color: var(--muted);
+  font-weight: 600;
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+/* NAV PILLS */
+.nav-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 40px;
+  padding: 0 10px;
+}
+
+.nav-pill {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 7px 14px;
+  border-radius: 50px;
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.nav-pill:hover {
+  border-color: var(--accent3);
+  color: var(--accent3);
+  background: rgba(107,206,255,0.08);
+}
+
+/* TOPIC SECTION */
+.topic-section {
+  margin-bottom: 48px;
+  animation: fadeUp 0.5s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.topic-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.topic-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.topic-header h2 {
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.topic-number {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* NOTES CARD */
+.notes-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.notes-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px;
+  height: 100%;
+  border-radius: 4px 0 0 4px;
+}
+
+.notes-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.notes-label::before { content: '📖'; font-size: 0.9rem; }
+
+.concept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.concept-chip {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.concept-chip .c-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.concept-chip .c-def {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.concept-chip .c-ex {
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-top: 5px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.remember-box {
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-top: 12px;
+}
+
+.remember-box strong { display: block; margin-bottom: 4px; font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; }
+
+/* PRACTICE SECTION */
+.practice-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.practice-label::before { content: '✏️'; font-size: 0.9rem; }
+
+.practice-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pq-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pq-card:hover { border-color: rgba(255,255,255,0.15); background: var(--card2); }
+
+.pq-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.pq-num {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.pq-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.5;
+  flex: 1;
+}
+
+.pq-toggle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--muted);
+  flex-shrink: 0;
+  margin-top: 3px;
+  transition: transform 0.3s;
+}
+
+.pq-card.open .pq-toggle { transform: rotate(180deg); }
+
+.pq-answer {
+  display: none;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.pq-answer .ans-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.pq-answer .ans-text {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.pq-answer .ans-explain {
+  color: var(--muted);
+  font-size: 0.83rem;
+  margin-top: 5px;
+}
+
+.pq-card.open .pq-answer { display: block; }
+
+/* Color themes per topic */
+.t1 { --tc: #FF6B9D; } .t2 { --tc: #FFD93D; } .t3 { --tc: #6BCEFF; }
+.t4 { --tc: #6BFF9E; } .t5 { --tc: #C77DFF; } .t6 { --tc: #FF9A3C; }
+.t7 { --tc: #3CF5C4; } .t8 { --tc: #FF6B6B; } .t9 { --tc: #A8E6CF; }
+.t10 { --tc: #FFC3A0; } .t11 { --tc: #D4A5FF; }
+
+.topic-section .topic-icon { background: color-mix(in srgb, var(--tc) 15%, transparent); }
+.topic-section .topic-header h2 { color: var(--tc); }
+.topic-section .notes-card::before { background: var(--tc); }
+.topic-section .notes-label { color: var(--tc); }
+.topic-section .practice-label { color: var(--tc); }
+.topic-section .concept-chip .c-ex { background: color-mix(in srgb, var(--tc) 15%, transparent); color: var(--tc); }
+.topic-section .remember-box { background: color-mix(in srgb, var(--tc) 10%, transparent); border: 1px solid color-mix(in srgb, var(--tc) 25%, transparent); }
+.topic-section .remember-box strong { color: var(--tc); }
+.topic-section .pq-num { background: color-mix(in srgb, var(--tc) 18%, transparent); color: var(--tc); }
+.topic-section .pq-card:hover .pq-text { color: var(--tc); }
+.topic-section .ans-label { color: var(--tc); }
+
+/* Scroll to top */
+.totop {
+  position: fixed;
+  bottom: 28px;
+  right: 24px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--accent1);
+  color: white;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(255,107,157,0.4);
+  border: none;
+  z-index: 100;
+  transition: transform 0.2s;
+}
+
+.totop:hover { transform: translateY(-4px); }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .concept-grid { grid-template-columns: 1fr; }
+  .nav-pills { gap: 6px; }
+  .nav-pill { font-size: 0.75rem; padding: 6px 11px; }
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 8px 0 24px;
+}
+
+.formula-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.formula-pill {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: 'Baloo 2', cursive;
+}
+
+.formula-pill span { color: var(--muted); font-weight: 500; }
+
+.vis-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.vis-box {
+  flex: 1;
+  min-width: 130px;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.vis-box .vis-big { font-size: 1.8rem; display: block; margin-bottom: 4px; }
+.vis-box .vis-name { font-weight: 700; }
+.vis-box .vis-note { color: var(--muted); font-size: 0.75rem; margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Grade 5 · Math</div>
+  <h1>✨ Yumi's Complete<br>Math Reviewer</h1>
+  <p>Notes + Practice Questions for all 11 topics. Read, understand, then test yourself!</p>
+</div>
+
+<!-- NAV PILLS -->
+<div class="nav-pills">
+  <a class="nav-pill" href="#t1">💡 Geometry</a>
+  <a class="nav-pill" href="#t2">📐 Angles</a>
+  <a class="nav-pill" href="#t3">🔷 Polygons</a>
+  <a class="nav-pill" href="#t4">⭕ Circle</a>
+  <a class="nav-pill" href="#t5">📦 Solids</a>
+  <a class="nav-pill" href="#t6">🌡️ Temperature</a>
+  <a class="nav-pill" href="#t7">🕰️ Time</a>
+  <a class="nav-pill" href="#t8">🔢 Patterns</a>
+  <a class="nav-pill" href="#t9">⚖️ Equations</a>
+  <a class="nav-pill" href="#t10">📈 Line Graphs</a>
+  <a class="nav-pill" href="#t11">🎲 Probability</a>
+</div>
+
+<!-- ====== TOPIC 1: BASIC GEOMETRIC IDEAS ====== -->
+<div class="topic-section t1" id="t1">
+  <div class="topic-header">
+    <div class="topic-icon">💡</div>
+    <div>
+      <div class="topic-number">Topic 01</div>
+      <h2>Basic Geometric Ideas</h2>
+    </div>
+  </div>
+
+  <div class="notes-card">
+    <div class="notes-label">Key Concepts</div>
+    <div class="concept-grid">
+      <div class="concept-chip">
+        <div class="c-name">Point</div>
+        <div class="c-def">An exact location in space. It has no size, length, or shape.</div>
+        <div class="c-ex">• Point A</div>
+      </div>
+      <div class="concept-chip">
+        <div class="c-name">Line</div>
+        <div class="c-def">A straight path that goes on forever in BOTH directions. No endpoints.</div>
+        <div class="c-ex">↔ Line AB</div>
+      </div>
+      <div class="concept-chip">
+        <div class="c-name">Line Segment</div>
+        <div class="c-def">A part of a line with TWO endpoints. It has a definite length.</div>
+        <div class="c-ex">|–––| Segment AB</div>
+      </div>
+      <div class="concept-chip">
+        <div class="c-name">Ray</div>
+        <div class="c-def">A part of a line with ONE endpoint. It goes on forever in one direction.</div>
+        <div class="c-ex">•→ Ray AB</div>
+      </div>
+      <div class="concept-chip">
+        <div class="c-name">Plane</div>
+        <div class="c-def">A flat surface that extends forever in all directions. It has no thickness.</div>
+        <div class="c-ex">Like a floor going on forever</div>
+      </div>
+      <div class="concept-chip">
+        <div class="c-name">Parallel Lines</div>
+        <div class="c-def">Lines that never meet. They stay the same distance apart forever.</div>
+        <div class="c-ex">= Train rails, notebook lines</div>
+      </div>
+      <div class="concept-chip">
+        <div class="c-name">Perpendicular Lines</div>
+        <div class="c-def">Lines that intersect and form a 90° (right) angle.</div>
+        <div class="c-ex">+ like a plus sign or a cross</div>
+      </div>
+      <div class="concept-chip">
+        <div class="c-name">Intersecting Lines</div>
+        <div class="c-def">Lines that cross each other at exactly one point.</div>
+        <div class="c-ex">× like an X shape</div>
+      </div>
+    </div>
+    <div class="remember-box">
+      <strong>🌟 Remember!</strong>
+      Point → no dimensions | Line Segment → 2 endpoints | Ray → 1 endpoint | Line → 0 endpoints. Parallel lines NEVER meet. Perpendicular lines always make a 90° corner!
+    </div>
+  </div>
+
+  <div class="practice-label">Practice Questions</div>
+  <div class="practice-questions">
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">1</div><div class="pq-text">What geometric figure has NO endpoints and extends forever in both directions?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">A Line</div><div class="ans-explain">A line has no endpoints — it goes on forever in both directions. Unlike a ray (1 endpoint) or segment (2 endpoints).</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">2</div><div class="pq-text">Train tracks running side by side without ever meeting are an example of _______ lines.</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">Parallel lines</div><div class="ans-explain">Parallel lines never intersect and always remain the same distance apart — just like train tracks!</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">3</div><div class="pq-text">The corner of your notebook where two sides meet is an example of _______ lines.</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">Perpendicular lines</div><div class="ans-explain">Perpendicular lines meet at a right angle (90°), just like the corners of a notebook or a square.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">4</div><div class="pq-text">Name the geometric figure: it starts at point A and goes on forever toward point B, but does NOT go back past A.</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">A Ray (Ray AB)</div><div class="ans-explain">A ray has exactly one endpoint (point A) and extends infinitely in one direction only.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ====== TOPIC 2: ANGLES ====== -->
+<div class="topic-section t2" id="t2">
+  <div class="topic-header">
+    <div class="topic-icon">📐</div>
+    <div>
+      <div class="topic-number">Topic 02</div>
+      <h2>Angles</h2>
+    </div>
+  </div>
+
+  <div class="notes-card">
+    <div class="notes-label">Key Concepts</div>
+    <p style="font-size:0.88rem;color:var(--muted);margin-bottom:14px;font-weight:600;">An <strong style="color:var(--text)">angle</strong> is formed by two rays that share a common endpoint called the <strong style="color:var(--text)">vertex</strong>. We measure angles in <strong style="color:var(--text)">degrees (°)</strong>.</p>
+    <div class="vis-row">
+      <div class="vis-box"><span class="vis-big">⊾</span><div class="vis-name">Acute Angle</div><div class="vis-note">Less than 90°<br>Sharp and pointy</div></div>
+      <div class="vis-box"><span class="vis-big">∟</span><div class="vis-name">Right Angle</div><div class="vis-note">Exactly 90°<br>Has a small square corner</div></div>
+      <div class="vis-box"><span class="vis-big">∠</span><div class="vis-name">Obtuse Angle</div><div class="vis-note">90° to 180°<br>Wide and open</div></div>
+      <div class="vis-box"><span class="vis-big">↔</span><div class="vis-name">Straight Angle</div><div class="vis-note">Exactly 180°<br>Looks like a line</div></div>
+      <div class="vis-box"><span class="vis-big">↺</span><div class="vis-name">Reflex Angle</div><div class="vis-note">180° to 360°<br>Bends more than halfway</div></div>
+    </div>
+    <div class="remember-box">
+      <strong>🌟 Easy Trick to Remember!</strong>
+      "A-cute" angle is cute and small (less than 90°). "Ob-tuse" means dull/blunt — it's wide (between 90° and 180°). A RIGHT angle has a RIGHT-angle square marker. A STRAIGHT angle is a straight line = 180°.
+    </div>
+  </div>
+
+  <div class="practice-label">Practice Questions</div>
+  <div class="practice-questions">
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">1</div><div class="pq-text">What type of angle measures exactly 90°?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">Right Angle</div><div class="ans-explain">A right angle measures exactly 90°. It looks like the corner of a square and is marked with a small square symbol.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">2</div><div class="pq-text">An angle that measures 135° is a/an _______ angle.</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">Obtuse angle</div><div class="ans-explain">135° is between 90° and 180°, so it is an obtuse angle. It is wider than a right angle but hasn't reached a straight line yet.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">3</div><div class="pq-text">Classify the angle: the tip of a slice of pizza measures about 30°.</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">Acute angle</div><div class="ans-explain">30° is less than 90°, making it an acute angle — sharp and small, just like the pointy tip of a pizza slice!</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">4</div><div class="pq-text">What do you call the common endpoint of the two rays that form an angle?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">The Vertex</div><div class="ans-explain">The vertex is the corner point of the angle — where the two rays meet.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">5</div><div class="pq-text">What is the sum of angles in a straight angle?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">180°</div><div class="ans-explain">A straight angle looks like a flat, straight line. It measures exactly 180°.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ====== TOPIC 3: POLYGONS ====== -->
+<div class="topic-section t3" id="t3">
+  <div class="topic-header">
+    <div class="topic-icon">🔷</div>
+    <div>
+      <div class="topic-number">Topic 03</div>
+      <h2>Polygons</h2>
+    </div>
+  </div>
+
+  <div class="notes-card">
+    <div class="notes-label">Key Concepts</div>
+    <p style="font-size:0.88rem;color:var(--muted);margin-bottom:14px;font-weight:600;">A <strong style="color:var(--text)">polygon</strong> is a closed, flat shape made of straight line segments. They are named by their number of sides.</p>
+    <div class="concept-grid">
+      <div class="concept-chip"><div class="c-name">Triangle</div><div class="c-def">3 sides, 3 angles</div><div class="c-ex">Sum of angles = 180°</div></div>
+      <div class="concept-chip"><div class="c-name">Quadrilateral</div><div class="c-def">4 sides, 4 angles</div><div class="c-ex">Sum of angles = 360°</div></div>
+      <div class="concept-chip"><div class="c-name">Pentagon</div><div class="c-def">5 sides, 5 angles</div><div class="c-ex">Like the Pentagon building</div></div>
+      <div class="concept-chip"><div class="c-name">Hexagon</div><div class="c-def">6 sides, 6 angles</div><div class="c-ex">Honeybee cells!</div></div>
+      <div class="concept-chip"><div class="c-name">Heptagon</div><div class="c-def">7 sides, 7 angles</div><div class="c-ex">Hepta = 7</div></div>
+      <div class="concept-chip"><div class="c-name">Octagon</div><div class="c-def">8 sides, 8 angles</div><div class="c-ex">Like a STOP sign!</div></div>
+    </div>
+    <div style="margin-top:14px;font-family:'Baloo 2',cursive;font-size:0.85rem;color:var(--muted);margin-bottom:8px;font-weight:600;">Types of Quadrilaterals:</div>
+    <div class="concept-grid">
+      <div class="concept-chip"><div class="c-name">Square</div><div class="c-def">4 equal sides, 4 right angles</div></div>
+      <div class="concept-chip"><div class="c-name">Rectangle</div><div class="c-def">Opposite sides equal, 4 right angles</div></div>
+      <div class="concept-chip"><div class="c-name">Rhombus</div><div class="c-def">4 equal sides, opposite angles equal</div></div>
+      <div class="concept-chip"><div class="c-name">Trapezoid</div><div class="c-def">Exactly ONE pair of parallel sides</div></div>
+      <div class="concept-chip"><div class="c-name">Parallelogram</div><div class="c-def">Two pairs of parallel sides</div></div>
+    </div>
+    <div class="remember-box">
+      <strong>🌟 Regular vs Irregular Polygon</strong>
+      A REGULAR polygon has ALL sides equal AND all angles equal (e.g., a regular hexagon). An IRREGULAR polygon does not — sides and angles can be different sizes.
+    </div>
+  </div>
+
+  <div class="practice-label">Practice Questions</div>
+  <div class="practice-questions">
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">1</div><div class="pq-text">What is the sum of the interior angles of any triangle?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">180°</div><div class="ans-explain">No matter what kind of triangle — small, big, thin, wide — the three angles always add up to 180°.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">2</div><div class="pq-text">A STOP sign has 8 sides. What polygon is it?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">Octagon</div><div class="ans-explain">Oct = 8. An octagon has 8 sides and 8 angles. STOP signs are octagons!</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">3</div><div class="pq-text">Which quadrilateral has EXACTLY one pair of parallel sides?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">Trapezoid</div><div class="ans-explain">A trapezoid has only one pair of parallel sides. (A parallelogram, rectangle, rhombus, and square all have TWO pairs.)</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">4</div><div class="pq-text">What do you call a polygon where ALL sides are equal AND all angles are equal?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">Regular Polygon</div><div class="ans-explain">A regular polygon is perfectly even — every side is the same length, and every angle is the same measure. Example: a regular hexagon or a square.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">5</div><div class="pq-text">Name the quadrilateral: 4 equal sides, opposite sides are parallel, but the angles are NOT 90°.</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">Rhombus</div><div class="ans-explain">A rhombus has 4 equal sides like a square, but its angles are not right angles — it looks like a "pushed-over" square (like a diamond shape).</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ====== TOPIC 4: CIRCLE ====== -->
+<div class="topic-section t4" id="t4">
+  <div class="topic-header">
+    <div class="topic-icon">⭕</div>
+    <div>
+      <div class="topic-number">Topic 04</div>
+      <h2>Circle</h2>
+    </div>
+  </div>
+
+  <div class="notes-card">
+    <div class="notes-label">Key Concepts</div>
+    <p style="font-size:0.88rem;color:var(--muted);margin-bottom:14px;font-weight:600;">A <strong style="color:var(--text)">circle</strong> is a closed curve where every point is the same distance from the center.</p>
+    <div class="concept-grid">
+      <div class="concept-chip"><div class="c-name">Center</div><div class="c-def">The middle point of the circle. All edges are equal distance from here.</div></div>
+      <div class="concept-chip"><div class="c-name">Radius (r)</div><div class="c-def">Distance from the center to any point on the circle.</div><div class="c-ex">r = ½ × diameter</div></div>
+      <div class="concept-chip"><div class="c-name">Diameter (d)</div><div class="c-def">Distance across the circle through the center. Always passes through the middle.</div><div class="c-ex">d = 2 × radius</div></div>
+      <div class="concept-chip"><div class="c-name">Chord</div><div class="c-def">A line segment connecting any two points on the circle. (Diameter is the longest chord.)</div></div>
+      <div class="concept-chip"><div class="c-name">Arc</div><div class="c-def">A curved part of the circle's edge (circumference).</div><div class="c-ex">Like a curved road segment</div></div>
+      <div class="concept-chip"><div class="c-name">Circumference</div><div class="c-def">The total distance around the circle (its perimeter).</div><div class="c-ex">C = π × d ≈ 3.14 × d</div></div>
+    </div>
+    <div class="formula-row">
+      <div class="formula-pill">d = 2r <span>  Diameter = 2 × radius</span></div>
+      <div class="formula-pill">r = d ÷ 2 <span>  Radius = half of diameter</span></div>
+      <div class="formula-pill">C = πd <span>  Circumference (π ≈ 3.14)</span></div>
+    </div>
+    <div class="remember-box">
+      <strong>🌟 Remember!</strong>
+      The RADIUS goes from the CENTER to the edge. The DIAMETER goes ALL THE WAY across (through the center). Diameter = 2 × Radius. The CHORD connects two points on the circle but may NOT pass through the center.
+    </div>
+  </div>
+
+  <div class="practice-label">Practice Questions</div>
+  <div class="practice-questions">
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">1</div><div class="pq-text">A circle has a radius of 7 cm. What is its diameter?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">14 cm</div><div class="ans-explain">Diameter = 2 × radius = 2 × 7 = 14 cm.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">2</div><div class="pq-text">The diameter of a circle is 20 cm. What is the radius?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">10 cm</div><div class="ans-explain">Radius = Diameter ÷ 2 = 20 ÷ 2 = 10 cm.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">3</div><div class="pq-text">What is the name of the line segment connecting TWO points on a circle that passes through the CENTER?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">Diameter</div><div class="ans-explain">The diameter is the longest chord of a circle and always passes through the center.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">4</div><div class="pq-text">What is a curved part of the circumference (outer edge) of a circle called?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">Arc</div><div class="ans-explain">An arc is any portion of the circumference — the curved outer edge of a circle.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ====== TOPIC 5: SOLID FIGURES ====== -->
+<div class="topic-section t5" id="t5">
+  <div class="topic-header">
+    <div class="topic-icon">📦</div>
+    <div>
+      <div class="topic-number">Topic 05</div>
+      <h2>Solid Figures</h2>
+    </div>
+  </div>
+
+  <div class="notes-card">
+    <div class="notes-label">Key Concepts</div>
+    <p style="font-size:0.88rem;color:var(--muted);margin-bottom:14px;font-weight:600;"><strong style="color:var(--text)">Solid figures</strong> are 3D shapes. They have <strong style="color:var(--text)">faces</strong> (flat surfaces), <strong style="color:var(--text)">edges</strong> (where faces meet), and <strong style="color:var(--text)">vertices</strong> (corner points).</p>
+    <div class="concept-grid">
+      <div class="concept-chip"><div class="c-name">Cube</div><div class="c-def">6 square faces, 12 edges, 8 vertices. All sides equal.</div><div class="c-ex">🎲 Dice, ice cube</div></div>
+      <div class="concept-chip"><div class="c-name">Rectangular Prism</div><div class="c-def">6 rectangular faces, 12 edges, 8 vertices.</div><div class="c-ex">📦 Cereal box, book</div></div>
+      <div class="concept-chip"><div class="c-name">Cylinder</div><div class="c-def">2 circular faces, 1 curved surface, 0 vertices.</div><div class="c-ex">🥫 Can, drum</div></div>
+      <div class="concept-chip"><div class="c-name">Cone</div><div class="c-def">1 circular base, 1 curved surface, 1 vertex (apex).</div><div class="c-ex">🍦 Ice cream cone, party hat</div></div>
+      <div class="concept-chip"><div class="c-name">Sphere</div><div class="c-def">1 curved surface, 0 faces, 0 edges, 0 vertices.</div><div class="c-ex">🏀 Ball, Earth, bubble</div></div>
+      <div class="concept-chip"><div class="c-name">Pyramid</div><div class="c-def">Triangular faces meeting at one apex. Base can be any polygon.</div><div class="c-ex">🔺 Egyptian pyramids</div></div>
+    </div>
+    <div class="remember-box">
+      <strong>🌟 Euler's Formula (for polyhedra)</strong>
+      Faces + Vertices − Edges = 2. Example for a cube: 6 + 8 − 12 = 2 ✓. A face is a FLAT surface. An edge is where TWO faces meet. A vertex is where THREE or more edges meet (a corner).
+    </div>
+  </div>
+
+  <div class="practice-label">Practice Questions</div>
+  <div class="practice-questions">
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">1</div><div class="pq-text">How many faces, edges, and vertices does a cube have?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">6 faces, 12 edges, 8 vertices</div><div class="ans-explain">A cube has 6 square faces (like the 6 sides of a dice), 12 edges (where faces meet), and 8 vertices (corners).</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">2</div><div class="pq-text">Which solid figure has NO flat faces and NO edges?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">Sphere</div><div class="ans-explain">A sphere is perfectly round with only one curved surface — no flat faces, no edges, and no vertices.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">3</div><div class="pq-text">An ice cream cone is shaped like what solid figure?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">Cone</div><div class="ans-explain">A cone has a circular base, a curved surface, and comes to a single point called the apex — just like an ice cream cone!</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">4</div><div class="pq-text">What is the difference between a cube and a rectangular prism?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">A cube has ALL equal square faces. A rectangular prism has rectangular faces that may have different lengths.</div><div class="ans-explain">A cube is a special rectangular prism where all 6 faces are identical squares. A rectangular prism (like a shoebox) can have different lengths, widths, and heights.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">5</div><div class="pq-text">How many edges does a rectangular prism have?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">12 edges</div><div class="ans-explain">Like a cube, a rectangular prism also has 12 edges: 4 on the top, 4 on the bottom, and 4 vertical edges connecting them.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ====== TOPIC 6: TEMPERATURE ====== -->
+<div class="topic-section t6" id="t6">
+  <div class="topic-header">
+    <div class="topic-icon">🌡️</div>
+    <div>
+      <div class="topic-number">Topic 06</div>
+      <h2>Temperature</h2>
+    </div>
+  </div>
+
+  <div class="notes-card">
+    <div class="notes-label">Key Concepts</div>
+    <p style="font-size:0.88rem;color:var(--muted);margin-bottom:14px;font-weight:600;"><strong style="color:var(--text)">Temperature</strong> measures how hot or cold something is. We use <strong style="color:var(--text)">Celsius (°C)</strong> and <strong style="color:var(--text)">Fahrenheit (°F)</strong>.</p>
+    <div class="vis-row">
+      <div class="vis-box"><span class="vis-big">🧊</span><div class="vis-name">Freezing Point</div><div class="vis-note">0°C / 32°F<br>Water turns to ice</div></div>
+      <div class="vis-box"><span class="vis-big">🌤️</span><div class="vis-name">Room Temperature</div><div class="vis-note">About 25°C<br>Comfortable & normal</div></div>
+      <div class="vis-box"><span class="vis-big">🔥</span><div class="vis-name">Boiling Point</div><div class="vis-note">100°C / 212°F<br>Water turns to steam</div></div>
+      <div class="vis-box"><span class="vis-big">🤒</span><div class="vis-name">Body Temperature</div><div class="vis-note">About 37°C<br>Normal human body</div></div>
+    </div>
+    <div class="formula-row" style="margin-top:14px;">
+      <div class="formula-pill">°F to °C: <span>(°F − 32) × 5/9</span></div>
+      <div class="formula-pill">°C to °F: <span>(°C × 9/5) + 32</span></div>
+    </div>
+    <div class="remember-box">
+      <strong>🌟 Remember!</strong>
+      If temperature RISES → ADD. If temperature DROPS/FALLS → SUBTRACT. If it goes BELOW ZERO → use negative numbers (e.g., −5°C means 5 degrees below freezing).
+    </div>
+  </div>
+
+  <div class="practice-label">Practice Questions</div>
+  <div class="practice-questions">
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">1</div><div class="pq-text">At what temperature (°C) does water freeze?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">0°C</div><div class="ans-explain">Water freezes (turns into ice) at 0°C. This is called the freezing point of water.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">2</div><div class="pq-text">The temperature in the morning is 18°C. By afternoon, it rose by 9°C. What is the afternoon temperature?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">27°C</div><div class="ans-explain">Temperature rose (increased), so we ADD: 18 + 9 = 27°C.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">3</div><div class="pq-text">It was 5°C outside. The temperature dropped 8°C overnight. What is the new temperature?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">−3°C</div><div class="ans-explain">Temperature dropped (decreased), so we SUBTRACT: 5 − 8 = −3°C (3 degrees below zero).</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">4</div><div class="pq-text">What is the boiling point of water in Celsius?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">100°C</div><div class="ans-explain">Water boils (turns to steam) at 100°C, which is the same as 212°F.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ====== TOPIC 7: TIME ====== -->
+<div class="topic-section t7" id="t7">
+  <div class="topic-header">
+    <div class="topic-icon">🕰️</div>
+    <div>
+      <div class="topic-number">Topic 07</div>
+      <h2>Time</h2>
+    </div>
+  </div>
+
+  <div class="notes-card">
+    <div class="notes-label">Key Concepts</div>
+    <div class="vis-row">
+      <div class="vis-box"><span class="vis-big">⏱️</span><div class="vis-name">60 seconds</div><div class="vis-note">= 1 minute</div></div>
+      <div class="vis-box"><span class="vis-big">⏰</span><div class="vis-name">60 minutes</div><div class="vis-note">= 1 hour</div></div>
+      <div class="vis-box"><span class="vis-big">🌙</span><div class="vis-name">24 hours</div><div class="vis-note">= 1 day</div></div>
+      <div class="vis-box"><span class="vis-big">📅</span><div class="vis-name">7 days</div><div class="vis-note">= 1 week</div></div>
+      <div class="vis-box"><span class="vis-big">🗓️</span><div class="vis-name">12 months</div><div class="vis-note">= 1 year</div></div>
+    </div>
+    <div style="margin-top:14px;" class="concept-grid">
+      <div class="concept-chip"><div class="c-name">AM vs PM</div><div class="c-def">AM = midnight to noon (12:00 AM to 11:59 AM). PM = noon to midnight (12:00 PM to 11:59 PM).</div></div>
+      <div class="concept-chip"><div class="c-name">Elapsed Time</div><div class="c-def">The amount of time that has passed between a start time and an end time.</div><div class="c-ex">End time − Start time</div></div>
+    </div>
+    <div class="remember-box">
+      <strong>🌟 How to Find Elapsed Time</strong>
+      Step 1: Start with the start time. Step 2: Add hours first, then minutes. Step 3: If minutes go over 60, carry over to the hours! Example: 2:40 PM + 1 hr 30 min → 2:40 + 1hr = 3:40 → 3:40 + 30 min = 4:10 PM.
+    </div>
+  </div>
+
+  <div class="practice-label">Practice Questions</div>
+  <div class="practice-questions">
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">1</div><div class="pq-text">How many seconds are in one hour?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">3,600 seconds</div><div class="ans-explain">1 hour = 60 minutes. 1 minute = 60 seconds. So: 60 × 60 = 3,600 seconds.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">2</div><div class="pq-text">Convert 2 hours and 35 minutes into minutes only.</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">155 minutes</div><div class="ans-explain">2 hours = 2 × 60 = 120 minutes. 120 + 35 = 155 minutes.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">3</div><div class="pq-text">A class starts at 8:45 AM and ends at 10:15 AM. How long is the class?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">1 hour and 30 minutes</div><div class="ans-explain">From 8:45 to 9:45 = 1 hour. From 9:45 to 10:15 = 30 minutes. Total = 1 hr 30 min.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">4</div><div class="pq-text">A movie starts at 6:20 PM and lasts 2 hours and 15 minutes. What time does it end?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">8:35 PM</div><div class="ans-explain">6:20 + 2 hours = 8:20 PM. 8:20 + 15 minutes = 8:35 PM.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">5</div><div class="pq-text">How many minutes are in 3 hours?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">180 minutes</div><div class="ans-explain">1 hour = 60 minutes. 3 × 60 = 180 minutes.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ====== TOPIC 8: NUMBER PATTERNS ====== -->
+<div class="topic-section t8" id="t8">
+  <div class="topic-header">
+    <div class="topic-icon">🔢</div>
+    <div>
+      <div class="topic-number">Topic 08</div>
+      <h2>Number Patterns & Sequences</h2>
+    </div>
+  </div>
+
+  <div class="notes-card">
+    <div class="notes-label">Key Concepts</div>
+    <p style="font-size:0.88rem;color:var(--muted);margin-bottom:14px;font-weight:600;">A <strong style="color:var(--text)">number pattern</strong> is a sequence of numbers that follows a rule. Finding the rule lets us predict the next numbers!</p>
+    <div class="concept-grid">
+      <div class="concept-chip"><div class="c-name">Arithmetic Sequence</div><div class="c-def">Add or subtract the SAME number each time.</div><div class="c-ex">2, 5, 8, 11, 14... (+3 each time)</div></div>
+      <div class="concept-chip"><div class="c-name">Geometric Sequence</div><div class="c-def">Multiply or divide by the SAME number each time.</div><div class="c-ex">3, 6, 12, 24... (×2 each time)</div></div>
+      <div class="concept-chip"><div class="c-name">Square Numbers</div><div class="c-def">Numbers multiplied by themselves.</div><div class="c-ex">1, 4, 9, 16, 25, 36... (1², 2², 3²...)</div></div>
+      <div class="concept-chip"><div class="c-name">Odd Numbers</div><div class="c-def">Numbers that cannot be divided evenly by 2.</div><div class="c-ex">1, 3, 5, 7, 9, 11...</div></div>
+      <div class="concept-chip"><div class="c-name">Even Numbers</div><div class="c-def">Numbers divisible evenly by 2.</div><div class="c-ex">2, 4, 6, 8, 10, 12...</div></div>
+      <div class="concept-chip"><div class="c-name">Fibonacci-like</div><div class="c-def">Add the two previous numbers to get the next.</div><div class="c-ex">1, 1, 2, 3, 5, 8, 13...</div></div>
+    </div>
+    <div class="remember-box">
+      <strong>🌟 How to Find the Rule</strong>
+      Look at what changes between numbers: Are you ADDING or SUBTRACTING the same amount? → Arithmetic. Are you MULTIPLYING or DIVIDING? → Geometric. Once you find the rule, apply it to find missing terms!
+    </div>
+  </div>
+
+  <div class="practice-label">Practice Questions</div>
+  <div class="practice-questions">
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">1</div><div class="pq-text">Find the next two numbers: 4, 8, 12, 16, ___, ___</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">20, 24</div><div class="ans-explain">The rule is +4 each time (arithmetic sequence). 16 + 4 = 20. 20 + 4 = 24.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">2</div><div class="pq-text">What is the rule for this pattern? 2, 6, 18, 54, 162</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">Multiply by 3 each time (×3)</div><div class="ans-explain">2×3=6, 6×3=18, 18×3=54, 54×3=162. This is a geometric sequence with a common ratio of 3.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">3</div><div class="pq-text">Find the missing number: 5, 10, ___, 20, 25</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">15</div><div class="ans-explain">The rule is +5 each time. 10 + 5 = 15. Check: 15 + 5 = 20 ✓</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">4</div><div class="pq-text">What are the first 5 square numbers?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">1, 4, 9, 16, 25</div><div class="ans-explain">1²=1, 2²=4, 3²=9, 4²=16, 5²=25. Square numbers are made by multiplying a number by itself.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">5</div><div class="pq-text">What comes next? 100, 90, 80, 70, ___</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">60</div><div class="ans-explain">The rule is −10 each time. 70 − 10 = 60.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ====== TOPIC 9: EQUATIONS ====== -->
+<div class="topic-section t9" id="t9">
+  <div class="topic-header">
+    <div class="topic-icon">⚖️</div>
+    <div>
+      <div class="topic-number">Topic 09</div>
+      <h2>Solving Equations</h2>
+    </div>
+  </div>
+
+  <div class="notes-card">
+    <div class="notes-label">Key Concepts</div>
+    <p style="font-size:0.88rem;color:var(--muted);margin-bottom:14px;font-weight:600;">An <strong style="color:var(--text)">equation</strong> is a mathematical statement that two expressions are EQUAL (using the = sign). We <strong style="color:var(--text)">solve</strong> for the unknown variable (usually n, x, or y).</p>
+    <div class="concept-grid">
+      <div class="concept-chip"><div class="c-name">Variable</div><div class="c-def">A letter (like x, n, y) that represents an unknown number we need to find.</div><div class="c-ex">n + 5 = 12 → n = ?</div></div>
+      <div class="concept-chip"><div class="c-name">Inverse Operations</div><div class="c-def">Opposite operations used to isolate the variable: + and − are opposites. × and ÷ are opposites.</div></div>
+      <div class="concept-chip"><div class="c-name">Balance Rule</div><div class="c-def">Whatever you do to ONE side, you MUST do to the OTHER side to keep the equation balanced.</div></div>
+    </div>
+    <div style="margin-top:12px;background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px;">
+      <div style="font-size:0.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Step-by-Step Examples</div>
+      <div style="font-size:0.88rem;font-weight:600;line-height:2;color:var(--text);">
+        <span style="color:var(--muted)">Addition equation:</span> x + 8 = 15 → x = 15 − 8 → <strong>x = 7</strong><br>
+        <span style="color:var(--muted)">Subtraction equation:</span> y − 6 = 9 → y = 9 + 6 → <strong>y = 15</strong><br>
+        <span style="color:var(--muted)">Multiplication equation:</span> 5n = 35 → n = 35 ÷ 5 → <strong>n = 7</strong><br>
+        <span style="color:var(--muted)">Division equation:</span> n ÷ 4 = 3 → n = 3 × 4 → <strong>n = 12</strong>
+      </div>
+    </div>
+    <div class="remember-box">
+      <strong>🌟 The Golden Rule</strong>
+      To solve for a variable, use the OPPOSITE (inverse) operation. Addition ↔ Subtraction. Multiplication ↔ Division. Always do the SAME thing to BOTH sides of the equation!
+    </div>
+  </div>
+
+  <div class="practice-label">Practice Questions</div>
+  <div class="practice-questions">
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">1</div><div class="pq-text">Solve: n + 14 = 25</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">n = 11</div><div class="ans-explain">n + 14 = 25 → n = 25 − 14 → n = 11. Check: 11 + 14 = 25 ✓</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">2</div><div class="pq-text">Solve: 6x = 42</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">x = 7</div><div class="ans-explain">6x = 42 → x = 42 ÷ 6 → x = 7. Check: 6 × 7 = 42 ✓</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">3</div><div class="pq-text">Solve: y − 11 = 8</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">y = 19</div><div class="ans-explain">y − 11 = 8 → y = 8 + 11 → y = 19. Check: 19 − 11 = 8 ✓</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">4</div><div class="pq-text">Solve: n ÷ 5 = 9</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">n = 45</div><div class="ans-explain">n ÷ 5 = 9 → n = 9 × 5 → n = 45. Check: 45 ÷ 5 = 9 ✓</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">5</div><div class="pq-text">Yumi has some stickers. She gives away 13 and has 27 left. Write and solve an equation to find how many she started with.</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">n − 13 = 27 → n = 40 stickers</div><div class="ans-explain">Let n = the starting number of stickers. n − 13 = 27. n = 27 + 13 = 40. Yumi started with 40 stickers.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ====== TOPIC 10: LINE GRAPHS ====== -->
+<div class="topic-section t10" id="t10">
+  <div class="topic-header">
+    <div class="topic-icon">📈</div>
+    <div>
+      <div class="topic-number">Topic 10</div>
+      <h2>Line Graphs</h2>
+    </div>
+  </div>
+
+  <div class="notes-card">
+    <div class="notes-label">Key Concepts</div>
+    <p style="font-size:0.88rem;color:var(--muted);margin-bottom:14px;font-weight:600;">A <strong style="color:var(--text)">line graph</strong> uses points connected by lines to show how data changes over time.</p>
+    <div class="concept-grid">
+      <div class="concept-chip"><div class="c-name">X-axis (Horizontal)</div><div class="c-def">Usually shows TIME or categories (days, months, years).</div></div>
+      <div class="concept-chip"><div class="c-name">Y-axis (Vertical)</div><div class="c-def">Usually shows the DATA VALUE being measured (temperature, score, sales).</div></div>
+      <div class="concept-chip"><div class="c-name">Data Points</div><div class="c-def">Dots placed where the x and y values meet. Connected by a line.</div></div>
+      <div class="concept-chip"><div class="c-name">Title</div><div class="c-def">Tells us what the graph is about. Always written at the top.</div></div>
+      <div class="concept-chip"><div class="c-name">Scale</div><div class="c-def">The numbers on the axes that show the range and intervals of data.</div></div>
+      <div class="concept-chip"><div class="c-name">Trend</div><div class="c-def">Whether the data is going UP (increasing), going DOWN (decreasing), or staying the SAME.</div></div>
+    </div>
+    <div class="remember-box">
+      <strong>🌟 Reading a Line Graph</strong>
+      1. Read the TITLE first. 2. Look at both axis LABELS to understand what is being measured. 3. Find a point and read across to the y-axis for the value. 4. Look for TRENDS — is the line going up, down, or flat? Line graphs are best for showing CHANGE OVER TIME!
+    </div>
+  </div>
+
+  <div class="practice-label">Practice Questions</div>
+  <div class="practice-questions">
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">1</div><div class="pq-text">What is a line graph best used to show?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">Changes in data over time</div><div class="ans-explain">Line graphs excel at showing trends over time — like temperature changes during a week, or test scores across months.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">2</div><div class="pq-text">On a line graph showing daily temperature, what would you usually find on the X-axis (horizontal)?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">The days (time / categories)</div><div class="ans-explain">The X-axis (horizontal) usually shows TIME — days, months, or years. The Y-axis shows the data values, like temperature in °C.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">3</div><div class="pq-text">A line graph shows these temperatures: Mon=30°C, Tue=32°C, Wed=29°C, Thu=31°C. On which day was it hottest?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">Tuesday (32°C)</div><div class="ans-explain">Looking at the data points, Tuesday had the highest temperature at 32°C — this would be the highest point on the line graph.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">4</div><div class="pq-text">If a line graph shows a line going steadily UPWARD from left to right, what does this mean?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">The data is increasing (going up) over time.</div><div class="ans-explain">A rising line = increasing trend. A falling line = decreasing trend. A flat line = no change. Reading the trend is one of the most important skills in reading line graphs.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ====== TOPIC 11: PROBABILITY ====== -->
+<div class="topic-section t11" id="t11">
+  <div class="topic-header">
+    <div class="topic-icon">🎲</div>
+    <div>
+      <div class="topic-number">Topic 11</div>
+      <h2>Probability</h2>
+    </div>
+  </div>
+
+  <div class="notes-card">
+    <div class="notes-label">Key Concepts</div>
+    <p style="font-size:0.88rem;color:var(--muted);margin-bottom:14px;font-weight:600;"><strong style="color:var(--text)">Probability</strong> is the chance that something will happen. It is expressed as a fraction, decimal, or percent between 0 and 1.</p>
+    <div class="vis-row">
+      <div class="vis-box"><span class="vis-big">🚫</span><div class="vis-name">Impossible</div><div class="vis-note">Probability = 0<br>Will NEVER happen</div></div>
+      <div class="vis-box"><span class="vis-big">🎲</span><div class="vis-name">Unlikely</div><div class="vis-note">Less than 1/2<br>Probably won't happen</div></div>
+      <div class="vis-box"><span class="vis-big">⚖️</span><div class="vis-name">Equally Likely</div><div class="vis-note">Exactly 1/2<br>50/50 chance</div></div>
+      <div class="vis-box"><span class="vis-big">✅</span><div class="vis-name">Likely</div><div class="vis-note">More than 1/2<br>Probably will happen</div></div>
+      <div class="vis-box"><span class="vis-big">💯</span><div class="vis-name">Certain</div><div class="vis-note">Probability = 1<br>Will ALWAYS happen</div></div>
+    </div>
+    <div class="formula-row" style="margin-top:14px;">
+      <div class="formula-pill">P(event) = <span>Favorable outcomes ÷ Total outcomes</span></div>
+    </div>
+    <div style="margin-top:12px;background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px;">
+      <div style="font-size:0.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Examples</div>
+      <div style="font-size:0.88rem;font-weight:600;line-height:2;color:var(--text);">
+        🪙 Flipping a coin → P(heads) = 1/2 (1 head out of 2 sides)<br>
+        🎲 Rolling a die → P(getting a 3) = 1/6 (one 3 out of six faces)<br>
+        🔴 Bag: 4 red, 6 blue → P(red) = 4/10 = 2/5<br>
+        🟢 Bag: 4 red, 6 blue → P(blue) = 6/10 = 3/5
+      </div>
+    </div>
+    <div class="remember-box">
+      <strong>🌟 Remember!</strong>
+      Probability is ALWAYS between 0 and 1 (or 0% and 100%). P = 0 means IMPOSSIBLE. P = 1 means CERTAIN. The bigger the fraction, the MORE likely the event. All probabilities of all outcomes must ADD UP to 1!
+    </div>
+  </div>
+
+  <div class="practice-label">Practice Questions</div>
+  <div class="practice-questions">
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">1</div><div class="pq-text">A bag has 5 red marbles and 5 blue marbles. What is the probability of picking a red marble?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">5/10 = 1/2</div><div class="ans-explain">P(red) = 5 red ÷ 10 total = 5/10 = 1/2. There's an equal chance (50-50) of picking either color.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">2</div><div class="pq-text">A jar has 2 green, 4 yellow, and 4 orange candies. What is the probability of picking a yellow candy?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">4/10 = 2/5</div><div class="ans-explain">Total candies = 2 + 4 + 4 = 10. Yellow candies = 4. P(yellow) = 4/10 = 2/5.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">3</div><div class="pq-text">You roll a standard die (numbered 1–6). What is the probability of rolling a number GREATER than 4?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">2/6 = 1/3</div><div class="ans-explain">Numbers greater than 4 are: 5 and 6 — that's 2 favorable outcomes out of 6 total. P = 2/6 = 1/3.</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">4</div><div class="pq-text">What probability word describes an event that will DEFINITELY happen (probability = 1)?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">Certain</div><div class="ans-explain">A certain event always happens — its probability is 1 (or 100%). Example: "The sun will rise tomorrow."</div></div>
+    </div>
+    <div class="pq-card" onclick="toggle(this)">
+      <div class="pq-top"><div class="pq-num">5</div><div class="pq-text">A spinner has 8 equal sections: 3 red, 3 blue, 2 green. What color are you MOST likely to land on?</div><div class="pq-toggle">▼</div></div>
+      <div class="pq-answer"><span class="ans-label">Answer</span><div class="ans-text">Either Red or Blue (equally most likely)</div><div class="ans-explain">P(red) = 3/8, P(blue) = 3/8, P(green) = 2/8. Red and blue are tied as the most likely outcomes since they both have the same probability (3/8 each).</div></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end wrap -->
+
+<button class="totop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function toggle(card) {
+  card.classList.toggle('open');
+}
+
+// Stagger topic section animations
+const sections = document.querySelectorAll('.topic-section');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.05 });
+
+sections.forEach((s, i) => {
+  s.style.opacity = '0';
+  s.style.transform = 'translateY(30px)';
+  s.style.transition = `opacity 0.5s ease ${i * 0.05}s, transform 0.5s ease ${i * 0.05}s`;
+  observer.observe(s);
+});
+</script>
+</body>
+</html>

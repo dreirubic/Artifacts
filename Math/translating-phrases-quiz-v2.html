@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Translating Phrases to Algebra – Grade 7</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Lilita+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --surface2: #263349;
+    --border: #334155;
+    --primary: #38bdf8;
+    --primary-dark: #0ea5e9;
+    --yellow: #fbbf24;
+    --green: #4ade80;
+    --green-bg: #052e16;
+    --red: #f87171;
+    --red-bg: #2d0a0a;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --tag-mc: #1e3a5f;
+    --tag-mc-text: #93c5fd;
+    --tag-tf: #2d1f00;
+    --tag-tf-text: #fcd34d;
+    --tag-fitb: #0d2e1a;
+    --tag-fitb-text: #6ee7b7;
+    --tag-match: #2a1040;
+    --tag-match-text: #c4b5fd;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 24px 16px 60px;
+    background-image:
+      radial-gradient(ellipse at 0% 0%, #0ea5e920 0%, transparent 50%),
+      radial-gradient(ellipse at 100% 100%, #818cf820 0%, transparent 50%);
+  }
+
+  /* HERO */
+  .hero { text-align: center; max-width: 700px; margin: 0 auto 30px; }
+  .hero .chip {
+    display: inline-block;
+    background: var(--primary-dark);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .hero h1 {
+    font-family: 'Lilita One', cursive;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    line-height: 1.15;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .hero h1 span { color: var(--primary); }
+  .hero p { font-size: 0.9rem; color: var(--muted); font-weight: 600; }
+
+  /* LESSON */
+  .lesson {
+    max-width: 700px;
+    margin: 0 auto 28px;
+    background: var(--surface);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .lesson-hd {
+    background: var(--primary-dark);
+    padding: 13px 22px;
+    font-family: 'Lilita One', cursive;
+    font-size: 1.05rem;
+    letter-spacing: 0.5px;
+  }
+  .lesson-bd { padding: 20px 22px; }
+  .lesson-bd p { font-size: 0.88rem; color: #cbd5e1; line-height: 1.75; margin-bottom: 16px; }
+
+  .kw-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  @media(max-width:500px){ .kw-grid { grid-template-columns: 1fr; } }
+
+  .kw-card {
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 0.82rem;
+  }
+  .kw-card.add  { background: #0c2a1a; border: 1px solid #4ade8050; }
+  .kw-card.sub  { background: #2a0c0c; border: 1px solid #f8717150; }
+  .kw-card.mul  { background: #0c1a2a; border: 1px solid #38bdf850; }
+  .kw-card.div  { background: #1e1a0c; border: 1px solid #fbbf2450; }
+  .kw-card .op {
+    font-family: 'Lilita One', cursive;
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+  .kw-card.add .op  { color: var(--green); }
+  .kw-card.sub .op  { color: var(--red); }
+  .kw-card.mul .op  { color: var(--primary); }
+  .kw-card.div .op  { color: var(--yellow); }
+  .kw-card .words { color: #94a3b8; line-height: 1.7; }
+  .kw-card .sample { margin-top: 6px; font-weight: 700; font-size: 0.85rem; }
+  .kw-card.add .sample { color: var(--green); }
+  .kw-card.sub .sample { color: var(--red); }
+  .kw-card.mul .sample { color: var(--primary); }
+  .kw-card.div .sample { color: var(--yellow); }
+
+  .warn {
+    background: #1c1400;
+    border: 1.5px dashed var(--yellow);
+    border-radius: 10px;
+    padding: 11px 14px;
+    font-size: 0.83rem;
+    color: #fde68a;
+  }
+  .warn strong { color: var(--yellow); }
+
+  /* QUIZ SHELL */
+  .quiz-shell { max-width: 700px; margin: 0 auto; }
+  .quiz-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .live-score {
+    background: var(--yellow);
+    color: #1c1400;
+    padding: 3px 13px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 0.82rem;
+  }
+  .prog-track {
+    height: 7px;
+    background: var(--border);
+    border-radius: 20px;
+    margin-bottom: 22px;
+    overflow: hidden;
+  }
+  .prog-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--green));
+    border-radius: 20px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* CARD */
+  .q-card {
+    display: none;
+    background: var(--surface);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    padding: 24px;
+    animation: pop .3s ease;
+  }
+  .q-card.active { display: block; }
+  @keyframes pop {
+    from { opacity:0; transform:translateY(12px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  .type-tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  .tag-mc    { background: var(--tag-mc);    color: var(--tag-mc-text); }
+  .tag-tf    { background: var(--tag-tf);    color: var(--tag-tf-text); }
+  .tag-fitb  { background: var(--tag-fitb);  color: var(--tag-fitb-text); }
+  .tag-match { background: var(--tag-match); color: var(--tag-match-text); }
+
+  .q-num  { font-size: 0.72rem; color: var(--muted); font-weight: 700; margin-bottom: 4px; }
+  .q-text { font-size: 1rem; font-weight: 700; line-height: 1.6; margin-bottom: 14px; }
+  .q-text em { color: var(--primary); font-style: normal; }
+
+  /* MC */
+  .choices { display: flex; flex-direction: column; gap: 9px; }
+  .ch-btn {
+    background: var(--surface2);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 11px 15px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+    transition: all .18s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ch-btn .ltr {
+    width: 26px; height: 26px;
+    background: var(--border);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 800; flex-shrink: 0;
+    transition: background .18s;
+  }
+  .ch-btn:hover:not(:disabled) { border-color: var(--primary); background: #0ea5e915; }
+  .ch-btn:hover:not(:disabled) .ltr { background: var(--primary); color: #000; }
+  .ch-btn.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .ch-btn.correct .ltr { background: var(--green); color: #000; }
+  .ch-btn.wrong   { background: var(--red-bg);   border-color: var(--red);   color: var(--red); }
+  .ch-btn.wrong .ltr { background: var(--red); color: #fff; }
+  .ch-btn:disabled { cursor: default; }
+
+  /* T/F */
+  .tf-row { display: flex; gap: 12px; }
+  .tf-btn {
+    flex: 1;
+    padding: 14px;
+    border-radius: 14px;
+    border: 2px solid var(--border);
+    font-family: 'Lilita One', cursive;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: all .18s;
+    background: var(--surface2);
+    color: var(--text);
+  }
+  .tf-btn:hover:not(:disabled) { transform: translateY(-2px); }
+  .tf-btn.t-btn:hover:not(:disabled) { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .tf-btn.f-btn:hover:not(:disabled) { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .tf-btn.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .tf-btn.wrong   { background: var(--red-bg);   border-color: var(--red);   color: var(--red); }
+  .tf-btn:disabled { cursor: default; }
+
+  /* FITB */
+  .fitb-wrap { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+  .fitb-wrap span { font-weight: 700; font-size: 0.95rem; }
+  .fitb-in {
+    background: var(--surface2);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    width: 110px;
+    text-align: center;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .fitb-in:focus { border-color: var(--primary); }
+  .fitb-in.correct { border-color: var(--green); background: var(--green-bg); color: var(--green); }
+  .fitb-in.wrong   { border-color: var(--red);   background: var(--red-bg);   color: var(--red); }
+
+  /* MATCH */
+  .match-instruction { font-size: 0.8rem; color: var(--muted); font-weight: 600; margin-bottom: 12px; }
+  .match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .match-left { display: flex; flex-direction: column; gap: 8px; }
+  .match-right { display: flex; flex-direction: column; gap: 8px; }
+  .match-phrase {
+    background: var(--surface2);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .match-opt {
+    background: var(--surface2);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--primary);
+    cursor: pointer;
+    transition: all .18s;
+    text-align: center;
+  }
+  .match-opt:hover:not(.used):not(:disabled) { border-color: var(--primary); background: #0ea5e915; }
+  .match-opt.selected { border-color: var(--yellow); color: var(--yellow); background: #1c1400; }
+  .match-opt.used { opacity: 0.4; cursor: default; }
+  .match-opt.correct { border-color: var(--green); color: var(--green); background: var(--green-bg); }
+  .match-opt.wrong   { border-color: var(--red);   color: var(--red);   background: var(--red-bg); }
+  .match-phrase.waiting { border-color: var(--yellow); }
+  .match-phrase.matched-ok { border-color: var(--green); }
+  .match-phrase.matched-no { border-color: var(--red); }
+  .match-select-hint { font-size: 0.75rem; color: var(--yellow); font-weight: 600; margin-top: 3px; display: none; }
+  .match-select-hint.show { display: block; }
+
+  /* shared action buttons */
+  .action-btn {
+    background: var(--primary-dark);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 9px 20px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: opacity .2s;
+  }
+  .action-btn:hover { opacity: .85; }
+  .action-btn:disabled { opacity: .35; cursor: default; }
+
+  /* FEEDBACK */
+  .feedback {
+    margin-top: 13px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 0.87rem;
+    font-weight: 600;
+    display: none;
+    line-height: 1.5;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct { background: var(--green-bg); color: var(--green); border-left: 4px solid var(--green); }
+  .feedback.wrong   { background: var(--red-bg);   color: var(--red);   border-left: 4px solid var(--red); }
+
+  .next-btn {
+    display: none;
+    margin-top: 14px;
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    padding: 9px 26px;
+    border-radius: 30px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background .18s, color .18s;
+  }
+  .next-btn:hover { background: var(--primary); color: #000; }
+  .next-btn.show { display: inline-block; }
+
+  /* RESULTS */
+  #results {
+    display: none;
+    background: var(--surface);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    padding: 40px 24px;
+    text-align: center;
+  }
+  #results.show { display: block; }
+  .res-emoji { font-size: 4rem; margin-bottom: 10px; }
+  .res-score {
+    font-family: 'Lilita One', cursive;
+    font-size: 3.5rem;
+    color: var(--primary);
+    line-height: 1;
+  }
+  .res-label { font-size: 0.8rem; color: var(--muted); font-weight: 700; margin-bottom: 14px; letter-spacing: 1px; text-transform: uppercase; }
+  .res-msg   { font-size: 1.2rem; font-weight: 800; margin-bottom: 6px; }
+  .res-sub   { font-size: 0.88rem; color: var(--muted); margin-bottom: 26px; }
+  .retry-btn {
+    background: var(--primary-dark);
+    color: white;
+    border: none;
+    padding: 12px 34px;
+    border-radius: 30px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: opacity .2s;
+  }
+  .retry-btn:hover { opacity: .85; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="chip">Grade 7 · Algebra</div>
+  <h1>Translating Phrases<br>to <span>Algebra</span></h1>
+  <p>Know your keywords, write the expression! ✏️</p>
+</div>
+
+<!-- LESSON -->
+<div class="lesson">
+  <div class="lesson-hd">📖 Keyword Reference — Operations</div>
+  <div class="lesson-bd">
+    <p>Every verbal phrase has a <strong>keyword</strong> that tells you which operation (+, −, ×, ÷) to use. Memorize these and translating becomes easy!</p>
+    <div class="kw-grid">
+      <div class="kw-card add">
+        <div class="op">➕ Addition</div>
+        <div class="words">sum, plus, added to, increased by, more than, total, exceeds by, greater than</div>
+        <div class="sample">e.g. "7 more than n" → n + 7</div>
+      </div>
+      <div class="kw-card sub">
+        <div class="op">➖ Subtraction</div>
+        <div class="words">difference, minus, less than, subtracted from, decreased by, take away, reduced by</div>
+        <div class="sample">e.g. "p decreased by 4" → p − 4</div>
+      </div>
+      <div class="kw-card mul">
+        <div class="op">✖️ Multiplication</div>
+        <div class="words">product, times, multiplied by, twice (×2), thrice (×3), of, double</div>
+        <div class="sample">e.g. "twice x" → 2x</div>
+      </div>
+      <div class="kw-card div">
+        <div class="op">➗ Division</div>
+        <div class="words">quotient, divided by, divided into, ratio of, split into equal parts, per</div>
+        <div class="sample">e.g. "n divided by 5" → n/5</div>
+      </div>
+    </div>
+    <div class="warn">
+      <strong>⚠️ Watch out for subtraction order!</strong><br>
+      "10 less than <em>x</em>" → <strong>x − 10</strong> (NOT 10 − x)<br>
+      "m subtracted from 8" → <strong>8 − m</strong> (NOT m − 8)
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="quiz-shell">
+  <div class="quiz-top">
+    <span id="qLabel">Question 1 of 12</span>
+    <span class="live-score">Score: <span id="liveScore">0</span></span>
+  </div>
+  <div class="prog-track"><div class="prog-fill" id="pBar"></div></div>
+
+  <!-- Q1: MC — identify keyword -->
+  <div class="q-card active" data-q="1">
+    <span class="type-tag tag-mc">Multiple Choice</span>
+    <div class="q-num">Question 1 of 12</div>
+    <div class="q-text">Which keyword tells you to <em>add</em>?</div>
+    <div class="choices">
+      <button class="ch-btn" data-correct="false"><span class="ltr">A</span> difference</button>
+      <button class="ch-btn" data-correct="false"><span class="ltr">B</span> quotient</button>
+      <button class="ch-btn" data-correct="true"><span class="ltr">C</span> increased by</button>
+      <button class="ch-btn" data-correct="false"><span class="ltr">D</span> times</button>
+    </div>
+    <div class="feedback"></div>
+    <button class="next-btn">Next →</button>
+  </div>
+
+  <!-- Q2: MC — translate phrase -->
+  <div class="q-card" data-q="2">
+    <span class="type-tag tag-mc">Multiple Choice</span>
+    <div class="q-num">Question 2 of 12</div>
+    <div class="q-text">Translate: <em>"the difference of 8 and m"</em></div>
+    <div class="choices">
+      <button class="ch-btn" data-correct="false"><span class="ltr">A</span> m − 8</button>
+      <button class="ch-btn" data-correct="true"><span class="ltr">B</span> 8 − m</button>
+      <button class="ch-btn" data-correct="false"><span class="ltr">C</span> 8 + m</button>
+      <button class="ch-btn" data-correct="false"><span class="ltr">D</span> 8m</button>
+    </div>
+    <div class="feedback"></div>
+    <button class="next-btn">Next →</button>
+  </div>
+
+  <!-- Q3: T/F -->
+  <div class="q-card" data-q="3">
+    <span class="type-tag tag-tf">True or False</span>
+    <div class="q-num">Question 3 of 12</div>
+    <div class="q-text">
+      <em>"18 reduced by n"</em> translates to <strong>18 − n</strong>.<br>
+      <span style="font-size:.85rem; color:var(--muted);">Is this TRUE or FALSE?</span>
+    </div>
+    <div class="tf-row">
+      <button class="tf-btn t-btn" data-correct="true">✅ TRUE</button>
+      <button class="tf-btn f-btn" data-correct="false">❌ FALSE</button>
+    </div>
+    <div class="feedback"></div>
+    <button class="next-btn">Next →</button>
+  </div>
+
+  <!-- Q4: FITB -->
+  <div class="q-card" data-q="4">
+    <span class="type-tag tag-fitb">Fill in the Blank</span>
+    <div class="q-num">Question 4 of 12</div>
+    <div class="q-text">Complete the translation.<br><em>"7 more than a number n"</em> → <strong>n _____ 7</strong></div>
+    <div class="fitb-wrap">
+      <span>n</span>
+      <input class="fitb-in" id="fitb4" type="text" placeholder="? ? ?" data-correct="+">
+      <span>7</span>
+      <button class="action-btn" onclick="checkFitb(4)">Check ✔</button>
+    </div>
+    <div style="font-size:.78rem; color:var(--muted); margin-top:4px;">Type the operation symbol: +, −, ×, or ÷</div>
+    <div class="feedback"></div>
+    <button class="next-btn">Next →</button>
+  </div>
+
+  <!-- Q5: MC — identify operation from phrase -->
+  <div class="q-card" data-q="5">
+    <span class="type-tag tag-mc">Multiple Choice</span>
+    <div class="q-num">Question 5 of 12</div>
+    <div class="q-text">What operation is used in:<br><em>"the product of 5 and x"</em>?</div>
+    <div class="choices">
+      <button class="ch-btn" data-correct="false"><span class="ltr">A</span> Addition</button>
+      <button class="ch-btn" data-correct="false"><span class="ltr">B</span> Subtraction</button>
+      <button class="ch-btn" data-correct="true"><span class="ltr">C</span> Multiplication</button>
+      <button class="ch-btn" data-correct="false"><span class="ltr">D</span> Division</button>
+    </div>
+    <div class="feedback"></div>
+    <button class="next-btn">Next →</button>
+  </div>
+
+  <!-- Q6: T/F — tricky subtraction order -->
+  <div class="q-card" data-q="6">
+    <span class="type-tag tag-tf">True or False</span>
+    <div class="q-num">Question 6 of 12</div>
+    <div class="q-text">
+      <em>"10 less than x"</em> translates to <strong>10 − x</strong>.<br>
+      <span style="font-size:.85rem; color:var(--muted);">Is this TRUE or FALSE?</span>
+    </div>
+    <div class="tf-row">
+      <button class="tf-btn t-btn" data-correct="false">✅ TRUE</button>
+      <button class="tf-btn f-btn" data-correct="true">❌ FALSE</button>
+    </div>
+    <div class="feedback"></div>
+    <button class="next-btn">Next →</button>
+  </div>
+
+  <!-- Q7: MC — translate to expression -->
+  <div class="q-card" data-q="7">
+    <span class="type-tag tag-mc">Multiple Choice</span>
+    <div class="q-num">Question 7 of 12</div>
+    <div class="q-text">Translate: <em>"the quotient of n and 4"</em></div>
+    <div class="choices">
+      <button class="ch-btn" data-correct="false"><span class="ltr">A</span> 4n</button>
+      <button class="ch-btn" data-correct="false"><span class="ltr">B</span> n − 4</button>
+      <button class="ch-btn" data-correct="true"><span class="ltr">C</span> n ÷ 4</button>
+      <button class="ch-btn" data-correct="false"><span class="ltr">D</span> 4 − n</button>
+    </div>
+    <div class="feedback"></div>
+    <button class="next-btn">Next →</button>
+  </div>
+
+  <!-- Q8: FITB — write expression -->
+  <div class="q-card" data-q="8">
+    <span class="type-tag tag-fitb">Fill in the Blank</span>
+    <div class="q-num">Question 8 of 12</div>
+    <div class="q-text"><em>"twice a number x"</em><br>→ Write the algebraic expression:</div>
+    <div class="fitb-wrap">
+      <input class="fitb-in" id="fitb8" type="text" placeholder="?" data-correct="2x" style="width:80px;">
+      <button class="action-btn" onclick="checkFitb(8)">Check ✔</button>
+    </div>
+    <div style="font-size:.78rem; color:var(--muted); margin-top:4px;">Hint: "twice" means 2 times</div>
+    <div class="feedback"></div>
+    <button class="next-btn">Next →</button>
+  </div>
+
+  <!-- Q9: MATCH -->
+  <div class="q-card" data-q="9">
+    <span class="type-tag tag-match">Matching</span>
+    <div class="q-num">Question 9 of 12</div>
+    <div class="q-text">Click a phrase on the left, then click the matching expression on the right.</div>
+    <div class="match-instruction">👆 Select a phrase first, then tap its matching expression.</div>
+    <div id="matchArea9"></div>
+    <button class="action-btn" id="matchBtn9" onclick="checkMatch(9)" style="margin-top:4px;">Check Matches ✔</button>
+    <div class="feedback"></div>
+    <button class="next-btn">Next →</button>
+  </div>
+
+  <!-- Q10: T/F -->
+  <div class="q-card" data-q="10">
+    <span class="type-tag tag-tf">True or False</span>
+    <div class="q-num">Question 10 of 12</div>
+    <div class="q-text">
+      <em>"p divided into 10"</em> translates to <strong>10 ÷ p</strong>.<br>
+      <span style="font-size:.85rem; color:var(--muted);">Is this TRUE or FALSE?</span>
+    </div>
+    <div class="tf-row">
+      <button class="tf-btn t-btn" data-correct="true">✅ TRUE</button>
+      <button class="tf-btn f-btn" data-correct="false">❌ FALSE</button>
+    </div>
+    <div class="feedback"></div>
+    <button class="next-btn">Next →</button>
+  </div>
+
+  <!-- Q11: MC — word problem -->
+  <div class="q-card" data-q="11">
+    <span class="type-tag tag-mc">Multiple Choice</span>
+    <div class="q-num">Question 11 of 12</div>
+    <div class="q-text">Rico has <em>x</em> marbles. He gave away <strong>5</strong> marbles to a friend.<br>Which expression shows how many marbles Rico has <em>left</em>?</div>
+    <div class="choices">
+      <button class="ch-btn" data-correct="false"><span class="ltr">A</span> x + 5</button>
+      <button class="ch-btn" data-correct="true"><span class="ltr">B</span> x − 5</button>
+      <button class="ch-btn" data-correct="false"><span class="ltr">C</span> 5x</button>
+      <button class="ch-btn" data-correct="false"><span class="ltr">D</span> 5 − x</button>
+    </div>
+    <div class="feedback"></div>
+    <button class="next-btn">Next →</button>
+  </div>
+
+  <!-- Q12: FITB — complete the phrase -->
+  <div class="q-card" data-q="12">
+    <span class="type-tag tag-fitb">Fill in the Blank</span>
+    <div class="q-num">Question 12 of 12</div>
+    <div class="q-text">Complete the verbal phrase for the expression <strong>a + 11</strong>:<br><em>"11 __________ a"</em></div>
+    <div class="fitb-wrap">
+      <span style="font-size:.9rem;">11</span>
+      <input class="fitb-in" id="fitb12" type="text" placeholder="keyword" data-correct="added to" style="width:140px;">
+      <span style="font-size:.9rem;">a</span>
+      <button class="action-btn" onclick="checkFitb(12)">Check ✔</button>
+    </div>
+    <div style="font-size:.78rem; color:var(--muted); margin-top:4px;">Accepted: "added to" or "more than" or "plus"</div>
+    <div class="feedback"></div>
+    <button class="next-btn">Finish 🎉</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="res-emoji" id="resEmoji">🏆</div>
+    <div class="res-score"><span id="resSc">0</span><span style="font-size:1.5rem;color:var(--muted);">/12</span></div>
+    <div class="res-label">Total Score</div>
+    <div class="res-msg" id="resMsg"></div>
+    <div class="res-sub" id="resSub"></div>
+    <button class="retry-btn" onclick="retryAll()">🔄 Try Again</button>
+  </div>
+</div>
+
+<script>
+const TOTAL = 12;
+let cur = 1, score = 0;
+
+/* ── helpers ── */
+const getCard = n => document.querySelector(`.q-card[data-q="${n}"]`);
+function syncUI() {
+  document.getElementById('qLabel').textContent = `Question ${cur} of ${TOTAL}`;
+  document.getElementById('liveScore').textContent = score;
+  document.getElementById('pBar').style.width = ((cur-1)/TOTAL*100)+'%';
+}
+function showFeedback(card, ok, msg) {
+  const fb = card.querySelector('.feedback');
+  fb.textContent = msg;
+  fb.className = 'feedback show ' + (ok ? 'correct' : 'wrong');
+  card.querySelector('.next-btn').classList.add('show');
+  if (ok) score++;
+  document.getElementById('liveScore').textContent = score;
+}
+function advance() {
+  if (cur < TOTAL) {
+    getCard(cur).classList.remove('active');
+    cur++;
+    getCard(cur).classList.add('active');
+    syncUI();
+  } else {
+    showResults();
+  }
+}
+
+/* ── MC ── */
+document.querySelectorAll('.q-card').forEach(card => {
+  card.querySelectorAll('.ch-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      card.querySelectorAll('.ch-btn').forEach(b => b.disabled = true);
+      const ok = btn.dataset.correct === 'true';
+      btn.classList.add(ok ? 'correct' : 'wrong');
+      if (!ok) card.querySelectorAll('.ch-btn').forEach(b => {
+        if (b.dataset.correct === 'true') b.classList.add('correct');
+      });
+      const correctTxt = [...card.querySelectorAll('.ch-btn')].find(b=>b.dataset.correct==='true')
+        .textContent.replace(/^[A-D]\s*/,'').trim();
+      showFeedback(card, ok, ok
+        ? '✅ Correct! Great work!'
+        : `❌ Not quite. The correct answer is: ${correctTxt}`);
+    });
+  });
+
+  /* T/F */
+  card.querySelectorAll('.tf-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      card.querySelectorAll('.tf-btn').forEach(b => b.disabled = true);
+      const ok = btn.dataset.correct === 'true';
+      btn.classList.add(ok ? 'correct' : 'wrong');
+      if (!ok) card.querySelectorAll('.tf-btn').forEach(b => {
+        if (b.dataset.correct === 'true') b.classList.add('correct');
+      });
+      const qNum = parseInt(card.dataset.q);
+      const explanations = {
+        3: '✅ Correct! "Reduced by" means subtraction, and 18 comes first.',
+        6: '❌ FALSE is correct! "10 less than x" means x − 10, not 10 − x. Remember: the variable comes first!',
+        10: '✅ Correct! "p divided INTO 10" means 10 ÷ p.'
+      };
+      showFeedback(card, ok, explanations[qNum] || (ok ? '✅ Correct!' : '❌ Not quite!'));
+    });
+  });
+
+  card.querySelector('.next-btn').addEventListener('click', advance);
+});
+
+/* ── FITB ── */
+function checkFitb(n) {
+  const card = getCard(n);
+  const inp = document.getElementById(`fitb${n}`);
+  const correct = inp.dataset.correct.toLowerCase().trim();
+  const val = inp.value.toLowerCase().trim();
+  inp.disabled = true;
+  card.querySelector('.action-btn').disabled = true;
+
+  // for Q12 accept multiple keywords
+  const accepted12 = ['added to','more than','plus','increased by'];
+  let ok = false;
+  if (n === 12) ok = accepted12.includes(val);
+  else ok = val === correct;
+
+  inp.classList.add(ok ? 'correct' : 'wrong');
+  const msgs = {
+    4:  [ok ? '✅ Correct! n + 7 is right.' : '❌ The symbol is "+". 7 more than n → n + 7.'],
+    8:  [ok ? '✅ Correct! Twice x = 2x.' : '❌ The answer is 2x. "Twice" means multiplied by 2.'],
+    12: [ok ? `✅ Correct! "${val}" works perfectly.` : '❌ Accepted keywords: "added to", "more than", or "plus".'],
+  };
+  showFeedback(card, ok, msgs[n][0]);
+}
+
+/* ── MATCHING (Q9) ── */
+const matchData = {
+  9: [
+    { phrase: 'the sum of x and 3',     expr: 'x + 3'  },
+    { phrase: '5 less than y',          expr: 'y − 5'  },
+    { phrase: 'twice a number n',       expr: '2n'     },
+    { phrase: 'the quotient of a and 6',expr: 'a ÷ 6'  },
+  ]
+};
+
+function buildMatch(qn) {
+  const data = matchData[qn];
+  const shuffledExprs = [...data.map(d=>d.expr)].sort(()=>Math.random()-.5);
+  const area = document.getElementById(`matchArea${qn}`);
+
+  const grid = document.createElement('div');
+  grid.className = 'match-grid';
+
+  const leftCol = document.createElement('div');
+  leftCol.className = 'match-left';
+  const rightCol = document.createElement('div');
+  rightCol.className = 'match-right';
+
+  data.forEach((item, i) => {
+    const ph = document.createElement('div');
+    ph.className = 'match-phrase';
+    ph.dataset.idx = i;
+    ph.dataset.correct = item.expr;
+    ph.textContent = item.phrase;
+    leftCol.appendChild(ph);
+  });
+
+  shuffledExprs.forEach(expr => {
+    const opt = document.createElement('div');
+    opt.className = 'match-opt';
+    opt.dataset.expr = expr;
+    opt.textContent = expr;
+    rightCol.appendChild(opt);
+  });
+
+  grid.appendChild(leftCol);
+  grid.appendChild(rightCol);
+  area.appendChild(grid);
+
+  const hint = document.createElement('div');
+  hint.className = 'match-select-hint';
+  hint.id = `matchHint${qn}`;
+  hint.textContent = '← Now click the matching expression on the right';
+  area.appendChild(hint);
+
+  let selectedPhrase = null;
+  const assignments = {}; // phraseIdx -> expr
+
+  leftCol.querySelectorAll('.match-phrase').forEach(ph => {
+    ph.addEventListener('click', () => {
+      if (ph.classList.contains('matched-ok') || ph.classList.contains('matched-no')) return;
+      leftCol.querySelectorAll('.match-phrase').forEach(p => p.classList.remove('waiting'));
+      ph.classList.add('waiting');
+      selectedPhrase = ph;
+      document.getElementById(`matchHint${qn}`).classList.add('show');
+    });
+  });
+
+  rightCol.querySelectorAll('.match-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      if (!selectedPhrase || opt.classList.contains('used')) return;
+      assignments[selectedPhrase.dataset.idx] = opt.dataset.expr;
+      selectedPhrase.textContent = selectedPhrase.textContent.split(' →')[0] + ` → ${opt.dataset.expr}`;
+      selectedPhrase.classList.remove('waiting');
+      selectedPhrase.classList.add('selected');
+      opt.classList.add('used');
+      selectedPhrase = null;
+      document.getElementById(`matchHint${qn}`).classList.remove('show');
+    });
+  });
+}
+buildMatch(9);
+
+function checkMatch(qn) {
+  const card = getCard(qn);
+  const data = matchData[qn];
+  const area = document.getElementById(`matchArea${qn}`);
+  const phrases = area.querySelectorAll('.match-phrase');
+  const opts = area.querySelectorAll('.match-opt');
+
+  document.getElementById(`matchBtn${qn}`).disabled = true;
+  opts.forEach(o => o.style.pointerEvents = 'none');
+  phrases.forEach(o => o.style.pointerEvents = 'none');
+
+  let allOk = true;
+  phrases.forEach(ph => {
+    const idx = ph.dataset.idx;
+    const correct = ph.dataset.correct;
+    // find the opt that was assigned
+    const assigned = ph.textContent.includes('→') ? ph.textContent.split('→')[1].trim() : null;
+    if (assigned === correct) {
+      ph.classList.add('matched-ok');
+    } else {
+      ph.classList.add('matched-no');
+      allOk = false;
+    }
+  });
+
+  showFeedback(card, allOk, allOk
+    ? '✅ All matched correctly! Excellent!'
+    : '❌ Some were wrong. Correct matches: sum→x+3, less than→y−5, twice→2n, quotient→a÷6');
+}
+
+/* ── Results ── */
+function showResults() {
+  document.getElementById('pBar').style.width = '100%';
+  getCard(TOTAL).style.display = 'none';
+  const res = document.getElementById('results');
+  res.classList.add('show');
+  document.getElementById('resSc').textContent = score;
+  let emoji, msg, sub;
+  if (score >= 12)     { emoji='🏆'; msg='Perfect Score!';          sub='You are a translation master! Amazing work!'; }
+  else if (score >= 10){ emoji='🌟'; msg='Excellent!';              sub='So close to perfect! Just review a few keywords.'; }
+  else if (score >= 8) { emoji='👍'; msg='Good Job!';               sub='You know most of it — keep practicing!'; }
+  else if (score >= 5) { emoji='💪'; msg='Keep Going!';             sub='Review the keyword chart and try again!'; }
+  else                 { emoji='📖'; msg='Let\'s Review Together!'; sub='Read the keyword chart carefully and try once more!'; }
+  document.getElementById('resEmoji').textContent = emoji;
+  document.getElementById('resMsg').textContent = msg;
+  document.getElementById('resSub').textContent = sub;
+}
+
+/* ── Retry ── */
+function retryAll() {
+  score = 0; cur = 1;
+  document.querySelectorAll('.q-card').forEach((card, i) => {
+    card.style.display = '';
+    card.classList.toggle('active', i === 0);
+    card.querySelectorAll('.ch-btn').forEach(b => { b.disabled=false; b.classList.remove('correct','wrong'); });
+    card.querySelectorAll('.tf-btn').forEach(b => { b.disabled=false; b.classList.remove('correct','wrong'); });
+    card.querySelectorAll('.fitb-in').forEach(b => { b.disabled=false; b.value=''; b.classList.remove('correct','wrong'); });
+    card.querySelectorAll('.action-btn').forEach(b => b.disabled=false);
+    card.querySelector('.feedback').className = 'feedback';
+    card.querySelector('.next-btn').classList.remove('show');
+  });
+  // rebuild match
+  const ma = document.getElementById('matchArea9');
+  ma.innerHTML = '';
+  buildMatch(9);
+  document.getElementById('matchBtn9').disabled = false;
+  document.getElementById('results').classList.remove('show');
+  syncUI();
+}
+
+syncUI();
+</script>
+</body>
+</html>

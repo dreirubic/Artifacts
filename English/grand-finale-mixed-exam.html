@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grand Finale Exam – Grade 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold:    #FFD700;
+    --gold2:   #FFA500;
+    --navy:    #0D1B4B;
+    --deep:    #111827;
+    --rose:    #FF6B8A;
+    --sky:     #38BDF8;
+    --mint:    #4ADE80;
+    --lavender:#C084FC;
+    --card-bg: rgba(255,255,255,0.06);
+    --border:  rgba(255,255,255,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--deep);
+    color: white;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── STARFIELD ── */
+  #starfield {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: radial-gradient(ellipse at 20% 30%, #1a0a3d 0%, #0D1B4B 40%, #050c1a 100%);
+    overflow: hidden;
+  }
+  .star {
+    position: absolute; border-radius: 50%;
+    background: white; animation: twinkle var(--d) ease-in-out infinite alternate;
+  }
+  @keyframes twinkle { from{opacity:0.1;transform:scale(1)} to{opacity:1;transform:scale(1.4)} }
+
+  /* ── INTRO SCREEN ── */
+  #intro-screen {
+    position: relative; z-index: 10;
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 30px 20px;
+  }
+  .trophy-glow {
+    font-size: 5.5rem;
+    animation: pulse-glow 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 30px var(--gold));
+    margin-bottom: 16px;
+  }
+  @keyframes pulse-glow {
+    0%,100%{filter:drop-shadow(0 0 20px var(--gold))} 50%{filter:drop-shadow(0 0 50px var(--gold2))}
+  }
+  .intro-title {
+    font-family: 'Boogaloo', cursive;
+    font-size: clamp(2.2rem, 8vw, 4rem);
+    background: linear-gradient(90deg, var(--gold), var(--gold2), #fff, var(--gold));
+    background-size: 200%;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s linear infinite;
+    line-height: 1.1; margin-bottom: 10px;
+  }
+  @keyframes shimmer { 0%{background-position:0%} 100%{background-position:200%} }
+
+  .intro-sub {
+    font-size: 1.1rem; color: rgba(255,255,255,0.65);
+    margin-bottom: 6px;
+  }
+  .subject-pills {
+    display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+    margin: 20px 0 30px;
+  }
+  .pill {
+    padding: 8px 20px; border-radius: 50px; font-weight: 800; font-size: 0.9rem;
+    letter-spacing: 0.5px;
+  }
+  .pill.civics { background: linear-gradient(135deg,#667eea,#764ba2); }
+  .pill.english { background: linear-gradient(135deg,#f093fb,#f5576c); }
+  .pill.total   { background: linear-gradient(135deg,#4facfe,#00f2fe); color: var(--deep); }
+
+  .rules-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 22px; padding: 24px 28px; max-width: 480px;
+    backdrop-filter: blur(12px); text-align: left;
+    margin-bottom: 32px;
+  }
+  .rules-card h3 {
+    font-family: 'Boogaloo', cursive; font-size: 1.25rem;
+    color: var(--gold); margin-bottom: 12px; text-align: center;
+  }
+  .rules-card li {
+    font-size: 0.95rem; color: rgba(255,255,255,0.8);
+    margin-bottom: 8px; padding-left: 6px;
+    list-style: none; display: flex; align-items: flex-start; gap: 8px;
+  }
+  .rules-card li::before { content: attr(data-icon); flex-shrink: 0; }
+
+  .start-btn {
+    font-family: 'Boogaloo', cursive; font-size: 1.4rem;
+    padding: 18px 56px; border: none; border-radius: 60px;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    color: var(--deep); cursor: pointer; letter-spacing: 1px;
+    box-shadow: 0 8px 32px rgba(255,215,0,0.45);
+    transition: all 0.25s ease;
+  }
+  .start-btn:hover { transform: translateY(-4px) scale(1.06); box-shadow: 0 14px 40px rgba(255,215,0,0.6); }
+
+  /* ── EXAM SCREEN ── */
+  #exam-screen { display: none; position: relative; z-index: 10; max-width: 820px; margin: 0 auto; padding: 20px 16px 60px; }
+
+  /* Top HUD */
+  .hud {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 18px; padding: 14px 22px; margin-bottom: 22px;
+    backdrop-filter: blur(10px); flex-wrap: wrap; gap: 10px;
+  }
+  .hud-item { text-align: center; }
+  .hud-label { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+  .hud-val { font-family: 'Boogaloo', cursive; font-size: 1.5rem; color: var(--gold); line-height: 1; }
+
+  .overall-bar-wrap {
+    flex: 1; min-width: 120px;
+    background: rgba(255,255,255,0.1); border-radius: 20px; height: 10px; overflow: hidden;
+  }
+  .overall-bar { height: 100%; border-radius: 20px; background: linear-gradient(90deg,var(--sky),var(--mint)); transition: width 0.4s; }
+
+  /* Section divider */
+  .section-divider {
+    display: flex; align-items: center; gap: 14px;
+    margin: 28px 0 18px;
+  }
+  .section-divider .label {
+    font-family: 'Boogaloo', cursive; font-size: 1.1rem; white-space: nowrap;
+    padding: 8px 20px; border-radius: 50px;
+  }
+  .section-divider .label.civics { background: linear-gradient(135deg,#667eea,#764ba2); }
+  .section-divider .label.english { background: linear-gradient(135deg,#f093fb,#f5576c); }
+  .section-divider hr { flex: 1; border: none; border-top: 1px solid var(--border); }
+
+  /* Question card */
+  .q-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 22px; padding: 26px 26px 22px;
+    margin-bottom: 16px; backdrop-filter: blur(8px);
+    animation: cardIn 0.35s ease both;
+  }
+  @keyframes cardIn { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
+
+  .q-meta {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
+  }
+  .q-badge {
+    font-size: 0.68rem; font-weight: 800; letter-spacing: 1.5px;
+    text-transform: uppercase; padding: 3px 10px; border-radius: 50px;
+  }
+  .q-badge.civics { background: rgba(102,126,234,0.25); color: #a78bfa; border: 1px solid rgba(102,126,234,0.4); }
+  .q-badge.english { background: rgba(240,147,251,0.2); color: #f9a8d4; border: 1px solid rgba(240,147,251,0.4); }
+  .q-num-label { font-size: 0.72rem; color: rgba(255,255,255,0.35); letter-spacing: 1px; }
+
+  .q-emoji { font-size: 2rem; display: block; margin-bottom: 6px; }
+  .q-text {
+    font-size: 1.1rem; font-weight: 700; color: rgba(255,255,255,0.92);
+    line-height: 1.55; margin-bottom: 18px;
+  }
+  .blank {
+    display: inline-block; min-width: 72px; border-bottom: 3px solid var(--gold);
+    color: var(--gold); text-align: center; padding: 0 4px;
+  }
+
+  /* Choices */
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media(max-width:480px){ .choices { grid-template-columns: 1fr; } }
+
+  .cbtn {
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.95rem;
+    padding: 13px 16px; border: 2px solid var(--border);
+    border-radius: 15px; background: rgba(255,255,255,0.05);
+    color: white; cursor: pointer; text-align: left;
+    display: flex; align-items: center; gap: 10px;
+    transition: all 0.18s ease; line-height: 1.3;
+  }
+  .cbtn:hover:not(:disabled) {
+    border-color: var(--gold); background: rgba(255,215,0,0.08);
+    transform: scale(1.02);
+  }
+  .cbtn.selected {
+    border-color: var(--sky); background: rgba(56,189,248,0.12); color: var(--sky);
+  }
+  .cbtn:disabled { cursor: default; }
+  .cletter {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.6);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Boogaloo', cursive; font-size: 0.88rem; flex-shrink: 0;
+    transition: all 0.18s;
+  }
+  .cbtn.selected .cletter { background: var(--sky); color: var(--deep); }
+
+  /* Submit */
+  .submit-wrap { text-align: center; margin-top: 28px; }
+  .answered-count { font-size: 0.9rem; color: rgba(255,255,255,0.45); margin-bottom: 14px; }
+  .submit-btn {
+    font-family: 'Boogaloo', cursive; font-size: 1.35rem;
+    padding: 18px 60px; border: none; border-radius: 60px;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    color: var(--deep); cursor: pointer; letter-spacing: 1px;
+    box-shadow: 0 6px 28px rgba(255,215,0,0.35);
+    transition: all 0.22s ease;
+  }
+  .submit-btn:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 12px 38px rgba(255,215,0,0.55); }
+
+  /* ── RESULT SCREEN ── */
+  #result-screen {
+    display: none; position: relative; z-index: 10;
+    max-width: 820px; margin: 0 auto; padding: 30px 16px 60px;
+    text-align: center;
+  }
+  .confetti-row { font-size: 2.5rem; margin-bottom: 10px; animation: bounce 1s ease infinite alternate; }
+  @keyframes bounce { from{transform:translateY(0)} to{transform:translateY(-10px)} }
+
+  .result-title {
+    font-family: 'Boogaloo', cursive;
+    font-size: clamp(2rem, 7vw, 3.2rem);
+    background: linear-gradient(90deg, var(--gold), #fff, var(--gold2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; margin-bottom: 6px;
+  }
+  .result-msg { font-size: 1.05rem; color: rgba(255,255,255,0.65); margin-bottom: 26px; }
+
+  /* Score cards */
+  .score-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 28px; }
+  @media(max-width:500px){ .score-grid { grid-template-columns: 1fr; } }
+  .score-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 20px; padding: 22px 16px; backdrop-filter: blur(8px);
+  }
+  .score-card .sc-label { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
+  .score-card .sc-val { font-family: 'Boogaloo', cursive; font-size: 2.4rem; line-height: 1; margin-bottom: 4px; }
+  .score-card .sc-sub { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+  .score-card.civics-card .sc-val { color: #a78bfa; }
+  .score-card.english-card .sc-val { color: #f9a8d4; }
+  .score-card.total-card  .sc-val { color: var(--gold); }
+
+  /* Grade ribbon */
+  .grade-ribbon {
+    display: inline-block;
+    font-family: 'Boogaloo', cursive; font-size: 1.6rem;
+    padding: 12px 40px; border-radius: 60px;
+    margin: 0 auto 28px; letter-spacing: 1px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+  }
+
+  /* Big progress arcs using conic-gradient */
+  .arc-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px; }
+  .arc-wrap { text-align: center; }
+  .arc {
+    width: 110px; height: 110px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; margin: 0 auto 8px;
+  }
+  .arc-inner {
+    width: 78px; height: 78px; border-radius: 50%;
+    background: var(--deep); display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+  }
+  .arc-pct { font-family: 'Boogaloo', cursive; font-size: 1.3rem; color: white; line-height: 1; }
+  .arc-lbl { font-size: 0.7rem; color: rgba(255,255,255,0.4); }
+  .arc-title { font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.6); }
+
+  /* Answer review */
+  .review-section {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 22px; padding: 24px; backdrop-filter: blur(8px);
+    text-align: left; margin-bottom: 24px;
+  }
+  .review-section h3 {
+    font-family: 'Boogaloo', cursive; font-size: 1.3rem; color: var(--gold);
+    margin-bottom: 16px; text-align: center;
+  }
+  .rev-item {
+    border-radius: 14px; padding: 12px 16px; margin-bottom: 9px;
+    font-size: 0.9rem; border-left: 4px solid; line-height: 1.45;
+  }
+  .rev-item.c { background: rgba(74,222,128,0.08); border-color: var(--mint); }
+  .rev-item.w { background: rgba(255,107,138,0.08); border-color: var(--rose); }
+  .rev-item .rq { color: rgba(255,255,255,0.55); font-size: 0.82rem; margin-bottom: 2px; }
+  .rev-item .ra { font-weight: 700; }
+  .rev-item .rc { color: var(--mint); }
+
+  /* Action buttons */
+  .action-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .act-btn {
+    font-family: 'Boogaloo', cursive; font-size: 1.1rem;
+    padding: 14px 34px; border: none; border-radius: 50px; cursor: pointer;
+    transition: all 0.2s; letter-spacing: 0.5px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  }
+  .act-btn:hover { transform: translateY(-3px) scale(1.05); }
+  .act-btn.gold  { background: linear-gradient(135deg,var(--gold),var(--gold2)); color: var(--deep); }
+  .act-btn.ghost { background: var(--card-bg); color: white; border: 1px solid var(--border); }
+
+  /* Fireworks animation on result */
+  .fw { position: fixed; pointer-events: none; z-index: 5; font-size: 2rem; animation: flyup 2.5s ease-out forwards; }
+  @keyframes flyup { 0%{opacity:1;transform:translateY(0) scale(1)} 100%{opacity:0;transform:translateY(-300px) scale(0.3)} }
+</style>
+</head>
+<body>
+
+<!-- STARFIELD -->
+<div id="starfield"></div>
+
+<!-- ═══════════════ INTRO SCREEN ═══════════════ -->
+<div id="intro-screen">
+  <div class="trophy-glow">🏆</div>
+  <div class="intro-title">Grand Finale Exam</div>
+  <p class="intro-sub">Grade 2 · S.Y. 2025–2026 · Fourth Quarter</p>
+
+  <div class="subject-pills">
+    <span class="pill civics">🏛️ Civics &amp; Culture 2</span>
+    <span class="pill english">📝 English Grammar</span>
+    <span class="pill total">40 Questions Total</span>
+  </div>
+
+  <div class="rules-card">
+    <h3>📋 Exam Rules</h3>
+    <ul>
+      <li data-icon="📖">Read each question carefully before choosing.</li>
+      <li data-icon="✅">Choose the BEST answer for each question.</li>
+      <li data-icon="🔒">Answer ALL 40 questions before submitting.</li>
+      <li data-icon="🎯">You can change your answer anytime before submitting.</li>
+      <li data-icon="⭐">Do your best — you've got this!</li>
+    </ul>
+  </div>
+
+  <button class="start-btn" onclick="startExam()">🚀 Start the Exam!</button>
+</div>
+
+<!-- ═══════════════ EXAM SCREEN ═══════════════ -->
+<div id="exam-screen">
+  <div class="hud">
+    <div class="hud-item">
+      <div class="hud-label">Answered</div>
+      <div class="hud-val" id="hud-ans">0 / 40</div>
+    </div>
+    <div class="overall-bar-wrap">
+      <div class="overall-bar" id="hud-bar" style="width:0%"></div>
+    </div>
+    <div class="hud-item">
+      <div class="hud-label">Civics</div>
+      <div class="hud-val" id="hud-civ">0 / 20</div>
+    </div>
+    <div class="hud-item">
+      <div class="hud-label">English</div>
+      <div class="hud-val" id="hud-eng">0 / 20</div>
+    </div>
+  </div>
+
+  <div id="exam-body"></div>
+
+  <div class="submit-wrap">
+    <div class="answered-count" id="ans-count-msg">Answer all 40 questions to submit.</div>
+    <button class="submit-btn" onclick="submitExam()">🏆 Submit Final Exam</button>
+  </div>
+</div>
+
+<!-- ═══════════════ RESULT SCREEN ═══════════════ -->
+<div id="result-screen">
+  <div class="confetti-row" id="conf-row">🎉 🌟 🏆 🌟 🎉</div>
+  <div class="result-title" id="res-title">Loading...</div>
+  <div class="result-msg" id="res-msg"></div>
+
+  <div class="score-grid">
+    <div class="score-card civics-card">
+      <div class="sc-label">🏛️ Civics</div>
+      <div class="sc-val" id="sc-civ">–</div>
+      <div class="sc-sub">out of 20</div>
+    </div>
+    <div class="score-card english-card">
+      <div class="sc-label">📝 English</div>
+      <div class="sc-val" id="sc-eng">–</div>
+      <div class="sc-sub">out of 20</div>
+    </div>
+    <div class="score-card total-card">
+      <div class="sc-label">⭐ Total</div>
+      <div class="sc-val" id="sc-tot">–</div>
+      <div class="sc-sub">out of 40</div>
+    </div>
+  </div>
+
+  <div class="arc-grid">
+    <div class="arc-wrap">
+      <div class="arc" id="arc-civ"></div>
+      <div class="arc-title">Civics</div>
+    </div>
+    <div class="arc-wrap">
+      <div class="arc" id="arc-eng"></div>
+      <div class="arc-title">English</div>
+    </div>
+    <div class="arc-wrap">
+      <div class="arc" id="arc-tot"></div>
+      <div class="arc-title">Overall</div>
+    </div>
+  </div>
+
+  <div class="grade-ribbon" id="grade-ribbon"></div>
+
+  <div class="review-section">
+    <h3>📋 Answer Review</h3>
+    <div id="review-body"></div>
+  </div>
+
+  <div class="action-row">
+    <button class="act-btn gold" onclick="location.reload()">🔄 Try Again</button>
+    <button class="act-btn ghost" onclick="window.print()">🖨️ Print Results</button>
+  </div>
+</div>
+
+<script>
+// ── STARFIELD ──
+(function(){
+  const sf = document.getElementById('starfield');
+  for(let i=0;i<120;i++){
+    const s = document.createElement('div');
+    s.className='star';
+    const sz = Math.random()*2.5+0.5;
+    s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${(Math.random()*3+1.5).toFixed(1)}s;animation-delay:${(Math.random()*4).toFixed(1)}s`;
+    sf.appendChild(s);
+  }
+})();
+
+// ── ALL QUESTIONS ──
+const allQuestions = [
+  // ── CIVICS (20) ──
+  { subject:'civics', emoji:'🧒', text:"Every child has the right to go to school. This is the right to ___.", blank:true, choices:["Education","Play","Work","Shopping"], answer:0 },
+  { subject:'civics', emoji:'🏠', text:"Maria lives in a safe house with her family. What right is this?", blank:false, choices:["Right to work","Right to a home","Right to drive","Right to vote"], answer:1 },
+  { subject:'civics', emoji:'💛', text:"Rights belong to ___.", blank:true, choices:["Only rich children","Only city children","ALL children","Only good children"], answer:2 },
+  { subject:'civics', emoji:'🍎', text:"Ben eats three meals a day. This is the right to ___.", blank:true, choices:["Food","Play","Education","Rest"], answer:0 },
+  { subject:'civics', emoji:'🛡️', text:"Every child has the right to be safe from harm. This is called the right to ___.", blank:true, choices:["Education","Play","Protection","Work"], answer:2 },
+  { subject:'civics', emoji:'🏡', text:"Sweeping the floor at home is an example of a child's ___.", blank:true, choices:["Right","Game","Duty","Holiday"], answer:2 },
+  { subject:'civics', emoji:'🗑️', text:"You finish a snack. What is the RESPONSIBLE thing to do with the wrapper?", blank:false, choices:["Throw it on the floor","Toss it out the window","Put it in the trash can","Give it to someone else"], answer:2 },
+  { subject:'civics', emoji:'🏫', text:"What is your duty as a student?", blank:false, choices:["Sleep during class","Talk while the teacher speaks","Listen and study hard","Come to school very late"], answer:2 },
+  { subject:'civics', emoji:'🌈', text:"Rights and duties ___.", blank:true, choices:["Are opposite things","Are the same word","Go together","Are only for adults"], answer:2 },
+  { subject:'civics', emoji:'🏛️', text:"The government builds public schools. This is a service for ___.", blank:true, choices:["Entertainment","Education","Sports","Shopping"], answer:1 },
+  { subject:'civics', emoji:'🚒', text:"A fire breaks out. Which government service helps put it out?", blank:false, choices:["Post office","Library","Fire station","Mall"], answer:2 },
+  { subject:'civics', emoji:'🚓', text:"Police officers help keep the community ___.", blank:true, choices:["Rich","Entertained","Safe","Bored"], answer:2 },
+  { subject:'civics', emoji:'💧', text:"The government provides clean water. This is a service for ___.", blank:true, choices:["Entertainment","Education","Health and basic needs","Sports"], answer:2 },
+  { subject:'civics', emoji:'🛣️', text:"The government builds roads and bridges so people can ___.", blank:true, choices:["Sleep better","Travel and move around","Swim","Paint"], answer:1 },
+  { subject:'civics', emoji:'🤝', text:"What does COOPERATION mean?", blank:false, choices:["Working alone","Competing to win","Working together to help each other","Arguing with others"], answer:2 },
+  { subject:'civics', emoji:'🇵🇭', text:"The Filipino tradition of helping each other as a community is called ___.", blank:true, choices:["Fiesta","Bayanihan","Pasalubong","Panata"], answer:1 },
+  { subject:'civics', emoji:'👨‍👩‍👧', text:"Family members help each other with chores. This is an example of ___.", blank:true, choices:["Fighting","Cooperation","Ignoring each other","Competition"], answer:1 },
+  { subject:'civics', emoji:'💪', text:"'Sama-sama, mas magaan!' This saying describes ___.", blank:true, choices:["Competition","Laziness","Cooperation","Rights"], answer:2 },
+  { subject:'civics', emoji:'📮', text:"Which government office helps deliver letters and packages?", blank:false, choices:["Police station","Post office","Hospital","Fire station"], answer:1 },
+  { subject:'civics', emoji:'🌟', text:"When everyone in the community cooperates, the community becomes ___.", blank:true, choices:["Weaker and divided","Stronger and better","Louder and chaotic","Smaller"], answer:1 },
+
+  // ── ENGLISH (20) ──
+  { subject:'english', emoji:'🐱', text:"The cat is sleeping ___ the bed.", blank:true, choices:["under","during","so","on Monday"], answer:0 },
+  { subject:'english', emoji:'📚', text:"The pencil is ___ the table.", blank:true, choices:["at 6 o'clock","on","in March","after"], answer:1 },
+  { subject:'english', emoji:'🎒', text:"My bag is ___ the chair and the desk.", blank:true, choices:["above","between","at","and"], answer:1 },
+  { subject:'english', emoji:'🐦', text:"The bird is flying ___ the tree.", blank:true, choices:["under","in","above","but"], answer:2 },
+  { subject:'english', emoji:'🏫', text:"The teacher is standing ___ the class.", blank:true, choices:["in front of","during","but","so"], answer:0 },
+  { subject:'english', emoji:'🐶', text:"The dog is hiding ___ the sofa.", blank:true, choices:["after","behind","or","at"], answer:1 },
+  { subject:'english', emoji:'☀️', text:"We eat breakfast ___ the morning.", blank:true, choices:["on","in","at","behind"], answer:1 },
+  { subject:'english', emoji:'🎉', text:"My birthday party is ___ Saturday.", blank:true, choices:["in","at","on","under"], answer:2 },
+  { subject:'english', emoji:'⏰', text:"School starts ___ 7:30 in the morning.", blank:true, choices:["on","before","at","in"], answer:2 },
+  { subject:'english', emoji:'🌙', text:"We pray ___ eating dinner.", blank:true, choices:["before","above","and","in"], answer:0 },
+  { subject:'english', emoji:'❄️', text:"It is cold ___ December.", blank:true, choices:["on","at","in","behind"], answer:2 },
+  { subject:'english', emoji:'🍦', text:"We had ice cream ___ the movie.", blank:true, choices:["on","after","in front of","or"], answer:1 },
+  { subject:'english', emoji:'🍎', text:"I like apples ___ oranges.", blank:true, choices:["but","and","so","under"], answer:1 },
+  { subject:'english', emoji:'🌧️', text:"It was raining, ___ I stayed inside.", blank:true, choices:["or","but","so","in"], answer:2 },
+  { subject:'english', emoji:'🎨', text:"She loves to paint, ___ she is not good at drawing.", blank:true, choices:["and","or","but","at"], answer:2 },
+  { subject:'english', emoji:'🍕', text:"Do you want pizza ___ pasta for dinner?", blank:true, choices:["and","but","so","or"], answer:3 },
+  { subject:'english', emoji:'🤒', text:"She was sick, ___ she did not go to school.", blank:true, choices:["but","or","and","so"], answer:3 },
+  { subject:'english', emoji:'🎸', text:"He can sing ___ play the guitar.", blank:true, choices:["but","or","so","and"], answer:3 },
+  { subject:'english', emoji:'📖', text:"Leo reads books, ___ his sister watches videos.", blank:true, choices:["or","while","but","so"], answer:2 },
+  { subject:'english', emoji:'🌻', text:"The flowers are growing ___ the garden.", blank:true, choices:["in","so","or","at"], answer:0 },
+];
+
+// ── STATE ──
+const userAnswers = new Array(allQuestions.length).fill(null);
+
+function updateHUD() {
+  const total = userAnswers.filter(a => a !== null).length;
+  const civ   = userAnswers.slice(0,20).filter(a => a !== null).length;
+  const eng   = userAnswers.slice(20).filter(a => a !== null).length;
+  document.getElementById('hud-ans').textContent = `${total} / 40`;
+  document.getElementById('hud-civ').textContent = `${civ} / 20`;
+  document.getElementById('hud-eng').textContent = `${eng} / 20`;
+  document.getElementById('hud-bar').style.width = Math.round(total/40*100)+'%';
+  document.getElementById('ans-count-msg').textContent =
+    total === 40 ? '✅ All answered! Ready to submit.' : `${40-total} question(s) left to answer.`;
+}
+
+// ── BUILD EXAM ──
+function startExam() {
+  document.getElementById('intro-screen').style.display = 'none';
+  document.getElementById('exam-screen').style.display  = 'block';
+
+  const body = document.getElementById('exam-body');
+
+  // Civics section
+  const civDiv = document.createElement('div');
+  civDiv.innerHTML = `<div class="section-divider"><hr><span class="label civics">🏛️ Part 1 — Civics &amp; Culture 2</span><hr></div>`;
+  body.appendChild(civDiv);
+
+  // English section marker holder — appended after civics
+  const engDiv = document.createElement('div');
+  engDiv.innerHTML = `<div class="section-divider" id="eng-divider" style="display:none"><hr><span class="label english">📝 Part 2 — English Grammar</span><hr></div>`;
+  
+  allQuestions.forEach((q, qi) => {
+    if (qi === 20) body.appendChild(engDiv), (engDiv.querySelector('.section-divider').style.display='flex');
+
+    const card = document.createElement('div');
+    card.className = 'q-card'; card.id = `qc${qi}`;
+
+    const qText = q.blank ? q.text.replace('___','<span class="blank">___</span>') : q.text;
+    const subLabel = q.subject === 'civics' ? 'civics' : 'english';
+    const subName  = q.subject === 'civics' ? '🏛️ Civics' : '📝 English';
+
+    const opts = q.choices.map((c,ci) =>
+      `<button class="cbtn" id="btn${qi}-${ci}" onclick="pick(${qi},${ci})">
+        <span class="cletter">${'ABCD'[ci]}</span>${c}
+      </button>`
+    ).join('');
+
+    card.innerHTML = `
+      <div class="q-meta">
+        <span class="q-badge ${subLabel}">${subName}</span>
+        <span class="q-num-label">Question ${qi+1} of 40</span>
+      </div>
+      <span class="q-emoji">${q.emoji}</span>
+      <div class="q-text">${qText}</div>
+      <div class="choices">${opts}</div>
+    `;
+    body.appendChild(card);
+  });
+}
+
+window.pick = function(qi, ci) {
+  // deselect all for this question
+  allQuestions[qi].choices.forEach((_,i) => {
+    const b = document.getElementById(`btn${qi}-${i}`);
+    b.classList.remove('selected');
+  });
+  userAnswers[qi] = ci;
+  document.getElementById(`btn${qi}-${ci}`).classList.add('selected');
+  updateHUD();
+};
+
+// ── SUBMIT ──
+window.submitExam = function() {
+  const unanswered = userAnswers.filter(a => a === null).length;
+  if (unanswered > 0) {
+    alert(`⚠️ You still have ${unanswered} unanswered question(s). Please answer all questions before submitting!`);
+    return;
+  }
+
+  // lock all
+  allQuestions.forEach((q, qi) => {
+    q.choices.forEach((_,ci) => {
+      document.getElementById(`btn${qi}-${ci}`).disabled = true;
+    });
+  });
+
+  const civScore = allQuestions.slice(0,20).filter((q,i) => userAnswers[i] === q.answer).length;
+  const engScore = allQuestions.slice(20).filter((q,i) => userAnswers[i+20] === q.answer).length;
+  const total    = civScore + engScore;
+  const pct      = Math.round(total/40*100);
+
+  document.getElementById('exam-screen').style.display  = 'none';
+  document.getElementById('result-screen').style.display = 'block';
+
+  // fill scores
+  document.getElementById('sc-civ').textContent = civScore;
+  document.getElementById('sc-eng').textContent = engScore;
+  document.getElementById('sc-tot').textContent = total;
+
+  // arcs
+  makeArc('arc-civ', civScore, 20, '#a78bfa');
+  makeArc('arc-eng', engScore, 20, '#f9a8d4');
+  makeArc('arc-tot', total,    40, '#FFD700');
+
+  // grade
+  let grade, title, msg, ribbon;
+  if (pct >= 95) { grade='Excellent'; title='Outstanding Champion! 🏆'; msg='Wow! A near-perfect score! You truly mastered everything!'; ribbon='🥇 Excellent — '+pct+'%'; }
+  else if(pct>=85){grade='Very Good'; title='Super Star Student! 🌟'; msg='Amazing work! You know your lessons really well!'; ribbon='🥈 Very Good — '+pct+'%';}
+  else if(pct>=75){grade='Good'; title='Well Done! 👏'; msg='Great job! You passed with a good score. Keep it up!'; ribbon='🥉 Good — '+pct+'%';}
+  else if(pct>=60){grade='Fair'; title='Good Try! 📖'; msg='You passed! Review your lessons to improve even more.'; ribbon='📚 Fair — '+pct+'%';}
+  else {grade='Needs Improvement'; title='Keep Going! 💪'; msg='Do not give up! Study your reviewer and try again!'; ribbon='💡 Keep Practicing — '+pct+'%';}
+
+  document.getElementById('res-title').textContent = title;
+  document.getElementById('res-msg').textContent   = msg;
+  const rib = document.getElementById('grade-ribbon');
+  rib.textContent = ribbon;
+  rib.style.background = pct>=85?'linear-gradient(135deg,#FFD700,#FFA500)':pct>=75?'linear-gradient(135deg,#a78bfa,#7C3AED)':'linear-gradient(135deg,#38BDF8,#0EA5E9)';
+  rib.style.color = pct>=75?'#1C1C2E':'white';
+
+  // confetti
+  if (pct >= 75) launchFireworks();
+  if (pct < 75)  document.getElementById('conf-row').textContent = '📖 💪 📖 💪 📖';
+
+  // answer review
+  const reviewBody = document.getElementById('review-body');
+  allQuestions.forEach((q, qi) => {
+    const ok = userAnswers[qi] === q.answer;
+    const div = document.createElement('div');
+    div.className = `rev-item ${ok?'c':'w'}`;
+    const subIcon = q.subject==='civics'?'🏛️':'📝';
+    div.innerHTML = `<div class="rq">${subIcon} Q${qi+1}: ${q.text.replace('___','___')}</div>
+      <div class="ra">${ok?'✅':'❌'} Your answer: <strong>${q.choices[userAnswers[qi]]}</strong>${!ok?` → <span class="rc">Correct: ${q.choices[q.answer]}</span>`:''}</div>`;
+    reviewBody.appendChild(div);
+  });
+
+  window.scrollTo({top:0,behavior:'smooth'});
+};
+
+function makeArc(id, score, total, color) {
+  const pct = score / total;
+  const deg = Math.round(pct * 360);
+  const el  = document.getElementById(id);
+  el.style.background = `conic-gradient(${color} 0deg ${deg}deg, rgba(255,255,255,0.08) ${deg}deg 360deg)`;
+  el.innerHTML = `<div class="arc-inner"><div class="arc-pct">${Math.round(pct*100)}%</div><div class="arc-lbl">${score}/${total}</div></div>`;
+}
+
+function launchFireworks() {
+  const emojis = ['🎉','🌟','⭐','🏆','🎊','✨','🥳'];
+  for (let i=0;i<18;i++) {
+    setTimeout(()=>{
+      const fw = document.createElement('div');
+      fw.className='fw';
+      fw.style.left = Math.random()*90+'%';
+      fw.style.bottom = '20px';
+      fw.style.animationDuration = (1.5+Math.random()*1.5)+'s';
+      fw.style.animationDelay = (Math.random()*0.5)+'s';
+      fw.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      document.body.appendChild(fw);
+      setTimeout(()=>fw.remove(), 3500);
+    }, i*120);
+  }
+}
+</script>
+</body>
+</html>

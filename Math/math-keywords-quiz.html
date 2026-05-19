@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math Keywords Quiz! 🌟</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --add: #FF6B6B;
+    --sub: #4ECDC4;
+    --mul: #FFE66D;
+    --div: #A8E6CF;
+    --bg: #FFF9F0;
+    --dark: #2D3436;
+    --white: #FFFFFF;
+    --shadow: 0 8px 32px rgba(0,0,0,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Floating stars background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(255,107,107,0.08) 0%, transparent 50%),
+      radial-gradient(circle at 90% 80%, rgba(78,205,196,0.08) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(255,230,109,0.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .star {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: floatStar linear infinite;
+    opacity: 0.15;
+  }
+
+  @keyframes floatStar {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.15; }
+    90% { opacity: 0.15; }
+    100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* HEADER */
+  header {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 36px 20px 24px;
+  }
+
+  .title-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    padding: 16px 40px;
+    border-radius: 50px;
+    box-shadow: 0 8px 0 #c94e4e, var(--shadow);
+    letter-spacing: 1px;
+    transform: rotate(-1deg);
+    position: relative;
+  }
+
+  .title-badge::before {
+    content: '🧠';
+    position: absolute;
+    top: -20px;
+    left: -10px;
+    font-size: 2.5rem;
+    transform: rotate(15deg);
+  }
+
+  .subtitle {
+    font-size: 1.15rem;
+    color: #636e72;
+    font-weight: 700;
+    margin-top: 14px;
+    letter-spacing: 0.5px;
+  }
+
+  /* PROGRESS */
+  .progress-bar-wrap {
+    max-width: 600px;
+    margin: 0 auto 10px;
+    position: relative;
+    z-index: 10;
+    padding: 0 20px;
+  }
+
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--dark);
+  }
+
+  .progress-track {
+    background: #dfe6e9;
+    border-radius: 50px;
+    height: 20px;
+    overflow: hidden;
+    box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #FF6B6B, #FFE66D, #4ECDC4);
+    border-radius: 50px;
+    transition: width 0.5s cubic-bezier(.68,-.55,.27,1.55);
+    position: relative;
+  }
+
+  .progress-fill::after {
+    content: '⭐';
+    position: absolute;
+    right: -4px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+  }
+
+  /* SCORE STARS */
+  .score-display {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--dark);
+    position: relative;
+    z-index: 10;
+  }
+
+  .score-display span {
+    background: #FFE66D;
+    padding: 4px 14px;
+    border-radius: 20px;
+    border: 3px solid #f9ca24;
+  }
+
+  /* QUIZ CARD */
+  .quiz-container {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+    position: relative;
+    z-index: 10;
+  }
+
+  .question-card {
+    background: white;
+    border-radius: 28px;
+    padding: 32px 28px;
+    box-shadow: 0 10px 0 #e0d5c8, var(--shadow);
+    border: 3px solid #f0e6d6;
+    animation: cardIn 0.4s cubic-bezier(.68,-.55,.27,1.55);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .question-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--add), var(--mul), var(--sub), var(--div));
+  }
+
+  @keyframes cardIn {
+    from { transform: scale(0.85) translateY(20px); opacity: 0; }
+    to { transform: scale(1) translateY(0); opacity: 1; }
+  }
+
+  .category-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .cat-addition { background: #FFE0E0; color: #c0392b; }
+  .cat-subtraction { background: #D5F5F6; color: #1a8a83; }
+  .cat-multiplication { background: #FFF9CC; color: #b8860b; }
+  .cat-division { background: #D4EFDF; color: #1e8449; }
+
+  .question-num {
+    font-size: 0.9rem;
+    color: #b2bec3;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .question-text {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(1.25rem, 3.5vw, 1.65rem);
+    color: var(--dark);
+    line-height: 1.4;
+    margin-bottom: 24px;
+  }
+
+  .question-text .highlight {
+    background: linear-gradient(120deg, #FFE66D 0%, #FFE66D 100%);
+    background-repeat: no-repeat;
+    background-size: 100% 45%;
+    background-position: 0 80%;
+    padding: 0 4px;
+    border-radius: 4px;
+  }
+
+  /* OPTIONS */
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .option-btn {
+    background: #f8f9fa;
+    border: 3px solid #e9ecef;
+    border-radius: 18px;
+    padding: 16px 12px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--dark);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 68px;
+  }
+
+  .option-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    border-color: #74b9ff;
+    background: #EBF5FF;
+    box-shadow: 0 6px 0 #74b9ff;
+  }
+
+  .option-btn:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: 0 2px 0 #74b9ff;
+  }
+
+  .option-btn.correct {
+    background: #d4efdf;
+    border-color: #27ae60;
+    color: #1e8449;
+    box-shadow: 0 6px 0 #1e8449;
+    animation: correctPop 0.4s cubic-bezier(.68,-.55,.27,1.55);
+  }
+
+  .option-btn.wrong {
+    background: #fde8e8;
+    border-color: #e74c3c;
+    color: #c0392b;
+    box-shadow: 0 6px 0 #c0392b;
+    animation: wrongShake 0.5s;
+  }
+
+  @keyframes correctPop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes wrongShake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-8px); }
+    80% { transform: translateX(8px); }
+  }
+
+  /* FEEDBACK */
+  .feedback-box {
+    margin-top: 20px;
+    padding: 14px 20px;
+    border-radius: 18px;
+    font-weight: 800;
+    font-size: 1.05rem;
+    text-align: center;
+    display: none;
+    animation: fadeUp 0.3s ease;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .feedback-box.show { display: block; }
+  .feedback-box.correct { background: #d4efdf; color: #1e8449; border: 2px solid #27ae60; }
+  .feedback-box.wrong { background: #fde8e8; color: #c0392b; border: 2px solid #e74c3c; }
+
+  /* NEXT BUTTON */
+  .next-btn {
+    display: block;
+    width: 100%;
+    margin-top: 18px;
+    padding: 16px;
+    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+    color: white;
+    border: none;
+    border-radius: 18px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    cursor: pointer;
+    box-shadow: 0 6px 0 #4834d4;
+    transition: all 0.15s;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  .next-btn.show {
+    display: flex;
+    animation: fadeUp 0.3s ease;
+  }
+
+  .next-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 0 #4834d4; }
+  .next-btn:active { transform: translateY(2px); box-shadow: 0 3px 0 #4834d4; }
+
+  /* RESULTS */
+  .results-screen {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    z-index: 10;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .results-screen.show { display: block; }
+
+  .trophy-area {
+    font-size: 6rem;
+    margin-bottom: 10px;
+    animation: trophyBounce 1s cubic-bezier(.68,-.55,.27,1.55);
+  }
+
+  @keyframes trophyBounce {
+    0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+    70% { transform: scale(1.15) rotate(5deg); }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  .results-card {
+    background: white;
+    border-radius: 32px;
+    padding: 36px 28px;
+    box-shadow: 0 10px 0 #e0d5c8, var(--shadow);
+    border: 3px solid #f0e6d6;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .results-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, var(--add), var(--mul), var(--sub), var(--div));
+  }
+
+  .results-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.2rem;
+    color: var(--dark);
+    margin-bottom: 8px;
+  }
+
+  .results-score-big {
+    font-family: 'Fredoka One', cursive;
+    font-size: 4.5rem;
+    line-height: 1;
+    background: linear-gradient(135deg, #FF6B6B, #6c5ce7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 16px 0;
+  }
+
+  .results-msg {
+    font-size: 1.1rem;
+    color: #636e72;
+    font-weight: 700;
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  .stars-row {
+    font-size: 2.5rem;
+    margin: 10px 0 20px;
+    letter-spacing: 4px;
+  }
+
+  .results-bar-wrap {
+    background: #f0f0f0;
+    border-radius: 50px;
+    height: 24px;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+
+  .results-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #FF6B6B, #6c5ce7);
+    border-radius: 50px;
+    transition: width 1.2s cubic-bezier(.68,-.55,.27,1.55);
+  }
+
+  .restart-btn {
+    background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 18px 40px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.4rem;
+    cursor: pointer;
+    box-shadow: 0 6px 0 #c94e4e;
+    transition: all 0.15s;
+    letter-spacing: 0.5px;
+  }
+
+  .restart-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 0 #c94e4e; }
+  .restart-btn:active { transform: translateY(2px); box-shadow: 0 3px 0 #c94e4e; }
+
+  /* EMOJI BURST */
+  .emoji-burst {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    font-size: 1.8rem;
+    animation: burstFly 0.9s ease-out forwards;
+  }
+
+  @keyframes burstFly {
+    0% { transform: scale(0) translate(0,0); opacity: 1; }
+    100% { transform: scale(1.2) translate(var(--dx), var(--dy)); opacity: 0; }
+  }
+
+  /* Confetti */
+  .confetti-piece {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 9998;
+    animation: confettiFall linear forwards;
+  }
+
+  @keyframes confettiFall {
+    0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* MASCOT */
+  .mascot {
+    font-size: 2.8rem;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    animation: mascotWiggle 2s ease-in-out infinite;
+  }
+
+  @keyframes mascotWiggle {
+    0%,100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+  }
+
+  @media (max-width: 480px) {
+    .options-grid { grid-template-columns: 1fr; }
+    .question-text { font-size: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<header>
+  <div class="title-badge">Math Keywords Quiz! ⚡</div>
+  <p class="subtitle">Week 1 · Grade 2 · 20 Questions</p>
+</header>
+
+<!-- QUIZ SECTION -->
+<div id="quizSection">
+  <div class="progress-bar-wrap">
+    <div class="progress-info">
+      <span id="qNum">Question 1 of 20</span>
+      <span id="scoreLabel">⭐ 0 pts</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:5%"></div>
+    </div>
+  </div>
+
+  <div class="quiz-container">
+    <div class="question-card" id="questionCard">
+      <div class="mascot" id="mascot">🐱</div>
+      <div class="question-num" id="questionNum">Question 1</div>
+      <div class="category-tag" id="categoryTag">Addition</div>
+      <div class="question-text" id="questionText"></div>
+      <div class="options-grid" id="optionsGrid"></div>
+      <div class="feedback-box" id="feedbackBox"></div>
+      <button class="next-btn" id="nextBtn" onclick="nextQuestion()">
+        Next Question ➡️
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS SECTION -->
+<div class="results-screen" id="resultsScreen">
+  <div class="trophy-area" id="trophyEmoji">🏆</div>
+  <div class="results-card">
+    <div class="results-title" id="resultsTitle">Amazing Job!</div>
+    <div class="stars-row" id="starsRow">⭐⭐⭐⭐⭐</div>
+    <div class="results-score-big" id="resultsBig">20/20</div>
+    <div class="results-bar-wrap">
+      <div class="results-bar-fill" id="resultsBar" style="width:0%"></div>
+    </div>
+    <p class="results-msg" id="resultsMsg">You are a Math Keywords Superstar! 🌟</p>
+    <button class="restart-btn" onclick="restartQuiz()">🔄 Try Again!</button>
+  </div>
+</div>
+
+<script>
+const questions = [
+  // ADDITION
+  {
+    category: "Addition", catClass: "cat-addition",
+    question: "Which word means the same as <span class='highlight'>ADD</span>?",
+    options: ["Plus ➕", "Minus ➖", "Divide ÷", "Share 🤝"],
+    answer: 0, emoji: "➕"
+  },
+  {
+    category: "Addition", catClass: "cat-addition",
+    question: "You put 3 apples and 5 oranges <span class='highlight'>together</span>. You are doing...?",
+    options: ["Division", "Subtraction", "Addition ➕", "Multiplication"],
+    answer: 2, emoji: "🍎"
+  },
+  {
+    category: "Addition", catClass: "cat-addition",
+    question: "Which word is an <span class='highlight'>addition</span> keyword?",
+    options: ["Difference", "Sum ✅", "Product", "Quotient"],
+    answer: 1, emoji: "🔢"
+  },
+  {
+    category: "Addition", catClass: "cat-addition",
+    question: "\"There are 4 cats and 6 dogs <span class='highlight'>in all</span>.\" What operation do we use?",
+    options: ["Subtraction", "Addition ➕", "Multiplication", "Division"],
+    answer: 1, emoji: "🐱"
+  },
+  {
+    category: "Addition", catClass: "cat-addition",
+    question: "Which of these is NOT an addition keyword?",
+    options: ["Altogether", "Combined", "Leftover ❌", "Total"],
+    answer: 2, emoji: "🤔"
+  },
+  // SUBTRACTION
+  {
+    category: "Subtraction", catClass: "cat-subtraction",
+    question: "You eat 2 cookies from a bag of 8. How many are <span class='highlight'>left</span>? What operation is this?",
+    options: ["Multiplication", "Addition", "Subtraction ➖", "Division"],
+    answer: 2, emoji: "🍪"
+  },
+  {
+    category: "Subtraction", catClass: "cat-subtraction",
+    question: "Which keyword tells us to subtract?",
+    options: ["Sum", "Difference ➖", "Times", "Share"],
+    answer: 1, emoji: "➖"
+  },
+  {
+    category: "Subtraction", catClass: "cat-subtraction",
+    question: "\"<span class='highlight'>Take away</span> 3 from 10.\" What are we doing?",
+    options: ["Adding", "Multiplying", "Dividing", "Subtracting ➖"],
+    answer: 3, emoji: "✂️"
+  },
+  {
+    category: "Subtraction", catClass: "cat-subtraction",
+    question: "\"<span class='highlight'>How many are left</span> after?\" This tells us to...?",
+    options: ["Add", "Multiply", "Subtract ➖", "Divide"],
+    answer: 2, emoji: "🤏"
+  },
+  {
+    category: "Subtraction", catClass: "cat-subtraction",
+    question: "Which word means the same as <span class='highlight'>MINUS</span>?",
+    options: ["And", "Times", "Take Away ➖", "Share"],
+    answer: 2, emoji: "➖"
+  },
+  // MULTIPLICATION
+  {
+    category: "Multiplication", catClass: "cat-multiplication",
+    question: "You have 3 bags with 4 candies <span class='highlight'>each</span>. What do you do?",
+    options: ["Add", "Subtract", "Multiply ✖️", "Divide"],
+    answer: 2, emoji: "🍬"
+  },
+  {
+    category: "Multiplication", catClass: "cat-multiplication",
+    question: "\"<span class='highlight'>Double</span> 5\" means...?",
+    options: ["5 + 1", "5 × 2 = 10 ✅", "5 - 2", "5 ÷ 2"],
+    answer: 1, emoji: "✖️"
+  },
+  {
+    category: "Multiplication", catClass: "cat-multiplication",
+    question: "Which word is a <span class='highlight'>multiplication</span> keyword?",
+    options: ["Leftover", "Difference", "Product ✅", "Sum"],
+    answer: 2, emoji: "📦"
+  },
+  {
+    category: "Multiplication", catClass: "cat-multiplication",
+    question: "\"<span class='highlight'>Twice</span> as many\" means you multiply by...?",
+    options: ["3", "4", "2 ✅", "10"],
+    answer: 2, emoji: "2️⃣"
+  },
+  {
+    category: "Multiplication", catClass: "cat-multiplication",
+    question: "\"<span class='highlight'>Triple</span> the number\" means multiply by...?",
+    options: ["2", "3 ✅", "10", "0"],
+    answer: 1, emoji: "3️⃣"
+  },
+  // DIVISION
+  {
+    category: "Division", catClass: "cat-division",
+    question: "You split 12 stickers among 4 friends <span class='highlight'>equally</span>. You are...?",
+    options: ["Adding", "Subtracting", "Multiplying", "Dividing ÷"],
+    answer: 3, emoji: "⭐"
+  },
+  {
+    category: "Division", catClass: "cat-division",
+    question: "Which word is a <span class='highlight'>division</span> keyword?",
+    options: ["Sum", "Quotient ✅", "Product", "Total"],
+    answer: 1, emoji: "÷"
+  },
+  {
+    category: "Division", catClass: "cat-division",
+    question: "\"<span class='highlight'>Share</span> equally among friends\" means we...?",
+    options: ["Add", "Multiply", "Subtract", "Divide ÷"],
+    answer: 3, emoji: "🤝"
+  },
+  {
+    category: "Division", catClass: "cat-division",
+    question: "\"<span class='highlight'>Separate</span> into equal groups\" is a clue for which operation?",
+    options: ["Addition", "Subtraction", "Division ÷", "Multiplication"],
+    answer: 2, emoji: "📂"
+  },
+  {
+    category: "Division", catClass: "cat-division",
+    question: "\"<span class='highlight'>In each</span> group, how many are there?\" This is a clue for...?",
+    options: ["Subtraction", "Addition", "Multiplication", "Division ÷"],
+    answer: 3, emoji: "👥"
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+const mascots = ['🐱','🐶','🐸','🦊','🐧','🦁','🐼','🦄','🐯','🐨','🦋','🐙'];
+
+function shuffle(arr) {
+  return [...arr].sort(() => Math.random() - 0.5);
+}
+
+// Shuffled question order
+let questionOrder = [];
+
+function initQuiz() {
+  questionOrder = shuffle([...Array(20).keys()]);
+  current = 0;
+  score = 0;
+  answered = false;
+  document.getElementById('quizSection').style.display = 'block';
+  document.getElementById('resultsScreen').classList.remove('show');
+  loadQuestion();
+}
+
+function loadQuestion() {
+  answered = false;
+  const q = questions[questionOrder[current]];
+  document.getElementById('questionNum').textContent = `Question ${current + 1}`;
+  document.getElementById('qNum').textContent = `Question ${current + 1} of 20`;
+  document.getElementById('scoreLabel').textContent = `⭐ ${score} pts`;
+  document.getElementById('progressFill').style.width = `${((current) / 20) * 100 + 5}%`;
+
+  const tag = document.getElementById('categoryTag');
+  tag.textContent = q.category + ' ' + q.emoji;
+  tag.className = 'category-tag ' + q.catClass;
+
+  document.getElementById('questionText').innerHTML = q.question;
+  document.getElementById('mascot').textContent = mascots[current % mascots.length];
+
+  // Re-key correct answer in shuffled options
+  const indexedOptions = q.options.map((opt, i) => ({ opt, isCorrect: i === q.answer }));
+  const shuffled = shuffle(indexedOptions);
+
+  const grid = document.getElementById('optionsGrid');
+  grid.innerHTML = '';
+  shuffled.forEach((item, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = item.opt;
+    btn.onclick = () => selectAnswer(btn, item.isCorrect, shuffled);
+    grid.appendChild(btn);
+  });
+
+  document.getElementById('feedbackBox').className = 'feedback-box';
+  document.getElementById('feedbackBox').textContent = '';
+  document.getElementById('nextBtn').className = 'next-btn';
+
+  // Animate card
+  const card = document.getElementById('questionCard');
+  card.style.animation = 'none';
+  void card.offsetWidth;
+  card.style.animation = 'cardIn 0.4s cubic-bezier(.68,-.55,.27,1.55)';
+}
+
+function selectAnswer(btn, isCorrect, shuffled) {
+  if (answered) return;
+  answered = true;
+
+  const allBtns = document.querySelectorAll('.option-btn');
+  allBtns.forEach(b => b.disabled = true);
+
+  const feedback = document.getElementById('feedbackBox');
+
+  if (isCorrect) {
+    btn.className = 'option-btn correct';
+    score++;
+    document.getElementById('scoreLabel').textContent = `⭐ ${score} pts`;
+    feedback.textContent = '✅ Great job! That\'s correct! 🎉';
+    feedback.className = 'feedback-box correct show';
+    spawnEmojis(btn, ['⭐','🎉','✨','💫','🌟']);
+  } else {
+    btn.className = 'option-btn wrong';
+    // Highlight correct answer
+    allBtns.forEach((b, i) => {
+      if (shuffled[i].isCorrect) b.className = 'option-btn correct';
+    });
+    feedback.textContent = '❌ Not quite! The green one was the right answer. Keep going! 💪';
+    feedback.className = 'feedback-box wrong show';
+    spawnEmojis(btn, ['😅','💪','🤗']);
+  }
+
+  document.getElementById('nextBtn').className = 'next-btn show';
+}
+
+function nextQuestion() {
+  current++;
+  if (current >= 20) {
+    showResults();
+  } else {
+    loadQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quizSection').style.display = 'none';
+  const results = document.getElementById('resultsScreen');
+  results.classList.add('show');
+
+  const pct = Math.round((score / 20) * 100);
+
+  let trophy = '🏆', title = '', msg = '', stars = '';
+
+  if (score === 20) {
+    trophy = '🏆'; title = 'PERFECT SCORE!';
+    msg = 'You got ALL 20 correct! You are a Math Keywords SUPERSTAR! 🌟🌟🌟';
+    stars = '⭐⭐⭐⭐⭐';
+  } else if (score >= 17) {
+    trophy = '🥇'; title = 'Amazing Job!';
+    msg = 'Wow, you\'re so close to perfect! Great work, Math Champion! 💪';
+    stars = '⭐⭐⭐⭐⭐';
+  } else if (score >= 14) {
+    trophy = '🥈'; title = 'Great Work!';
+    msg = 'You did really well! Keep practicing and you\'ll be perfect! 🌈';
+    stars = '⭐⭐⭐⭐';
+  } else if (score >= 10) {
+    trophy = '🥉'; title = 'Good Try!';
+    msg = 'You know many keywords! Review the ones you missed and try again! 📚';
+    stars = '⭐⭐⭐';
+  } else {
+    trophy = '📚'; title = 'Keep Practicing!';
+    msg = 'Math keywords take practice. Study the chart and try again! You can do it! 💫';
+    stars = '⭐⭐';
+  }
+
+  document.getElementById('trophyEmoji').textContent = trophy;
+  document.getElementById('resultsTitle').textContent = title;
+  document.getElementById('starsRow').textContent = stars;
+  document.getElementById('resultsBig').textContent = `${score}/20`;
+  document.getElementById('resultsMsg').textContent = msg;
+
+  setTimeout(() => {
+    document.getElementById('resultsBar').style.width = pct + '%';
+  }, 300);
+
+  if (score >= 14) launchConfetti();
+}
+
+function restartQuiz() {
+  initQuiz();
+}
+
+function spawnEmojis(btn, emojis) {
+  const rect = btn.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+
+  for (let i = 0; i < 6; i++) {
+    const el = document.createElement('div');
+    el.className = 'emoji-burst';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.left = cx + 'px';
+    el.style.top = cy + 'px';
+    const angle = (Math.random() * 360) * Math.PI / 180;
+    const dist = 60 + Math.random() * 80;
+    el.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+    el.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+    el.style.animationDelay = (Math.random() * 0.2) + 's';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1100);
+  }
+}
+
+function launchConfetti() {
+  const colors = ['#FF6B6B','#FFE66D','#4ECDC4','#A8E6CF','#6c5ce7','#fd79a8'];
+  for (let i = 0; i < 60; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.top = '-10px';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.width = (6 + Math.random() * 10) + 'px';
+      el.style.height = (6 + Math.random() * 10) + 'px';
+      el.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+      el.style.animationDelay = '0s';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 4000);
+    }, i * 50);
+  }
+}
+
+// Create floating stars
+function createStars() {
+  const container = document.getElementById('stars');
+  const starEmojis = ['⭐','✨','💫','🌟','★'];
+  for (let i = 0; i < 15; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.textContent = starEmojis[Math.floor(Math.random() * starEmojis.length)];
+    star.style.left = Math.random() * 100 + 'vw';
+    star.style.animationDuration = (8 + Math.random() * 12) + 's';
+    star.style.animationDelay = (Math.random() * 10) + 's';
+    star.style.fontSize = (1 + Math.random() * 1.5) + 'rem';
+    container.appendChild(star);
+  }
+}
+
+createStars();
+initQuiz();
+</script>
+</body>
+</html>

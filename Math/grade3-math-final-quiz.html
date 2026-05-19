@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Grade 3 Math — Final Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --ink: #0f172a;
+    --paper: #fffdf7;
+    --gold: #f59e0b;
+    --gold-light: #fef3c7;
+    --gold-dark: #b45309;
+    --teal: #0d9488;
+    --teal-light: #ccfbf1;
+    --teal-dark: #0f766e;
+    --rose: #e11d48;
+    --rose-light: #ffe4e6;
+    --sky: #0ea5e9;
+    --sky-light: #e0f2fe;
+    --slate: #475569;
+    --line: #e2e8f0;
+    --green: #16a34a;
+    --green-light: #dcfce7;
+    --red: #dc2626;
+    --red-light: #fee2e2;
+    --radius: 16px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 27px, #e2e8f030 28px),
+      repeating-linear-gradient(90deg, transparent, transparent 27px, #e2e8f018 28px);
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 26px 24px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold), var(--teal), var(--rose), var(--sky));
+  }
+  .header-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .header-icon {
+    width: 56px; height: 56px;
+    background: var(--gold);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.7rem;
+    flex-shrink: 0;
+    box-shadow: 4px 4px 0 var(--gold-dark);
+  }
+  .header-text h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(1.3rem, 4vw, 1.9rem);
+    font-weight: 800;
+    line-height: 1.1;
+  }
+  .header-text p {
+    font-size: 0.88rem;
+    opacity: 0.65;
+    margin-top: 3px;
+  }
+  .header-chips {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .hchip {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+
+  /* ── MAIN ── */
+  .main { max-width: 760px; margin: 0 auto; padding: 28px 16px 60px; }
+
+  /* ── START SCREEN ── */
+  .start-screen {
+    background: white;
+    border-radius: var(--radius);
+    border: 2px solid var(--line);
+    box-shadow: 6px 6px 0 #e2e8f0;
+    padding: 44px 36px;
+    text-align: center;
+    animation: popIn 0.4s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes popIn {
+    from { opacity:0; transform: scale(0.92) translateY(16px); }
+    to   { opacity:1; transform: none; }
+  }
+  .start-screen .trophy { font-size: 5rem; margin-bottom: 16px; display: block; }
+  .start-screen h2 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .start-screen .subtitle { color: var(--slate); font-size: 0.97rem; margin-bottom: 28px; line-height: 1.6; }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .info-tile {
+    background: var(--paper);
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 10px;
+    text-align: center;
+  }
+  .info-tile .it-icon { font-size: 1.6rem; margin-bottom: 4px; }
+  .info-tile .it-val { font-family: 'Baloo 2', cursive; font-size: 1.1rem; font-weight: 800; color: var(--ink); }
+  .info-tile .it-label { font-size: 0.75rem; color: var(--slate); margin-top: 2px; }
+
+  .type-pills {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .type-pill {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    border: 2px solid;
+  }
+  .tp-mc   { background: var(--sky-light);   color: #0c4a6e; border-color: #7dd3fc; }
+  .tp-fill { background: var(--teal-light);  color: var(--teal-dark); border-color: #5eead4; }
+  .tp-tf   { background: var(--gold-light);  color: var(--gold-dark); border-color: #fcd34d; }
+  .tp-wp   { background: var(--rose-light);  color: #9f1239; border-color: #fda4af; }
+
+  .start-btn {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.15rem;
+    font-weight: 700;
+    padding: 14px 44px;
+    background: var(--ink);
+    color: var(--gold);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 4px 4px 0 var(--gold-dark);
+    letter-spacing: 0.5px;
+  }
+  .start-btn:hover {
+    transform: translate(-2px,-2px);
+    box-shadow: 6px 6px 0 var(--gold-dark);
+  }
+  .start-btn:active {
+    transform: translate(2px,2px);
+    box-shadow: 2px 2px 0 var(--gold-dark);
+  }
+
+  /* ── QUIZ AREA ── */
+  .quiz-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .q-counter {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--slate);
+  }
+  .q-counter span { color: var(--ink); font-size: 1.2rem; }
+
+  .timer-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--ink);
+    color: var(--gold);
+    border-radius: 30px;
+    padding: 8px 18px;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.05rem;
+    font-weight: 700;
+    box-shadow: 3px 3px 0 var(--gold-dark);
+    transition: background 0.3s;
+  }
+  .timer-wrap.warn { background: #b45309; color: #fff; box-shadow: 3px 3px 0 #92400e; animation: timerPulse 0.7s infinite; }
+  @keyframes timerPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+
+  .progress-strip {
+    height: 6px;
+    background: var(--line);
+    border-radius: 4px;
+    margin-bottom: 22px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--gold));
+    border-radius: 4px;
+    transition: width 0.4s ease;
+  }
+
+  /* ── SECTION DIVIDER ── */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 28px 0 14px;
+  }
+  .section-divider .sd-badge {
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.8rem;
+    font-weight: 800;
+    padding: 4px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .sd-mc   { background: var(--sky-light);  color: #0c4a6e; border: 2px solid #7dd3fc; }
+  .sd-fill { background: var(--teal-light); color: var(--teal-dark); border: 2px solid #5eead4; }
+  .sd-tf   { background: var(--gold-light); color: var(--gold-dark); border: 2px solid #fcd34d; }
+  .sd-wp   { background: var(--rose-light); color: #9f1239; border: 2px solid #fda4af; }
+  .section-divider::after { content:''; flex:1; height:2px; background:var(--line); border-radius:2px; }
+
+  /* ── QUESTION CARD ── */
+  .q-card {
+    background: white;
+    border: 2px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px 22px 20px;
+    margin-bottom: 14px;
+    box-shadow: 3px 3px 0 #e2e8f0;
+    transition: box-shadow 0.2s;
+  }
+  .q-card:hover { box-shadow: 4px 4px 0 #cbd5e1; }
+  .q-num {
+    display: inline-block;
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--slate);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 7px;
+  }
+  .q-text {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.55;
+    margin-bottom: 16px;
+  }
+
+  /* MC choices */
+  .choices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  @media (max-width: 480px) { .choices { grid-template-columns: 1fr; } }
+  .choice-btn {
+    background: var(--paper);
+    border: 2px solid var(--line);
+    border-radius: 10px;
+    padding: 11px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+  .choice-btn .letter {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    background: var(--line);
+    color: var(--slate);
+    font-size: 0.75rem;
+    font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .choice-btn:hover:not(:disabled) {
+    border-color: var(--teal);
+    background: var(--teal-light);
+    color: var(--teal-dark);
+  }
+  .choice-btn:hover:not(:disabled) .letter { background: var(--teal); color: white; }
+  .choice-btn.selected {
+    border-color: var(--sky);
+    background: var(--sky-light);
+    color: #0c4a6e;
+  }
+  .choice-btn.selected .letter { background: var(--sky); color: white; }
+
+  /* Fill in blank */
+  .fill-wrap { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .fill-input {
+    border: 2px solid var(--line);
+    border-radius: 10px;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 9px 16px;
+    width: 110px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s;
+    background: var(--paper);
+  }
+  .fill-input:focus { border-color: var(--teal); }
+  .fill-placeholder { font-size: 0.85rem; color: var(--slate); }
+
+  /* True / False */
+  .tf-wrap { display: flex; gap: 10px; }
+  .tf-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    border: 2px solid var(--line);
+    background: var(--paper);
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .tf-btn:hover:not(:disabled) { transform: translateY(-2px); }
+  .tf-btn.true-btn:hover:not(:disabled)  { border-color: var(--green); background: var(--green-light); color: var(--green); }
+  .tf-btn.false-btn:hover:not(:disabled) { border-color: var(--red);   background: var(--red-light);   color: var(--red); }
+  .tf-btn.selected.true-btn  { border-color: var(--green); background: var(--green-light); color: var(--green); }
+  .tf-btn.selected.false-btn { border-color: var(--red);   background: var(--red-light);   color: var(--red); }
+
+  /* Submit */
+  .submit-area {
+    text-align: center;
+    margin-top: 32px;
+    padding: 28px;
+    background: white;
+    border: 2px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: 3px 3px 0 #e2e8f0;
+  }
+  .submit-area p { color: var(--slate); font-size: 0.9rem; margin-bottom: 18px; }
+  .submit-area .answered-count { font-family: 'Baloo 2', cursive; font-size: 1.4rem; font-weight: 800; color: var(--ink); margin-bottom: 6px; }
+
+  .submit-btn {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 14px 42px;
+    background: var(--teal);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 4px 4px 0 var(--teal-dark);
+    letter-spacing: 0.5px;
+  }
+  .submit-btn:hover {
+    transform: translate(-2px,-2px);
+    box-shadow: 6px 6px 0 var(--teal-dark);
+  }
+
+  /* ── RESULTS ── */
+  .results-wrap { animation: popIn 0.45s cubic-bezier(.34,1.56,.64,1); }
+  .results-hero {
+    background: var(--ink);
+    color: white;
+    border-radius: var(--radius);
+    padding: 40px 28px;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .results-hero::before {
+    content:'';
+    position:absolute; inset:0;
+    background: radial-gradient(ellipse at 30% 50%, #f59e0b22, transparent 60%),
+                radial-gradient(ellipse at 70% 50%, #0d948822, transparent 60%);
+  }
+  .res-emoji { font-size: 4.5rem; display: block; margin-bottom: 12px; position: relative; }
+  .res-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 2rem;
+    font-weight: 800;
+    position: relative;
+  }
+  .res-score {
+    font-family: 'Baloo 2', cursive;
+    font-size: 4rem;
+    font-weight: 800;
+    position: relative;
+    margin: 8px 0 4px;
+  }
+  .res-score.great  { color: var(--gold); }
+  .res-score.good   { color: #86efac; }
+  .res-score.ok     { color: #fcd34d; }
+  .res-score.retry  { color: #fca5a5; }
+  .res-pct { font-size: 1rem; opacity: 0.7; position: relative; }
+  .res-breakdown {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .res-tile {
+    background: white;
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 10px;
+    text-align: center;
+    box-shadow: 3px 3px 0 #e2e8f0;
+  }
+  .res-tile .rt-icon { font-size: 1.4rem; margin-bottom: 4px; }
+  .res-tile .rt-val { font-family: 'Baloo 2', cursive; font-size: 1.2rem; font-weight: 800; }
+  .res-tile .rt-label { font-size: 0.75rem; color: var(--slate); margin-top: 2px; }
+
+  .review-section {
+    background: white;
+    border: 2px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px;
+    box-shadow: 3px 3px 0 #e2e8f0;
+    margin-bottom: 20px;
+  }
+  .review-section h3 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: 14px;
+    color: var(--ink);
+  }
+  .review-item {
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    border-left: 4px solid;
+    font-size: 0.88rem;
+  }
+  .review-item.c { background: var(--green-light); border-color: var(--green); }
+  .review-item.w { background: var(--red-light);   border-color: var(--red); }
+  .review-item .ri-q { font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .review-item .ri-a { color: var(--slate); }
+  .review-item .ri-a .cor { color: var(--green); font-weight: 700; }
+  .review-item .ri-a .wr  { color: var(--red);   font-weight: 700; }
+  .review-item .ri-exp { color: var(--slate); font-style: italic; margin-top: 3px; font-size: 0.83rem; }
+
+  .retry-btn {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 12px 32px;
+    background: white;
+    color: var(--ink);
+    border: 2px solid var(--line);
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 #e2e8f0;
+    transition: all 0.2s;
+    display: block;
+    margin: 0 auto 32px;
+  }
+  .retry-btn:hover {
+    transform: translate(-2px,-2px);
+    box-shadow: 5px 5px 0 #cbd5e1;
+  }
+
+  /* Unanswered warning */
+  .unanswered-warn {
+    background: var(--gold-light);
+    border: 2px solid var(--gold);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 0.88rem;
+    color: var(--gold-dark);
+    margin-bottom: 14px;
+    font-weight: 600;
+    display: none;
+  }
+  .unanswered-warn.show { display: block; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-icon">📝</div>
+    <div class="header-text">
+      <h1>Grade 3 Math — Final Quiz</h1>
+      <p>Multiplication &amp; Division · 4th Quarter</p>
+    </div>
+    <div class="header-chips">
+      <span class="hchip">30 Items</span>
+      <span class="hchip">⏱ 25 min</span>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div id="start-area"></div>
+  <div id="quiz-area"   style="display:none"></div>
+  <div id="result-area" style="display:none"></div>
+</div>
+
+<script>
+/* ══════════════════════════════
+   QUESTION BANK
+══════════════════════════════ */
+
+const MC = [
+  {q:"What is 7 × 8?",         choices:["54","56","48","63"],       ans:1, exp:"7 × 8 = 56. Think: 7×8 = 7×4×2 = 28×2 = 56."},
+  {q:"What is 9 × 6?",         choices:["52","54","56","60"],       ans:1, exp:"9 × 6 = 54. Count up: 9,18,27,36,45,54."},
+  {q:"What is 4 × 7?",         choices:["24","28","32","21"],       ans:1, exp:"4 × 7 = 28. Think: 4×7 = 4×5+4×2 = 20+8 = 28."},
+  {q:"What is 63 ÷ 7?",        choices:["7","8","9","6"],           ans:2, exp:"63 ÷ 7 = 9. Check: 7 × 9 = 63 ✓"},
+  {q:"What is 48 ÷ 6?",        choices:["7","8","9","6"],           ans:1, exp:"48 ÷ 6 = 8. Check: 6 × 8 = 48 ✓"},
+  {q:"What is 5 × 6?",         choices:["25","35","30","36"],       ans:2, exp:"5 × 6 = 30. Count by 5s: 5,10,15,20,25,30."},
+  {q:"What is 72 ÷ 9?",        choices:["7","8","9","6"],           ans:1, exp:"72 ÷ 9 = 8. Check: 9 × 8 = 72 ✓"},
+  {q:"What is 8 × 8?",         choices:["56","64","72","60"],       ans:1, exp:"8 × 8 = 64. It's a perfect square!"},
+  {q:"What is 36 ÷ 4?",        choices:["7","8","9","6"],           ans:2, exp:"36 ÷ 4 = 9. Check: 4 × 9 = 36 ✓"},
+  {q:"What is 10 × 7?",        choices:["70","17","77","67"],       ans:0, exp:"10 × 7 = 70. Multiplying by 10 adds a zero."},
+  {q:"Which is the product in 6 × 9 = 54?", choices:["6","9","54","×"], ans:2, exp:"The product is the answer to multiplication. 54 is the product."},
+  {q:"Which is the quotient in 42 ÷ 6 = 7?", choices:["42","6","7","÷"], ans:2, exp:"The quotient is the answer to division. 7 is the quotient."},
+];
+
+const TF = [
+  {q:"3 × 4 = 4 × 3",          ans:true,  exp:"TRUE. Commutative Property: you can switch the order of factors."},
+  {q:"Any number × 0 = 0",      ans:true,  exp:"TRUE. Zero Property of Multiplication."},
+  {q:"Any number × 1 = 0",      ans:false, exp:"FALSE. Any number × 1 = that same number (Identity Property)."},
+  {q:"8 × 7 = 54",              ans:false, exp:"FALSE. 8 × 7 = 56, not 54."},
+  {q:"0 ÷ 9 = 0",               ans:true,  exp:"TRUE. Zero divided by any number equals zero."},
+  {q:"15 ÷ 3 = 5",              ans:true,  exp:"TRUE. Check: 3 × 5 = 15 ✓"},
+  {q:"A number divided by itself always equals 1", ans:true, exp:"TRUE. Any number ÷ itself = 1 (except 0)."},
+  {q:"6 × 7 is the same as adding 6 seven times",  ans:true, exp:"TRUE. Multiplication is repeated addition."},
+];
+
+const FILL = [
+  {q:"9 × ___ = 72",    qDisplay:"9 × ___ = 72",    ans:8,  exp:"9 × 8 = 72"},
+  {q:"___ × 7 = 49",    qDisplay:"___ × 7 = 49",    ans:7,  exp:"7 × 7 = 49"},
+  {q:"54 ÷ ___ = 6",    qDisplay:"54 ÷ ___ = 6",    ans:9,  exp:"54 ÷ 9 = 6, because 9 × 6 = 54."},
+  {q:"___ ÷ 8 = 8",     qDisplay:"___ ÷ 8 = 8",     ans:64, exp:"64 ÷ 8 = 8, because 8 × 8 = 64."},
+  {q:"6 × ___ = 42",    qDisplay:"6 × ___ = 42",    ans:7,  exp:"6 × 7 = 42"},
+  {q:"30 ÷ ___ = 5",    qDisplay:"30 ÷ ___ = 5",    ans:6,  exp:"30 ÷ 6 = 5, because 6 × 5 = 30."},
+];
+
+const WORD = [
+  {q:"There are 8 baskets with 9 mangoes each. How many mangoes are there in all?",          ans:2, choices:["63","72","8","17"],     exp:"8 × 9 = 72 mangoes."},
+  {q:"56 pupils are divided into 7 equal groups for a relay race. How many pupils are in each group?", ans:1, choices:["6","8","9","7"], exp:"56 ÷ 7 = 8 pupils per group."},
+  {q:"A farmer planted 6 rows of corn. Each row has 7 plants. How many corn plants are there in all?", ans:0, choices:["42","48","36","54"], exp:"6 × 7 = 42 plants."},
+  {q:"Liza has 45 stickers. She wants to give an equal number to 5 friends. How many stickers does each friend get?", ans:1, choices:["7","9","8","10"], exp:"45 ÷ 5 = 9 stickers each."},
+];
+
+/* ══════════════════════════════
+   BUILD QUIZ POOL (30 items)
+   MC:10, TF:8, Fill:6, Word:4 + 2 extra MC = 30
+══════════════════════════════ */
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function buildPool() {
+  const mc   = shuffle(MC).slice(0,10).map(q=>({...q, type:'mc'}));
+  const tf   = shuffle(TF).slice(0,8).map(q=>({...q, type:'tf'}));
+  const fill = shuffle(FILL).slice(0,6).map(q=>({...q, type:'fill'}));
+  const word = shuffle(WORD).slice(0,4).map(q=>({...q, type:'word'}));
+  // Extra MC to reach 30: pick 2 more MC randomly (avoid duplicates)
+  // Pool already 28; add 2 from Word bank rephrased but we'll pad with 2 more mc
+  // Actually: 10+8+6+4 = 28; add 2 more fill
+  const extraFill = shuffle(FILL).slice(0,2).map(q=>({...q, type:'fill'}));
+  return [...mc, ...tf, ...fill, ...word, ...extraFill];
+}
+
+/* ══════════════════════════════
+   STATE
+══════════════════════════════ */
+let pool = [], answers = {}, timerInterval = null, secondsLeft = 25*60;
+
+/* ══════════════════════════════
+   RENDER START
+══════════════════════════════ */
+function renderStart() {
+  document.getElementById('start-area').innerHTML = `
+    <div class="start-screen">
+      <span class="trophy">🏆</span>
+      <h2>Final Quiz</h2>
+      <p class="subtitle">This is your <strong>final quiz</strong> for Grade 3 Math, 4th Quarter.<br/>
+      Answer all 30 items before the time runs out. Your score and full review will appear after you submit.</p>
+      <div class="info-grid">
+        <div class="info-tile"><div class="it-icon">🔢</div><div class="it-val">30</div><div class="it-label">Total Items</div></div>
+        <div class="info-tile"><div class="it-icon">⏱️</div><div class="it-val">25 min</div><div class="it-label">Time Limit</div></div>
+        <div class="info-tile"><div class="it-icon">📊</div><div class="it-val">4 Types</div><div class="it-label">Question Types</div></div>
+      </div>
+      <div class="type-pills">
+        <span class="type-pill tp-mc">Multiple Choice</span>
+        <span class="type-pill tp-tf">True or False</span>
+        <span class="type-pill tp-fill">Fill in the Blank</span>
+        <span class="type-pill tp-wp">Word Problems</span>
+      </div>
+      <button class="start-btn" onclick="beginQuiz()">Begin Final Quiz →</button>
+    </div>`;
+}
+
+/* ══════════════════════════════
+   BEGIN QUIZ
+══════════════════════════════ */
+function beginQuiz() {
+  pool = buildPool();
+  answers = {};
+  secondsLeft = 25 * 60;
+  document.getElementById('start-area').style.display = 'none';
+  document.getElementById('quiz-area').style.display = 'block';
+  renderQuiz();
+  startTimer();
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    updateTimerDisplay();
+    if (secondsLeft <= 0) { clearInterval(timerInterval); submitQuiz(true); }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const el = document.getElementById('timer-el');
+  if (!el) return;
+  const m = String(Math.floor(secondsLeft/60)).padStart(2,'0');
+  const s = String(secondsLeft%60).padStart(2,'0');
+  el.textContent = `⏱ ${m}:${s}`;
+  if (secondsLeft <= 60) el.className = 'timer-wrap warn';
+}
+
+/* ══════════════════════════════
+   RENDER QUIZ
+══════════════════════════════ */
+function renderQuiz() {
+  const container = document.getElementById('quiz-area');
+
+  // Separate by type for sections
+  const mcItems   = pool.map((q,i)=>({q,i})).filter(({q})=>q.type==='mc');
+  const tfItems   = pool.map((q,i)=>({q,i})).filter(({q})=>q.type==='tf');
+  const fillItems = pool.map((q,i)=>({q,i})).filter(({q})=>q.type==='fill');
+  const wordItems = pool.map((q,i)=>({q,i})).filter(({q})=>q.type==='word');
+
+  let html = `
+    <div class="quiz-topbar">
+      <div class="q-counter">Questions <span>1–${pool.length}</span></div>
+      <div class="timer-wrap" id="timer-el">⏱ 25:00</div>
+    </div>
+    <div class="progress-strip"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    <div id="unanswered-warn" class="unanswered-warn">⚠️ Please answer all questions before submitting.</div>
+  `;
+
+  function renderSection(label, cls, items, renderer) {
+    if (!items.length) return '';
+    return `<div class="section-divider"><span class="sd-badge ${cls}">${label}</span></div>`
+      + items.map(({q,i}) => renderer(q, i)).join('');
+  }
+
+  html += renderSection('Part I — Multiple Choice', 'sd-mc', mcItems, renderMC);
+  html += renderSection('Part II — True or False',  'sd-tf', tfItems, renderTF);
+  html += renderSection('Part III — Fill in the Blank', 'sd-fill', fillItems, renderFill);
+  html += renderSection('Part IV — Word Problems', 'sd-wp', wordItems, renderWord);
+
+  html += `
+    <div class="submit-area">
+      <div class="answered-count" id="ans-count">0 / ${pool.length} answered</div>
+      <p>Make sure you've answered all items before submitting.</p>
+      <button class="submit-btn" onclick="submitQuiz(false)">Submit Final Quiz ✓</button>
+    </div>`;
+
+  container.innerHTML = html;
+}
+
+function renderMC(q, idx) {
+  const letters = ['A','B','C','D'];
+  return `<div class="q-card" id="qc-${idx}">
+    <span class="q-num">Question ${idx+1} · Multiple Choice</span>
+    <div class="q-text">${q.q}</div>
+    <div class="choices">
+      ${q.choices.map((c,i)=>`
+        <button class="choice-btn" id="cb-${idx}-${i}" onclick="selectMC(${idx},${i})">
+          <span class="letter">${letters[i]}</span> ${c}
+        </button>`).join('')}
+    </div>
+  </div>`;
+}
+
+function renderTF(q, idx) {
+  return `<div class="q-card" id="qc-${idx}">
+    <span class="q-num">Question ${idx+1} · True or False</span>
+    <div class="q-text">${q.q}</div>
+    <div class="tf-wrap">
+      <button class="tf-btn true-btn"  id="tf-${idx}-true"  onclick="selectTF(${idx}, true)">✅ TRUE</button>
+      <button class="tf-btn false-btn" id="tf-${idx}-false" onclick="selectTF(${idx}, false)">❌ FALSE</button>
+    </div>
+  </div>`;
+}
+
+function renderFill(q, idx) {
+  return `<div class="q-card" id="qc-${idx}">
+    <span class="q-num">Question ${idx+1} · Fill in the Blank</span>
+    <div class="q-text">${q.q}</div>
+    <div class="fill-wrap">
+      <input class="fill-input" type="number" id="fi-${idx}" placeholder="?" oninput="recordFill(${idx})"/>
+      <span class="fill-placeholder">Write your answer</span>
+    </div>
+  </div>`;
+}
+
+function renderWord(q, idx) {
+  const letters = ['A','B','C','D'];
+  return `<div class="q-card" id="qc-${idx}">
+    <span class="q-num">Question ${idx+1} · Word Problem</span>
+    <div class="q-text">${q.q}</div>
+    <div class="choices">
+      ${q.choices.map((c,i)=>`
+        <button class="choice-btn" id="cb-${idx}-${i}" onclick="selectMC(${idx},${i})">
+          <span class="letter">${letters[i]}</span> ${c}
+        </button>`).join('')}
+    </div>
+  </div>`;
+}
+
+/* ══════════════════════════════
+   ANSWER RECORDING
+══════════════════════════════ */
+function selectMC(idx, chosen) {
+  answers[idx] = chosen;
+  const btns = document.querySelectorAll(`#qc-${idx} .choice-btn`);
+  btns.forEach((b,i) => {
+    b.className = 'choice-btn' + (i===chosen?' selected':'');
+  });
+  updateProgress();
+}
+
+function selectTF(idx, val) {
+  answers[idx] = val;
+  const t = document.getElementById(`tf-${idx}-true`);
+  const f = document.getElementById(`tf-${idx}-false`);
+  t.className = 'tf-btn true-btn'  + (val===true  ? ' selected' : '');
+  f.className = 'tf-btn false-btn' + (val===false ? ' selected' : '');
+  updateProgress();
+}
+
+function recordFill(idx) {
+  const v = document.getElementById(`fi-${idx}`).value;
+  answers[idx] = v === '' ? undefined : parseInt(v);
+  updateProgress();
+}
+
+function updateProgress() {
+  const answered = Object.values(answers).filter(v=>v!==undefined).length;
+  const pct = Math.round(answered / pool.length * 100);
+  const pg = document.getElementById('prog-fill');
+  if (pg) pg.style.width = pct + '%';
+  const ac = document.getElementById('ans-count');
+  if (ac) ac.textContent = `${answered} / ${pool.length} answered`;
+}
+
+/* ══════════════════════════════
+   SUBMIT
+══════════════════════════════ */
+function submitQuiz(forced) {
+  clearInterval(timerInterval);
+  if (!forced) {
+    const answered = Object.values(answers).filter(v=>v!==undefined).length;
+    if (answered < pool.length) {
+      const warn = document.getElementById('unanswered-warn');
+      if (warn) { warn.classList.add('show'); warn.scrollIntoView({behavior:'smooth'}); }
+      // Still allow submit
+    }
+  }
+
+  let score = 0;
+  const log = pool.map((q,i) => {
+    let correct = false, chosenStr = '—', correctStr = '';
+    if (q.type === 'mc' || q.type === 'word') {
+      correctStr = q.choices[q.ans];
+      const c = answers[i];
+      chosenStr = c !== undefined ? q.choices[c] : '—';
+      correct = c === q.ans;
+    } else if (q.type === 'tf') {
+      correctStr = q.ans ? 'TRUE' : 'FALSE';
+      const c = answers[i];
+      chosenStr = c === undefined ? '—' : (c ? 'TRUE' : 'FALSE');
+      correct = c === q.ans;
+    } else if (q.type === 'fill') {
+      correctStr = String(q.ans);
+      const c = answers[i];
+      chosenStr = c !== undefined ? String(c) : '—';
+      correct = c === q.ans;
+    }
+    if (correct) score++;
+    return {q: q.q, correct, chosenStr, correctStr, exp: q.exp, type: q.type};
+  });
+
+  showResults(score, log);
+}
+
+/* ══════════════════════════════
+   RESULTS
+══════════════════════════════ */
+function showResults(score, log) {
+  document.getElementById('quiz-area').style.display = 'none';
+  const res = document.getElementById('result-area');
+  res.style.display = 'block';
+
+  const total = log.length;
+  const pct = Math.round(score/total*100);
+  let emoji, title, cls;
+  if      (pct >= 90) { emoji='🏅'; title='Outstanding!';      cls='great'; }
+  else if (pct >= 80) { emoji='🎉'; title='Excellent!';        cls='great'; }
+  else if (pct >= 75) { emoji='😊'; title='Very Good!';        cls='good';  }
+  else if (pct >= 70) { emoji='🙂'; title='Good Job!';         cls='good';  }
+  else if (pct >= 60) { emoji='📖'; title='Needs Improvement'; cls='ok';    }
+  else                { emoji='📚'; title='Keep Studying!';     cls='retry'; }
+
+  const typeScore = {mc:0,mcTotal:0, tf:0,tfTotal:0, fill:0,fillTotal:0, word:0,wordTotal:0};
+  log.forEach(l => {
+    if (l.type==='mc')   { typeScore.mcTotal++;   if(l.correct) typeScore.mc++;   }
+    if (l.type==='tf')   { typeScore.tfTotal++;   if(l.correct) typeScore.tf++;   }
+    if (l.type==='fill') { typeScore.fillTotal++; if(l.correct) typeScore.fill++; }
+    if (l.type==='word') { typeScore.wordTotal++; if(l.correct) typeScore.word++; }
+  });
+
+  res.innerHTML = `<div class="results-wrap">
+    <div class="results-hero">
+      <span class="res-emoji">${emoji}</span>
+      <div class="res-title">${title}</div>
+      <div class="res-score ${cls}">${score} / ${total}</div>
+      <div class="res-pct">${pct}% Correct</div>
+    </div>
+
+    <div class="res-breakdown">
+      <div class="res-tile"><div class="rt-icon">🔵</div><div class="rt-val">${typeScore.mc}/${typeScore.mcTotal}</div><div class="rt-label">Multiple Choice</div></div>
+      <div class="res-tile"><div class="rt-icon">🟡</div><div class="rt-val">${typeScore.tf}/${typeScore.tfTotal}</div><div class="rt-label">True or False</div></div>
+      <div class="res-tile"><div class="rt-icon">🟢</div><div class="rt-val">${typeScore.fill}/${typeScore.fillTotal}</div><div class="rt-label">Fill in the Blank</div></div>
+      <div class="res-tile"><div class="rt-icon">🔴</div><div class="rt-val">${typeScore.word}/${typeScore.wordTotal}</div><div class="rt-label">Word Problems</div></div>
+    </div>
+
+    <button class="retry-btn" onclick="retakeQuiz()">🔄 Retake Quiz</button>
+
+    <div class="review-section">
+      <h3>📋 Answer Key & Review</h3>
+      ${log.map((l,i)=>`
+        <div class="review-item ${l.correct?'c':'w'}">
+          <div class="ri-q">Q${i+1}: ${l.q}</div>
+          <div class="ri-a">
+            Your answer: <span class="${l.correct?'cor':'wr'}">${l.chosenStr}</span>
+            &nbsp;·&nbsp; Correct answer: <span class="cor">${l.correctStr}</span>
+          </div>
+          <div class="ri-exp">${l.exp}</div>
+        </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+function retakeQuiz() {
+  document.getElementById('result-area').style.display = 'none';
+  document.getElementById('start-area').style.display = 'block';
+  renderStart();
+}
+
+/* ══════════════════════════════
+   INIT
+══════════════════════════════ */
+renderStart();
+</script>
+</body>
+</html>

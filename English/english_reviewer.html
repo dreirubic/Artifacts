@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yumi's English Reviewer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #faf7f2;
+    --cream: #f0ead8;
+    --accent: #c0392b;
+    --gold: #d4a017;
+    --sage: #5a7a6a;
+    --muted: #8a8275;
+    --border: #d8d0be;
+    --card: #ffffff;
+    --success: #2d6a4f;
+    --error: #c0392b;
+    --warning: #d4a017;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2rem 2rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.02) 20px, rgba(255,255,255,0.02) 40px);
+  }
+  header .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    line-height: 1.1;
+  }
+  header p {
+    color: rgba(250,247,242,0.6);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    font-weight: 300;
+  }
+
+  /* NAV TABS */
+  .nav-bar {
+    background: var(--ink);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-bar::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(250,247,242,0.5);
+    padding: 0.9rem 1.4rem;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    background: none;
+    border-top: none; border-left: none; border-right: none;
+  }
+  .nav-tab:hover { color: var(--paper); }
+  .nav-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* MAIN LAYOUT */
+  main { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  /* SECTION PAGES */
+  .page { display: none; animation: fadeIn 0.3s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* TOPIC CARDS */
+  .topic-grid { display: grid; gap: 1.25rem; margin-top: 1rem; }
+  .topic-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: 2px 2px 0 var(--cream);
+  }
+  .topic-header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.8rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    user-select: none;
+  }
+  .topic-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+  .topic-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    flex: 1;
+  }
+  .topic-toggle {
+    font-size: 0.8rem;
+    color: var(--muted);
+    transition: transform 0.2s;
+  }
+  .topic-card.open .topic-toggle { transform: rotate(180deg); }
+  .topic-body {
+    display: none;
+    padding: 1.4rem 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .topic-card.open .topic-body { display: block; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+    margin-top: 1.2rem;
+    display: block;
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  p, li { font-size: 0.93rem; line-height: 1.75; color: #2a2a3e; }
+  ul, ol { padding-left: 1.4rem; margin-top: 0.4rem; }
+  li { margin-bottom: 0.3rem; }
+  strong { color: var(--ink); font-weight: 600; }
+
+  .example-box {
+    background: var(--cream);
+    border-left: 3px solid var(--gold);
+    padding: 0.9rem 1.1rem;
+    margin-top: 0.8rem;
+    border-radius: 0 2px 2px 0;
+    font-size: 0.88rem;
+    font-style: italic;
+    color: #4a4440;
+  }
+  .tip-box {
+    background: #f0f7f4;
+    border-left: 3px solid var(--sage);
+    padding: 0.9rem 1.1rem;
+    margin-top: 0.8rem;
+    border-radius: 0 2px 2px 0;
+    font-size: 0.88rem;
+    color: #2d4a3e;
+  }
+
+  /* QUIZ & EXAM */
+  .quiz-intro {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+  }
+  .quiz-intro h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+  }
+  .quiz-intro p { color: var(--muted); font-size: 0.9rem; }
+
+  .btn {
+    display: inline-block;
+    padding: 0.7rem 1.8rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+    border-radius: 1px;
+    transition: all 0.15s;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--gold);
+  }
+  .btn-primary:hover { background: #2d2d4e; }
+  .btn-accent {
+    background: var(--accent);
+    color: white;
+  }
+  .btn-accent:hover { background: #a93226; }
+  .btn-sage {
+    background: var(--sage);
+    color: white;
+    margin-top: 1rem;
+  }
+
+  /* PROGRESS */
+  .progress-bar-wrap {
+    background: var(--cream);
+    height: 4px;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--gold);
+    transition: width 0.4s ease;
+  }
+
+  .q-counter {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  /* QUESTION CARD */
+  .question-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 1.8rem;
+    box-shadow: 2px 2px 0 var(--cream);
+  }
+  .question-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+  .question-text {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.6;
+    margin-bottom: 1.3rem;
+    color: var(--ink);
+  }
+
+  /* OPTIONS */
+  .options { display: grid; gap: 0.6rem; }
+  .option {
+    padding: 0.75rem 1rem;
+    border: 1.5px solid var(--border);
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    background: var(--paper);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    transition: all 0.15s;
+    text-align: left;
+  }
+  .option:hover:not(.locked) { border-color: var(--ink); background: var(--cream); }
+  .option .opt-letter {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    min-width: 1.4rem;
+    color: var(--muted);
+    padding-top: 0.05rem;
+  }
+  .option.selected { border-color: var(--ink); background: var(--cream); }
+  .option.correct { border-color: var(--success); background: #f0faf5; color: var(--success); }
+  .option.correct .opt-letter { color: var(--success); }
+  .option.wrong { border-color: var(--error); background: #fdf0ef; color: var(--error); }
+  .option.wrong .opt-letter { color: var(--error); }
+  .option.reveal-correct { border-color: var(--success); background: #f0faf5; color: var(--success); }
+  .option.reveal-correct .opt-letter { color: var(--success); }
+  .option.locked { cursor: default; }
+
+  /* FEEDBACK */
+  .feedback-box {
+    margin-top: 1rem;
+    padding: 0.9rem 1.1rem;
+    border-radius: 2px;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    display: none;
+  }
+  .feedback-box.show { display: block; }
+  .feedback-box.fb-correct { background: #f0faf5; border-left: 3px solid var(--success); color: #1a4a33; }
+  .feedback-box.fb-wrong { background: #fdf0ef; border-left: 3px solid var(--error); color: #7a1a1a; }
+
+  .q-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.2rem;
+    gap: 0.8rem;
+  }
+
+  /* RESULTS */
+  .results-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    border-radius: 2px;
+    box-shadow: 2px 2px 0 var(--cream);
+  }
+  .score-big {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .score-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+  }
+  .score-grade {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    margin-top: 0.8rem;
+  }
+  .score-msg { color: var(--muted); font-size: 0.9rem; margin-top: 0.5rem; }
+  .results-breakdown { margin-top: 2rem; text-align: left; }
+  .breakdown-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.88rem;
+  }
+  .breakdown-item:last-child { border-bottom: none; }
+  .bi-num { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--muted); min-width: 2rem; }
+  .bi-text { flex: 1; }
+  .bi-icon { font-size: 1rem; min-width: 1.5rem; text-align: center; }
+
+  /* PAGE HEADER */
+  .page-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .page-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+  }
+  .page-header p {
+    color: var(--muted);
+    font-size: 0.88rem;
+    margin-top: 0.3rem;
+  }
+
+  /* EXPAND ALL */
+  .expand-all-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: none;
+    border: 1px solid var(--border);
+    padding: 0.4rem 0.9rem;
+    cursor: pointer;
+    color: var(--muted);
+    border-radius: 1px;
+    transition: all 0.15s;
+    margin-bottom: 1rem;
+  }
+  .expand-all-btn:hover { border-color: var(--ink); color: var(--ink); }
+
+  @media (max-width: 600px) {
+    main { padding: 1.5rem 1rem 3rem; }
+    .question-card { padding: 1.2rem; }
+    .results-card { padding: 1.5rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="label">✦ English Language Arts</span>
+  <h1>Yumi's Reviewer</h1>
+  <p>Identifying POV · Stereotypes · Opinions & Facts · Text Types · Visual Elements</p>
+</header>
+
+<div class="nav-bar">
+  <button class="nav-tab active" onclick="showPage('reviewer')">📖 Reviewer</button>
+  <button class="nav-tab" onclick="showPage('practice')">✏️ Practice Quiz</button>
+  <button class="nav-tab" onclick="showPage('exam')">📝 Exam</button>
+</div>
+
+<main>
+
+<!-- ========== REVIEWER ========== -->
+<div class="page active" id="page-reviewer">
+  <div class="page-header">
+    <h2>Lesson Reviewer</h2>
+    <p>Tap any topic to expand it. Study before taking the quiz!</p>
+  </div>
+  <button class="expand-all-btn" onclick="toggleAll()">Expand All</button>
+
+  <div class="topic-grid" id="topic-grid"></div>
+</div>
+
+<!-- ========== PRACTICE QUIZ ========== -->
+<div class="page" id="page-practice">
+  <div class="page-header">
+    <h2>Practice Quiz</h2>
+    <p>14 questions · immediate feedback after each answer</p>
+  </div>
+  <div id="practice-area"></div>
+</div>
+
+<!-- ========== EXAM ========== -->
+<div class="page" id="page-exam">
+  <div class="page-header">
+    <h2>Final Exam</h2>
+    <p>28 questions · no hints · results at the end</p>
+  </div>
+  <div id="exam-area"></div>
+</div>
+
+</main>
+
+<script>
+// ===================== REVIEWER DATA =====================
+const topics = [
+  {
+    num: "01",
+    title: "Identifying Point of View (POV)",
+    sections: [
+      { label: "What is POV?", content: `<p>Point of View refers to the perspective from which a story, argument, or text is told. It tells us <strong>who is speaking</strong> and <strong>how they see the world</strong>.</p>` },
+      { label: "Types of POV", content: `<ul>
+        <li><strong>First Person</strong> — The narrator is a character in the story and uses "I," "me," "we," "my." The reader sees everything through that character's eyes.</li>
+        <li><strong>Second Person</strong> — Uses "you" directly; common in instructions and choose-your-own-adventure texts.</li>
+        <li><strong>Third Person Limited</strong> — An outside narrator tells the story and reveals the thoughts of ONE character using "he," "she," "they."</li>
+        <li><strong>Third Person Omniscient</strong> — The narrator knows the thoughts and feelings of ALL characters.</li>
+        <li><strong>Third Person Objective</strong> — The narrator reports only what can be seen or heard, like a camera.</li>
+      </ul>` },
+      { label: "How to Identify POV", content: `<ul>
+        <li>Look at the <strong>pronouns</strong> used (I/me = first; you = second; he/she/they = third).</li>
+        <li>Ask: <em>Whose thoughts can we read?</em></li>
+        <li>Ask: <em>Who is telling this story?</em></li>
+      </ul>
+      <div class="example-box">📖 Example: <em>"I watched the sun set slowly behind the mountains. Only I knew what that meant."</em> → <strong>First Person</strong><br><br>📖 Example: <em>"Maria felt a pang of regret, though no one around her could tell."</em> → <strong>Third Person Limited</strong></div>` },
+      { label: "POV in Non-Fiction", content: `<p>In non-fiction and media, POV refers to a <strong>bias or perspective</strong>. Every writer has a background, belief, and purpose that shapes how they present information. Identifying whose perspective is represented — and whose is missing — is a key reading skill.</p>` }
+    ]
+  },
+  {
+    num: "02",
+    title: "Examining Stereotypes",
+    sections: [
+      { label: "What is a Stereotype?", content: `<p>A <strong>stereotype</strong> is an oversimplified, generalized belief about a particular group of people based on characteristics like race, gender, age, nationality, or profession. Stereotypes ignore individual differences.</p>` },
+      { label: "Types of Stereotypes", content: `<ul>
+        <li><strong>Gender stereotypes</strong> — e.g., "Girls are not good at math."</li>
+        <li><strong>Racial/Ethnic stereotypes</strong> — overgeneralizations about a cultural group.</li>
+        <li><strong>Age stereotypes</strong> — e.g., "Old people can't use technology."</li>
+        <li><strong>Occupational stereotypes</strong> — e.g., "All artists are broke."</li>
+      </ul>` },
+      { label: "Why Are They Harmful?", content: `<ul>
+        <li>They reduce complex individuals to flat, limited images.</li>
+        <li>They can lead to discrimination and unfair treatment.</li>
+        <li>They silence or erase minority voices in texts and media.</li>
+      </ul>` },
+      { label: "How to Examine Them in Texts", content: `<ul>
+        <li>Ask: <em>Who is being described, and how?</em></li>
+        <li>Ask: <em>Are certain groups shown only one way?</em></li>
+        <li>Ask: <em>Whose perspective shapes this portrayal?</em></li>
+        <li>Look for <strong>loaded language</strong> — words that carry cultural bias.</li>
+      </ul>
+      <div class="tip-box">💡 Tip: Not all generalizations are stereotypes. A stereotype becomes harmful when it is applied <em>unfairly</em> and without allowing for individual differences.</div>` }
+    ]
+  },
+  {
+    num: "03",
+    title: "Expressing Opinions Through Facts",
+    sections: [
+      { label: "Fact vs. Opinion", content: `<ul>
+        <li>A <strong>fact</strong> can be verified as true or false using evidence. (<em>"The Philippines has 7,641 islands."</em>)</li>
+        <li>An <strong>opinion</strong> is a personal belief or judgment. (<em>"The Philippines is the most beautiful country in Asia."</em>)</li>
+      </ul>` },
+      { label: "Using Facts to Support Opinions", content: `<p>Good writers don't just state opinions — they <strong>back them up with facts, statistics, examples, and expert quotes</strong>. This makes an argument credible and persuasive.</p>
+      <ul>
+        <li><strong>Claim</strong> — the opinion or position being argued.</li>
+        <li><strong>Evidence</strong> — facts, data, or examples that support the claim.</li>
+        <li><strong>Reasoning</strong> — the explanation of why the evidence supports the claim.</li>
+      </ul>` },
+      { label: "Signal Words", content: `<ul>
+        <li><strong>Opinion signals:</strong> I believe, I think, In my opinion, It seems, The best, should, must</li>
+        <li><strong>Fact signals:</strong> According to, Studies show, Research indicates, Data reveals, It is known that</li>
+      </ul>
+      <div class="example-box">📝 Example: <em>"Students should exercise daily (opinion) because studies show that 30 minutes of exercise improves concentration by up to 20% (fact)."</em></div>` }
+    ]
+  },
+  {
+    num: "04",
+    title: "Making a Stand",
+    sections: [
+      { label: "What Does It Mean?", content: `<p>"Making a stand" means taking a clear, firm position on an issue and defending it. It requires <strong>choosing a side</strong> and presenting reasons to support your stance.</p>` },
+      { label: "Structure of a Stand", content: `<ul>
+        <li><strong>Statement of Position</strong> — clearly state your stand.</li>
+        <li><strong>Supporting Arguments</strong> — give at least 2–3 reasons supported by facts.</li>
+        <li><strong>Counterargument</strong> — acknowledge the opposing view.</li>
+        <li><strong>Rebuttal</strong> — explain why your position is still stronger.</li>
+        <li><strong>Conclusion</strong> — restate your stand and call to action.</li>
+      </ul>` },
+      { label: "Effective Language for Taking a Stand", content: `<ul>
+        <li>"I strongly believe that..."</li>
+        <li>"The evidence clearly shows that..."</li>
+        <li>"While some argue... the fact remains that..."</li>
+        <li>"Therefore, it is essential that..."</li>
+      </ul>
+      <div class="tip-box">💡 A strong stand is not just emotional — it is backed by logic and evidence. Avoid fallacies (false reasoning) and stay focused on your thesis.</div>` }
+    ]
+  },
+  {
+    num: "05",
+    title: "Visual & Multimedia Elements in Reading",
+    sections: [
+      { label: "What Are They?", content: `<p>Visual and multimedia elements are non-text features used to communicate information or enhance meaning. They include <strong>photos, illustrations, graphs, charts, maps, videos, infographics, tables, timelines, and diagrams</strong>.</p>` },
+      { label: "Types and Purposes", content: `<ul>
+        <li><strong>Photographs</strong> — capture real events; create emotional impact.</li>
+        <li><strong>Graphs & Charts</strong> — show data, comparisons, and trends clearly.</li>
+        <li><strong>Maps</strong> — show geographical relationships and locations.</li>
+        <li><strong>Infographics</strong> — combine text and visuals to explain complex information quickly.</li>
+        <li><strong>Timelines</strong> — show the order of events over time.</li>
+        <li><strong>Diagrams/Illustrations</strong> — show how things work or are structured.</li>
+        <li><strong>Captions</strong> — explain or add context to images.</li>
+      </ul>` },
+      { label: "How to Analyze Them", content: `<ul>
+        <li>Ask: <em>What is being shown?</em></li>
+        <li>Ask: <em>Why was this visual chosen?</em></li>
+        <li>Ask: <em>How does it support or contradict the text?</em></li>
+        <li>Ask: <em>What emotions or ideas does it suggest?</em></li>
+        <li>Check source, labels, and legend for accuracy.</li>
+      </ul>
+      <div class="example-box">📊 A bar graph showing rising temperatures over 50 years supports a text about climate change by providing <em>visual, quantitative evidence.</em></div>` }
+    ]
+  },
+  {
+    num: "06",
+    title: "Explanation, Enumeration, Classification & Time-Order Texts",
+    sections: [
+      { label: "Explanation Text", content: `<p>Explains <strong>how or why</strong> something happens. Organized by cause-and-effect or process.</p>
+      <ul><li>Signal words: because, therefore, as a result, due to, consequently, this causes</li></ul>
+      <div class="example-box">📖 "Volcanoes erupt because tectonic plates shift, allowing magma to rise through the crust."</div>` },
+      { label: "Enumeration Text", content: `<p>Lists items, facts, or ideas <strong>one by one</strong>. The order may or may not matter.</p>
+      <ul><li>Signal words: first, second, also, another, in addition, furthermore, last, finally</li></ul>
+      <div class="example-box">📖 "There are several benefits of reading: first, it expands vocabulary; second, it improves focus; third, it reduces stress."</div>` },
+      { label: "Classification Text", content: `<p>Groups information into <strong>categories or classes</strong> based on shared characteristics.</p>
+      <ul><li>Signal words: can be divided into, are classified as, types of, categories, groups, belong to</li></ul>
+      <div class="example-box">📖 "Rocks can be classified into three types: igneous, sedimentary, and metamorphic."</div>` },
+      { label: "Time-Order Text", content: `<p>Presents information in <strong>chronological or sequential order</strong>. Common in history, narratives, and instructions.</p>
+      <ul><li>Signal words: first, then, next, after that, meanwhile, finally, in [year], before, during, following</li></ul>
+      <div class="example-box">📖 "In 1896, Dr. José Rizal was arrested. The following year, he was executed at Bagumbayan."</div>` }
+    ]
+  },
+  {
+    num: "07",
+    title: "Descriptive Texts",
+    sections: [
+      { label: "What is a Descriptive Text?", content: `<p>A descriptive text paints a <strong>detailed picture of a person, place, object, or event</strong> using vivid language. It appeals to the five senses to create a clear image in the reader's mind.</p>` },
+      { label: "Key Features", content: `<ul>
+        <li>Uses <strong>adjectives and adverbs</strong> generously.</li>
+        <li>Employs <strong>figurative language</strong> — similes, metaphors, personification.</li>
+        <li>Uses <strong>sensory details</strong> — sight, sound, smell, touch, taste.</li>
+        <li>Has a <strong>spatial or impressionistic</strong> organization (not necessarily time-based).</li>
+        <li>Creates a dominant <strong>mood or impression</strong>.</li>
+      </ul>` },
+      { label: "Organization Patterns", content: `<ul>
+        <li><strong>Spatial order</strong> — describes from top to bottom, left to right, near to far.</li>
+        <li><strong>General to specific</strong> — starts with a broad view, then zooms in.</li>
+        <li><strong>Most to least important</strong> — highlights the dominant impression first.</li>
+      </ul>
+      <div class="example-box">📖 "The old market smelled of salt and rust. Wooden stalls, worn smooth by decades of hands, leaned against each other like tired neighbors."</div>
+      <div class="tip-box">💡 The goal of descriptive writing is to make the reader <em>feel as if they are there.</em> Specific details beat vague words every time.</div>` }
+    ]
+  }
+];
+
+// ===================== PRACTICE QUESTIONS =====================
+const practiceQuestions = [
+  {
+    topic: "Identifying POV",
+    q: "Read this passage: \"I had never been more afraid in my life. My hands shook as I opened the letter.\" What point of view is used?",
+    opts: ["Second person", "First person", "Third person limited", "Third person omniscient"],
+    ans: 1,
+    exp: "The pronouns 'I' and 'my' indicate that the narrator is a participant in the story — this is first person point of view."
+  },
+  {
+    topic: "Identifying POV",
+    q: "\"She didn't know it yet, but across town, Marcus was thinking of her too.\" What type of narrator is this?",
+    opts: ["First person", "Second person", "Third person limited", "Third person omniscient"],
+    ans: 3,
+    exp: "The narrator knows the inner thoughts of more than one character (both 'she' and 'Marcus'), making this third person omniscient."
+  },
+  {
+    topic: "Examining Stereotypes",
+    q: "Which of the following is an example of a stereotype?",
+    opts: [
+      "Girls in the class scored higher than boys on the math exam.",
+      "All teenagers are irresponsible and only care about their phones.",
+      "Some students struggle with reading comprehension.",
+      "The athlete trained six days a week."
+    ],
+    ans: 1,
+    exp: "Saying 'ALL teenagers are irresponsible' is an overgeneralization applied to an entire group — this is a stereotype."
+  },
+  {
+    topic: "Examining Stereotypes",
+    q: "What is the best question to ask when examining stereotypes in a text?",
+    opts: [
+      "How long is this text?",
+      "Are certain groups shown in only one, limited way?",
+      "What is the title of the text?",
+      "Who published this text?"
+    ],
+    ans: 1,
+    exp: "Stereotypes reduce groups to a single, limited portrayal. Asking whether characters are depicted in only one way helps identify stereotyping."
+  },
+  {
+    topic: "Expressing Opinions Through Facts",
+    q: "Which sentence is a FACT?",
+    opts: [
+      "Science is the most important subject in school.",
+      "Reading is a waste of time for students who prefer sports.",
+      "The Philippines ranked 72nd in the 2023 World Press Freedom Index.",
+      "Students should be given less homework."
+    ],
+    ans: 2,
+    exp: "A fact can be verified with evidence. A ranking from a known index is verifiable — it is a fact, not a personal belief."
+  },
+  {
+    topic: "Expressing Opinions Through Facts",
+    q: "What does the signal phrase 'According to researchers...' indicate?",
+    opts: ["A personal opinion", "A logical fallacy", "A fact or evidence-based statement", "A prediction"],
+    ans: 2,
+    exp: "'According to researchers' signals that the information comes from a source that can be verified — it introduces factual support."
+  },
+  {
+    topic: "Making a Stand",
+    q: "In argumentative writing, what is a REBUTTAL?",
+    opts: [
+      "A repetition of your main argument",
+      "A list of your supporting evidence",
+      "A response that disproves or weakens the opposing argument",
+      "A summary of what others believe"
+    ],
+    ans: 2,
+    exp: "A rebuttal directly addresses the opposing view and explains why your position is stronger despite that counterargument."
+  },
+  {
+    topic: "Making a Stand",
+    q: "Which sentence is the BEST example of making a clear stand?",
+    opts: [
+      "Some people think online learning has benefits.",
+      "Online learning is an interesting topic worth discussing.",
+      "Online learning should be made permanent because it increases accessibility for students in remote areas.",
+      "Online learning and traditional learning both have advantages and disadvantages."
+    ],
+    ans: 2,
+    exp: "A strong stand takes a clear, firm position and provides a reason. Option C states a specific position with supporting reasoning."
+  },
+  {
+    topic: "Visual & Multimedia Elements in Reading",
+    q: "A student reads an article about climate change that includes a line graph showing rising global temperatures. What is the PRIMARY purpose of this graph?",
+    opts: [
+      "To make the article longer",
+      "To provide visual, quantitative evidence that supports the article's claims",
+      "To replace the text entirely",
+      "To entertain the reader"
+    ],
+    ans: 1,
+    exp: "Visual elements like graphs provide evidence in a clear, quantitative format that supports and reinforces the text's argument."
+  },
+  {
+    topic: "Visual & Multimedia Elements in Reading",
+    q: "What should you check when analyzing a graph or chart in a text?",
+    opts: [
+      "The font and color used",
+      "The number of sentences in the article",
+      "The source, labels, legend, and what trends it shows",
+      "Whether the image is colorful"
+    ],
+    ans: 2,
+    exp: "When analyzing visual elements, always check the source for credibility, labels for accuracy, and what information or trends the visual presents."
+  },
+  {
+    topic: "Text Types",
+    q: "\"First, mix the flour and sugar. Then add the eggs. Finally, bake at 180°C for 30 minutes.\" What type of text structure is this?",
+    opts: ["Classification", "Explanation", "Time-Order", "Descriptive"],
+    ans: 2,
+    exp: "Words like 'First,' 'Then,' and 'Finally' are signal words for time-order (sequential) text structure, common in instructions."
+  },
+  {
+    topic: "Text Types",
+    q: "\"Living organisms can be classified into five kingdoms: Monera, Protista, Fungi, Plantae, and Animalia.\" What text structure is this?",
+    opts: ["Enumeration", "Classification", "Time-Order", "Explanation"],
+    ans: 1,
+    exp: "'Classified into' is a direct signal word for classification text structure, which groups things into categories."
+  },
+  {
+    topic: "Text Types",
+    q: "\"The river floods every rainy season because excess rainfall overwhelms the drainage systems.\" What is the primary text structure?",
+    opts: ["Enumeration", "Classification", "Time-Order", "Explanation"],
+    ans: 3,
+    exp: "'Because' signals a cause-and-effect relationship, which is the hallmark of explanation text structure."
+  },
+  {
+    topic: "Descriptive Texts",
+    q: "\"The old library smelled of dust and forgotten dreams. Shelves towered like cathedral walls, each book spine a faded prayer.\" What makes this a descriptive text?",
+    opts: [
+      "It lists facts in order",
+      "It uses sensory details and figurative language to paint a vivid picture",
+      "It gives instructions for visiting a library",
+      "It classifies different types of libraries"
+    ],
+    ans: 1,
+    exp: "Descriptive texts use sensory details (smell: 'dust') and figurative language (metaphor: 'like cathedral walls') to create a vivid impression."
+  }
+];
+
+// ===================== EXAM QUESTIONS =====================
+const examQuestions = [
+  // POV (4)
+  { topic:"POV", q:"\"You wake up on a ship. The captain nods at you.\" What point of view is used?", opts:["First person","Second person","Third person limited","Third person omniscient"], ans:1 },
+  { topic:"POV", q:"Which pronoun is a key signal of first person POV?", opts:["You","He","I","They"], ans:2 },
+  { topic:"POV", q:"In third person limited, the narrator reveals:", opts:["Every character's thoughts","Only the protagonist's thoughts","Only dialogue, no thoughts","The reader's own thoughts"], ans:1 },
+  { topic:"POV", q:"\"The crowd cheered. Only Jessa felt the hollow ache beneath her smile.\" This is:", opts:["First person","Second person","Third person omniscient","Third person objective"], ans:2 },
+  // Stereotypes (4)
+  { topic:"Stereotypes", q:"A stereotype is best described as:", opts:["An accurate description of one person","An oversimplified generalization about a group","A factual research finding","A character's point of view"], ans:1 },
+  { topic:"Stereotypes", q:"Which of these is NOT a stereotype?", opts:["All Asians are good at math","Elderly people cannot learn new skills","She scored highest in her chemistry class","Men should not express emotions"], ans:2 },
+  { topic:"Stereotypes", q:"Stereotypes are harmful PRIMARILY because they:", opts:["Are always untrue","Ignore individual differences and can cause discrimination","Are written in biased language","Only affect minority groups"], ans:1 },
+  { topic:"Stereotypes", q:"\"Loaded language\" in a text refers to words that:", opts:["Are very long and difficult","Carry cultural or emotional bias","Are used by scientists","Appear in headlines only"], ans:1 },
+  // Opinions/Facts (4)
+  { topic:"Opinions & Facts", q:"\"Water boils at 100°C at sea level.\" This is:", opts:["An opinion","A fact","A stereotype","A claim"], ans:1 },
+  { topic:"Opinions & Facts", q:"Which signal phrase introduces an OPINION?", opts:["According to researchers","Studies show that","It is proven that","In my view, the best approach is"], ans:3 },
+  { topic:"Opinions & Facts", q:"In an argument, what is the role of EVIDENCE?", opts:["To state the writer's position","To list the writer's feelings","To support the claim with verifiable information","To summarize the opposing side"], ans:2 },
+  { topic:"Opinions & Facts", q:"\"Social media is harmful to teenagers because screen time above 3 hours daily is linked to anxiety.\" The second clause is:", opts:["An opinion","A stereotype","A fact that supports the claim","A rebuttal"], ans:2 },
+  // Making a Stand (4)
+  { topic:"Making a Stand", q:"What comes AFTER presenting a counterargument in a well-structured argument?", opts:["The introduction","The claim","The rebuttal","The title"], ans:2 },
+  { topic:"Making a Stand", q:"\"While critics argue that uniforms limit self-expression, the evidence shows they reduce bullying by 30%.\" This sentence contains:", opts:["A claim and a fact","A counterargument and a rebuttal","A stereotype and an opinion","An enumeration and a classification"], ans:1 },
+  { topic:"Making a Stand", q:"A 'call to action' in an argumentative text asks the reader to:", opts:["Disagree with the author","Question all facts presented","Do something or change a behavior","Read more books"], ans:2 },
+  { topic:"Making a Stand", q:"Which is NOT a feature of an effective stand?", opts:["Clear position statement","Supporting evidence","Emotional outbursts without evidence","Acknowledgment of opposing views"], ans:2 },
+  // Visual Elements (4)
+  { topic:"Visual Elements", q:"An infographic PRIMARILY:", opts:["Replaces all text in an article","Combines visuals and text to present complex information quickly","Shows only numerical data","Is used only in science textbooks"], ans:1 },
+  { topic:"Visual Elements", q:"A caption's purpose is to:", opts:["Decorate the page","Explain or provide context for an image","Replace the article's introduction","List the article's sources"], ans:1 },
+  { topic:"Visual Elements", q:"When analyzing a chart, you should NOT:", opts:["Check the source","Read the labels and legend","Ignore the data and focus on colors only","Ask what trend the chart shows"], ans:2 },
+  { topic:"Visual Elements", q:"A timeline is best used to show:", opts:["How something is categorized","The sequence of events over time","The sensory details of a place","The writer's opinion"], ans:1 },
+  // Text Types (4)
+  { topic:"Text Types", q:"\"In 1941, the Japanese forces occupied the Philippines. By 1945, Allied forces had liberated Manila.\" This is:", opts:["Classification","Explanation","Time-Order","Descriptive"], ans:2 },
+  { topic:"Text Types", q:"\"Planets are classified into two groups: terrestrial and gas giants.\" Signal phrase?", opts:["are classified into — Classification","first, second — Enumeration","because — Explanation","smelled, felt — Descriptive"], ans:0 },
+  { topic:"Text Types", q:"\"There are many advantages to reading: it builds vocabulary, improves focus, and reduces stress.\" This is:", opts:["Classification","Explanation","Time-Order","Enumeration"], ans:3 },
+  { topic:"Text Types", q:"The signal word 'consequently' is most associated with:", opts:["Enumeration","Time-Order","Explanation/Cause-Effect","Descriptive"], ans:2 },
+  // Descriptive (4)
+  { topic:"Descriptive", q:"\"The mango was a burst of summer — warm, sticky, and impossibly sweet.\" This uses:", opts:["Enumeration signals","Sensory details and figurative language","Classification structure","A rebuttal"], ans:1 },
+  { topic:"Descriptive", q:"Spatial order in descriptive writing organizes details:", opts:["By importance","From first event to last","By physical location (e.g., top to bottom)","By category"], ans:2 },
+  { topic:"Descriptive", q:"Which is NOT a feature of descriptive texts?", opts:["Sensory imagery","Use of adjectives and adverbs","Step-by-step instructions","Figurative language"], ans:2 },
+  { topic:"Descriptive", q:"The PRIMARY goal of a descriptive text is to:", opts:["Argue a position","Teach a process in order","Make the reader feel as if they are experiencing the subject","List facts about a topic"], ans:2 }
+];
+
+// ===================== BUILD REVIEWER =====================
+function buildReviewer() {
+  const grid = document.getElementById('topic-grid');
+  topics.forEach((t, i) => {
+    const card = document.createElement('div');
+    card.className = 'topic-card';
+    card.id = `card-${i}`;
+    let bodyHTML = '';
+    t.sections.forEach(s => {
+      bodyHTML += `<span class="section-label">${s.label}</span>${s.content}`;
+    });
+    card.innerHTML = `
+      <div class="topic-header" onclick="toggleCard(${i})">
+        <span class="topic-num">TOPIC ${t.num}</span>
+        <span class="topic-title">${t.title}</span>
+        <span class="topic-toggle">▼</span>
+      </div>
+      <div class="topic-body">${bodyHTML}</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function toggleCard(i) {
+  const card = document.getElementById(`card-${i}`);
+  card.classList.toggle('open');
+}
+
+let allOpen = false;
+function toggleAll() {
+  allOpen = !allOpen;
+  topics.forEach((_, i) => {
+    const card = document.getElementById(`card-${i}`);
+    if (allOpen) card.classList.add('open');
+    else card.classList.remove('open');
+  });
+  document.querySelector('.expand-all-btn').textContent = allOpen ? 'Collapse All' : 'Expand All';
+}
+
+// ===================== QUIZ ENGINE =====================
+function buildQuiz(containerId, questions, mode) {
+  const container = document.getElementById(containerId);
+  const ns = containerId; // unique namespace per quiz instance
+  let current = 0;
+  let score = 0;
+  let answered = new Array(questions.length).fill(null);
+
+  function renderIntro() {
+    container.innerHTML = `
+      <div class="quiz-intro">
+        <h2>${mode === 'practice' ? '✏️ Practice Quiz' : '📝 Final Exam'}</h2>
+        <p>${questions.length} questions &nbsp;·&nbsp; ${mode === 'practice' ? 'Feedback after each question' : 'All answers revealed at the end'}</p>
+        <br>
+        <button class="btn btn-primary" onclick="quizNS['${ns}'].start()">Begin →</button>
+      </div>
+    `;
+  }
+
+  function renderQuestion() {
+    const q = questions[current];
+    const total = questions.length;
+    const pct = (current / total) * 100;
+    const letters = ['A','B','C','D'];
+    const isAnswered = answered[current] !== null;
+
+    let optionsHTML = q.opts.map((o, i) => {
+      let cls = 'option';
+      if (isAnswered) {
+        cls += ' locked';
+        if (mode === 'practice') {
+          if (i === q.ans) cls += ' correct';
+          else if (i === answered[current] && i !== q.ans) cls += ' wrong';
+        } else {
+          if (i === answered[current]) cls += ' selected';
+        }
+      }
+      return `<button class="${cls}" onclick="quizNS['${ns}'].select(${i})">
+        <span class="opt-letter">${letters[i]}.</span>
+        <span>${o}</span>
+      </button>`;
+    }).join('');
+
+    let feedbackHTML = '';
+    if (mode === 'practice' && isAnswered) {
+      const correct = answered[current] === q.ans;
+      feedbackHTML = `<div class="feedback-box show ${correct ? 'fb-correct' : 'fb-wrong'}">
+        ${correct ? '✅ Correct! ' : '❌ Not quite. '} ${q.exp || ''}
+      </div>`;
+    }
+
+    let navHTML = `<div class="q-nav">
+      <button class="btn btn-primary" onclick="quizNS['${ns}'].prev()" ${current === 0 ? 'style="visibility:hidden"' : ''}>← Prev</button>
+      <span style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--muted)">${current+1} / ${total}</span>
+      ${current < total - 1
+        ? `<button class="btn btn-primary" onclick="quizNS['${ns}'].next()">Next →</button>`
+        : `<button class="btn btn-accent" onclick="quizNS['${ns}'].submit()">Submit ✓</button>`
+      }
+    </div>`;
+
+    container.innerHTML = `
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+      <span class="q-counter">QUESTION ${current+1} OF ${total} &nbsp;·&nbsp; ${q.topic.toUpperCase()}</span>
+      <div class="question-card">
+        <span class="question-tag">${q.topic}</span>
+        <p class="question-text">${q.q}</p>
+        <div class="options">${optionsHTML}</div>
+        ${feedbackHTML}
+      </div>
+      ${navHTML}
+    `;
+  }
+
+  function renderResults() {
+    const total = questions.length;
+    const pct = Math.round((score / total) * 100);
+    let grade, msg, color;
+    if (pct >= 95) { grade = 'Outstanding'; msg = 'Exceptional work, Yumi! You mastered this material.'; color = '#2d6a4f'; }
+    else if (pct >= 85) { grade = 'Excellent'; msg = 'Great job! You have a strong grasp of the topics.'; color = '#2d6a4f'; }
+    else if (pct >= 75) { grade = 'Satisfactory'; msg = 'Good effort. Review a few topics to solidify your understanding.'; color = '#d4a017'; }
+    else if (pct >= 60) { grade = 'Needs Review'; msg = 'Keep going! Revisit the reviewer and try again.'; color = '#d4a017'; }
+    else { grade = 'Keep Practicing'; msg = "Don't give up! Use the reviewer and practice more."; color = '#c0392b'; }
+
+    let breakdownHTML = questions.map((q, i) => {
+      const correct = answered[i] === q.ans;
+      return `<div class="breakdown-item">
+        <span class="bi-num">${i+1}</span>
+        <span class="bi-text" style="font-size:0.85rem">${q.q.substring(0,65)}...</span>
+        <span class="bi-icon">${correct ? '✅' : '❌'}</span>
+      </div>`;
+    }).join('');
+
+    container.innerHTML = `
+      <div class="results-card">
+        <div class="score-big">${score}/${total}</div>
+        <div class="score-label">Your Score</div>
+        <div class="score-grade" style="color:${color}">${grade}</div>
+        <div class="score-msg">${msg}</div>
+        <br>
+        <button class="btn btn-primary" onclick="quizNS['${ns}'].reset()">Try Again</button>
+      </div>
+      <div class="results-breakdown">${breakdownHTML}</div>
+    `;
+  }
+
+  // Register this instance in a global namespace registry
+  if (!window.quizNS) window.quizNS = {};
+  window.quizNS[ns] = {
+    start: () => { current = 0; score = 0; answered = new Array(questions.length).fill(null); renderQuestion(); },
+    select: (i) => {
+      if (answered[current] !== null) return;
+      answered[current] = i;
+      if (i === questions[current].ans) score++;
+      renderQuestion();
+    },
+    next: () => { if (current < questions.length - 1) { current++; renderQuestion(); } },
+    prev: () => { if (current > 0) { current--; renderQuestion(); } },
+    submit: () => renderResults(),
+    reset: () => { current = 0; score = 0; answered = new Array(questions.length).fill(null); renderIntro(); }
+  };
+
+  renderIntro();
+}
+
+// ===================== PAGE SWITCHING =====================
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`page-${name}`).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ===================== INIT =====================
+buildReviewer();
+buildQuiz('practice-area', practiceQuestions, 'practice');
+buildQuiz('exam-area', examQuestions, 'exam');
+</script>
+</body>
+</html>
