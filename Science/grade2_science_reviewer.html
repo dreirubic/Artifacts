@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 2 Science – Earth Reviewer 🌍</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #4CAF50;
+    --lime: #8BC34A;
+    --sky: #29B6F6;
+    --sun: #FFC107;
+    --pink: #FF7043;
+    --purple: #AB47BC;
+    --bg: #F0FFF4;
+    --card: #ffffff;
+    --correct: #43A047;
+    --wrong: #E53935;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    background-image: radial-gradient(circle at 10% 20%, #d4f5d4 0%, transparent 40%),
+                      radial-gradient(circle at 90% 80%, #c8e6f9 0%, transparent 40%);
+    min-height: 100vh;
+    color: #2d3a2d;
+  }
+
+  header {
+    background: linear-gradient(135deg, #388E3C, #66BB6A);
+    color: white;
+    text-align: center;
+    padding: 28px 20px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.07'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  header h1 { font-family: 'Fredoka One', cursive; font-size: 2.2rem; letter-spacing: 1px; }
+  header p { font-size: 1rem; opacity: 0.9; margin-top: 4px; }
+
+  .emojis { font-size: 2rem; margin-bottom: 6px; }
+
+  nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 16px 12px;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    letter-spacing: 0.5px;
+  }
+  .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.active { transform: scale(1.05); }
+  #btn-reviewer { background: #4CAF50; color: white; }
+  #btn-quiz { background: #29B6F6; color: white; }
+  #btn-exam { background: #FF7043; color: white; }
+
+  .section { display: none; padding: 24px 16px 60px; max-width: 900px; margin: 0 auto; }
+  .section.active { display: block; }
+
+  /* ── REVIEWER ── */
+  .topic-card {
+    background: white;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+    animation: fadeUp 0.4s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(20px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .topic-card:nth-child(2) { animation-delay:.05s }
+  .topic-card:nth-child(3) { animation-delay:.1s }
+  .topic-card:nth-child(4) { animation-delay:.15s }
+  .topic-card:nth-child(5) { animation-delay:.2s }
+
+  .topic-header {
+    padding: 14px 20px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .topic-body { padding: 16px 20px; }
+
+  .fact-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    font-size: 0.97rem;
+    line-height: 1.5;
+  }
+  .fact-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .vocab-chip {
+    background: #f1f8e9;
+    border: 2px solid #AED581;
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #33691E;
+    text-align: center;
+  }
+
+  .remember-box {
+    background: #FFF9C4;
+    border-left: 5px solid #FFC107;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-top: 12px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #5D4037;
+  }
+
+  /* ── QUIZ / EXAM ── */
+  .quiz-intro {
+    text-align: center;
+    padding: 30px 20px;
+    background: white;
+    border-radius: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+  }
+  .quiz-intro h2 { font-family: 'Fredoka One', cursive; font-size: 1.6rem; margin-bottom: 8px; }
+  .quiz-intro p { font-size: 0.95rem; color: #555; }
+
+  .start-btn {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 12px 32px;
+    border-radius: 30px;
+    border: none;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .start-btn:hover { transform: scale(1.05); box-shadow: 0 6px 16px rgba(0,0,0,0.2); }
+
+  .quiz-area { display: none; }
+  .quiz-area.active { display: block; }
+
+  .progress-bar-wrap {
+    background: #e0e0e0;
+    border-radius: 30px;
+    height: 12px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .progress-bar { height: 100%; border-radius: 30px; transition: width 0.4s; background: linear-gradient(90deg, #66BB6A, #29B6F6); }
+
+  .q-number {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 6px;
+  }
+  .q-text {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: 18px;
+    line-height: 1.5;
+    color: #1a2e1a;
+  }
+  .q-emoji { font-size: 1.5rem; margin-right: 6px; }
+
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt-btn {
+    background: white;
+    border: 2.5px solid #c8e6c9;
+    border-radius: 14px;
+    padding: 12px 18px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.18s;
+    color: #2d3a2d;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .opt-btn:hover { background: #f1f8e9; border-color: #66BB6A; transform: translateX(4px); }
+  .opt-btn.correct { background: #E8F5E9; border-color: #43A047; color: #1B5E20; }
+  .opt-btn.wrong   { background: #FFEBEE; border-color: #E53935; color: #B71C1C; }
+  .opt-btn:disabled { cursor: default; transform: none; }
+
+  .opt-letter {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: #e8f5e9;
+    color: #388E3C;
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.95rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .opt-btn.correct .opt-letter { background: #43A047; color: white; }
+  .opt-btn.wrong   .opt-letter { background: #E53935; color: white; }
+
+  .feedback {
+    margin-top: 14px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: none;
+  }
+  .feedback.show { display: block; animation: fadeUp 0.2s ease; }
+  .feedback.correct { background: #E8F5E9; color: #2E7D32; border-left: 5px solid #43A047; }
+  .feedback.wrong   { background: #FFEBEE; color: #C62828; border-left: 5px solid #E53935; }
+
+  .next-btn {
+    display: none;
+    margin-top: 16px;
+    padding: 11px 28px;
+    border-radius: 30px;
+    border: none;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.05rem;
+    color: white;
+    background: linear-gradient(135deg, #43A047, #66BB6A);
+    cursor: pointer;
+    transition: transform 0.15s;
+    width: 100%;
+  }
+  .next-btn:hover { transform: scale(1.02); }
+
+  .result-card {
+    text-align: center;
+    background: white;
+    border-radius: 20px;
+    padding: 36px 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    animation: fadeUp 0.4s ease;
+    display: none;
+  }
+  .result-card.show { display: block; }
+  .result-emoji { font-size: 4rem; margin-bottom: 10px; }
+  .result-title { font-family: 'Fredoka One', cursive; font-size: 2rem; margin-bottom: 6px; }
+  .result-score { font-size: 3rem; font-weight: 900; margin: 10px 0; }
+  .result-msg { font-size: 1rem; color: #555; margin-bottom: 20px; }
+  .retry-btn {
+    padding: 11px 28px;
+    border-radius: 30px;
+    border: none;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .retry-btn:hover { transform: scale(1.05); }
+
+  .q-card {
+    background: white;
+    border-radius: 20px;
+    padding: 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+    animation: fadeUp 0.35s ease both;
+  }
+
+  /* Exam: all questions shown, submit at end */
+  .exam-submit-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    border-radius: 30px;
+    border: none;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    color: white;
+    background: linear-gradient(135deg, #FF7043, #FF8A65);
+    cursor: pointer;
+    margin-top: 10px;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .exam-submit-btn:hover { transform: scale(1.02); box-shadow: 0 6px 18px rgba(255,112,67,0.3); }
+
+  .exam-opt {
+    background: white;
+    border: 2.5px solid #FFCCBC;
+    border-radius: 12px;
+    padding: 10px 16px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: #2d3a2d;
+    display: flex; align-items: center; gap: 10px;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+  .exam-opt:hover { background: #FFF3E0; border-color: #FF8A65; }
+  .exam-opt.selected { background: #FFF3E0; border-color: #FF7043; }
+  .exam-opt.correct  { background: #E8F5E9; border-color: #43A047; color: #1B5E20; }
+  .exam-opt.wrong    { background: #FFEBEE; border-color: #E53935; color: #B71C1C; }
+  .exam-opt:disabled { cursor: default; }
+  .exam-opt .opt-letter { background: #FBE9E7; color: #BF360C; }
+  .exam-opt.selected .opt-letter { background: #FF7043; color: white; }
+  .exam-opt.correct  .opt-letter { background: #43A047; color: white; }
+  .exam-opt.wrong    .opt-letter { background: #E53935; color: white; }
+
+  .section-label {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.15rem;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 12px;
+    margin: 24px 0 12px;
+    display: inline-block;
+  }
+
+  @media(max-width:500px) {
+    header h1 { font-size: 1.6rem; }
+    .nav-btn { font-size: 0.9rem; padding: 7px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="emojis">🌍 🏔️ 🌊 🌿 ♻️</div>
+  <h1>Grade 2 – Our Earth!</h1>
+  <p>Reviewer • Practice Quiz • Long Test</p>
+</header>
+
+<nav>
+  <button class="nav-btn active" id="btn-reviewer" onclick="showSection('reviewer')">📖 Reviewer</button>
+  <button class="nav-btn" id="btn-quiz" onclick="showSection('quiz')">🧠 Practice Quiz</button>
+  <button class="nav-btn" id="btn-exam" onclick="showSection('exam')">✏️ Long Test</button>
+</nav>
+
+<!-- ══════════════ REVIEWER ══════════════ -->
+<div id="reviewer" class="section active">
+
+  <!-- A. Landforms -->
+  <div class="topic-card" style="animation-delay:0s">
+    <div class="topic-header" style="background:linear-gradient(135deg,#43A047,#66BB6A)">
+      🏔️ A. Landforms
+    </div>
+    <div class="topic-body">
+      <div class="fact-item"><span class="fact-icon">🌐</span><span><strong>Landforms</strong> are the natural shapes of land found on Earth's surface.</span></div>
+      <div class="fact-item"><span class="fact-icon">⛰️</span><span><strong>Mountain</strong> – very high land. It is the highest landform. Example: Mayon Volcano.</span></div>
+      <div class="fact-item"><span class="fact-icon">🏕️</span><span><strong>Hill</strong> – high land, but shorter than a mountain. It has a rounded top.</span></div>
+      <div class="fact-item"><span class="fact-icon">🌾</span><span><strong>Plain</strong> – flat and low land. Good for farming and building homes.</span></div>
+      <div class="fact-item"><span class="fact-icon">🏜️</span><span><strong>Plateau</strong> – flat land that is HIGH up. Like a table on top of the Earth.</span></div>
+      <div class="fact-item"><span class="fact-icon">🏝️</span><span><strong>Island</strong> – land completely surrounded by water. The Philippines is made of islands!</span></div>
+      <div class="fact-item"><span class="fact-icon">🌄</span><span><strong>Valley</strong> – low land between mountains or hills. Rivers often flow through valleys.</span></div>
+      <div class="vocab-grid">
+        <div class="vocab-chip">Mountain ⛰️</div>
+        <div class="vocab-chip">Hill 🏕️</div>
+        <div class="vocab-chip">Plain 🌾</div>
+        <div class="vocab-chip">Plateau 🏜️</div>
+        <div class="vocab-chip">Island 🏝️</div>
+        <div class="vocab-chip">Valley 🌄</div>
+      </div>
+      <div class="remember-box">⭐ Remember: Mountains are the TALLEST landforms. Plains are FLAT and good for farming!</div>
+    </div>
+  </div>
+
+  <!-- B. Water Forms -->
+  <div class="topic-card" style="animation-delay:0.05s">
+    <div class="topic-header" style="background:linear-gradient(135deg,#0288D1,#29B6F6)">
+      🌊 B. Water Forms
+    </div>
+    <div class="topic-body">
+      <div class="fact-item"><span class="fact-icon">💧</span><span><strong>Water forms</strong> are bodies of water found on Earth.</span></div>
+      <div class="fact-item"><span class="fact-icon">🌊</span><span><strong>Ocean</strong> – the largest body of saltwater. Example: Pacific Ocean.</span></div>
+      <div class="fact-item"><span class="fact-icon">🏖️</span><span><strong>Sea</strong> – smaller than an ocean. Also saltwater.</span></div>
+      <div class="fact-item"><span class="fact-icon">🏞️</span><span><strong>Lake</strong> – a body of freshwater surrounded by land on all sides.</span></div>
+      <div class="fact-item"><span class="fact-icon">🌊</span><span><strong>River</strong> – flowing water that moves from mountains to the sea.</span></div>
+      <div class="fact-item"><span class="fact-icon">💦</span><span><strong>Stream</strong> – a small, narrow river.</span></div>
+      <div class="fact-item"><span class="fact-icon">🌊</span><span><strong>Bay</strong> – a part of the sea that goes into the land. Example: Manila Bay.</span></div>
+      <div class="fact-item"><span class="fact-icon">🌊</span><span><strong>Gulf</strong> – a large bay. Example: Leyte Gulf.</span></div>
+      <div class="vocab-grid">
+        <div class="vocab-chip">Ocean 🌊</div>
+        <div class="vocab-chip">Sea 🏖️</div>
+        <div class="vocab-chip">Lake 🏞️</div>
+        <div class="vocab-chip">River 🌊</div>
+        <div class="vocab-chip">Bay 🌊</div>
+        <div class="vocab-chip">Gulf 🌊</div>
+      </div>
+      <div class="remember-box">⭐ Remember: Ocean > Sea > Gulf > Bay in size! Lakes are surrounded by LAND.</div>
+    </div>
+  </div>
+
+  <!-- C. Uses -->
+  <div class="topic-card" style="animation-delay:0.1s">
+    <div class="topic-header" style="background:linear-gradient(135deg,#F9A825,#FFD54F)">
+      🌿 C. Uses of Land and Water Forms
+    </div>
+    <div class="topic-body">
+      <div class="fact-item"><span class="fact-icon">🌾</span><span><strong>Plains</strong> – farming (rice, corn, vegetables)</span></div>
+      <div class="fact-item"><span class="fact-icon">🏠</span><span><strong>Plains & Hills</strong> – building homes and communities</span></div>
+      <div class="fact-item"><span class="fact-icon">⛷️</span><span><strong>Mountains</strong> – hiking, mining, and getting fresh water from rivers that start there</span></div>
+      <div class="fact-item"><span class="fact-icon">🐟</span><span><strong>Oceans, Seas & Rivers</strong> – fishing, swimming, and transportation (boats)</span></div>
+      <div class="fact-item"><span class="fact-icon">🚢</span><span><strong>Bays & Ports</strong> – docking ships and ferries</span></div>
+      <div class="fact-item"><span class="fact-icon">💧</span><span><strong>Lakes & Rivers</strong> – source of fresh drinking water</span></div>
+      <div class="remember-box">⭐ Remember: Humans depend on BOTH land and water forms to live!</div>
+    </div>
+  </div>
+
+  <!-- D. Resources -->
+  <div class="topic-card" style="animation-delay:0.15s">
+    <div class="topic-header" style="background:linear-gradient(135deg,#6A1B9A,#AB47BC)">
+      ♻️ D. Renewable and Nonrenewable Resources
+    </div>
+    <div class="topic-body">
+      <div class="fact-item"><span class="fact-icon">🔄</span><span><strong>Renewable Resources</strong> – resources that can be replaced or never run out. They are always available!</span></div>
+      <div class="fact-item"><span class="fact-icon">☀️</span><span>Examples of renewable: <strong>Sunlight, Wind, Water (rain), Plants, Animals</strong></span></div>
+      <div class="fact-item"><span class="fact-icon">⛽</span><span><strong>Nonrenewable Resources</strong> – resources that CANNOT be replaced once used up. We must use them wisely!</span></div>
+      <div class="fact-item"><span class="fact-icon">🛢️</span><span>Examples of nonrenewable: <strong>Coal, Oil (petroleum), Natural Gas, Minerals (gold, silver, copper)</strong></span></div>
+      <div class="vocab-grid">
+        <div class="vocab-chip">☀️ Sunlight</div>
+        <div class="vocab-chip">💨 Wind</div>
+        <div class="vocab-chip">💧 Water</div>
+        <div class="vocab-chip">🌲 Plants</div>
+        <div class="vocab-chip">🛢️ Oil</div>
+        <div class="vocab-chip">⚫ Coal</div>
+        <div class="vocab-chip">🔥 Natural Gas</div>
+        <div class="vocab-chip">🥇 Minerals</div>
+      </div>
+      <div class="remember-box">⭐ Renewable = can come BACK! Nonrenewable = goes AWAY forever. Use them wisely! ♻️</div>
+    </div>
+  </div>
+
+  <!-- E. Care for Earth -->
+  <div class="topic-card" style="animation-delay:0.2s">
+    <div class="topic-header" style="background:linear-gradient(135deg,#00796B,#26A69A)">
+      💚 E. Care and Concern for Earth
+    </div>
+    <div class="topic-body">
+      <div class="fact-item"><span class="fact-icon">🌱</span><span><strong>Reduce</strong> – use less of things. Don't waste resources.</span></div>
+      <div class="fact-item"><span class="fact-icon">🔁</span><span><strong>Reuse</strong> – use things again instead of throwing them away.</span></div>
+      <div class="fact-item"><span class="fact-icon">♻️</span><span><strong>Recycle</strong> – turn used things into something new (like paper, plastic, cans).</span></div>
+      <div class="fact-item"><span class="fact-icon">🌳</span><span><strong>Plant trees</strong> – trees give us oxygen and help stop floods.</span></div>
+      <div class="fact-item"><span class="fact-icon">🚫</span><span><strong>Do NOT litter</strong> – throwing trash on land or in water harms animals and our environment.</span></div>
+      <div class="fact-item"><span class="fact-icon">💡</span><span><strong>Save electricity</strong> – turn off lights when not in use. Use less power!</span></div>
+      <div class="fact-item"><span class="fact-icon">🚿</span><span><strong>Save water</strong> – don't leave the faucet running. Water is precious!</span></div>
+      <div class="remember-box">⭐ The 3 R's: REDUCE 🌱 · REUSE 🔁 · RECYCLE ♻️ – We can all help take care of our Earth!</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════ PRACTICE QUIZ ══════════════ -->
+<div id="quiz" class="section">
+  <div class="quiz-intro" id="quiz-intro">
+    <div style="font-size:3rem">🧠</div>
+    <h2 style="color:#0288D1">Practice Quiz!</h2>
+    <p>Test what you know! You'll get feedback after each question.<br>Don't worry – you can try again! 😊</p>
+    <p style="margin-top:8px;"><strong>20 questions</strong> · All topics</p>
+    <button class="start-btn" style="background:linear-gradient(135deg,#0288D1,#29B6F6)" onclick="startQuiz()">Let's Go! 🚀</button>
+  </div>
+  <div class="quiz-area" id="quiz-area">
+    <div class="progress-bar-wrap"><div class="progress-bar" id="quiz-progress"></div></div>
+    <div class="q-number" id="quiz-qnum"></div>
+    <div class="q-card">
+      <div class="q-text" id="quiz-qtext"></div>
+      <div class="options" id="quiz-opts"></div>
+      <div class="feedback" id="quiz-feedback"></div>
+      <button class="next-btn" id="quiz-next" onclick="nextQuestion()">Next Question ➡️</button>
+    </div>
+  </div>
+  <div class="result-card" id="quiz-result">
+    <div class="result-emoji" id="quiz-remoji"></div>
+    <div class="result-title" id="quiz-rtitle"></div>
+    <div class="result-score" id="quiz-rscore" style="color:#0288D1"></div>
+    <div class="result-msg" id="quiz-rmsg"></div>
+    <button class="retry-btn" style="background:linear-gradient(135deg,#0288D1,#29B6F6)" onclick="retryQuiz()">Try Again! 🔄</button>
+  </div>
+</div>
+
+<!-- ══════════════ LONG TEST (EXAM) ══════════════ -->
+<div id="exam" class="section">
+  <div class="quiz-intro" id="exam-intro">
+    <div style="font-size:3rem">✏️</div>
+    <h2 style="color:#FF7043">Long Test!</h2>
+    <p>Answer all questions, then click <strong>Submit</strong> at the end.<br>Good luck, scientist! 🌍</p>
+    <p style="margin-top:8px;"><strong>30 questions</strong> · All topics covered</p>
+    <button class="start-btn" style="background:linear-gradient(135deg,#FF7043,#FF8A65)" onclick="startExam()">Start the Test! ✏️</button>
+  </div>
+  <div class="quiz-area" id="exam-area">
+    <div id="exam-questions"></div>
+    <button class="exam-submit-btn" onclick="submitExam()">Submit My Answers ✅</button>
+  </div>
+  <div class="result-card" id="exam-result">
+    <div class="result-emoji" id="exam-remoji"></div>
+    <div class="result-title" id="exam-rtitle"></div>
+    <div class="result-score" id="exam-rscore" style="color:#FF7043"></div>
+    <div class="result-msg" id="exam-rmsg"></div>
+    <button class="retry-btn" style="background:linear-gradient(135deg,#FF7043,#FF8A65)" onclick="retryExam()">Try Again! 🔄</button>
+  </div>
+</div>
+
+<script>
+// ── NAVIGATION ──
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('btn-' + id).classList.add('active');
+}
+
+// ── QUESTION BANKS ──
+const allQuestions = [
+  // Landforms
+  { q:'🏔️ What is the HIGHEST type of landform?', opts:['Plain','Valley','Mountain','Hill'], ans:2, exp:'Mountains are the tallest landforms! 🏔️' },
+  { q:'🌾 Which landform is flat and good for farming?', opts:['Mountain','Plain','Island','Plateau'], ans:1, exp:'Plains are flat and perfect for growing food! 🌾' },
+  { q:'🏝️ What do you call land that is completely surrounded by water?', opts:['Peninsula','Hill','Island','Valley'], ans:2, exp:'An island is surrounded by water on all sides! 🏝️' },
+  { q:'🌄 What is a low area of land between two mountains or hills called?', opts:['Valley','Plain','Plateau','Bay'], ans:0, exp:'A valley is low land between mountains. 🌄' },
+  { q:'🏜️ Which landform is flat on top but located HIGH up?', opts:['Hill','Plain','Island','Plateau'], ans:3, exp:'A plateau is like a flat table high up! 🏜️' },
+  { q:'🏕️ A hill is _____ than a mountain.', opts:['Taller','Wider','Shorter','Bigger'], ans:2, exp:'Hills are shorter than mountains. 🏕️' },
+  { q:'🌍 The Philippines is an example of a/an _____.', opts:['Continent','Island','Plain','Plateau'], ans:1, exp:'The Philippines is made up of many islands! 🏝️' },
+
+  // Water Forms
+  { q:'🌊 What is the LARGEST body of water on Earth?', opts:['Sea','Lake','River','Ocean'], ans:3, exp:'The ocean is the biggest body of water! 🌊' },
+  { q:'💧 Which body of water is surrounded by land and contains FRESHWATER?', opts:['Ocean','Sea','Lake','Gulf'], ans:2, exp:'Lakes are surrounded by land and have freshwater. 🏞️' },
+  { q:'🌊 What do we call flowing water that goes from mountains to the sea?', opts:['Lake','Bay','River','Ocean'], ans:2, exp:'Rivers flow from high places to lower areas and into the sea! 🌊' },
+  { q:'🏖️ Manila Bay is an example of a _____.', opts:['River','Gulf','Lake','Bay'], ans:3, exp:'Manila Bay is a bay – a part of the sea that curves into the land! 🏖️' },
+  { q:'💦 A stream is _____ than a river.', opts:['Bigger','Smaller','Deeper','Wider'], ans:1, exp:'A stream is a small, narrow river. 💦' },
+  { q:'🌊 Which body of water has SALTWATER?', opts:['Lake','Pond','River','Ocean'], ans:3, exp:'Oceans and seas have saltwater! 🧂🌊' },
+
+  // Uses
+  { q:'🐟 Which body of water do fishermen get fish from?', opts:['Lake only','Desert','Sea and ocean','Mountain'], ans:2, exp:'Fishermen fish in the sea and ocean! 🐟' },
+  { q:'🚢 Which water form is used for docking big ships?', opts:['Stream','Bay','Lake','River'], ans:1, exp:'Bays and ports are used for docking ships! 🚢' },
+  { q:'🌾 Plains are mainly used for _____.', opts:['Mining','Farming','Swimming','Fishing'], ans:1, exp:'Plains are flat and perfect for farming! 🌾' },
+  { q:'💧 Where do people get fresh drinking water?', opts:['Ocean','Sea','Lakes and rivers','Gulf'], ans:2, exp:'Lakes and rivers give us fresh water! 💧' },
+
+  // Resources
+  { q:'☀️ Which is a RENEWABLE resource?', opts:['Coal','Oil','Sunlight','Natural gas'], ans:2, exp:'Sunlight is renewable – it never runs out! ☀️' },
+  { q:'🛢️ Which is a NONRENEWABLE resource?', opts:['Wind','Water','Plants','Coal'], ans:3, exp:'Coal is nonrenewable – once used, it is gone forever! 🛢️' },
+  { q:'🔄 What does RENEWABLE mean?', opts:['Can be replaced','Cannot be replaced','Very expensive','Very heavy'], ans:0, exp:'Renewable resources can be replaced or never run out! 🔄' },
+  { q:'⛽ Which of these is nonrenewable?', opts:['Sunlight','Wind','Oil (petroleum)','Rain'], ans:2, exp:'Oil is nonrenewable and cannot be replaced! ⛽' },
+  { q:'🌲 Trees are a _____ resource.', opts:['Nonrenewable','Renewable','Useless','Metal'], ans:1, exp:'Trees are renewable – we can plant new ones! 🌲' },
+  { q:'🥇 Gold and silver are examples of _____.', opts:['Renewable resources','Food','Minerals (nonrenewable)','Water'], ans:2, exp:'Gold and silver are minerals – they are nonrenewable! 🥇' },
+
+  // Care for Earth
+  { q:'♻️ What does RECYCLE mean?', opts:['Throw trash away','Use less things','Turn used items into new things','Buy new things'], ans:2, exp:'Recycling turns old items into new useful things! ♻️' },
+  { q:'🌱 What does REDUCE mean?', opts:['Buy more things','Use LESS of something','Plant more trees','Wash dishes'], ans:1, exp:'Reducing means using LESS so we waste less! 🌱' },
+  { q:'🌳 Why should we plant trees?', opts:['To block the sun','To give us oxygen and stop floods','Because they are pretty','To make the ground harder'], ans:1, exp:'Trees give us oxygen and help prevent floods! 🌳' },
+  { q:'💡 To save electricity, you should _____.', opts:['Leave lights on all night','Buy new lights','Turn off lights when not using them','Open more windows'], ans:2, exp:'Turning off lights when not in use saves electricity! 💡' },
+  { q:'🚯 What should you do with your trash?', opts:['Throw it on the road','Throw it in the river','Put it in the trash can','Burn it anywhere'], ans:2, exp:'Always put trash in the trash can to keep Earth clean! 🗑️' },
+  { q:'🔁 What does REUSE mean?', opts:['Throw away old things','Use things again instead of throwing them','Buy new things','Recycle paper'], ans:1, exp:'Reusing means using things again! Like using a water bottle many times. 🔁' },
+  { q:'🚿 How can you save water?', opts:['Leave the faucet running all day','Take very long showers','Turn off the faucet when not using it','Wash the car every hour'], ans:2, exp:'Turning off the faucet when not needed saves water! 🚿' },
+  { q:'💚 The 3 R\'s stand for _____.', opts:['Run, Rest, Repeat','Reduce, Reuse, Recycle','Read, Research, Report','Rain, River, Road'], ans:1, exp:'The 3 R\'s are Reduce, Reuse, and Recycle! ♻️' },
+];
+
+// Shuffle helper
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i>0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+// ── PRACTICE QUIZ ──
+let quizQs = [], quizIdx = 0, quizScore = 0, quizAnswered = false;
+
+function startQuiz() {
+  quizQs = shuffle(allQuestions).slice(0, 20);
+  quizIdx = 0; quizScore = 0;
+  document.getElementById('quiz-intro').style.display = 'none';
+  document.getElementById('quiz-area').classList.add('active');
+  document.getElementById('quiz-result').classList.remove('show');
+  renderQuizQuestion();
+}
+
+function renderQuizQuestion() {
+  quizAnswered = false;
+  const q = quizQs[quizIdx];
+  const total = quizQs.length;
+  document.getElementById('quiz-qnum').textContent = `Question ${quizIdx+1} of ${total}`;
+  document.getElementById('quiz-progress').style.width = ((quizIdx/total)*100)+'%';
+  document.getElementById('quiz-qtext').textContent = q.q;
+  document.getElementById('quiz-feedback').className = 'feedback';
+  document.getElementById('quiz-feedback').textContent = '';
+  document.getElementById('quiz-next').style.display = 'none';
+
+  const letters = ['A','B','C','D'];
+  const optsEl = document.getElementById('quiz-opts');
+  optsEl.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.innerHTML = `<span class="opt-letter">${letters[i]}</span> ${opt}`;
+    btn.onclick = () => selectQuizAnswer(i, q.ans, q.exp);
+    optsEl.appendChild(btn);
+  });
+}
+
+function selectQuizAnswer(selected, correct, exp) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const btns = document.querySelectorAll('#quiz-opts .opt-btn');
+  btns.forEach(b => b.disabled = true);
+  btns[correct].classList.add('correct');
+  const fb = document.getElementById('quiz-feedback');
+  if (selected === correct) {
+    quizScore++;
+    btns[selected].classList.add('correct');
+    fb.className = 'feedback correct show';
+    fb.textContent = '✅ Correct! ' + exp;
+  } else {
+    btns[selected].classList.add('wrong');
+    fb.className = 'feedback wrong show';
+    fb.textContent = '❌ Not quite! ' + exp;
+  }
+  document.getElementById('quiz-next').style.display = 'block';
+}
+
+function nextQuestion() {
+  quizIdx++;
+  if (quizIdx >= quizQs.length) {
+    showQuizResult();
+  } else {
+    renderQuizQuestion();
+  }
+}
+
+function showQuizResult() {
+  document.getElementById('quiz-area').classList.remove('active');
+  const pct = Math.round((quizScore/quizQs.length)*100);
+  let emoji, title, msg;
+  if (pct >= 90) { emoji='🏆'; title='Outstanding!'; msg='You are an Earth expert! Amazing work! 🌍⭐'; }
+  else if (pct >= 75) { emoji='🌟'; title='Great Job!'; msg='You know a lot about our Earth! Keep it up! 🌿'; }
+  else if (pct >= 60) { emoji='👍'; title='Good Try!'; msg='You\'re learning! Review the topics and try again! 📖'; }
+  else { emoji='💪'; title='Keep Studying!'; msg='Don\'t give up! Go back to the reviewer and try again! 😊'; }
+
+  document.getElementById('quiz-remoji').textContent = emoji;
+  document.getElementById('quiz-rtitle').textContent = title;
+  document.getElementById('quiz-rscore').textContent = `${quizScore} / ${quizQs.length} (${pct}%)`;
+  document.getElementById('quiz-rmsg').textContent = msg;
+  document.getElementById('quiz-result').classList.add('show');
+}
+
+function retryQuiz() {
+  document.getElementById('quiz-result').classList.remove('show');
+  document.getElementById('quiz-intro').style.display = 'block';
+  document.getElementById('quiz-area').classList.remove('active');
+}
+
+// ── LONG TEST (EXAM) ──
+let examQs = [], examAnswers = [];
+
+function startExam() {
+  examQs = shuffle(allQuestions).slice(0, 30);
+  examAnswers = new Array(examQs.length).fill(null);
+  document.getElementById('exam-intro').style.display = 'none';
+  document.getElementById('exam-area').classList.add('active');
+  document.getElementById('exam-result').classList.remove('show');
+  renderExam();
+}
+
+function renderExam() {
+  const letters = ['A','B','C','D'];
+  // Sections
+  const sections = [
+    { label:'🏔️ I. Landforms', color:'#388E3C', range:[0,6] },
+    { label:'🌊 II. Water Forms', range:[7,12], color:'#0288D1' },
+    { label:'🌿 III. Uses of Land & Water', range:[13,16], color:'#F9A825' },
+    { label:'♻️ IV. Resources', range:[17,22], color:'#6A1B9A' },
+    { label:'💚 V. Care for Earth', range:[23,29], color:'#00796B' },
+  ];
+
+  const container = document.getElementById('exam-questions');
+  container.innerHTML = '';
+
+  examQs.forEach((q, qi) => {
+    // section label check
+    sections.forEach(sec => {
+      if (qi === sec.range[0]) {
+        const lbl = document.createElement('div');
+        lbl.className = 'section-label';
+        lbl.style.background = `linear-gradient(135deg,${sec.color},${sec.color}cc)`;
+        lbl.textContent = sec.label;
+        container.appendChild(lbl);
+      }
+    });
+
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.style.animationDelay = (qi * 0.02) + 's';
+    card.innerHTML = `<div class="q-number">Question ${qi+1}</div><div class="q-text">${q.q}</div><div id="exam-opts-${qi}"></div>`;
+    container.appendChild(card);
+
+    const optsWrap = card.querySelector(`#exam-opts-${qi}`);
+    q.opts.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'exam-opt';
+      btn.id = `exam-opt-${qi}-${i}`;
+      btn.innerHTML = `<span class="opt-letter">${letters[i]}</span> ${opt}`;
+      btn.onclick = () => selectExamAnswer(qi, i);
+      optsWrap.appendChild(btn);
+    });
+  });
+}
+
+function selectExamAnswer(qi, selected) {
+  // Deselect all for this question
+  examQs[qi].opts.forEach((_, i) => {
+    const b = document.getElementById(`exam-opt-${qi}-${i}`);
+    if (b) { b.classList.remove('selected'); }
+  });
+  examAnswers[qi] = selected;
+  const btn = document.getElementById(`exam-opt-${qi}-${selected}`);
+  if (btn) btn.classList.add('selected');
+}
+
+function submitExam() {
+  // Check unanswered
+  const unanswered = examAnswers.reduce((acc, a, i) => a === null ? acc.concat(i+1) : acc, []);
+  if (unanswered.length > 0 && unanswered.length <= 5) {
+    alert(`⚠️ You have ${unanswered.length} unanswered question(s): #${unanswered.join(', ')}. Please answer them first!`);
+    return;
+  }
+  // Show correct/wrong
+  let score = 0;
+  examQs.forEach((q, qi) => {
+    q.opts.forEach((_, i) => {
+      const b = document.getElementById(`exam-opt-${qi}-${i}`);
+      if (!b) return;
+      b.disabled = true;
+      b.classList.remove('selected');
+      if (i === q.ans) b.classList.add('correct');
+      else if (i === examAnswers[qi] && examAnswers[qi] !== q.ans) b.classList.add('wrong');
+    });
+    if (examAnswers[qi] === q.ans) score++;
+  });
+
+  document.getElementById('exam-area').classList.remove('active');
+  const pct = Math.round((score/examQs.length)*100);
+  let emoji, title, msg;
+  if (pct >= 90) { emoji='🏆'; title='Excellent!'; msg='You aced the Long Test! You are a true Earth Guardian! 🌍⭐'; }
+  else if (pct >= 75) { emoji='🌟'; title='Very Good!'; msg='Great work! You know so much about our Earth! 🌿'; }
+  else if (pct >= 60) { emoji='👍'; title='Good Job!'; msg='You passed! Review the topics you missed and do even better next time! 📖'; }
+  else { emoji='💪'; title='Keep Going!'; msg='Don\'t give up! Study your reviewer and try the test again! 😊'; }
+
+  document.getElementById('exam-remoji').textContent = emoji;
+  document.getElementById('exam-rtitle').textContent = title;
+  document.getElementById('exam-rscore').textContent = `${score} / ${examQs.length} (${pct}%)`;
+  document.getElementById('exam-rmsg').textContent = msg;
+  document.getElementById('exam-result').classList.add('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function retryExam() {
+  document.getElementById('exam-result').classList.remove('show');
+  document.getElementById('exam-intro').style.display = 'block';
+  document.getElementById('exam-area').classList.remove('active');
+}
+</script>
+</body>
+</html>

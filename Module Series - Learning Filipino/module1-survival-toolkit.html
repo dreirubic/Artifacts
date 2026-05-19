@@ -1,0 +1,2049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 1: The Survival Toolkit — Filipino Social Automation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fraunces:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sun: #FFB830;
+    --sun-light: #FFF3D6;
+    --leaf: #3DAA6E;
+    --leaf-light: #D6F0E3;
+    --sky: #4A90D9;
+    --sky-light: #D6EAFF;
+    --coral: #F06A5A;
+    --coral-light: #FFE8E5;
+    --lavender: #9B7FD4;
+    --lavender-light: #EDE6FF;
+    --ink: #1A1A2E;
+    --ink-soft: #3D3D5C;
+    --mist: #F7F5F0;
+    --white: #FFFFFF;
+    --shadow-sm: 0 2px 8px rgba(26,26,46,0.08);
+    --shadow-md: 0 6px 24px rgba(26,26,46,0.12);
+    --shadow-lg: 0 16px 48px rgba(26,26,46,0.16);
+    --radius-sm: 12px;
+    --radius-md: 20px;
+    --radius-lg: 32px;
+    --radius-xl: 48px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--mist);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── PROGRESS BAR ── */
+  #progress-track {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: rgba(255,255,255,0.4);
+    z-index: 999;
+  }
+  #progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--sun), var(--coral));
+    width: 0%;
+    transition: width 0.6s cubic-bezier(0.34,1.56,0.64,1);
+    border-radius: 0 3px 3px 0;
+  }
+
+  /* ── NAV DOTS ── */
+  #nav-dots {
+    position: fixed;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 100;
+  }
+  .nav-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: rgba(26,26,46,0.18);
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+    outline: none;
+  }
+  .nav-dot.active { background: var(--coral); transform: scale(1.4); }
+  .nav-dot:hover { background: var(--sun); }
+
+  /* ── SCREENS ── */
+  .screen {
+    display: none;
+    min-height: 100vh;
+    padding: 60px 20px 40px;
+    max-width: 720px;
+    margin: 0 auto;
+    animation: fadeSlide 0.5s ease forwards;
+  }
+  .screen.active { display: block; }
+
+  @keyframes fadeSlide {
+    from { opacity:0; transform: translateY(20px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  /* ── TYPOGRAPHY ── */
+  .display {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(28px, 6vw, 48px);
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--ink);
+  }
+  .display em {
+    font-style: italic;
+    color: var(--coral);
+  }
+  .heading {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(20px, 4vw, 28px);
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .body-text {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+  .label {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--coral);
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--white);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 16px;
+  }
+  .card-sun  { background: var(--sun-light);  border-left: 4px solid var(--sun); }
+  .card-leaf { background: var(--leaf-light); border-left: 4px solid var(--leaf); }
+  .card-sky  { background: var(--sky-light);  border-left: 4px solid var(--sky); }
+  .card-coral { background: var(--coral-light); border-left: 4px solid var(--coral); }
+  .card-lav  { background: var(--lavender-light); border-left: 4px solid var(--lavender); }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: 100px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+    text-decoration: none;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { background: var(--ink); color: var(--white); }
+  .btn-sun  { background: var(--sun); color: var(--ink); }
+  .btn-leaf { background: var(--leaf); color: var(--white); }
+  .btn-coral { background: var(--coral); color: var(--white); }
+  .btn-outline {
+    background: transparent;
+    border: 2px solid var(--ink);
+    color: var(--ink);
+  }
+  .btn-block { width: 100%; justify-content: center; margin-top: 12px; }
+
+  /* ── BADGE ── */
+  .badge {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+  }
+  .badge-sun  { background: var(--sun-light);  color: #7A5200; }
+  .badge-leaf { background: var(--leaf-light); color: #0D5C33; }
+  .badge-sky  { background: var(--sky-light);  color: #1A4D8F; }
+  .badge-coral { background: var(--coral-light); color: #8F1A0F; }
+  .badge-lav  { background: var(--lavender-light); color: #3D1A8F; }
+
+  /* ── CHUNK PILL ── */
+  .chunk {
+    display: inline-block;
+    background: var(--sun-light);
+    border: 2px solid var(--sun);
+    color: var(--ink);
+    font-size: 15px;
+    font-weight: 800;
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin: 4px;
+  }
+  .chunk-leaf { background: var(--leaf-light); border-color: var(--leaf); }
+  .chunk-sky  { background: var(--sky-light);  border-color: var(--sky); }
+  .chunk-coral { background: var(--coral-light); border-color: var(--coral); }
+  .chunk-lav  { background: var(--lavender-light); border-color: var(--lavender); }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .section-icon {
+    width: 44px; height: 44px;
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  /* ── AUDIO CARD ── */
+  .audio-card {
+    background: var(--white);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+  }
+  .audio-card:hover { border-color: var(--sky); box-shadow: var(--shadow-md); }
+  .audio-card.playing { border-color: var(--leaf); background: var(--leaf-light); }
+  .audio-btn {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: var(--sky);
+    color: white;
+    font-size: 20px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+  .audio-btn:hover { background: var(--sky); transform: scale(1.1); }
+  .audio-en { font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
+
+  /* ── DRAG & DROP ── */
+  .drag-word {
+    display: inline-block;
+    background: var(--sun-light);
+    border: 2px solid var(--sun);
+    color: var(--ink);
+    font-weight: 800;
+    font-size: 15px;
+    padding: 8px 18px;
+    border-radius: 100px;
+    cursor: grab;
+    margin: 4px;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .drag-word:hover { transform: scale(1.05); box-shadow: var(--shadow-sm); }
+  .drag-word.dragging { opacity: 0.4; transform: scale(0.95); }
+  .drag-word.placed { opacity: 0.3; cursor: default; }
+
+  .drop-zone {
+    display: inline-block;
+    min-width: 80px;
+    height: 38px;
+    border: 2px dashed var(--sky);
+    border-radius: 100px;
+    vertical-align: middle;
+    text-align: center;
+    line-height: 34px;
+    font-size: 14px;
+    color: var(--sky);
+    font-weight: 700;
+    transition: all 0.2s;
+    background: var(--sky-light);
+    margin: 2px 4px;
+    padding: 0 12px;
+  }
+  .drop-zone.drag-over { background: var(--sky); color: white; border-style: solid; transform: scale(1.05); }
+  .drop-zone.correct   { background: var(--leaf-light); border-color: var(--leaf); color: var(--leaf); border-style: solid; }
+  .drop-zone.wrong     { background: var(--coral-light); border-color: var(--coral); color: var(--coral); border-style: solid; }
+  .drop-zone.filled    { background: var(--sun-light); border-color: var(--sun); color: var(--ink); border-style: solid; font-weight: 800; }
+
+  /* ── QUIZ ── */
+  .quiz-option {
+    background: var(--white);
+    border: 2px solid #E0DDD8;
+    border-radius: var(--radius-sm);
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 700;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .quiz-option:hover { border-color: var(--sky); background: var(--sky-light); }
+  .quiz-option.selected { border-color: var(--sky); background: var(--sky-light); }
+  .quiz-option.correct  { border-color: var(--leaf); background: var(--leaf-light); color: #0D5C33; }
+  .quiz-option.wrong    { border-color: var(--coral); background: var(--coral-light); color: #8F1A0F; }
+  .quiz-option.correct::before { content: '✓'; font-weight: 900; color: var(--leaf); }
+  .quiz-option.wrong::before   { content: '✗'; font-weight: 900; color: var(--coral); }
+  .quiz-option:not(.correct):not(.wrong)::before { content: '○'; color: #C0BDB5; }
+
+  .feedback-box {
+    border-radius: var(--radius-sm);
+    padding: 14px 18px;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    display: none;
+  }
+  .feedback-box.show { display: block; }
+  .feedback-box.correct { background: var(--leaf-light); color: #0D5C33; border-left: 4px solid var(--leaf); }
+  .feedback-box.wrong   { background: var(--coral-light); color: #8F1A0F; border-left: 4px solid var(--coral); }
+
+  /* ── SCENARIO CARD ── */
+  .scenario-card {
+    background: var(--white);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 20px;
+  }
+  .scenario-header {
+    padding: 20px 24px;
+    font-size: 15px;
+    color: var(--white);
+    font-weight: 800;
+  }
+  .scenario-body { padding: 20px 24px; }
+  .scenario-choice {
+    background: var(--mist);
+    border: 2px solid #E0DDD8;
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    transition: all 0.2s;
+  }
+  .scenario-choice:hover { border-color: var(--sky); background: var(--sky-light); }
+  .scenario-choice.correct { border-color: var(--leaf); background: var(--leaf-light); color: #0D5C33; pointer-events: none; }
+  .scenario-choice.wrong   { border-color: var(--coral); background: var(--coral-light); color: #8F1A0F; pointer-events: none; }
+
+  /* ── FLIP CARD ── */
+  .flip-container {
+    perspective: 1000px;
+    margin-bottom: 16px;
+  }
+  .flip-card {
+    position: relative;
+    width: 100%;
+    height: 140px;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+    cursor: pointer;
+  }
+  .flip-card.flipped { transform: rotateY(180deg); }
+  .flip-front, .flip-back {
+    position: absolute;
+    width: 100%; height: 100%;
+    backface-visibility: hidden;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+  }
+  .flip-front { background: var(--sky-light); border: 2px solid var(--sky); }
+  .flip-back  { background: var(--leaf-light); border: 2px solid var(--leaf); transform: rotateY(180deg); }
+  .flip-hint  { font-size: 11px; color: #8C8A85; margin-top: 8px; }
+
+  /* ── SCORE ── */
+  .score-ring {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: conic-gradient(var(--leaf) 0%, var(--leaf-light) 0%);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+    position: relative;
+    transition: background 1s;
+  }
+  .score-inner {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* ── MATCHING ── */
+  .match-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .match-item {
+    background: var(--white);
+    border: 2px solid #E0DDD8;
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .match-item:hover { border-color: var(--lavender); background: var(--lavender-light); }
+  .match-item.selected { border-color: var(--sky); background: var(--sky-light); }
+  .match-item.matched-correct { border-color: var(--leaf); background: var(--leaf-light); pointer-events:none; }
+  .match-item.matched-wrong   { border-color: var(--coral); background: var(--coral-light); }
+
+  /* ── TAGALOG HIGHLIGHT ── */
+  .tl { font-weight: 800; color: var(--ink); }
+  .tl-red  { color: var(--coral); }
+  .tl-blue { color: var(--sky); }
+  .tl-grn  { color: var(--leaf); }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: #E8E5DE; margin: 24px 0; }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #1A1A2E 0%, #2D1B69 60%, #4A1942 100%);
+    border-radius: var(--radius-lg);
+    padding: 40px 32px;
+    color: white;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(255,184,48,0.25), transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -20px;
+    width: 160px; height: 160px;
+    background: radial-gradient(circle, rgba(77,210,150,0.2), transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-label { color: var(--sun); margin-bottom: 12px; }
+  .hero-title { font-family:'Fraunces',serif; font-size: clamp(26px,5vw,40px); font-weight:600; line-height:1.2; margin-bottom:12px; }
+  .hero-sub   { font-size:15px; color:rgba(255,255,255,0.75); line-height:1.6; }
+  .hero-emoji { font-size: 48px; margin-bottom: 16px; display: block; }
+
+  /* ── ANALOGY BOX ── */
+  .analogy-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  @media(max-width:500px) { .analogy-split { grid-template-columns: 1fr; } }
+  .analogy-half {
+    border-radius: var(--radius-md);
+    padding: 20px;
+    text-align: center;
+  }
+  .analogy-icon { font-size: 36px; margin-bottom: 8px; }
+  .analogy-title { font-weight: 800; font-size: 14px; margin-bottom: 6px; }
+  .analogy-desc  { font-size: 13px; line-height: 1.5; color: var(--ink-soft); }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before {
+    content:'';
+    position:absolute; left:12px; top:0; bottom:0;
+    width:2px; background:var(--sun-light);
+  }
+  .timeline-item { position:relative; margin-bottom:20px; }
+  .timeline-dot {
+    position:absolute; left:-26px; top:4px;
+    width:14px; height:14px;
+    border-radius:50%;
+    background:var(--sun);
+    border:2px solid white;
+    box-shadow:var(--shadow-sm);
+  }
+
+  /* ── WAVEFORM VIZ ── */
+  .waveform {
+    display:flex; align-items:center; gap:3px;
+    height:32px; padding:4px 0;
+  }
+  .wave-bar {
+    width:4px; background:var(--sky);
+    border-radius:2px;
+    transition: height 0.1s;
+  }
+
+  /* ── TOOLTIP ── */
+  .tooltip-wrap { position:relative; display:inline-block; }
+  .tooltip-wrap .tooltip-text {
+    display:none;
+    position:absolute; bottom:130%; left:50%; transform:translateX(-50%);
+    background:var(--ink); color:white;
+    font-size:12px; font-weight:700;
+    padding:6px 12px; border-radius:8px; white-space:nowrap;
+    z-index:10;
+  }
+  .tooltip-wrap:hover .tooltip-text { display:block; }
+
+  /* ── CELEBRATION ── */
+  .confetti-wrap {
+    position:fixed; top:0;left:0;right:0;bottom:0;
+    pointer-events:none; z-index:9999;
+    overflow:hidden;
+  }
+  .confetti-piece {
+    position:absolute; top:-10px;
+    width:8px; height:14px;
+    border-radius:2px;
+    animation: fall 2s ease-in forwards;
+  }
+  @keyframes fall {
+    to { transform: translateY(110vh) rotate(720deg); opacity:0; }
+  }
+
+  /* ── COMPLETION BADGE ── */
+  .completion-badge {
+    width:80px; height:80px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:40px;
+    margin:0 auto 16px;
+    box-shadow:var(--shadow-lg);
+    animation: pop 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  }
+  @keyframes pop { from{transform:scale(0)} to{transform:scale(1)} }
+
+  /* ── MISC ── */
+  .spacer-sm { height:12px; }
+  .spacer-md { height:24px; }
+  .spacer-lg { height:40px; }
+  .text-center { text-align:center; }
+  .text-sm { font-size:13px; color:var(--ink-soft); }
+  .flex-row { display:flex; align-items:center; gap:12px; }
+  .flex-wrap { flex-wrap:wrap; }
+  .mt-sm { margin-top:8px; }
+  .mt-md { margin-top:16px; }
+  .mt-lg { margin-top:24px; }
+  .mb-sm { margin-bottom:8px; }
+  .mb-md { margin-bottom:16px; }
+
+  /* progress steps */
+  .steps-row {
+    display:flex; gap:6px; margin-bottom:28px; flex-wrap:wrap;
+  }
+  .step-pip {
+    flex:1; min-width:24px;
+    height:6px; border-radius:3px;
+    background:#E8E5DE;
+    transition:background 0.4s;
+  }
+  .step-pip.done { background: var(--leaf); }
+  .step-pip.current { background: var(--sun); }
+
+  /* retrieval box */
+  .retrieval-box {
+    background: linear-gradient(135deg,#2D1B69,#1A1A2E);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    color:white;
+    margin-bottom:16px;
+    text-align:center;
+  }
+  .retrieval-box .label { color: var(--sun); }
+  .retrieval-q { font-family:'Fraunces',serif; font-size:20px; font-weight:600; margin:12px 0; }
+
+  /* fill-blank input */
+  .fill-input {
+    border: 2px solid #E0DDD8;
+    border-radius: 100px;
+    padding: 10px 20px;
+    font-family:'Nunito',sans-serif;
+    font-size:15px;
+    font-weight:700;
+    outline:none;
+    transition:border-color 0.2s;
+    width:180px;
+    text-align:center;
+  }
+  .fill-input:focus { border-color:var(--sky); }
+  .fill-input.correct { border-color:var(--leaf); background:var(--leaf-light); }
+  .fill-input.wrong   { border-color:var(--coral); background:var(--coral-light); }
+
+  /* meter bar */
+  .meter-bar {
+    height:10px; border-radius:5px;
+    background:#E8E5DE;
+    overflow:hidden; margin-top:6px;
+  }
+  .meter-fill {
+    height:100%; border-radius:5px;
+    background:linear-gradient(90deg,var(--leaf),var(--sun));
+    width:0%; transition:width 1s ease;
+  }
+
+  /* chat bubble */
+  .chat-bubble {
+    display:flex; gap:10px; margin-bottom:14px; align-items:flex-start;
+  }
+  .chat-avatar {
+    width:36px;height:36px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;flex-shrink:0;
+    margin-top:2px;
+  }
+  .bubble-text {
+    background:white;
+    border-radius:0 16px 16px 16px;
+    padding:12px 16px;
+    font-size:14px;
+    font-weight:600;
+    box-shadow:var(--shadow-sm);
+    max-width:85%;
+    line-height:1.5;
+  }
+  .chat-bubble.right { flex-direction:row-reverse; }
+  .chat-bubble.right .bubble-text {
+    border-radius:16px 0 16px 16px;
+    background:var(--sky-light);
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-track"><div id="progress-fill"></div></div>
+
+<div id="nav-dots">
+  <button class="nav-dot active" onclick="goTo(0)" title="Orientation" aria-label="Section 1"></button>
+  <button class="nav-dot" onclick="goTo(1)" title="Hook" aria-label="Section 2"></button>
+  <button class="nav-dot" onclick="goTo(2)" title="Po & Opo" aria-label="Section 3"></button>
+  <button class="nav-dot" onclick="goTo(3)" title="Kinship" aria-label="Section 4"></button>
+  <button class="nav-dot" onclick="goTo(4)" title="Commands" aria-label="Section 5"></button>
+  <button class="nav-dot" onclick="goTo(5)" title="Practice" aria-label="Section 6"></button>
+  <button class="nav-dot" onclick="goTo(6)" title="Assessment" aria-label="Section 7"></button>
+  <button class="nav-dot" onclick="goTo(7)" title="Mastery" aria-label="Section 8"></button>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 0 — ORIENTATION
+═══════════════════════════════════════════════ -->
+<div class="screen active" id="screen-0">
+  <div class="steps-row" id="steps-0">
+    <div class="step-pip current"></div>
+    <div class="step-pip"></div><div class="step-pip"></div>
+    <div class="step-pip"></div><div class="step-pip"></div>
+    <div class="step-pip"></div><div class="step-pip"></div>
+    <div class="step-pip"></div>
+  </div>
+
+  <div class="hero">
+    <span class="hero-emoji">🇵🇭</span>
+    <div class="label hero-label">MODULE 1 · THE SURVIVAL TOOLKIT</div>
+    <div class="hero-title">Social Automation:<br>Speak Filipino <em style="color:var(--sun);font-style:italic">Now</em></div>
+    <div class="hero-sub">You already know how to survive in English. Now you'll learn to survive — and thrive — in Filipino with the right words, said the right way, at the right moment.</div>
+  </div>
+
+  <div class="card">
+    <div class="label mb-sm">YOUR LEARNING GOAL</div>
+    <div class="heading">By the end of this lesson, you will…</div>
+    <div class="spacer-sm"></div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="body-text">Use <strong>po</strong> and <strong>opo</strong> correctly to show respect</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background:var(--leaf)"></div>
+        <div class="body-text">Address older people as <strong>Ate</strong> or <strong>Kuya</strong> naturally</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background:var(--sky)"></div>
+        <div class="body-text">Turn bossy commands into polite requests with <strong>paki-</strong></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background:var(--coral)"></div>
+        <div class="body-text">Respond confidently in real Filipino classroom moments</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-sun">
+    <div class="label mb-sm">⏱ ESTIMATED TIME</div>
+    <div class="body-text">About <strong>75–80 minutes</strong> — go at your own pace. You can pause and come back anytime!</div>
+  </div>
+
+  <div class="spacer-md"></div>
+
+  <div class="retrieval-box">
+    <div class="label">🧠 QUICK WARM-UP</div>
+    <div class="retrieval-q">Before we begin — how do you say "yes" politely in Filipino?</div>
+    <div id="warmup-ans" style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap; justify-content:center;">
+      <button class="btn btn-outline" style="color:white;border-color:rgba(255,255,255,0.4)" onclick="warmup(this,'wrong')">Oo</button>
+      <button class="btn btn-outline" style="color:white;border-color:rgba(255,255,255,0.4)" onclick="warmup(this,'correct')">Opo</button>
+      <button class="btn btn-outline" style="color:white;border-color:rgba(255,255,255,0.4)" onclick="warmup(this,'wrong')">Po</button>
+      <button class="btn btn-outline" style="color:white;border-color:rgba(255,255,255,0.4)" onclick="warmup(this,'wrong')">Sige</button>
+    </div>
+    <div id="warmup-feedback" style="margin-top:12px;font-size:14px;display:none;"></div>
+  </div>
+
+  <div class="spacer-md"></div>
+  <button class="btn btn-sun btn-block" onclick="nextScreen()">Start the Lesson →</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 1 — CULTURAL HOOK (LEGO vs MINECRAFT)
+═══════════════════════════════════════════════ -->
+<div class="screen" id="screen-1">
+  <div class="steps-row" id="steps-1">
+    <div class="step-pip done"></div>
+    <div class="step-pip current"></div>
+    <div class="step-pip"></div><div class="step-pip"></div>
+    <div class="step-pip"></div><div class="step-pip"></div>
+    <div class="step-pip"></div><div class="step-pip"></div>
+  </div>
+
+  <div class="section-header">
+    <div class="section-icon" style="background:var(--sun-light)">💡</div>
+    <div>
+      <div class="label">CULTURAL HOOK</div>
+      <div class="heading">Why Social Automation?</div>
+    </div>
+  </div>
+
+  <div class="body-text mb-md">Imagine your classmate, Jana, walks into her lola's house. Her lola asks, <em>"Kumain ka na ba?"</em> — "Have you eaten yet?"</div>
+
+  <div style="background:var(--ink);border-radius:var(--radius-md);padding:24px;margin-bottom:20px;">
+    <div class="chat-bubble">
+      <div class="chat-avatar" style="background:var(--sun-light)">👵</div>
+      <div class="bubble-text" style="background:rgba(255,255,255,0.15);color:white">Kumain ka na ba?</div>
+    </div>
+    <div class="chat-bubble right">
+      <div class="chat-avatar" style="background:var(--coral-light)">👧</div>
+      <div class="bubble-text" style="background:rgba(240,106,90,0.3);color:white">Opo, salamat po, Lola! 🙏</div>
+    </div>
+  </div>
+
+  <div class="card card-sun">
+    <strong>✨ Notice something?</strong> Jana didn't have to think. She already had the answer loaded and ready — <span class="chunk">Opo, salamat po</span> — like a saved file she just opened. That's <strong>Social Automation</strong>.
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="heading mb-md">The LEGO vs. Minecraft Rule 🎮</div>
+
+  <div class="analogy-split">
+    <div class="analogy-half" style="background:var(--coral-light); border:2px solid var(--coral)">
+      <div class="analogy-icon">⛏️</div>
+      <div class="analogy-title" style="color:#8F1A0F">Grammar Mode (Minecraft)</div>
+      <div class="analogy-desc">Building every sentence from scratch — placing each block one by one. Takes forever! You might say the wrong thing while thinking too hard.</div>
+    </div>
+    <div class="analogy-half" style="background:var(--leaf-light); border:2px solid var(--leaf)">
+      <div class="analogy-icon">🧱</div>
+      <div class="analogy-title" style="color:#0D5C33">Chunk Mode (LEGO)</div>
+      <div class="analogy-desc">Pre-built phrases you already have memorized. Open the box, snap it in, done! Fast, correct, and socially natural.</div>
+    </div>
+  </div>
+
+  <div class="card card-sky">
+    <div class="label mb-sm">💬 THE KEY IDEA</div>
+    <div class="body-text">In real Filipino conversations, you don't need perfect grammar every second. You need <strong>survival chunks</strong> — short, ready-to-use phrases that work automatically. Today you'll build your personal chunk library!</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- RETRIEVAL CHECK 1 -->
+  <div class="retrieval-box">
+    <div class="label">🧠 QUICK CHECK</div>
+    <div class="retrieval-q">What is a "survival chunk"?</div>
+    <div id="q1-opts" style="display:flex;flex-direction:column;gap:8px;margin-top:12px;">
+      <button class="quiz-option" style="background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.3);color:white" onclick="checkRetrieval(this,'wrong','q1')">A long Filipino sentence you build carefully with grammar rules</button>
+      <button class="quiz-option" style="background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.3);color:white" onclick="checkRetrieval(this,'correct','q1')">A short memorized phrase you can use right away without thinking</button>
+      <button class="quiz-option" style="background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.3);color:white" onclick="checkRetrieval(this,'wrong','q1')">A word-for-word English translation into Filipino</button>
+    </div>
+    <div id="q1-fb" style="margin-top:10px;font-size:14px;display:none;color:var(--sun)"></div>
+  </div>
+
+  <div class="spacer-md"></div>
+  <button class="btn btn-primary btn-block" onclick="nextScreen()">Learn the Respect Code →</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 2 — PO & OPO
+═══════════════════════════════════════════════ -->
+<div class="screen" id="screen-2">
+  <div class="steps-row" id="steps-2">
+    <div class="step-pip done"></div><div class="step-pip done"></div>
+    <div class="step-pip current"></div>
+    <div class="step-pip"></div><div class="step-pip"></div>
+    <div class="step-pip"></div><div class="step-pip"></div>
+    <div class="step-pip"></div>
+  </div>
+
+  <div class="section-header">
+    <div class="section-icon" style="background:var(--sun-light)">🔑</div>
+    <div>
+      <div class="label">THE RESPECT CODE</div>
+      <div class="heading">Po and Opo</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="body-text">In Filipino culture, respect — <strong>paggalang</strong> — is non-negotiable. Without it, conversations feel cold, like a locked door. <em>Po</em> and <em>opo</em> are your keys. 🗝️</div>
+  </div>
+
+  <div class="card card-sun">
+    <div class="label mb-sm">THE PASSCODE RULE</div>
+    <div class="body-text">Think of <span class="tl-red"><strong>po</strong></span> and <span class="tl-red"><strong>opo</strong></span> like a <strong>Face ID</strong>. Without them, the elder can't "unlock" you as someone respectful. You can't enter the inner circle of trust!</div>
+    <div class="spacer-sm"></div>
+    <div style="text-align:center;font-size:36px">📱🔓</div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="heading mb-md">What's the difference?</div>
+
+  <div class="analogy-split">
+    <div class="analogy-half" style="background:var(--sun-light);border:2px solid var(--sun)">
+      <div class="analogy-icon">📝</div>
+      <div class="analogy-title">PO</div>
+      <div class="analogy-desc">Lives <em>inside</em> a sentence. It attaches to words — usually after the 1st or 2nd word. It's like a politeness sticker you add to sentences.</div>
+      <div class="spacer-sm"></div>
+      <div class="chunk">Salamat <strong>po</strong></div><br>
+      <div class="chunk">Hindi ko <strong>po</strong> alam</div>
+    </div>
+    <div class="analogy-half" style="background:var(--coral-light);border:2px solid var(--coral)">
+      <div class="analogy-icon">✅</div>
+      <div class="analogy-title">OPO</div>
+      <div class="analogy-desc">A <em>standalone</em> polite "YES." Used only when answering yes to an elder. It replaces the casual "oo" (yes).</div>
+      <div class="spacer-sm"></div>
+      <div class="chunk chunk-coral">Opo!</div><br>
+      <div class="chunk chunk-coral">Opo, po.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="heading mb-md">🎧 Hear the Difference — Audio Tap Cards</div>
+  <div class="body-text mb-md" style="font-size:14px">Click any card to hear how it sounds in a real conversation!</div>
+
+  <div class="audio-card" onclick="playAudio(this,'Opo, salamat po, Lola.')" tabindex="0">
+    <button class="audio-btn" aria-label="Play audio">▶</button>
+    <div>
+      <div style="font-weight:800;font-size:16px">Opo, salamat <span class="tl-red">po</span>, Lola.</div>
+      <div class="audio-en">"Yes, thank you, Grandma." — Answering an elder politely</div>
+    </div>
+  </div>
+
+  <div class="audio-card" onclick="playAudio(this,'Paki-ulit po.')" tabindex="0">
+    <button class="audio-btn" aria-label="Play audio">▶</button>
+    <div>
+      <div style="font-weight:800;font-size:16px">Paki-ulit <span class="tl-red">po</span>.</div>
+      <div class="audio-en">"Please repeat that." — Asking teacher to say it again</div>
+    </div>
+  </div>
+
+  <div class="audio-card" onclick="playAudio(this,'Hindi ko po naiintindihan.')" tabindex="0">
+    <button class="audio-btn" aria-label="Play audio">▶</button>
+    <div>
+      <div style="font-weight:800;font-size:16px">Hindi ko <span class="tl-red">po</span> naiintindihan.</div>
+      <div class="audio-en">"I don't understand." — Telling teacher you're confused</div>
+    </div>
+  </div>
+
+  <div class="audio-card" onclick="playAudio(this,'Opo, nandito po ako.')" tabindex="0">
+    <button class="audio-btn" aria-label="Play audio">▶</button>
+    <div>
+      <div style="font-weight:800;font-size:16px">Opo, nandito <span class="tl-red">po</span> ako.</div>
+      <div class="audio-en">"Yes, I'm here." — Answering attendance call</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- DRAG AND DROP: Po Placement -->
+  <div class="heading mb-md">🎯 Place the PO Correctly!</div>
+  <div class="body-text mb-md">Drag <span class="chunk">po</span> into the correct slot in each sentence. <em>Po</em> usually goes after the first or second word!</div>
+
+  <div id="drag-bank" style="text-align:center;margin-bottom:20px;min-height:44px;">
+    <span class="drag-word" draggable="true" id="dw-po1" ondragstart="dragStart(event)">po</span>
+    <span class="drag-word" draggable="true" id="dw-po2" ondragstart="dragStart(event)">po</span>
+    <span class="drag-word" draggable="true" id="dw-po3" ondragstart="dragStart(event)">po</span>
+  </div>
+
+  <div class="card mb-md" id="drag-q1">
+    <div style="font-size:15px;font-weight:700;line-height:2">
+      Salamat
+      <span class="drop-zone" id="dz1" data-correct="po"
+        ondragover="event.preventDefault();this.classList.add('drag-over')"
+        ondragleave="this.classList.remove('drag-over')"
+        ondrop="dropWord(event,'dz1','dw-po1')"
+        onclick="tapDrop('dz1','dw-po1')">drop here</span>
+      sa inyo.
+    </div>
+    <div id="dz1-fb" class="feedback-box"></div>
+  </div>
+
+  <div class="card mb-md" id="drag-q2">
+    <div style="font-size:15px;font-weight:700;line-height:2">
+      Hindi ko
+      <span class="drop-zone" id="dz2" data-correct="po"
+        ondragover="event.preventDefault();this.classList.add('drag-over')"
+        ondragleave="this.classList.remove('drag-over')"
+        ondrop="dropWord(event,'dz2','dw-po2')"
+        onclick="tapDrop('dz2','dw-po2')">drop here</span>
+      alam.
+    </div>
+    <div id="dz2-fb" class="feedback-box"></div>
+  </div>
+
+  <div class="card mb-md" id="drag-q3">
+    <div style="font-size:15px;font-weight:700;line-height:2">
+      Nandito
+      <span class="drop-zone" id="dz3" data-correct="po"
+        ondragover="event.preventDefault();this.classList.add('drag-over')"
+        ondragleave="this.classList.remove('drag-over')"
+        ondrop="dropWord(event,'dz3','dw-po3')"
+        onclick="tapDrop('dz3','dw-po3')">drop here</span>
+      ako.
+    </div>
+    <div id="dz3-fb" class="feedback-box"></div>
+  </div>
+
+  <div id="drag-check" style="display:none">
+    <button class="btn btn-leaf btn-block" onclick="checkDrops()">✓ Check My Answers</button>
+  </div>
+  <div id="drag-result" style="display:none;margin-top:12px;"></div>
+
+  <div class="divider"></div>
+
+  <!-- MISCONCEPTION ALERT -->
+  <div class="card" style="border:2px solid var(--coral);background:var(--coral-light)">
+    <div class="label mb-sm" style="color:var(--coral)">⚠️ COMMON MISTAKE</div>
+    <div class="heading mb-sm">Don't mix up po and opo!</div>
+    <div class="body-text"><span class="tl-red"><strong>Wrong:</strong></span> "Opo, opo, Teacher!" — Using opo inside a sentence sounds childish.<br><br>
+    <span class="tl-grn"><strong>Right:</strong></span> "Opo, Teacher!" then "Paki-ulit <strong>po</strong>." — Opo stands alone; po joins sentences.</div>
+  </div>
+
+  <div class="spacer-md"></div>
+  <button class="btn btn-primary btn-block" id="next2-btn" onclick="nextScreen()" style="display:none">Learn Ate & Kuya →</button>
+  <div id="drag-hint" class="body-text text-center mt-md" style="font-size:13px;color:var(--ink-soft)">Complete the drag activity above to continue! 👆<br><em>(On mobile? Tap the word, then tap the slot.)</em></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 3 — ATE & KUYA
+═══════════════════════════════════════════════ -->
+<div class="screen" id="screen-3">
+  <div class="steps-row" id="steps-3">
+    <div class="step-pip done"></div><div class="step-pip done"></div>
+    <div class="step-pip done"></div><div class="step-pip current"></div>
+    <div class="step-pip"></div><div class="step-pip"></div>
+    <div class="step-pip"></div><div class="step-pip"></div>
+  </div>
+
+  <div class="section-header">
+    <div class="section-icon" style="background:var(--sky-light)">👨‍👩‍👧</div>
+    <div>
+      <div class="label">THE KINSHIP INTERFACE</div>
+      <div class="heading">Ate and Kuya</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="body-text">In Filipino culture, you don't just call strangers "Sir" or "Ma'am" — you bring them closer by treating them like family! <strong>Ate</strong> and <strong>Kuya</strong> turn a stranger into a sibling instantly.</div>
+  </div>
+
+  <div class="card card-sky">
+    <div class="label mb-sm">📷 THE CAMERA ZOOM RULE</div>
+    <div class="body-text">
+      <strong>Sir / Ma'am</strong> = Wide-angle lens 📷 → keeps distance, stays professional<br><br>
+      <strong>Ate / Kuya</strong> = Zoom lens 🔍 → brings people closer, places them in your "family photo"
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="analogy-split">
+    <div class="analogy-half" style="background:var(--sky-light);border:2px solid var(--sky)">
+      <div class="analogy-icon">👧</div>
+      <div class="analogy-title">ATE (Ah-teh)</div>
+      <div class="analogy-desc">Used for older girls/women — classmates, school staff, strangers who seem older than you. Not just real sisters!</div>
+      <div class="spacer-sm"></div>
+      <div class="chunk chunk-sky">Ate, pakiabot po ng tubig.</div>
+    </div>
+    <div class="analogy-half" style="background:var(--lavender-light);border:2px solid var(--lavender)">
+      <div class="analogy-icon">👦</div>
+      <div class="analogy-title">KUYA (Ku-ya)</div>
+      <div class="analogy-desc">Used for older boys/men — older classmates, tricycle drivers, older schoolmates. Creates warmth instantly!</div>
+      <div class="spacer-sm"></div>
+      <div class="chunk chunk-lav">Kuya, magkano po ito?</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- FLASHCARDS -->
+  <div class="heading mb-md">🃏 Flip Cards — Matching the Moment</div>
+  <div class="body-text mb-md" style="font-size:14px">Read the scenario, then flip to see the correct honorific!</div>
+
+  <div class="flip-container">
+    <div class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <div class="flip-front">
+        <div style="font-size:28px">🧹</div>
+        <div style="font-weight:800;font-size:16px;margin-top:8px">The school janitor asks if you dropped your notebook.</div>
+        <div class="flip-hint">Tap to reveal the correct term →</div>
+      </div>
+      <div class="flip-back">
+        <div style="font-size:28px">✅</div>
+        <div style="font-weight:800;font-size:22px;color:var(--leaf)">Kuya</div>
+        <div style="font-size:14px;margin-top:8px;color:var(--ink-soft)">He's older than you — treat him like an older brother!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flip-container">
+    <div class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <div class="flip-front">
+        <div style="font-size:28px">🍚</div>
+        <div style="font-weight:800;font-size:16px;margin-top:8px">The canteen lady asks what you want to eat.</div>
+        <div class="flip-hint">Tap to reveal →</div>
+      </div>
+      <div class="flip-back">
+        <div style="font-size:28px">✅</div>
+        <div style="font-weight:800;font-size:22px;color:var(--leaf)">Ate</div>
+        <div style="font-size:14px;margin-top:8px;color:var(--ink-soft)">She's an older woman — Ate shows warm respect!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flip-container">
+    <div class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <div class="flip-front">
+        <div style="font-size:28px">🚌</div>
+        <div style="font-weight:800;font-size:16px;margin-top:8px">The school bus driver opens the door for you.</div>
+        <div class="flip-hint">Tap to reveal →</div>
+      </div>
+      <div class="flip-back">
+        <div style="font-size:28px">✅</div>
+        <div style="font-weight:800;font-size:22px;color:var(--leaf)">Kuya</div>
+        <div style="font-size:14px;margin-top:8px;color:var(--ink-soft)">Adult male worker — Kuya works perfectly here!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SCENARIO MCQ -->
+  <div class="heading mb-md">🎭 Scenario Challenge</div>
+
+  <div class="scenario-card" id="sc1">
+    <div class="scenario-header" style="background:linear-gradient(135deg,var(--sky),var(--lavender))">
+      You're at the school canteen. A lady who looks about 25 is serving food. You want to ask for a glass of water. What do you say?
+    </div>
+    <div class="scenario-body">
+      <div class="scenario-choice" onclick="scenarioCheck(this,'correct','sc1')">Ate, pakiabot po ng tubig.</div>
+      <div class="scenario-choice" onclick="scenarioCheck(this,'wrong','sc1')">Ma'am, pakiabot ng tubig.</div>
+      <div class="scenario-choice" onclick="scenarioCheck(this,'wrong','sc1')">Kuya, pakiabot po ng tubig.</div>
+      <div id="sc1-fb" class="feedback-box"></div>
+    </div>
+  </div>
+
+  <div class="scenario-card" id="sc2">
+    <div class="scenario-header" style="background:linear-gradient(135deg,var(--lavender),var(--coral))">
+      An older male classmate (Grade 7) helps you find your classroom. You want to say "Thank you!"
+    </div>
+    <div class="scenario-body">
+      <div class="scenario-choice" onclick="scenarioCheck(this,'wrong','sc2')">Ate, salamat po.</div>
+      <div class="scenario-choice" onclick="scenarioCheck(this,'correct','sc2')">Kuya, salamat po.</div>
+      <div class="scenario-choice" onclick="scenarioCheck(this,'wrong','sc2')">Sir, thank you.</div>
+      <div id="sc2-fb" class="feedback-box"></div>
+    </div>
+  </div>
+
+  <div class="spacer-md"></div>
+  <button class="btn btn-primary btn-block" onclick="nextScreen()">Learn to Soften Commands →</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 4 — PAKI- (SOFTENING COMMANDS)
+═══════════════════════════════════════════════ -->
+<div class="screen" id="screen-4">
+  <div class="steps-row" id="steps-4">
+    <div class="step-pip done"></div><div class="step-pip done"></div>
+    <div class="step-pip done"></div><div class="step-pip done"></div>
+    <div class="step-pip current"></div>
+    <div class="step-pip"></div><div class="step-pip"></div>
+    <div class="step-pip"></div>
+  </div>
+
+  <div class="section-header">
+    <div class="section-icon" style="background:var(--leaf-light)">🚲</div>
+    <div>
+      <div class="label">SOFTENING COMMANDS</div>
+      <div class="heading">The Paki- Magic Prefix</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="body-text">In Filipino, a direct command can feel <strong>rude</strong> — like ordering someone around. The prefix <strong>paki-</strong> (and the word <strong>naman</strong>) are your social oil. They turn demands into warm requests!</div>
+  </div>
+
+  <div class="card card-leaf">
+    <div class="label mb-sm">🚲 THE BICYCLE CHAIN RULE</div>
+    <div class="body-text">
+      <strong>No paki-</strong> → Squeaky, dry chain 😬 → "Bukas ng pinto!" (Open the door!) — sounds bossy!<br><br>
+      <strong>With paki-</strong> → Smooth, oiled chain 😊 → "Pakibukas ng pinto." (Please open the door.) — sounds polite!
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="heading mb-md">How does Paki- work?</div>
+  <div class="body-text mb-md">You just add <span class="chunk chunk-leaf">paki-</span> to the beginning of an action word (verb):</div>
+
+  <div class="card mb-md">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <span class="chunk chunk-leaf">paki-</span>
+      <span style="font-size:20px;font-weight:800">+</span>
+      <span class="chunk">ulit</span>
+      <span style="font-size:20px;font-weight:800">=</span>
+      <span class="chunk chunk-leaf">Paki-ulit po</span>
+    </div>
+    <div class="body-text mt-md" style="font-size:13px">ulit = repeat → Paki-ulit = please repeat</div>
+  </div>
+
+  <div class="card mb-md">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <span class="chunk chunk-leaf">paki-</span>
+      <span style="font-size:20px;font-weight:800">+</span>
+      <span class="chunk">abot</span>
+      <span style="font-size:20px;font-weight:800">=</span>
+      <span class="chunk chunk-leaf">Pakiabot po</span>
+    </div>
+    <div class="body-text mt-md" style="font-size:13px">abot = pass/hand → Pakiabot = please pass</div>
+  </div>
+
+  <div class="card mb-md">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <span class="chunk chunk-leaf">paki-</span>
+      <span style="font-size:20px;font-weight:800">+</span>
+      <span class="chunk">bukas</span>
+      <span style="font-size:20px;font-weight:800">=</span>
+      <span class="chunk chunk-leaf">Pakibukas po</span>
+    </div>
+    <div class="body-text mt-md" style="font-size:13px">bukas = open → Pakibukas = please open</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- BUILD THE PHRASE ACTIVITY -->
+  <div class="heading mb-md">🔨 Build Polite Requests!</div>
+  <div class="body-text mb-md" style="font-size:14px">Transform each bossy command into a polite <em>paki-</em> request. Type your answer:</div>
+
+  <div class="card mb-md">
+    <div class="label mb-sm">TRANSFORM THIS:</div>
+    <div style="font-size:18px;font-weight:800;color:var(--coral);margin-bottom:8px">"Bukas ng bintana!" <span style="font-size:14px;color:var(--ink-soft)">(Open the window!)</span></div>
+    <div class="body-text mb-sm">Polite version: Paki________ ng bintana po.</div>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <input class="fill-input" id="fi1" placeholder="type here" oninput="showCheckBtn('fi1','fib1','bukas')">
+      <button class="btn btn-leaf" id="fib1" onclick="checkFill('fi1','bukas','fif1')" style="display:none">Check</button>
+    </div>
+    <div class="feedback-box" id="fif1"></div>
+  </div>
+
+  <div class="card mb-md">
+    <div class="label mb-sm">TRANSFORM THIS:</div>
+    <div style="font-size:18px;font-weight:800;color:var(--coral);margin-bottom:8px">"Bigay ng lapis!" <span style="font-size:14px;color:var(--ink-soft)">(Give the pencil!)</span></div>
+    <div class="body-text mb-sm">Polite version: Paki________ ng lapis po.</div>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <input class="fill-input" id="fi2" placeholder="type here" oninput="showCheckBtn('fi2','fib2','bigay')">
+      <button class="btn btn-leaf" id="fib2" onclick="checkFill('fi2','bigay','fif2')" style="display:none">Check</button>
+    </div>
+    <div class="feedback-box" id="fif2"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- MATCHING ACTIVITY -->
+  <div class="heading mb-md">🔗 Match It!</div>
+  <div class="body-text mb-md" style="font-size:14px">Click a Filipino phrase on the left, then click its English meaning on the right.</div>
+
+  <div id="match-game">
+    <div class="match-row">
+      <div class="match-item" data-pair="1" data-side="left" onclick="matchClick(this)">Paki-ulit po.</div>
+      <div class="match-item" data-pair="3" data-side="right" onclick="matchClick(this)">Please pass the water.</div>
+    </div>
+    <div class="match-row">
+      <div class="match-item" data-pair="2" data-side="left" onclick="matchClick(this)">Pakiabot po ng tubig.</div>
+      <div class="match-item" data-pair="1" data-side="right" onclick="matchClick(this)">Please say it again.</div>
+    </div>
+    <div class="match-row">
+      <div class="match-item" data-pair="3" data-side="left" onclick="matchClick(this)">Pakibukas po ng pinto.</div>
+      <div class="match-item" data-pair="2" data-side="right" onclick="matchClick(this)">Please close the window.</div>
+    </div>
+    <div class="match-row">
+      <div class="match-item" data-pair="4" data-side="left" onclick="matchClick(this)">Pakisara po ng bintana.</div>
+      <div class="match-item" data-pair="4" data-side="right" onclick="matchClick(this)">Please open the door.</div>
+    </div>
+  </div>
+  <div id="match-result" style="margin-top:12px;font-size:14px;font-weight:700;display:none;"></div>
+
+  <div class="spacer-md"></div>
+  <button class="btn btn-primary btn-block" onclick="nextScreen()">Practice It All Together →</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 5 — INTEGRATED PRACTICE (Scenarios)
+═══════════════════════════════════════════════ -->
+<div class="screen" id="screen-5">
+  <div class="steps-row" id="steps-5">
+    <div class="step-pip done"></div><div class="step-pip done"></div>
+    <div class="step-pip done"></div><div class="step-pip done"></div>
+    <div class="step-pip done"></div><div class="step-pip current"></div>
+    <div class="step-pip"></div><div class="step-pip"></div>
+  </div>
+
+  <div class="section-header">
+    <div class="section-icon" style="background:var(--lavender-light)">🎭</div>
+    <div>
+      <div class="label">INTEGRATED PRACTICE</div>
+      <div class="heading">Real Classroom Moments</div>
+    </div>
+  </div>
+
+  <div class="card card-lav mb-md">
+    <div class="body-text">Now you have all three survival tools: <span class="chunk">po / opo</span> <span class="chunk chunk-sky">Ate / Kuya</span> <span class="chunk chunk-leaf">paki-</span><br><br>Let's use them together in real situations!</div>
+  </div>
+
+  <!-- BRANCHING SCENARIOS -->
+  <div id="practice-scenarios">
+
+    <div class="scenario-card" id="ps1">
+      <div class="scenario-header" style="background:linear-gradient(135deg,#1A1A2E,var(--lavender))">
+        📚 Your teacher asks: <em>"May tanong ba kayo?"</em> (Do you have questions?)<br>You're confused about the lesson. What do you say?
+      </div>
+      <div class="scenario-body">
+        <div class="scenario-choice" onclick="practiceCheck(this,'wrong','ps1','❌ "Teacher, I don\'t understand" is in English — use Filipino survival chunks here!')">Teacher, I don't understand.</div>
+        <div class="scenario-choice" onclick="practiceCheck(this,'correct','ps1','✅ Perfect! Hindi ko po naiintindihan uses po correctly and is natural Filipino!')">Hindi ko po naiintindihan.</div>
+        <div class="scenario-choice" onclick="practiceCheck(this,'wrong','ps1','⚠️ Opo goes alone — it can\'t be inside a sentence. Use po here instead.')">Hindi ko opo naiintindihan.</div>
+        <div id="ps1-fb" class="feedback-box"></div>
+      </div>
+    </div>
+
+    <div class="scenario-card" id="ps2">
+      <div class="scenario-header" style="background:linear-gradient(135deg,var(--leaf),#1A6B4A)">
+        🍽️ You're in the canteen. A woman in her 20s is serving rice. You want more rice. What do you say?
+      </div>
+      <div class="scenario-body">
+        <div class="scenario-choice" onclick="practiceCheck(this,'wrong','ps2','⚠️ Close! But Kuya is for males. The server is female — use Ate!')">Kuya, pakidagdag po ng kanin.</div>
+        <div class="scenario-choice" onclick="practiceCheck(this,'wrong','ps2','❌ "More rice please" is English — practice your Filipino chunks!')">More rice please, Ma'am.</div>
+        <div class="scenario-choice" onclick="practiceCheck(this,'correct','ps2','✅ Excellent! Ate + paki- + po = the perfect polite request to a female elder!')">Ate, pakidagdag po ng kanin.</div>
+        <div id="ps2-fb" class="feedback-box"></div>
+      </div>
+    </div>
+
+    <div class="scenario-card" id="ps3">
+      <div class="scenario-header" style="background:linear-gradient(135deg,var(--sun),#E08800)">
+        👂 Your teacher reads instructions but you didn't catch the last part. What do you ask?
+      </div>
+      <div class="scenario-body">
+        <div class="scenario-choice" onclick="practiceCheck(this,'correct','ps3','✅ Paki-ulit po is the perfect survival chunk for this! Natural and polite.')">Paki-ulit po, Teacher.</div>
+        <div class="scenario-choice" onclick="practiceCheck(this,'wrong','ps3','⚠️ Can you repeat is English — you\'re building Filipino fluency now!')">Can you repeat that, Teacher?</div>
+        <div class="scenario-choice" onclick="practiceCheck(this,'wrong','ps3','❌ Pakibukas means please open — that\'s not what you want here!')">Pakibukas po, Teacher.</div>
+        <div id="ps3-fb" class="feedback-box"></div>
+      </div>
+    </div>
+
+    <div class="scenario-card" id="ps4">
+      <div class="scenario-header" style="background:linear-gradient(135deg,var(--coral),#C03020)">
+        🙋 Your teacher calls attendance. Your name is called. What do you say?
+      </div>
+      <div class="scenario-body">
+        <div class="scenario-choice" onclick="practiceCheck(this,'wrong','ps4','⚠️ Oo means yes but it\'s too casual — not respectful enough for your teacher!')">Oo, Teacher!</div>
+        <div class="scenario-choice" onclick="practiceCheck(this,'correct','ps4','✅ Opo is the polite standalone YES — perfect for answering your teacher!')">Opo, Teacher!</div>
+        <div class="scenario-choice" onclick="practiceCheck(this,'wrong','ps4','⚠️ Opo po is double-respectful in a funny way — opo already includes politeness!')">Opo po, Teacher!</div>
+        <div id="ps4-fb" class="feedback-box"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="practice-score-wrap" style="display:none;margin-top:20px;">
+    <div class="card text-center">
+      <div class="label mb-sm">PRACTICE SCORE</div>
+      <div class="heading" id="practice-score-text">You got — right!</div>
+      <div class="meter-bar mt-md"><div class="meter-fill" id="practice-meter"></div></div>
+    </div>
+  </div>
+
+  <div class="spacer-md"></div>
+
+  <!-- RETRIEVAL FLASH ROUND -->
+  <div class="retrieval-box">
+    <div class="label">⚡ FLASH RECALL</div>
+    <div class="retrieval-q" id="flash-q">Loading...</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:12px" id="flash-opts"></div>
+    <div id="flash-fb" style="margin-top:10px;font-size:14px;color:var(--sun);display:none;font-weight:700"></div>
+    <button class="btn btn-outline" style="color:white;border-color:rgba(255,255,255,0.4);margin-top:12px" onclick="nextFlash()" id="flash-next" style="display:none">Next Question →</button>
+  </div>
+
+  <div class="spacer-md"></div>
+  <button class="btn btn-sun btn-block" onclick="nextScreen()">Take the Mastery Check →</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 6 — MASTERY ASSESSMENT
+═══════════════════════════════════════════════ -->
+<div class="screen" id="screen-6">
+  <div class="steps-row" id="steps-6">
+    <div class="step-pip done"></div><div class="step-pip done"></div>
+    <div class="step-pip done"></div><div class="step-pip done"></div>
+    <div class="step-pip done"></div><div class="step-pip done"></div>
+    <div class="step-pip current"></div><div class="step-pip"></div>
+  </div>
+
+  <div class="hero" style="background:linear-gradient(135deg,#0D3B26,var(--leaf))">
+    <span class="hero-emoji">🏆</span>
+    <div class="hero-title">Mastery Assessment</div>
+    <div class="hero-sub">5 final questions to show what you've learned. No rushing — think carefully!</div>
+  </div>
+
+  <div id="assessment-questions">
+
+    <!-- Q1 -->
+    <div class="card mb-md" id="aq1">
+      <div class="label mb-sm">QUESTION 1 OF 5</div>
+      <div class="heading mb-md" style="font-size:18px">Your lola asks: "Kumain ka na ba?" (Have you eaten?) — You say YES politely. What is your answer?</div>
+      <div class="quiz-option" onclick="assessCheck(this,'wrong','aq1',1)">Oo, salamat po, Lola.</div>
+      <div class="quiz-option" onclick="assessCheck(this,'correct','aq1',1)">Opo, salamat po, Lola.</div>
+      <div class="quiz-option" onclick="assessCheck(this,'wrong','aq1',1)">Yes, thank you, Lola.</div>
+      <div class="quiz-option" onclick="assessCheck(this,'wrong','aq1',1)">Po, salamat, Lola.</div>
+      <div id="aq1-fb" class="feedback-box"></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="card mb-md" id="aq2">
+      <div class="label mb-sm">QUESTION 2 OF 5</div>
+      <div class="heading mb-md" style="font-size:18px">Where does "po" correctly go in this sentence? <em>"Salamat ___ sa inyo."</em></div>
+      <div class="quiz-option" onclick="assessCheck(this,'correct','aq2',2)">After "Salamat" — Salamat <strong>po</strong> sa inyo.</div>
+      <div class="quiz-option" onclick="assessCheck(this,'wrong','aq2',2)">At the very beginning — <strong>Po</strong> salamat sa inyo.</div>
+      <div class="quiz-option" onclick="assessCheck(this,'wrong','aq2',2)">At the very end — Salamat sa inyo <strong>po</strong>.</div>
+      <div id="aq2-fb" class="feedback-box"></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="card mb-md" id="aq3">
+      <div class="label mb-sm">QUESTION 3 OF 5</div>
+      <div class="heading mb-md" style="font-size:18px">An older male street vendor helps you find directions. What do you call him?</div>
+      <div class="quiz-option" onclick="assessCheck(this,'wrong','aq3',3)">Ate</div>
+      <div class="quiz-option" onclick="assessCheck(this,'wrong','aq3',3)">Sir</div>
+      <div class="quiz-option" onclick="assessCheck(this,'correct','aq3',3)">Kuya</div>
+      <div class="quiz-option" onclick="assessCheck(this,'wrong','aq3',3)">Lolo</div>
+      <div id="aq3-fb" class="feedback-box"></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="card mb-md" id="aq4">
+      <div class="label mb-sm">QUESTION 4 OF 5</div>
+      <div class="heading mb-md" style="font-size:18px">Which sentence is the MOST polite way to ask your teacher to open the window?</div>
+      <div class="quiz-option" onclick="assessCheck(this,'wrong','aq4',4)">Bukas ng bintana, Teacher!</div>
+      <div class="quiz-option" onclick="assessCheck(this,'wrong','aq4',4)">Bintana, bukas po!</div>
+      <div class="quiz-option" onclick="assessCheck(this,'correct','aq4',4)">Pakibukas po ng bintana, Teacher.</div>
+      <div class="quiz-option" onclick="assessCheck(this,'wrong','aq4',4)">Please open the window, Teacher.</div>
+      <div id="aq4-fb" class="feedback-box"></div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="card mb-md" id="aq5">
+      <div class="label mb-sm">QUESTION 5 OF 5</div>
+      <div class="heading mb-md" style="font-size:18px">Your teacher says something and you didn't understand. What is the BEST survival chunk to use?</div>
+      <div class="quiz-option" onclick="assessCheck(this,'correct','aq5',5)">Hindi ko po naiintindihan, Teacher. Paki-ulit po.</div>
+      <div class="quiz-option" onclick="assessCheck(this,'wrong','aq5',5)">Opo, Teacher, naiintindihan ko.</div>
+      <div class="quiz-option" onclick="assessCheck(this,'wrong','aq5',5)">What did you say? I don't get it.</div>
+      <div class="quiz-option" onclick="assessCheck(this,'wrong','aq5',5)">Pakibukas po, Teacher.</div>
+      <div id="aq5-fb" class="feedback-box"></div>
+    </div>
+
+  </div>
+
+  <div id="assessment-submit-wrap" style="margin-top:20px;display:none">
+    <button class="btn btn-leaf btn-block" onclick="submitAssessment()">See My Results →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 7 — RESULTS + REFLECTION
+═══════════════════════════════════════════════ -->
+<div class="screen" id="screen-7">
+  <div class="steps-row" id="steps-7">
+    <div class="step-pip done"></div><div class="step-pip done"></div>
+    <div class="step-pip done"></div><div class="step-pip done"></div>
+    <div class="step-pip done"></div><div class="step-pip done"></div>
+    <div class="step-pip done"></div><div class="step-pip current"></div>
+  </div>
+
+  <div class="text-center" style="padding:24px 0">
+    <div class="completion-badge" style="background:linear-gradient(135deg,var(--sun),var(--coral))" id="result-emoji">🌟</div>
+    <div class="heading" id="result-title">Lesson Complete!</div>
+    <div class="body-text mt-sm" id="result-subtitle">You did it!</div>
+  </div>
+
+  <div class="card text-center mb-md">
+    <div class="label mb-sm">YOUR FINAL SCORE</div>
+    <div class="score-ring" id="score-ring">
+      <div class="score-inner" id="score-num">0/5</div>
+    </div>
+    <div class="meter-bar"><div class="meter-fill" id="final-meter"></div></div>
+    <div class="body-text mt-md" id="score-message">Great effort!</div>
+  </div>
+
+  <div class="card card-leaf mb-md">
+    <div class="label mb-sm">✅ WHAT YOU LEARNED TODAY</div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="body-text"><span class="chunk">po</span> goes <em>inside</em> sentences. <span class="chunk chunk-coral">Opo</span> is a <em>standalone</em> respectful YES.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background:var(--sky)"></div>
+        <div class="body-text"><span class="chunk chunk-sky">Ate</span> = older female. <span class="chunk chunk-lav">Kuya</span> = older male. Both create warmth instantly!</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background:var(--leaf)"></div>
+        <div class="body-text"><span class="chunk chunk-leaf">Paki-</span> + verb = polite request. No more squeaky bicycle chain moments! 🚲</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background:var(--lavender)"></div>
+        <div class="body-text">Survival chunks = social automation. No grammar stress needed in real conversations!</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- METACOGNITIVE REFLECTION -->
+  <div class="card card-sun mb-md">
+    <div class="label mb-sm">🤔 REFLECTION TIME</div>
+    <div class="heading mb-md" style="font-size:17px">Quick self-check — how confident do you feel?</div>
+    <div id="reflect-grid" style="display:flex;flex-direction:column;gap:10px;">
+      <div>
+        <div class="body-text mb-sm">Using <strong>po</strong> and <strong>opo</strong> correctly</div>
+        <div class="meter-bar"><div class="meter-fill" id="rm1" style="width:0%"></div></div>
+        <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
+          <button class="btn btn-outline" style="font-size:12px;padding:6px 14px" onclick="setReflect('rm1',25)">😬 Not sure</button>
+          <button class="btn btn-outline" style="font-size:12px;padding:6px 14px" onclick="setReflect('rm1',60)">🙂 Getting there</button>
+          <button class="btn btn-outline" style="font-size:12px;padding:6px 14px" onclick="setReflect('rm1',100)">😎 Got it!</button>
+        </div>
+      </div>
+      <div>
+        <div class="body-text mb-sm">Using <strong>Ate</strong> and <strong>Kuya</strong> naturally</div>
+        <div class="meter-bar"><div class="meter-fill" id="rm2" style="width:0%"></div></div>
+        <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
+          <button class="btn btn-outline" style="font-size:12px;padding:6px 14px" onclick="setReflect('rm2',25)">😬 Not sure</button>
+          <button class="btn btn-outline" style="font-size:12px;padding:6px 14px" onclick="setReflect('rm2',60)">🙂 Getting there</button>
+          <button class="btn btn-outline" style="font-size:12px;padding:6px 14px" onclick="setReflect('rm2',100)">😎 Got it!</button>
+        </div>
+      </div>
+      <div>
+        <div class="body-text mb-sm">Making polite requests with <strong>paki-</strong></div>
+        <div class="meter-bar"><div class="meter-fill" id="rm3" style="width:0%"></div></div>
+        <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
+          <button class="btn btn-outline" style="font-size:12px;padding:6px 14px" onclick="setReflect('rm3',25)">😬 Not sure</button>
+          <button class="btn btn-outline" style="font-size:12px;padding:6px 14px" onclick="setReflect('rm3',60)">🙂 Getting there</button>
+          <button class="btn btn-outline" style="font-size:12px;padding:6px 14px" onclick="setReflect('rm3',100)">😎 Got it!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEXT STEPS -->
+  <div class="card card-sky mb-md">
+    <div class="label mb-sm">🔜 NEXT STEPS</div>
+    <div class="body-text">In <strong>Module 2</strong>, you'll learn the full Filipino greeting system — <em>Magandang umaga po!</em> — and how to use <em>pagmamano</em> (the mano po gesture) in the right moments.<br><br>Keep practicing today's survival chunks out loud. The more you say them, the faster they come!</div>
+  </div>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <button class="btn btn-primary" onclick="restartLesson()">🔁 Review Lesson</button>
+    <button class="btn btn-sun" onclick="showCheatSheet()">📋 My Chunk Sheet</button>
+  </div>
+
+  <!-- CHEAT SHEET MODAL -->
+  <div id="cheat-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:500;overflow-y:auto;padding:20px">
+    <div style="background:white;border-radius:var(--radius-lg);padding:28px;max-width:600px;margin:0 auto;">
+      <div class="label mb-sm">MY SURVIVAL CHUNK SHEET 📋</div>
+      <div class="heading mb-md">Module 1 Quick Reference</div>
+
+      <div class="card card-sun mb-md">
+        <div class="label mb-sm">RESPECT MARKERS</div>
+        <div><span class="chunk">po</span> → politeness particle inside sentences</div>
+        <div class="mt-sm"><span class="chunk chunk-coral">Opo</span> → polite standalone "YES"</div>
+      </div>
+
+      <div class="card card-sky mb-md">
+        <div class="label mb-sm">KINSHIP TERMS</div>
+        <div><span class="chunk chunk-sky">Ate</span> → older female (any context)</div>
+        <div class="mt-sm"><span class="chunk chunk-lav">Kuya</span> → older male (any context)</div>
+      </div>
+
+      <div class="card card-leaf mb-md">
+        <div class="label mb-sm">POLITE REQUESTS (paki- + verb + po)</div>
+        <div><span class="chunk chunk-leaf">Paki-ulit po</span> → Please repeat</div>
+        <div class="mt-sm"><span class="chunk chunk-leaf">Pakiabot po</span> → Please pass it</div>
+        <div class="mt-sm"><span class="chunk chunk-leaf">Pakibukas po</span> → Please open</div>
+        <div class="mt-sm"><span class="chunk chunk-leaf">Pakisara po</span> → Please close</div>
+      </div>
+
+      <div class="card mb-md">
+        <div class="label mb-sm">CLASSROOM SURVIVAL PHRASES</div>
+        <div class="body-text"><span class="tl-grn"><strong>Opo, salamat po.</strong></span> — Yes, thank you.</div>
+        <div class="body-text mt-sm"><span class="tl-grn"><strong>Hindi ko po naiintindihan.</strong></span> — I don't understand.</div>
+        <div class="body-text mt-sm"><span class="tl-grn"><strong>Paki-ulit po, Teacher.</strong></span> — Please repeat, Teacher.</div>
+        <div class="body-text mt-sm"><span class="tl-grn"><strong>Ate, pakiabot po ng tubig.</strong></span> — Ate, please pass the water.</div>
+      </div>
+
+      <button class="btn btn-primary btn-block" onclick="closeCheatSheet()">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="confetti-wrap" id="confetti"></div>
+
+<script>
+// ──────────────────────────────────────────────
+// STATE
+// ──────────────────────────────────────────────
+let currentScreen = 0;
+const totalScreens = 8;
+let assessmentAnswers = {};
+let practiceCorrect = 0;
+let practiceTotal = 0;
+
+// ──────────────────────────────────────────────
+// NAVIGATION
+// ──────────────────────────────────────────────
+function goTo(n) {
+  if (n < 0 || n >= totalScreens) return;
+  document.querySelectorAll('.screen').forEach((s,i) => {
+    s.classList.toggle('active', i === n);
+  });
+  document.querySelectorAll('.nav-dot').forEach((d,i) => {
+    d.classList.toggle('active', i === n);
+  });
+  currentScreen = n;
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (n === 5) initFlash();
+  if (n === 7) finalSetup();
+}
+
+function nextScreen() { goTo(currentScreen + 1); }
+
+function updateProgress() {
+  const pct = (currentScreen / (totalScreens - 1)) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+// ──────────────────────────────────────────────
+// SCREEN 0 — WARM UP
+// ──────────────────────────────────────────────
+function warmup(btn, result) {
+  const btns = document.querySelectorAll('#warmup-ans button');
+  btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById('warmup-feedback');
+  fb.style.display = 'block';
+  if (result === 'correct') {
+    btn.style.background = 'var(--leaf)'; btn.style.color = 'white'; btn.style.borderColor='var(--leaf)';
+    fb.innerHTML = '✅ <strong>Opo</strong> is the polite "yes"! Great start — you already know one survival chunk!';
+    fb.style.color = '#aaffcc';
+  } else {
+    btn.style.background = 'var(--coral)'; btn.style.color='white'; btn.style.borderColor='var(--coral)';
+    btns.forEach(b => { if(b.textContent === 'Opo') { b.style.background='var(--leaf)'; b.style.color='white'; b.style.borderColor='var(--leaf)'; } });
+    fb.innerHTML = '💡 The answer is <strong>Opo</strong>! It\'s the respectful way to say YES to an elder. You\'ll master this in this lesson!';
+    fb.style.color = '#ffddaa';
+  }
+}
+
+// ──────────────────────────────────────────────
+// SCREEN 1 — RETRIEVAL CHECK
+// ──────────────────────────────────────────────
+function checkRetrieval(btn, result, id) {
+  const opts = document.querySelectorAll(`#${id}-opts button`);
+  opts.forEach(b => b.style.pointerEvents = 'none');
+  const fb = document.getElementById(`${id}-fb`);
+  fb.style.display = 'block';
+  if (result === 'correct') {
+    btn.style.background = 'rgba(61,170,110,0.3)'; btn.style.borderColor='var(--leaf)';
+    fb.innerHTML = '✅ Exactly! A survival chunk is a ready-made phrase you memorize and use automatically — like a LEGO set you open and play with right away!';
+  } else {
+    btn.style.background = 'rgba(240,106,90,0.3)'; btn.style.borderColor='var(--coral)';
+    opts.forEach(b => { if(b.textContent.includes('memorized')) { b.style.background='rgba(61,170,110,0.3)'; b.style.borderColor='var(--leaf)'; } });
+    fb.innerHTML = '💡 A survival chunk is actually a short memorized phrase! No grammar math needed — just recall and use it!';
+  }
+}
+
+// ──────────────────────────────────────────────
+// AUDIO (Text-to-Speech)
+// ──────────────────────────────────────────────
+function playAudio(card, text) {
+  document.querySelectorAll('.audio-card').forEach(c => {
+    c.classList.remove('playing');
+    c.querySelector('.audio-btn').textContent = '▶';
+  });
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const ut = new SpeechSynthesisUtterance(text);
+    ut.lang = 'fil-PH';
+    ut.rate = 0.85;
+    ut.pitch = 1.1;
+    // fallback lang if fil-PH not available
+    const voices = speechSynthesis.getVoices();
+    const filVoice = voices.find(v => v.lang.startsWith('fil') || v.lang.startsWith('tl'));
+    if (filVoice) ut.voice = filVoice;
+    card.classList.add('playing');
+    card.querySelector('.audio-btn').textContent = '⏸';
+    ut.onend = () => { card.classList.remove('playing'); card.querySelector('.audio-btn').textContent = '▶'; };
+    window.speechSynthesis.speak(ut);
+  } else {
+    card.classList.add('playing');
+    setTimeout(() => { card.classList.remove('playing'); card.querySelector('.audio-btn').textContent = '▶'; }, 1000);
+  }
+}
+
+// ──────────────────────────────────────────────
+// DRAG & DROP (SCREEN 2)
+// ──────────────────────────────────────────────
+let draggedId = null;
+let selectedWord = null; // for tap-to-place on mobile
+
+function dragStart(e) {
+  draggedId = e.target.id;
+  e.target.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function dropWord(e, zoneId, wordId) {
+  e.preventDefault();
+  const zone = document.getElementById(zoneId);
+  zone.classList.remove('drag-over');
+  if (zone.classList.contains('correct') || zone.classList.contains('filled')) return;
+  const word = document.getElementById(draggedId || wordId);
+  if (!word || word.classList.contains('placed')) return;
+  zone.textContent = 'po';
+  zone.classList.add('filled');
+  zone.dataset.placed = draggedId || wordId;
+  word.classList.add('placed');
+  word.style.opacity = '0.3';
+  draggedId = null;
+  document.querySelectorAll('.drag-word.dragging').forEach(w => w.classList.remove('dragging'));
+  checkAllDropped();
+}
+
+// Mobile tap-to-place
+function tapDrop(zoneId, wordId) {
+  const zone = document.getElementById(zoneId);
+  if (zone.classList.contains('correct') || zone.classList.contains('filled')) return;
+  // Find an unplaced word
+  const avail = document.querySelectorAll('.drag-word:not(.placed)');
+  if (avail.length === 0) return;
+  const word = avail[0];
+  zone.textContent = 'po';
+  zone.classList.add('filled');
+  zone.dataset.placed = word.id;
+  word.classList.add('placed');
+  word.style.opacity = '0.3';
+  checkAllDropped();
+}
+
+function checkAllDropped() {
+  const zones = ['dz1','dz2','dz3'];
+  const allFilled = zones.every(id => document.getElementById(id).classList.contains('filled') || document.getElementById(id).classList.contains('correct'));
+  if (allFilled) {
+    document.getElementById('drag-check').style.display = 'block';
+  }
+}
+
+function checkDrops() {
+  let correct = 0;
+  ['dz1','dz2','dz3'].forEach((id,i) => {
+    const zone = document.getElementById(id);
+    const fb = document.getElementById(id+'-fb');
+    fb.classList.add('show');
+    if (zone.classList.contains('filled') || zone.textContent === 'po') {
+      zone.classList.add('correct');
+      correct++;
+      fb.className = 'feedback-box show correct';
+      fb.textContent = '✅ Perfect! Po belongs right here — right after the first important word.';
+    } else {
+      zone.classList.add('wrong');
+      fb.className = 'feedback-box show wrong';
+      fb.textContent = '💡 Po usually goes after the first meaningful word in the sentence.';
+    }
+  });
+  document.getElementById('drag-check').style.display = 'none';
+  const result = document.getElementById('drag-result');
+  result.style.display = 'block';
+  if (correct === 3) {
+    result.innerHTML = '<div class="card card-leaf">🎉 <strong>All 3 correct!</strong> You understand exactly where po belongs!</div>';
+    celebrate();
+  } else {
+    result.innerHTML = `<div class="card card-coral">${correct}/3 correct. Review where po goes — right after the 1st or 2nd word!</div>`;
+  }
+  document.getElementById('next2-btn').style.display = 'flex';
+  document.getElementById('drag-hint').style.display = 'none';
+}
+
+// ──────────────────────────────────────────────
+// SCENARIO CHECKS
+// ──────────────────────────────────────────────
+function scenarioCheck(btn, result, scId) {
+  const choices = btn.parentNode.querySelectorAll('.scenario-choice');
+  choices.forEach(c => c.style.pointerEvents = 'none');
+  const fb = document.getElementById(scId+'-fb');
+  fb.classList.add('show');
+  if (result === 'correct') {
+    btn.classList.add('correct');
+    fb.className = 'feedback-box show correct';
+    fb.textContent = '✅ Excellent! That\'s the natural, culturally appropriate response!';
+  } else {
+    btn.classList.add('wrong');
+    choices.forEach(c => { if(!c.classList.contains('wrong') && !c.classList.contains('correct')) c.classList.add('correct'); });
+    fb.className = 'feedback-box show wrong';
+    if (scId === 'sc1') fb.textContent = '💡 The canteen lady is female — Ate is the warm, respectful address. Kuya is for older males!';
+    if (scId === 'sc2') fb.textContent = '💡 He\'s an older male — Kuya brings warmth and respect. Ate is for females only!';
+  }
+}
+
+// ──────────────────────────────────────────────
+// FILL IN THE BLANK (SCREEN 4)
+// ──────────────────────────────────────────────
+function showCheckBtn(inputId, btnId, answer) {
+  const val = document.getElementById(inputId).value.trim().toLowerCase();
+  document.getElementById(btnId).style.display = val.length > 1 ? 'inline-flex' : 'none';
+}
+
+function checkFill(inputId, correct, fbId) {
+  const inp = document.getElementById(inputId);
+  const fb = document.getElementById(fbId);
+  const val = inp.value.trim().toLowerCase().replace(/[^a-z]/g,'');
+  const ans = correct.toLowerCase();
+  fb.classList.add('show');
+  if (val === ans || val === 'paki'+ans) {
+    inp.classList.remove('wrong'); inp.classList.add('correct');
+    fb.className = 'feedback-box show correct';
+    fb.textContent = `✅ Correct! Paki${correct} po is perfectly polite!`;
+  } else {
+    inp.classList.remove('correct'); inp.classList.add('wrong');
+    fb.className = 'feedback-box show wrong';
+    fb.textContent = `💡 Try "${correct}"! Remember: paki- + ${correct} = paki${correct} = please ${correct === 'bukas' ? 'open' : 'give'}.`;
+  }
+}
+
+// ──────────────────────────────────────────────
+// MATCHING GAME (SCREEN 4)
+// ──────────────────────────────────────────────
+let matchSelected = null;
+let matchCorrectAnswers = { 1:'Please say it again.', 2:'Please pass the water.', 3:'Please open the door.', 4:'Please close the window.' };
+let matchScore = 0;
+
+function matchClick(el) {
+  if (el.classList.contains('matched-correct')) return;
+  if (!matchSelected) {
+    // deselect any previously selected
+    document.querySelectorAll('.match-item.selected').forEach(i => i.classList.remove('selected'));
+    el.classList.add('selected');
+    matchSelected = el;
+  } else {
+    if (matchSelected === el) { el.classList.remove('selected'); matchSelected = null; return; }
+    const a = matchSelected, b = el;
+    const leftEl = a.dataset.side === 'left' ? a : b;
+    const rightEl = a.dataset.side === 'right' ? a : b;
+    if (!leftEl || !rightEl || leftEl.dataset.side === rightEl.dataset.side) {
+      document.querySelectorAll('.match-item.selected').forEach(i => i.classList.remove('selected'));
+      el.classList.add('selected');
+      matchSelected = el;
+      return;
+    }
+    if (leftEl.dataset.pair === rightEl.dataset.pair) {
+      leftEl.classList.remove('selected'); rightEl.classList.remove('selected');
+      leftEl.classList.add('matched-correct'); rightEl.classList.add('matched-correct');
+      matchScore++;
+      if (matchScore === 4) {
+        document.getElementById('match-result').style.display = 'block';
+        document.getElementById('match-result').innerHTML = '🎉 <strong style="color:var(--leaf)">All 4 matched correctly!</strong> You know your paki- phrases!';
+        celebrate();
+      }
+    } else {
+      leftEl.classList.add('matched-wrong'); rightEl.classList.add('matched-wrong');
+      setTimeout(() => {
+        leftEl.classList.remove('matched-wrong','selected');
+        rightEl.classList.remove('matched-wrong','selected');
+      }, 800);
+    }
+    matchSelected = null;
+  }
+}
+
+// ──────────────────────────────────────────────
+// PRACTICE SCENARIOS (SCREEN 5)
+// ──────────────────────────────────────────────
+function practiceCheck(btn, result, scId, feedbackText) {
+  const choices = btn.parentNode.querySelectorAll('.scenario-choice');
+  choices.forEach(c => c.style.pointerEvents = 'none');
+  practiceTotal++;
+  const fb = document.getElementById(scId+'-fb');
+  fb.classList.add('show');
+  if (result === 'correct') {
+    btn.classList.add('correct');
+    fb.className = 'feedback-box show correct';
+    practiceCorrect++;
+  } else {
+    btn.classList.add('wrong');
+    choices.forEach(c => { if (!c.classList.contains('wrong')) c.classList.add('correct'); });
+    fb.className = 'feedback-box show wrong';
+  }
+  fb.textContent = feedbackText;
+  if (practiceTotal === 4) showPracticeScore();
+}
+
+function showPracticeScore() {
+  const wrap = document.getElementById('practice-score-wrap');
+  wrap.style.display = 'block';
+  document.getElementById('practice-score-text').textContent = `You got ${practiceCorrect} out of 4 right!`;
+  setTimeout(() => {
+    document.getElementById('practice-meter').style.width = (practiceCorrect/4*100) + '%';
+  }, 200);
+}
+
+// ──────────────────────────────────────────────
+// FLASH RECALL (SCREEN 5)
+// ──────────────────────────────────────────────
+const flashQs = [
+  { q: 'How do you say "Please repeat that" in Filipino?', opts:['Paki-ulit po','Pakibukas po','Opo, salamat po','Pakisara po'], a:0 },
+  { q: 'Which word is the respectful standalone YES?', opts:['Oo','Po','Opo','Sige'], a:2 },
+  { q: 'What do you call an older female stranger in Filipino?', opts:['Kuya','Lola','Ate','Ma\'am'], a:2 },
+  { q: '"Hindi ko po naiintindihan" means…', opts:['I understand','I don\'t understand','Please repeat','Thank you'], a:1 },
+  { q: 'Paki- is used to…', opts:['Greet elders','Soften commands into polite requests','Say goodbye politely','Replace po in sentences'], a:1 },
+];
+let flashIdx = 0;
+let flashAnswered = false;
+
+function initFlash() {
+  flashIdx = 0;
+  flashAnswered = false;
+  loadFlash();
+}
+
+function loadFlash() {
+  if (flashIdx >= flashQs.length) {
+    document.getElementById('flash-q').textContent = '🎉 You completed all flash questions!';
+    document.getElementById('flash-opts').innerHTML = '';
+    document.getElementById('flash-next').style.display = 'none';
+    return;
+  }
+  const q = flashQs[flashIdx];
+  document.getElementById('flash-q').textContent = q.q;
+  document.getElementById('flash-fb').style.display = 'none';
+  document.getElementById('flash-next').style.display = 'none';
+  flashAnswered = false;
+  const opts = document.getElementById('flash-opts');
+  opts.innerHTML = '';
+  q.opts.forEach((opt,i) => {
+    const b = document.createElement('button');
+    b.className = 'btn btn-outline';
+    b.style.cssText = 'color:white;border-color:rgba(255,255,255,0.4);font-size:13px;padding:8px 16px';
+    b.textContent = opt;
+    b.onclick = () => {
+      if (flashAnswered) return;
+      flashAnswered = true;
+      const fb = document.getElementById('flash-fb');
+      fb.style.display = 'block';
+      document.getElementById('flash-next').style.display = 'inline-flex';
+      if (i === q.a) {
+        b.style.background = 'var(--leaf)'; b.style.color='white';
+        fb.textContent = '✅ Correct! Great recall!';
+      } else {
+        b.style.background = 'var(--coral)'; b.style.color='white';
+        opts.querySelectorAll('button')[q.a].style.background = 'var(--leaf)';
+        opts.querySelectorAll('button')[q.a].style.color = 'white';
+        fb.textContent = `💡 The answer is: "${q.opts[q.a]}"`;
+      }
+    };
+    opts.appendChild(b);
+  });
+}
+
+function nextFlash() {
+  flashIdx++;
+  loadFlash();
+}
+
+// ──────────────────────────────────────────────
+// ASSESSMENT (SCREEN 6)
+// ──────────────────────────────────────────────
+let answeredCount = 0;
+
+function assessCheck(btn, result, qId, qNum) {
+  if (assessmentAnswers[qNum] !== undefined) return;
+  assessmentAnswers[qNum] = result === 'correct';
+  const opts = btn.parentNode.querySelectorAll('.quiz-option');
+  opts.forEach(o => o.style.pointerEvents = 'none');
+  const fb = document.getElementById(qId+'-fb');
+  fb.classList.add('show');
+  if (result === 'correct') {
+    btn.classList.add('correct');
+    fb.className = 'feedback-box show correct';
+    const msgs = ['','✅ Opo is the polite standalone YES — perfect for responding to your lola!','✅ Po goes right after the first meaningful word! Salamat po sa inyo.','✅ Kuya is exactly right for an older male adult outside your family!','✅ Pakibukas po ng bintana — the full polite request with paki- and po!','✅ Both survival chunks combined — that\'s expert-level social automation!'];
+    fb.textContent = msgs[qNum];
+  } else {
+    btn.classList.add('wrong');
+    opts.forEach(o => { if (o.textContent.startsWith('Opo')||o.textContent.startsWith('After')||o.textContent==='Kuya'||o.textContent.startsWith('Pakibukas')||o.textContent.startsWith('Hindi ko po')) o.classList.add('correct'); });
+    fb.className = 'feedback-box show wrong';
+    const hints = ['','💡 Oo is casual — use Opo to show respect to elders!','💡 Po goes after the 1st/2nd word — Salamat po sa inyo.','💡 He\'s an older male — Kuya is the warm, respectful term!','💡 Use paki- + po together: Pakibukas po ng bintana.','💡 Combine Hindi ko po naiintindihan + Paki-ulit po for the full response!'];
+    fb.textContent = hints[qNum];
+  }
+  answeredCount++;
+  if (answeredCount === 5) {
+    setTimeout(() => {
+      document.getElementById('assessment-submit-wrap').style.display = 'block';
+    }, 500);
+  }
+}
+
+function submitAssessment() {
+  nextScreen();
+}
+
+// ──────────────────────────────────────────────
+// RESULTS (SCREEN 7)
+// ──────────────────────────────────────────────
+function finalSetup() {
+  const score = Object.values(assessmentAnswers).filter(v=>v).length;
+  const pct = score / 5;
+  document.getElementById('score-num').textContent = `${score}/5`;
+  setTimeout(() => {
+    document.getElementById('final-meter').style.width = (pct*100) + '%';
+    updateScoreRing(pct);
+  }, 400);
+  let emoji, title, msg;
+  if (score === 5) {
+    emoji='🏆'; title='Survival Toolkit Master!'; msg='Outstanding! You\'ve automated all the key Filipino social tools. You\'re ready for real conversations!';
+    celebrate();
+  } else if (score >= 4) {
+    emoji='⭐'; title='Almost Perfect!'; msg='Great job! You\'ve mastered most of your survival toolkit. One quick review and you\'ll have it all!';
+  } else if (score >= 3) {
+    emoji='💪'; title='Good Progress!'; msg='You\'re building your toolkit! Review po/opo placement and keep practicing the chunks.';
+  } else {
+    emoji='🌱'; title='Keep Growing!'; msg='You\'re just getting started! Go back and review — this lesson is always here to help you!';
+  }
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-title').textContent = title;
+  document.getElementById('result-subtitle').textContent = msg;
+  document.getElementById('score-message').textContent = msg;
+}
+
+function updateScoreRing(pct) {
+  const ring = document.getElementById('score-ring');
+  const color = pct >= 0.8 ? 'var(--leaf)' : pct >= 0.6 ? 'var(--sun)' : 'var(--coral)';
+  ring.style.background = `conic-gradient(${color} ${pct*100}%, var(--mist) 0%)`;
+}
+
+// ──────────────────────────────────────────────
+// REFLECTION
+// ──────────────────────────────────────────────
+function setReflect(id, val) {
+  document.getElementById(id).style.width = val + '%';
+}
+
+// ──────────────────────────────────────────────
+// CHEAT SHEET
+// ──────────────────────────────────────────────
+function showCheatSheet() { document.getElementById('cheat-modal').style.display = 'block'; }
+function closeCheatSheet() { document.getElementById('cheat-modal').style.display = 'none'; }
+
+// ──────────────────────────────────────────────
+// RESTART
+// ──────────────────────────────────────────────
+function restartLesson() {
+  assessmentAnswers = {};
+  answeredCount = 0;
+  practiceCorrect = 0;
+  practiceTotal = 0;
+  goTo(0);
+}
+
+// ──────────────────────────────────────────────
+// CONFETTI
+// ──────────────────────────────────────────────
+function celebrate() {
+  const wrap = document.getElementById('confetti');
+  wrap.innerHTML = '';
+  const colors = ['#FFB830','#F06A5A','#3DAA6E','#4A90D9','#9B7FD4'];
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.animationDuration = (1.2 + Math.random() * 1.2) + 's';
+    p.style.animationDelay = Math.random() * 0.5 + 's';
+    p.style.width = (6 + Math.random() * 8) + 'px';
+    p.style.height = (10 + Math.random() * 10) + 'px';
+    wrap.appendChild(p);
+  }
+  setTimeout(() => wrap.innerHTML = '', 3000);
+}
+
+// ──────────────────────────────────────────────
+// KEYBOARD NAVIGATION
+// ──────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+    // only navigate if no modal open
+    if (document.getElementById('cheat-modal').style.display === 'none') nextScreen();
+  }
+});
+
+// Load voices for TTS
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.onvoiceschanged = () => {};
+}
+
+// Init
+updateProgress();
+</script>
+</body>
+</html>

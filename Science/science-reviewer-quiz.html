@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 3 Science Reviewer 🔬</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #FF8C42;
+    --yellow: #FFD166;
+    --green: #06D6A0;
+    --blue: #118AB2;
+    --red: #EF476F;
+    --purple: #B388FF;
+    --bg: #FFF8EE;
+    --dark: #2C2C2C;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Quicksand', sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+
+  /* WAVY TOP */
+  .top-banner {
+    background: linear-gradient(135deg, #FF8C42 0%, #EF476F 100%);
+    padding: 36px 20px 56px;
+    text-align: center;
+    clip-path: ellipse(120% 100% at 50% 0%);
+    position: relative;
+  }
+  .top-banner h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    color: white;
+    text-shadow: 2px 3px 0 rgba(0,0,0,0.15);
+  }
+  .top-banner p { color: #FFE8D0; font-weight: 600; font-size: 1rem; margin-top: 6px; }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 18px 12px 10px;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.95rem;
+    padding: 9px 20px;
+    border-radius: 50px;
+    border: 3px solid #ddd;
+    background: white;
+    color: #666;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #ccc;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { transform: translateY(-2px); }
+  .tab-btn.act-r  { background:#FF8C42; color:white; border-color:#cc6a2a; box-shadow:0 3px 0 #cc6a2a; }
+  .tab-btn.act-q1 { background:#EF476F; color:white; border-color:#b52d4e; box-shadow:0 3px 0 #b52d4e; }
+  .tab-btn.act-q2 { background:#06D6A0; color:white; border-color:#04a87d; box-shadow:0 3px 0 #04a87d; }
+  .tab-btn.act-q3 { background:#118AB2; color:white; border-color:#0b6484; box-shadow:0 3px 0 #0b6484; }
+
+  /* SECTIONS */
+  .section { display:none; padding: 6px 14px 60px; max-width: 860px; margin: 0 auto; }
+  .section.active { display: block; }
+
+  /* REVIEWER CARDS */
+  .topic-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 22px 0 12px;
+  }
+  .topic-icon { font-size: 2.4rem; }
+  .topic-header h2 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.5rem;
+  }
+
+  .card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px 22px;
+    margin-bottom: 16px;
+    box-shadow: 0 5px 0 #e0d8cc;
+    border: 2.5px solid #f0e8da;
+    animation: fadeUp 0.35s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(14px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .card h3 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.15rem;
+    margin-bottom: 10px;
+    color: #FF8C42;
+  }
+  .card h3.green  { color: #06D6A0; }
+  .card h3.blue   { color: #118AB2; }
+  .card h3.red    { color: #EF476F; }
+  .card h3.purple { color: #9c6fe4; }
+
+  .info-box {
+    background: #FFF3E0;
+    border-left: 5px solid #FF8C42;
+    border-radius: 0 12px 12px 0;
+    padding: 10px 14px;
+    margin: 8px 0;
+    font-size: 0.97rem;
+    line-height: 1.75;
+    font-weight: 600;
+  }
+  .info-box.green  { background:#E8FFF8; border-color:#06D6A0; }
+  .info-box.blue   { background:#E3F4FF; border-color:#118AB2; }
+  .info-box.red    { background:#FEE8EE; border-color:#EF476F; }
+  .info-box.purple { background:#F3EEFF; border-color:#9c6fe4; }
+
+  .fact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+    margin: 12px 0;
+  }
+  .fact-chip {
+    border-radius: 14px;
+    padding: 12px 14px;
+    font-weight: 700;
+    font-size: 0.93rem;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .fc-orange { background:#FFF0E0; border:2px solid #FF8C42; color:#994d00; }
+  .fc-green  { background:#E8FFF8; border:2px solid #06D6A0; color:#02614a; }
+  .fc-blue   { background:#E3F4FF; border:2px solid #118AB2; color:#0b4f6c; }
+  .fc-red    { background:#FEE8EE; border:2px solid #EF476F; color:#8b1e38; }
+  .fc-purple { background:#F3EEFF; border:2px solid #9c6fe4; color:#5a2da0; }
+  .fc-yellow { background:#FFFBE0; border:2px solid #FFD166; color:#7a5c00; }
+
+  .vs-row {
+    display: flex;
+    gap: 12px;
+    margin: 12px 0;
+    flex-wrap: wrap;
+  }
+  .vs-box {
+    flex: 1;
+    min-width: 140px;
+    border-radius: 16px;
+    padding: 14px;
+    text-align: center;
+  }
+  .vs-box h4 { font-family:'Baloo 2',cursive; font-size:1.1rem; margin-bottom:8px; }
+  .vs-living { background:#E8FFF8; border:3px solid #06D6A0; }
+  .vs-living h4 { color:#04a87d; }
+  .vs-nonliving { background:#E3F4FF; border:3px solid #118AB2; }
+  .vs-nonliving h4 { color:#0b6484; }
+  .vs-box ul { list-style:none; font-weight:600; font-size:0.93rem; line-height:1.8; }
+
+  .divider {
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 6px 0;
+    opacity: 0.4;
+  }
+
+  /* QUIZ */
+  .quiz-header { text-align:center; margin: 16px 0 20px; }
+  .quiz-header h2 { font-family:'Baloo 2',cursive; font-size:1.8rem; }
+  .quiz-header p { font-weight:600; color:#777; }
+
+  .scoreboard {
+    display:flex; justify-content:center; gap:18px; margin-bottom:16px; flex-wrap:wrap;
+  }
+  .score-box {
+    background:white; border-radius:14px; padding:10px 22px;
+    font-family:'Baloo 2',cursive; font-size:1rem;
+    box-shadow:0 3px 0 #ddd; text-align:center; min-width:100px;
+  }
+  .score-box span { font-size:1.7rem; display:block; }
+
+  .prog-wrap { background:#e8e0d8; border-radius:50px; height:13px; margin-bottom:18px; overflow:hidden; }
+  .prog-fill { height:100%; border-radius:50px; transition:width 0.4s ease; }
+  .pf-red    { background:linear-gradient(90deg,#EF476F,#FF8C42); }
+  .pf-green  { background:linear-gradient(90deg,#06D6A0,#118AB2); }
+  .pf-blue   { background:linear-gradient(90deg,#118AB2,#B388FF); }
+
+  .q-card {
+    background:white; border-radius:22px; padding:24px;
+    box-shadow:0 5px 0 #e0d8cc; border:2.5px solid #f0e8da; margin-bottom:18px;
+  }
+  .q-label {
+    font-family:'Baloo 2',cursive; font-size:0.88rem; color:white;
+    display:inline-block; padding:3px 14px; border-radius:50px; margin-bottom:10px;
+  }
+  .ql-red    { background:#EF476F; }
+  .ql-green  { background:#06D6A0; }
+  .ql-blue   { background:#118AB2; }
+
+  .q-text { font-size:1.1rem; font-weight:700; margin-bottom:16px; line-height:1.55; }
+  .q-emoji { font-size:2rem; text-align:center; margin-bottom:8px; }
+
+  .choices {
+    display:grid; grid-template-columns:1fr 1fr; gap:10px;
+  }
+  @media(max-width:480px){ .choices { grid-template-columns:1fr; } }
+
+  .choice-btn {
+    padding:12px 14px; border-radius:14px; border:3px solid #e5ddd5;
+    background:#faf6f0; font-family:'Quicksand',sans-serif;
+    font-size:0.97rem; font-weight:700; cursor:pointer;
+    transition:all 0.15s; text-align:left;
+  }
+  .choice-btn:hover:not(:disabled) { border-color:#FF8C42; background:#fff3e0; transform:translateY(-2px); }
+  .choice-btn.correct { background:#d4f5ec; border-color:#06D6A0; color:#025940; }
+  .choice-btn.wrong   { background:#fde0e7; border-color:#EF476F; color:#7a1e30; }
+  .choice-btn:disabled { cursor:default; }
+
+  .feedback-msg { margin-top:13px; padding:10px 14px; border-radius:12px; font-weight:700; display:none; }
+  .fb-correct { background:#d4f5ec; color:#025940; display:block; }
+  .fb-wrong   { background:#fde0e7; color:#7a1e30; display:block; }
+
+  .qcontrols { display:flex; justify-content:center; gap:12px; margin-top:18px; flex-wrap:wrap; }
+  .btn-go {
+    font-family:'Baloo 2',cursive; font-size:1.05rem; padding:11px 30px;
+    border-radius:50px; border:3px solid; cursor:pointer;
+    box-shadow:0 4px 0; transition:all 0.15s;
+  }
+  .btn-go:hover { transform:translateY(-2px); }
+  .bg-orange { background:#FF8C42; color:white; border-color:#cc6a2a; box-shadow:0 4px 0 #cc6a2a; }
+  .bg-green  { background:#06D6A0; color:white; border-color:#04a87d; box-shadow:0 4px 0 #04a87d; }
+  .bg-blue   { background:#118AB2; color:white; border-color:#0b6484; box-shadow:0 4px 0 #0b6484; }
+
+  /* RESULT */
+  .result-box { display:none; text-align:center; padding:36px 16px; }
+  .result-box .medal { font-size:4.5rem; margin-bottom:8px; }
+  .result-box h2 { font-family:'Baloo 2',cursive; font-size:2.2rem; margin-bottom:6px; }
+  .result-box .big-score { font-family:'Baloo 2',cursive; font-size:3.8rem; color:#FF8C42; }
+  .result-box p { font-weight:600; color:#666; font-size:1rem; margin-top:8px; }
+
+  /* floating decorations */
+  .bg-deco { position:fixed; font-size:2rem; opacity:0.09; pointer-events:none; animation:fl 7s ease-in-out infinite; }
+  @keyframes fl { 0%,100%{transform:translateY(0);}50%{transform:translateY(-20px);} }
+  .bg-deco:nth-child(1){top:5%;left:2%;animation-delay:0s;}
+  .bg-deco:nth-child(2){top:18%;right:3%;animation-delay:1.5s;}
+  .bg-deco:nth-child(3){top:55%;left:1%;animation-delay:3s;}
+  .bg-deco:nth-child(4){bottom:12%;right:2%;animation-delay:0.8s;}
+  .bg-deco:nth-child(5){bottom:30%;left:3%;animation-delay:2s;}
+</style>
+</head>
+<body>
+
+<div class="bg-deco">🔥</div>
+<div class="bg-deco">🌱</div>
+<div class="bg-deco">☀️</div>
+<div class="bg-deco">🌿</div>
+<div class="bg-deco">🧪</div>
+
+<div class="top-banner">
+  <h1>🔬 Grade 3 Science Reviewer!</h1>
+  <p>Heat Energy • Living & Non-living Things • Exploring the World through Elementary Science 3</p>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn act-r" onclick="showTab('reviewer')">📖 Reviewer</button>
+  <button class="tab-btn" onclick="showTab('q1')">🔥 Heat Quiz</button>
+  <button class="tab-btn" onclick="showTab('q2')">🌿 Living Things Quiz</button>
+  <button class="tab-btn" onclick="showTab('q3')">🏆 Mixed Quiz</button>
+</div>
+
+<!-- =================== REVIEWER =================== -->
+<div id="reviewer" class="section active">
+
+  <!-- HEAT TOPIC -->
+  <div class="topic-header">
+    <div class="topic-icon">🔥</div>
+    <h2 style="color:#FF8C42;">Lessons 4–6: Heat Energy</h2>
+  </div>
+
+  <div class="card">
+    <h3>☀️ What is Heat?</h3>
+    <div class="info-box">Heat is a <b>form of energy</b> that keeps us warm. It is very important in our everyday life. Heat can <b>cook our food</b>, and do many other useful things.</div>
+    <div class="info-box">The <b>SUN</b> is the <b>main source</b> of heat and light on Earth. When sunlight hits a surface, it is absorbed and <b>converted into heat</b>!</div>
+  </div>
+
+  <div class="card">
+    <h3>🌡️ Other Sources of Heat</h3>
+    <p style="font-weight:600; margin-bottom:10px;">Besides the sun, there are many other things that give off heat:</p>
+    <div class="fact-grid">
+      <div class="fact-chip fc-orange">🕯️ Candle<br><small>burning flame</small></div>
+      <div class="fact-chip fc-red">🪨 Burning Charcoal<br><small>charcoal fire</small></div>
+      <div class="fact-chip fc-yellow">🔥 Burning Wood<br><small>campfire / fireplace</small></div>
+      <div class="fact-chip fc-blue">⚡ Electric Appliances<br><small>oven, flat iron, kettle</small></div>
+      <div class="fact-chip fc-green">⛽ Burning Gas<br><small>gas stove</small></div>
+      <div class="fact-chip fc-purple">🏃 The Human Body<br><small>our bodies make heat too!</small></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="red">🍳 Uses of Heat</h3>
+    <p style="font-weight:600; margin-bottom:10px;">Heat is used in many ways in our daily life:</p>
+    <div class="fact-grid">
+      <div class="fact-chip fc-red">👕 <b>Flat Iron</b><br>press clothes</div>
+      <div class="fact-chip fc-blue">🍲 <b>Gas Stove</b><br>cooking</div>
+      <div class="fact-chip fc-yellow">💧 <b>Electric Kettle</b><br>boiling water</div>
+      <div class="fact-chip fc-green">🐣 <b>Incubator</b><br>body warming</div>
+      <div class="fact-chip fc-orange">🔥 <b>Fireplace</b><br>warm newborn babies</div>
+      <div class="fact-chip fc-purple">📡 <b>Microwave Oven</b><br>food warming</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="green">🌿 How Plants, Animals & People Use Heat</h3>
+    <div class="info-box green">🌱 <b>Plants</b> need heat from the sun to grow. Seeds only start to grow when there is warmth from the sun.</div>
+    <div class="info-box green">🦎 <b>Some animals</b> bask in the sun to keep their bodies warm. They depend on the sun's heat to function normally.</div>
+    <div class="info-box green">👨‍👩‍👧 <b>People</b> use heat from the sun to dry clothes, and also use solar panels to convert the sun's heat into electricity!</div>
+  </div>
+
+  <div class="card">
+    <h3 class="red">⚠️ Too Much Heat = Harmful!</h3>
+    <div class="info-box red">❌ <b>Too much heat IS harmful</b> to the body! It can cause burns, dehydration, and other health problems. Always be careful around heat sources.</div>
+    <div class="info-box">✅ The right amount of heat keeps us warm, cooks our food, and helps plants and animals survive.</div>
+  </div>
+
+  <div class="divider">— ✦ —</div>
+
+  <!-- LIVING/NONLIVING TOPIC -->
+  <div class="topic-header" style="margin-top:10px;">
+    <div class="topic-icon">🌿</div>
+    <h2 style="color:#06D6A0;">Lesson 2: Living & Non-living Things</h2>
+  </div>
+
+  <div class="card">
+    <h3 class="green">🧬 What are Living Things?</h3>
+    <div class="info-box green">Living things are things that are <b>alive</b>. They <b>grow, eat, breathe, move, and reproduce</b> (make more of themselves)!</div>
+    <div class="vs-row">
+      <div class="vs-box vs-living">
+        <h4>🌱 Living Things</h4>
+        <ul>
+          <li>🐱 Cat</li><li>🐶 Dog</li><li>🌸 Flowers</li>
+          <li>🌳 Trees</li><li>🦋 Insects</li><li>🐄 Cow</li>
+          <li>🐴 Horse</li><li>🐑 Sheep</li><li>👨 People</li>
+          <li>🍄 Mushrooms</li>
+        </ul>
+      </div>
+      <div class="vs-box vs-nonliving">
+        <h4>🪑 Non-living Things</h4>
+        <ul>
+          <li>🪑 Chair</li><li>📚 Book</li><li>🪟 Table</li>
+          <li>🥛 Glass</li><li>📄 Paper</li><li>🍽️ Plate</li>
+          <li>✏️ Pencil</li><li>🪨 Rock/Soil</li><li>🏠 House</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="blue">🔑 How to Tell If Something is Living</h3>
+    <div class="fact-grid">
+      <div class="fact-chip fc-green">🌱 It <b>GROWS</b></div>
+      <div class="fact-chip fc-blue">🍽️ It <b>EATS / GETS FOOD</b></div>
+      <div class="fact-chip fc-orange">💨 It <b>BREATHES</b></div>
+      <div class="fact-chip fc-red">🏃 It can <b>MOVE</b></div>
+      <div class="fact-chip fc-purple">👶 It can <b>REPRODUCE</b></div>
+      <div class="fact-chip fc-yellow">💧 It <b>NEEDS WATER</b></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="purple">🌻 Why are Plants Important?</h3>
+    <div class="info-box purple">🥗 Plants are important <b>sources of food</b> — like okra, eggplant, tomato, and chili.</div>
+    <div class="info-box purple">💊 Some plants are used for <b>medicine</b> — like oregano and laguno/saluyot.</div>
+    <div class="info-box purple">🌺 Some plants are used for <b>decoration</b> — like bougainvillea and sampaguita.</div>
+    <div class="info-box purple">🪑 Plants make soil <b>rich with nutrients</b>. They are also used to make furniture, houses, and clothing materials.</div>
+  </div>
+
+  <div class="card">
+    <h3>🌍 Living & Non-living Things in the Garden</h3>
+    <div class="info-box">In a garden, you can find BOTH living and non-living things. <b>Soil and rocks</b> are non-living. <b>Plants, insects, and other animals</b> are living.</div>
+    <div class="info-box green">💡 Non-living things like <b>soil</b> are still very important! Plants are planted in soil. Insects live among rocks. Both help the garden thrive.</div>
+  </div>
+
+</div><!-- end reviewer -->
+
+<!-- =================== HEAT QUIZ =================== -->
+<div id="q1" class="section">
+  <div class="quiz-header">
+    <h2 style="color:#EF476F;">🔥 Heat Energy Quiz</h2>
+    <p>Let's test what you know about heat!</p>
+  </div>
+  <div class="scoreboard">
+    <div class="score-box">⭐ Score<span id="h-score">0</span></div>
+    <div class="score-box">📋 Question<span id="h-qn">1/10</span></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill pf-red" id="h-prog" style="width:0%"></div></div>
+  <div id="h-area"></div>
+  <div id="h-result" class="result-box">
+    <div class="medal" id="h-medal"></div>
+    <h2 id="h-rtitle" style="color:#EF476F;"></h2>
+    <div class="big-score" id="h-rscore"></div>
+    <p id="h-rmsg"></p>
+    <div class="qcontrols" style="margin-top:22px;">
+      <button class="btn-go bg-orange" onclick="restartQ('heat')">🔄 Try Again</button>
+      <button class="btn-go bg-green" onclick="showTab('q2')">Next Quiz →</button>
+    </div>
+  </div>
+</div>
+
+<!-- =================== LIVING THINGS QUIZ =================== -->
+<div id="q2" class="section">
+  <div class="quiz-header">
+    <h2 style="color:#06D6A0;">🌿 Living & Non-living Quiz</h2>
+    <p>Can you tell what's alive and what's not?</p>
+  </div>
+  <div class="scoreboard">
+    <div class="score-box">⭐ Score<span id="l-score">0</span></div>
+    <div class="score-box">📋 Question<span id="l-qn">1/10</span></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill pf-green" id="l-prog" style="width:0%"></div></div>
+  <div id="l-area"></div>
+  <div id="l-result" class="result-box">
+    <div class="medal" id="l-medal"></div>
+    <h2 id="l-rtitle" style="color:#06D6A0;"></h2>
+    <div class="big-score" id="l-rscore"></div>
+    <p id="l-rmsg"></p>
+    <div class="qcontrols" style="margin-top:22px;">
+      <button class="btn-go bg-green" onclick="restartQ('living')">🔄 Try Again</button>
+      <button class="btn-go bg-blue" onclick="showTab('q3')">Next Quiz →</button>
+    </div>
+  </div>
+</div>
+
+<!-- =================== MIXED QUIZ =================== -->
+<div id="q3" class="section">
+  <div class="quiz-header">
+    <h2 style="color:#118AB2;">🏆 Mixed Challenge Quiz</h2>
+    <p>Heat + Living Things — all in one!</p>
+  </div>
+  <div class="scoreboard">
+    <div class="score-box">⭐ Score<span id="m-score">0</span></div>
+    <div class="score-box">📋 Question<span id="m-qn">1/10</span></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill pf-blue" id="m-prog" style="width:0%"></div></div>
+  <div id="m-area"></div>
+  <div id="m-result" class="result-box">
+    <div class="medal" id="m-medal"></div>
+    <h2 id="m-rtitle" style="color:#118AB2;"></h2>
+    <div class="big-score" id="m-rscore"></div>
+    <p id="m-rmsg"></p>
+    <div class="qcontrols" style="margin-top:22px;">
+      <button class="btn-go bg-blue" onclick="restartQ('mixed')">🔄 Try Again</button>
+      <button class="btn-go bg-orange" onclick="showTab('reviewer')">📖 Review Again</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- TABS ----
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.className = 'tab-btn';
+  });
+  document.getElementById(id).classList.add('active');
+  const map = {reviewer:'act-r', q1:'act-q1', q2:'act-q2', q3:'act-q3'};
+  const idx = {reviewer:0, q1:1, q2:2, q3:3};
+  document.querySelectorAll('.tab-btn')[idx[id]].classList.add(map[id]);
+}
+
+// ---- QUESTIONS ----
+const heatQs = [
+  {e:"☀️", q:"What is the MAIN source of heat and light on Earth?", c:["The Sun","The Moon","A candle","The ocean"], a:"The Sun", h:"The sun is our biggest and most important source of heat!"},
+  {e:"🔥", q:"Is heat a form of energy?", c:["Yes, it is!","No, it is not","Only sometimes","Only at night"], a:"Yes, it is!", h:"Heat IS a form of energy — it can do work like cooking food!"},
+  {e:"⚠️", q:"Is too much heat harmful to the body?", c:["Yes, it is harmful!","No, it is safe","Only for animals","Only for plants"], a:"Yes, it is harmful!", h:"Too much heat can cause burns and other health problems."},
+  {e:"🕯️", q:"Which of these is a source of heat besides the sun?", c:["A candle flame","A glass of water","A book","A chair"], a:"A candle flame", h:"A burning candle flame gives off heat!"},
+  {e:"👕", q:"What is a flat iron used for?", c:["Pressing clothes","Boiling water","Cooking food","Warming babies"], a:"Pressing clothes", h:"The flat iron uses heat to press and smooth out clothes."},
+  {e:"💧", q:"An electric kettle is used to...", c:["Boil water","Cook rice","Press clothes","Keep babies warm"], a:"Boil water", h:"The electric kettle heats water until it boils!"},
+  {e:"🌱", q:"Seeds need heat from the sun to...", c:["Grow","Sleep","Swim","Run"], a:"Grow", h:"Seeds only start to sprout when there is warmth from the sun."},
+  {e:"🐣", q:"What is an incubator used for?", c:["Body warming","Boiling water","Pressing clothes","Warming food"], a:"Body warming", h:"An incubator keeps newborns or eggs warm and safe."},
+  {e:"🔥", q:"Which of these is NOT a source of heat?", c:["A stone / rock","Burning charcoal","Candle flame","Gas stove"], a:"A stone / rock", h:"A plain stone does not produce heat on its own."},
+  {e:"🌞", q:"When sunlight hits your skin, it is absorbed and changed into...", c:["Heat","Sound","Water","Air"], a:"Heat", h:"Sunlight is converted into heat when absorbed by your skin!"},
+  {e:"⛽", q:"A gas stove is used for...", c:["Cooking","Drying clothes","Warming babies","Pressing shirts"], a:"Cooking", h:"The gas stove uses burning gas to produce heat for cooking."},
+  {e:"🔥", q:"What is a fireplace mainly used for?", c:["Warming newborn babies / rooms","Cooking rice","Boiling water","Pressing clothes"], a:"Warming newborn babies / rooms", h:"A fireplace gives off warmth to heat a room or warm babies!"},
+  {e:"📡", q:"A microwave oven is used for...", c:["Food warming","Drying clothes","Boiling water","Body warming"], a:"Food warming", h:"The microwave uses energy to heat and warm food quickly!"},
+  {e:"🌿", q:"How do some animals use heat from the sun?", c:["They bask in the sun to stay warm","They drink it","They eat the sun","They sleep under the moon"], a:"They bask in the sun to stay warm", h:"Animals like reptiles bask in sunlight to warm their bodies!"},
+  {e:"⚡", q:"People have found a way to convert the sun's heat into...", c:["Electricity","Food","Water","Stone"], a:"Electricity", h:"Solar panels convert the sun's heat and light into electricity!"}
+];
+
+const livingQs = [
+  {e:"🐱", q:"Is a CAT a living or non-living thing?", c:["Living","Non-living","Both","Neither"], a:"Living", h:"A cat grows, eats, breathes, and can have kittens — it is alive!"},
+  {e:"🪑", q:"Is a CHAIR a living or non-living thing?", c:["Non-living","Living","Both","Neither"], a:"Non-living", h:"A chair does not grow, eat, or breathe. It is non-living."},
+  {e:"🌸", q:"Is a FLOWER a living or non-living thing?", c:["Living","Non-living","Neither","It depends"], a:"Living", h:"Flowers are plants! They grow, need water, and are alive."},
+  {e:"🪨", q:"Is a ROCK a living or non-living thing?", c:["Non-living","Living","Both","It depends"], a:"Non-living", h:"Rocks do not grow or breathe. They are non-living."},
+  {e:"🦋", q:"Is an INSECT a living or non-living thing?", c:["Living","Non-living","Neither","Both"], a:"Living", h:"Insects are alive — they grow, eat, breathe, and move!"},
+  {e:"📚", q:"Is a BOOK a living or non-living thing?", c:["Non-living","Living","Both","Neither"], a:"Non-living", h:"A book cannot grow or breathe. It is non-living."},
+  {e:"🥗", q:"Which of these plants is used as FOOD?", c:["Okra (saluyot)","Bougainvillea","Rocks","Chair"], a:"Okra (saluyot)", h:"Vegetables like okra and saluyot are plants we eat!"},
+  {e:"🌺", q:"Which plant is commonly used for DECORATION?", c:["Bougainvillea","Oregano","Tomato","Chili"], a:"Bougainvillea", h:"Bougainvillea is a beautiful flowering plant used to decorate!"},
+  {e:"💊", q:"Which of these plants is used for MEDICINE?", c:["Oregano","Bougainvillea","Rock","Table"], a:"Oregano", h:"Oregano is a plant used as herbal medicine!"},
+  {e:"🌱", q:"What do plants need from the sun to grow?", c:["Heat and light","Only water","Rocks","Air alone"], a:"Heat and light", h:"Plants need sunlight for photosynthesis and warmth to grow!"},
+  {e:"🍄", q:"Which of these is a living thing?", c:["Mushroom","Pencil","Plate","Glass"], a:"Mushroom", h:"Mushrooms are living organisms — they grow and reproduce!"},
+  {e:"🐄", q:"Which of these is a living thing found on a farm?", c:["Cow","Bag","Pan","Cloth"], a:"Cow", h:"Cows are animals — they are alive!"},
+  {e:"🌍", q:"In a garden, soil and rocks are examples of...", c:["Non-living things","Living things","Both","Animals"], a:"Non-living things", h:"Soil and rocks don't grow or breathe — they are non-living."},
+  {e:"🌳", q:"Dead plants that decompose make the soil...", c:["Rich with nutrients","Dry and hard","Cold","Rocky"], a:"Rich with nutrients", h:"Dead plants break down and add nutrients that help new plants grow!"},
+  {e:"🏠", q:"Plants can be used to make...", c:["Furniture and houses","Only food","Only medicine","Only decoration"], a:"Furniture and houses", h:"Wood from trees is used to build furniture, houses, and other things!"}
+];
+
+// build mixed from both
+function buildMixed() {
+  const h = shuffle(heatQs).slice(0,5);
+  const l = shuffle(livingQs).slice(0,5);
+  return shuffle([...h,...l]);
+}
+
+function shuffle(arr){ return [...arr].sort(()=>Math.random()-0.5); }
+
+// ---- STATE ----
+let states = {
+  heat:    { qs:[], idx:0, score:0 },
+  living:  { qs:[], idx:0, score:0 },
+  mixed:   { qs:[], idx:0, score:0 }
+};
+
+const cfg = {
+  heat:   { area:'h-area', score:'h-score', qn:'h-qn', prog:'h-prog', result:'h-result', medal:'h-medal', rtitle:'h-rtitle', rscore:'h-rscore', rmsg:'h-rmsg', label:'ql-red',  pfx:'h', next:'q2', btnClass:'bg-orange' },
+  living: { area:'l-area', score:'l-score', qn:'l-qn', prog:'l-prog', result:'l-result', medal:'l-medal', rtitle:'l-rtitle', rscore:'l-rscore', rmsg:'l-rmsg', label:'ql-green', pfx:'l', next:'q3', btnClass:'bg-green' },
+  mixed:  { area:'m-area', score:'m-score', qn:'m-qn', prog:'m-prog', result:'m-result', medal:'m-medal', rtitle:'m-rtitle', rscore:'m-rscore', rmsg:'m-rmsg', label:'ql-blue',  pfx:'m', next:'reviewer', btnClass:'bg-blue' }
+};
+
+function initQ(type) {
+  const st = states[type];
+  st.qs    = type==='heat' ? shuffle(heatQs).slice(0,10) : type==='living' ? shuffle(livingQs).slice(0,10) : buildMixed();
+  st.idx   = 0;
+  st.score = 0;
+  document.getElementById(cfg[type].area).style.display = 'block';
+  document.getElementById(cfg[type].result).style.display = 'none';
+  render(type);
+}
+
+function render(type) {
+  const st = states[type];
+  const c  = cfg[type];
+  if(st.idx >= st.qs.length){ showResult(type); return; }
+  const q = st.qs[st.idx];
+  const tot = st.qs.length;
+  document.getElementById(c.score).textContent = st.score;
+  document.getElementById(c.qn).textContent = `${st.idx+1}/${tot}`;
+  document.getElementById(c.prog).style.width = `${(st.idx/tot)*100}%`;
+  const shuffled = shuffle(q.c);
+  document.getElementById(c.area).innerHTML = `
+    <div class="q-card">
+      <span class="q-label ${c.label}">Question ${st.idx+1} of ${tot}</span>
+      <div class="q-emoji">${q.e}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="choices">
+        ${shuffled.map(opt=>`<button class="choice-btn" onclick="check('${type}','${opt.replace(/'/g,"&#39;")}')">${opt}</button>`).join('')}
+      </div>
+      <div class="feedback-msg" id="${c.pfx}-fb"></div>
+    </div>
+    <div class="qcontrols">
+      <button class="btn-go ${c.btnClass}" id="${c.pfx}-next" style="display:none" onclick="nextQ('${type}')">Next ➡️</button>
+    </div>`;
+}
+
+function check(type, chosen) {
+  const st = states[type];
+  const c  = cfg[type];
+  const q  = st.qs[st.idx];
+  const btns = document.querySelectorAll(`#${c.area} .choice-btn`);
+  const fb = document.getElementById(`${c.pfx}-fb`);
+  btns.forEach(b => {
+    b.disabled = true;
+    if(b.textContent === q.a) b.classList.add('correct');
+    else if(b.textContent === chosen && chosen !== q.a) b.classList.add('wrong');
+  });
+  if(chosen === q.a){ st.score++; fb.className='feedback-msg fb-correct'; fb.textContent=`✅ Correct! ${q.e} Great job!`; }
+  else { fb.className='feedback-msg fb-wrong'; fb.textContent=`❌ The answer is "${q.a}". 💡 ${q.h}`; }
+  document.getElementById(c.score).textContent = st.score;
+  document.getElementById(`${c.pfx}-next`).style.display = 'inline-block';
+}
+
+function nextQ(type) { states[type].idx++; render(type); }
+
+function showResult(type) {
+  const c = cfg[type]; const st = states[type];
+  document.getElementById(c.area).style.display = 'none';
+  const res = document.getElementById(c.result);
+  res.style.display = 'block';
+  const pct = Math.round(st.score/st.qs.length*100);
+  let med,title,msg;
+  if(pct===100){med='🏆';title='PERFECT SCORE!';msg='You are a Science SUPERSTAR! Incredible! 🌟';}
+  else if(pct>=80){med='🥇';title='Excellent!';msg='Amazing work! You really know your Science! 🎉';}
+  else if(pct>=60){med='🥈';title='Good Job!';msg='Nice try! A little more review and you\'ll be perfect! 💪';}
+  else{med='🥉';title='Keep Trying!';msg='Don\'t give up! Review the lesson and try again! 📚';}
+  document.getElementById(c.medal).textContent = med;
+  document.getElementById(c.rtitle).textContent = title;
+  document.getElementById(c.rscore).textContent = `${st.score} / ${st.qs.length}`;
+  document.getElementById(c.rmsg).textContent = msg;
+  document.getElementById(c.prog).style.width = '100%';
+}
+
+function restartQ(type) { initQ(type); }
+
+// ---- INIT ----
+initQ('heat'); initQ('living'); initQ('mixed');
+</script>
+</body>
+</html>

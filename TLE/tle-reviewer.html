@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TLE Reviewer – Tools, Materials & Processes | Grade 5</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --wood:#c8833a; --wood-dark:#8b5e2a; --wood-light:#fef3e2;
+    --metal:#5a7fa8; --metal-dark:#344d6b; --metal-light:#e8f0fb;
+    --bamboo:#6aab4f; --bamboo-dark:#3d6e2e; --bamboo-light:#eaf5e4;
+    --bg:#fdf6ec; --card:#fff; --text:#2d2d2d; --muted:#888;
+    --correct:#4caf50; --wrong:#e53935; --highlight:#fff3cd;
+    --radius:16px; --shadow:0 4px 20px rgba(0,0,0,0.1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+  header{background:linear-gradient(135deg,#c8833a 0%,#6aab4f 50%,#5a7fa8 100%);padding:28px 20px 22px;text-align:center;position:relative;overflow:hidden;}
+  header::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(255,255,255,.04) 0px,rgba(255,255,255,.04) 2px,transparent 2px,transparent 12px);}
+  header h1{font-family:'Fredoka One',cursive;font-size:clamp(1.5rem,5vw,2.4rem);color:#fff;text-shadow:0 3px 8px rgba(0,0,0,.25);position:relative;}
+  header p{color:rgba(255,255,255,.88);font-size:.9rem;margin-top:6px;font-weight:600;position:relative;}
+
+  nav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:18px 16px 0;}
+  .tab-btn{font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;padding:10px 18px;border:none;border-radius:50px;cursor:pointer;transition:all .2s;background:#e8dfd0;color:#555;}
+  .tab-btn.active{background:var(--wood);color:#fff;box-shadow:0 4px 12px rgba(200,131,58,.4);}
+  .tab-btn[data-tab="practice"].active{background:var(--metal);box-shadow:0 4px 12px rgba(90,127,168,.4);}
+  .tab-btn[data-tab="exam"].active{background:var(--bamboo);box-shadow:0 4px 12px rgba(106,171,79,.4);}
+  .tab-btn:hover:not(.active){background:#d9cfc3;transform:translateY(-1px);}
+
+  .sub-nav{display:flex;gap:6px;flex-wrap:wrap;padding:14px 16px 0;max-width:820px;margin:0 auto;}
+  .sub-btn{font-family:'Nunito',sans-serif;font-weight:700;font-size:.8rem;padding:7px 14px;border:2px solid #ddd;border-radius:50px;cursor:pointer;background:#fff;color:#555;transition:all .18s;}
+  .sub-btn.aw{border-color:var(--wood);background:var(--wood-light);color:var(--wood-dark);}
+  .sub-btn.am{border-color:var(--metal);background:var(--metal-light);color:var(--metal-dark);}
+  .sub-btn.ab{border-color:var(--bamboo);background:var(--bamboo-light);color:var(--bamboo-dark);}
+  .sub-btn:hover:not(.aw):not(.am):not(.ab){background:#f5f0ea;}
+
+  .page{display:none;padding:16px 16px 50px;max-width:820px;margin:0 auto;animation:fadeUp .35s ease;}
+  .page.active{display:block;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+  .sub-panel{display:none;}
+  .sub-panel.active{display:block;}
+
+  .section-label{display:flex;align-items:center;gap:10px;font-family:'Fredoka One',cursive;font-size:1.15rem;margin:24px 0 12px;padding:10px 16px;border-radius:12px;color:#fff;}
+  .section-label.wood{background:var(--wood);}
+  .section-label.metal{background:var(--metal);}
+  .section-label.bamboo{background:var(--bamboo);}
+  .section-label .icon{font-size:1.3rem;}
+
+  .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 18px;margin-bottom:12px;border-left:5px solid var(--wood);}
+  .card.metal{border-color:var(--metal);}
+  .card.bamboo{border-color:var(--bamboo);}
+  .card h3{font-size:1rem;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+  .card p{font-size:.88rem;line-height:1.55;color:#444;}
+
+  .tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:9px;margin-top:8px;}
+  .tool-item{background:#f9f5ef;border-radius:10px;padding:9px 11px;font-size:.85rem;display:flex;align-items:flex-start;gap:8px;}
+  .tool-item .icon{font-size:1.1rem;flex-shrink:0;margin-top:2px;}
+  .tool-item strong{display:block;font-weight:800;margin-bottom:2px;font-size:.83rem;}
+  .tool-item span{color:#666;font-size:.79rem;line-height:1.4;}
+
+  .process-list{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
+  .process-item{display:flex;gap:12px;align-items:flex-start;background:#f9f5ef;border-radius:10px;padding:10px 14px;}
+  .process-num{font-family:'Fredoka One',cursive;font-size:1.2rem;color:var(--wood);flex-shrink:0;line-height:1.1;min-width:22px;}
+  .process-num.m{color:var(--metal);}
+  .process-num.b{color:var(--bamboo);}
+  .process-body strong{font-size:.88rem;font-weight:800;display:block;margin-bottom:2px;}
+  .process-body span{font-size:.82rem;color:#555;line-height:1.4;}
+
+  .tip-box{background:var(--highlight);border-radius:10px;padding:10px 14px;font-size:.83rem;margin-top:10px;border-left:4px solid #f0ad4e;display:flex;gap:8px;align-items:flex-start;}
+  .tip-box .tip-icon{font-size:1rem;flex-shrink:0;margin-top:1px;}
+
+  .badge-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px;}
+  .badge{font-size:.78rem;font-weight:700;padding:5px 12px;border-radius:50px;background:#f0e9df;color:#7a5a2e;}
+  .badge.b{background:#e4f4dc;color:#2e6031;}
+
+  .q-block{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin-bottom:14px;}
+  .q-num{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:5px;}
+  .q-text{font-weight:700;font-size:.97rem;margin-bottom:13px;line-height:1.4;}
+  .choices{display:flex;flex-direction:column;gap:7px;}
+  .choice-btn{font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:600;text-align:left;padding:10px 15px;border-radius:10px;border:2px solid #e0d8ce;background:#fafaf8;cursor:pointer;transition:all .18s;}
+  .choice-btn:hover:not(:disabled){border-color:var(--wood);background:#fef6ec;}
+  .choice-btn.correct{background:#e8f5e9!important;border-color:var(--correct)!important;color:#2e7d32;}
+  .choice-btn.wrong{background:#ffebee!important;border-color:var(--wrong)!important;color:#c62828;}
+  .choice-btn:disabled{cursor:default;}
+  .feedback{margin-top:9px;padding:9px 13px;border-radius:10px;font-size:.85rem;font-weight:600;display:none;line-height:1.45;}
+  .feedback.show{display:block;}
+  .feedback.correct{background:#e8f5e9;color:#2e7d32;}
+  .feedback.wrong{background:#ffebee;color:#c62828;}
+
+  .quiz-controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+  .btn{font-family:'Nunito',sans-serif;font-weight:800;font-size:.88rem;padding:10px 22px;border:none;border-radius:50px;cursor:pointer;transition:all .18s;}
+  .btn-secondary{background:#e8dfd0;color:#555;}
+  .btn-secondary:hover{background:#d9cfc3;}
+  .btn-bamboo{background:var(--bamboo);color:#fff;}
+  .btn-bamboo:hover{background:var(--bamboo-dark);}
+
+  .score-banner{background:linear-gradient(135deg,#6aab4f,#3d6e2e);color:#fff;border-radius:var(--radius);padding:22px 24px;text-align:center;margin-top:20px;display:none;}
+  .score-banner.show{display:block;animation:fadeUp .4s ease;}
+  .score-banner .big{font-family:'Fredoka One',cursive;font-size:2.5rem;}
+  .score-banner .label{font-size:.92rem;opacity:.88;margin-top:4px;}
+  .score-banner .remark{font-size:1rem;font-weight:800;margin-top:8px;}
+
+  .matching-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px;}
+  .matching-label{font-weight:700;min-width:150px;font-size:.9rem;}
+  select.match-select{font-family:'Nunito',sans-serif;font-size:.82rem;padding:7px 10px;border-radius:10px;border:2px solid #ddd;cursor:pointer;background:#fafaf8;max-width:100%;}
+  select.match-select.correct{border-color:var(--correct);background:#e8f5e9;}
+  select.match-select.wrong{border-color:var(--wrong);background:#ffebee;}
+
+  .info-banner{border-radius:14px;padding:13px 17px;margin-bottom:18px;font-size:.88rem;font-weight:600;border:2px solid;}
+  .info-banner.blue{border-color:#b3cce8;background:var(--metal-light);color:#344d6b;}
+  .info-banner.green{border-color:#b3d9a0;background:var(--bamboo-light);color:#2e6031;}
+
+  @media(max-width:500px){.tools-grid{grid-template-columns:1fr;}.sub-btn{font-size:.75rem;padding:6px 10px;}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🪵 TLE Reviewer 🔧🎋</h1>
+  <p>Grade 5 · Tools, Materials &amp; Processes · Woodworking · Metalworking · Bamboo Arts</p>
+</header>
+
+<nav>
+  <button class="tab-btn active" data-tab="reviewer">📖 Reviewer</button>
+  <button class="tab-btn" data-tab="practice">✏️ Practice Quiz</button>
+  <button class="tab-btn" data-tab="exam">📝 Final Exam</button>
+</nav>
+
+<!-- ══════════ REVIEWER ══════════ -->
+<div class="page active" id="reviewer">
+  <div class="sub-nav">
+    <button class="sub-btn aw" onclick="showSub('wood')">🪵 Woodworking</button>
+    <button class="sub-btn" onclick="showSub('metal')">🔧 Metalworking</button>
+    <button class="sub-btn" onclick="showSub('bamboo')">🎋 Bamboo Arts</button>
+  </div>
+
+  <!-- WOOD -->
+  <div class="sub-panel active" id="sub-wood">
+
+    <div class="section-label wood"><span class="icon">🪵</span> Woodworking — Tools &amp; Materials</div>
+    <div class="card">
+      <h3>📌 What is Woodworking?</h3>
+      <p>Woodworking is the skill of cutting, shaping, and joining <strong>wood</strong> to make useful objects like furniture, cabinets, and decorations.</p>
+    </div>
+    <div class="card">
+      <h3>🪚 Cutting Tools</h3>
+      <div class="tools-grid">
+        <div class="tool-item"><span class="icon">🪚</span><div><strong>Hand Saw</strong><span>Cuts wood into pieces using sharp teeth.</span></div></div>
+        <div class="tool-item"><span class="icon">🔪</span><div><strong>Crosscut Saw</strong><span>Cuts wood <em>across</em> the grain.</span></div></div>
+        <div class="tool-item"><span class="icon">🔪</span><div><strong>Rip Saw</strong><span>Cuts wood <em>along</em> the grain.</span></div></div>
+        <div class="tool-item"><span class="icon">🗡️</span><div><strong>Chisel</strong><span>Shapes or removes small bits of wood. Used with a mallet.</span></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>✈️ Shaping &amp; Measuring Tools</h3>
+      <div class="tools-grid">
+        <div class="tool-item"><span class="icon">✈️</span><div><strong>Hand Plane</strong><span>Smooths and flattens wood surfaces.</span></div></div>
+        <div class="tool-item"><span class="icon">📄</span><div><strong>Sandpaper</strong><span>Smooths rough surfaces by rubbing.</span></div></div>
+        <div class="tool-item"><span class="icon">🔨</span><div><strong>Claw Hammer</strong><span>Drives and removes nails.</span></div></div>
+        <div class="tool-item"><span class="icon">🔧</span><div><strong>Screwdriver</strong><span>Turns screws to join wood pieces.</span></div></div>
+        <div class="tool-item"><span class="icon">📐</span><div><strong>Try Square</strong><span>Checks if corners are exactly 90°.</span></div></div>
+        <div class="tool-item"><span class="icon">〰️</span><div><strong>Marking Gauge</strong><span>Marks a line parallel to an edge.</span></div></div>
+      </div>
+    </div>
+
+    <div class="section-label wood"><span class="icon">🎨</span> Wood Finishing Materials</div>
+    <div class="card">
+      <h3>🖌️ What is Wood Finishing?</h3>
+      <p>Wood finishing means applying materials to the surface of wood to <strong>protect it</strong> from moisture and damage — and to make it look beautiful!</p>
+    </div>
+    <div class="card">
+      <h3>🧴 Finishing Materials</h3>
+      <div class="tools-grid">
+        <div class="tool-item"><span class="icon">🎨</span><div><strong>Paint</strong><span>Adds color and protects wood from moisture and wear.</span></div></div>
+        <div class="tool-item"><span class="icon">✨</span><div><strong>Varnish</strong><span>Clear/tinted coating that hardens and adds shine to surfaces.</span></div></div>
+        <div class="tool-item"><span class="icon">🛢️</span><div><strong>Wood Stain</strong><span>Adds color while showing the wood's natural grain.</span></div></div>
+        <div class="tool-item"><span class="icon">🧴</span><div><strong>Lacquer</strong><span>Fast-drying clear finish for a smooth, glossy surface.</span></div></div>
+        <div class="tool-item"><span class="icon">🪵</span><div><strong>Wood Putty</strong><span>Paste that fills cracks and holes in wood before painting.</span></div></div>
+        <div class="tool-item"><span class="icon">🟫</span><div><strong>Asphalt Wood Sealer</strong><span>Dark asphalt-based primer that seals and waterproofs wood.</span></div></div>
+        <div class="tool-item"><span class="icon">🪟</span><div><strong>Veneer</strong><span>A very thin decorative sheet of wood glued onto furniture for an attractive finish.</span></div></div>
+        <div class="tool-item"><span class="icon">🧱</span><div><strong>FRC Board</strong><span><em>Fiber Reinforced Cement</em> board — strong flat board used as a surface or backing in projects.</span></div></div>
+      </div>
+    </div>
+
+    <div class="section-label wood"><span class="icon">🤝</span> Adhesives (Glues &amp; Binders)</div>
+    <div class="card">
+      <h3>🤝 What are Adhesives?</h3>
+      <p>Adhesives are sticky substances used to <strong>bond or join</strong> two pieces together without nails or screws.</p>
+    </div>
+    <div class="card">
+      <h3>🧴 Types of Adhesives</h3>
+      <div class="tools-grid">
+        <div class="tool-item"><span class="icon">🟡</span><div><strong>Wood Glue (PVA)</strong><span>Most common woodworking adhesive — strong when dry.</span></div></div>
+        <div class="tool-item"><span class="icon">🔵</span><div><strong>Contact Cement</strong><span>Applied to BOTH surfaces, then pressed together for a strong instant bond.</span></div></div>
+        <div class="tool-item"><span class="icon">🪝</span><div><strong>Epoxy</strong><span>Two parts mixed together — very strong, bonds wood, metal &amp; more.</span></div></div>
+        <div class="tool-item"><span class="icon">🔫</span><div><strong>Hot Glue</strong><span>Melted glue from a glue gun — fast but less durable.</span></div></div>
+      </div>
+    </div>
+
+    <div class="section-label wood"><span class="icon">⚙️</span> Woodworking Processes</div>
+    <div class="card">
+      <h3>📋 5 Major Woodworking Processes</h3>
+      <div class="process-list">
+        <div class="process-item"><span class="process-num">1</span><div class="process-body"><strong>Milling</strong><span>Cutting and shaping raw lumber into flat, usable boards. It prepares wood before any other work begins.</span></div></div>
+        <div class="process-item"><span class="process-num">2</span><div class="process-body"><strong>Sawing</strong><span>Using a saw to cut wood into pieces of the desired shape or size. Usually the first hands-on step.</span></div></div>
+        <div class="process-item"><span class="process-num">3</span><div class="process-body"><strong>Joining &amp; Planing</strong><span><em>Joining</em> connects two wood pieces together. <em>Planing</em> smooths and flattens surfaces using a hand plane.</span></div></div>
+        <div class="process-item"><span class="process-num">4</span><div class="process-body"><strong>Drilling &amp; Boring</strong><span>Making round holes in wood using a drill or brace-and-bit. Boring makes larger holes. Done before inserting screws or bolts.</span></div></div>
+        <div class="process-item"><span class="process-num">5</span><div class="process-body"><strong>Routing</strong><span>Cutting decorative edges, grooves, or patterns into wood using a router tool.</span></div></div>
+      </div>
+    </div>
+    <div class="tip-box"><span class="tip-icon">💡</span><span><strong>Remember!</strong> Measure twice, cut once! Keep all tools clean and stored safely after use.</span></div>
+  </div>
+
+  <!-- METAL -->
+  <div class="sub-panel" id="sub-metal">
+    <div class="section-label metal"><span class="icon">🔧</span> Metalworking — Tools &amp; Materials</div>
+    <div class="card metal">
+      <h3>📌 What is Metalworking?</h3>
+      <p>Metalworking is the process of cutting, shaping, and joining <strong>metal</strong> to create objects like tools, pipes, and machine parts. Metal is harder than wood so it needs special tools.</p>
+    </div>
+    <div class="card metal">
+      <h3>✂️ Tools in Metalworking</h3>
+      <div class="tools-grid">
+        <div class="tool-item"><span class="icon">✂️</span><div><strong>Hacksaw</strong><span>Cuts metal pipes, rods, and bars with a fine-toothed blade.</span></div></div>
+        <div class="tool-item"><span class="icon">✂️</span><div><strong>Tin Snips / Shears</strong><span>Cuts thin sheet metal like scissors.</span></div></div>
+        <div class="tool-item"><span class="icon">🔥</span><div><strong>Cold Chisel</strong><span>Cuts or chips metal when hit with a hammer.</span></div></div>
+        <div class="tool-item"><span class="icon">📋</span><div><strong>Metal File</strong><span>Smooths and shapes metal surfaces.</span></div></div>
+        <div class="tool-item"><span class="icon">🔩</span><div><strong>Bench Vise</strong><span>Holds metal firmly while you work on it.</span></div></div>
+        <div class="tool-item"><span class="icon">🔨</span><div><strong>Ball-Peen Hammer</strong><span>Shapes and flattens metal.</span></div></div>
+        <div class="tool-item"><span class="icon">🔧</span><div><strong>Pliers</strong><span>Grips, bends, and cuts wire.</span></div></div>
+        <div class="tool-item"><span class="icon">🔑</span><div><strong>Wrench</strong><span>Tightens or loosens nuts and bolts.</span></div></div>
+        <div class="tool-item"><span class="icon">🕳️</span><div><strong>Electric Drill</strong><span>Makes holes in metal with metal drill bits.</span></div></div>
+        <div class="tool-item"><span class="icon">🔩</span><div><strong>Rivet Gun</strong><span>Joins metal sheets using small metal pins called rivets.</span></div></div>
+      </div>
+    </div>
+    <div class="card metal">
+      <h3>⚙️ Materials in Metalworking</h3>
+      <div class="tools-grid">
+        <div class="tool-item"><span class="icon">🔩</span><div><strong>Steel</strong><span>Strong and common — structures and tools.</span></div></div>
+        <div class="tool-item"><span class="icon">🥄</span><div><strong>Aluminum</strong><span>Light and rust-resistant.</span></div></div>
+        <div class="tool-item"><span class="icon">🪙</span><div><strong>Copper</strong><span>Used in pipes and electrical wiring.</span></div></div>
+        <div class="tool-item"><span class="icon">📦</span><div><strong>Tin / Sheet Metal</strong><span>Thin flat metal for cans and roofing.</span></div></div>
+        <div class="tool-item"><span class="icon">🧪</span><div><strong>Welding Rod</strong><span>Melts to join two pieces of metal.</span></div></div>
+      </div>
+    </div>
+
+    <div class="section-label metal"><span class="icon">⚙️</span> Metalworking Processes</div>
+    <div class="card metal">
+      <h3>📋 5 Major Metalworking Processes</h3>
+      <div class="process-list">
+        <div class="process-item"><span class="process-num m">1</span><div class="process-body"><strong>Cutting Pieces of Metal</strong><span>Using tools like a hacksaw, tin snips, or cold chisel to cut metal into the desired shape or size. Always the first step.</span></div></div>
+        <div class="process-item"><span class="process-num m">2</span><div class="process-body"><strong>Welding</strong><span>Joining two metal pieces by melting them together using extreme heat. A welding rod melts and fuses the pieces into one strong joint.</span></div></div>
+        <div class="process-item"><span class="process-num m">3</span><div class="process-body"><strong>Casting</strong><span>Pouring melted (liquid) metal into a mold so it cools and hardens into a specific shape. Used for engine parts and cookware.</span></div></div>
+        <div class="process-item"><span class="process-num m">4</span><div class="process-body"><strong>Molding</strong><span>Shaping metal by pressing it into or around a mold. Used for forming sheets or tubes.</span></div></div>
+        <div class="process-item"><span class="process-num m">5</span><div class="process-body"><strong>Joining</strong><span>Connecting metal pieces using bolts, rivets, screws, or welding to make the finished product strong and durable.</span></div></div>
+      </div>
+    </div>
+    <div class="tip-box"><span class="tip-icon">⚠️</span><span><strong>Safety First!</strong> Always wear gloves and goggles when working with metal. Edges are sharp and welding sparks can burn!</span></div>
+  </div>
+
+  <!-- BAMBOO -->
+  <div class="sub-panel" id="sub-bamboo">
+    <div class="section-label bamboo"><span class="icon">🎋</span> Bamboo Arts &amp; Crafts — Tools &amp; Materials</div>
+    <div class="card bamboo">
+      <h3>📌 What is Bamboo Craft?</h3>
+      <p>Bamboo craft is the art of making useful and beautiful objects using <strong>bamboo</strong>. It is common in the Philippines, eco-friendly, and uses bamboo's strength and flexibility!</p>
+    </div>
+    <div class="card bamboo">
+      <h3>🔪 Tools Used in Bamboo Crafts</h3>
+      <div class="tools-grid">
+        <div class="tool-item"><span class="icon">🔪</span><div><strong>Bolo / Machete</strong><span>Cuts and splits bamboo poles into strips.</span></div></div>
+        <div class="tool-item"><span class="icon">🪚</span><div><strong>Handsaw</strong><span>Cuts bamboo poles to the right length.</span></div></div>
+        <div class="tool-item"><span class="icon">🗡️</span><div><strong>Knife / Utility Knife</strong><span>Trims and cleans bamboo strips.</span></div></div>
+        <div class="tool-item"><span class="icon">📋</span><div><strong>Scraper</strong><span>Smooths strips to prevent splintering.</span></div></div>
+        <div class="tool-item"><span class="icon">🧵</span><div><strong>Weaving Needle</strong><span>Threads strips over and under while weaving.</span></div></div>
+        <div class="tool-item"><span class="icon">🗜️</span><div><strong>Clamp / Rope</strong><span>Holds bamboo in place while drying.</span></div></div>
+      </div>
+    </div>
+    <div class="card bamboo">
+      <h3>🎋 Materials in Bamboo Crafts</h3>
+      <div class="tools-grid">
+        <div class="tool-item"><span class="icon">🎋</span><div><strong>Bamboo Culm</strong><span>The main bamboo pole — used for furniture and frames.</span></div></div>
+        <div class="tool-item"><span class="icon">〰️</span><div><strong>Bamboo Strips</strong><span>Thin flat pieces split from bamboo — used for weaving.</span></div></div>
+        <div class="tool-item"><span class="icon">🧵</span><div><strong>Rattan / Abaca Twine</strong><span>Natural cord for tying and binding bamboo.</span></div></div>
+        <div class="tool-item"><span class="icon">🧴</span><div><strong>Lacquer / Varnish</strong><span>Protects finished bamboo products.</span></div></div>
+        <div class="tool-item"><span class="icon">🎨</span><div><strong>Natural Dyes</strong><span>Colors bamboo strips for decorative designs.</span></div></div>
+      </div>
+    </div>
+
+    <div class="section-label bamboo"><span class="icon">🧺</span> Bamboo Arts &amp; Crafts Processes</div>
+    <div class="card bamboo">
+      <h3>📋 5 Major Bamboo Craft Processes</h3>
+      <div class="process-list">
+        <div class="process-item"><span class="process-num b">1</span><div class="process-body"><strong>Splitting</strong><span>Using a bolo or knife to split the bamboo pole lengthwise into flat strips. This is always the FIRST step before any crafting.</span></div></div>
+        <div class="process-item"><span class="process-num b">2</span><div class="process-body"><strong>Scraping</strong><span>Smoothing bamboo strips with a scraper to remove rough edges and splinters — makes them safe and easy to weave.</span></div></div>
+        <div class="process-item"><span class="process-num b">3</span><div class="process-body"><strong>Dyeing</strong><span>Coloring bamboo strips using natural or synthetic dyes before weaving to add decorative patterns and colors.</span></div></div>
+        <div class="process-item"><span class="process-num b">4</span><div class="process-body"><strong>Weaving</strong><span>Interlacing bamboo strips over and under each other to form mats, baskets, walls, and other woven products. The most important skill!</span></div></div>
+        <div class="process-item"><span class="process-num b">5</span><div class="process-body"><strong>Panel Making</strong><span>Arranging and fastening bamboo strips or poles side-by-side to create flat panels used for walls, floors, and furniture.</span></div></div>
+      </div>
+    </div>
+    <div class="card bamboo">
+      <h3>🧺 Common Bamboo Products</h3>
+      <div class="badge-row">
+        <span class="badge b">Baskets</span><span class="badge b">Bayong (bags)</span><span class="badge b">Hats &amp; Fans</span><span class="badge b">Furniture</span><span class="badge b">Bangkito (stools)</span><span class="badge b">Wall Panels</span><span class="badge b">Picture Frames</span><span class="badge b">Wind Chimes</span>
+      </div>
+    </div>
+    <div class="tip-box"><span class="tip-icon">🌿</span><span><strong>Fun Fact!</strong> Bamboo is called the "poor man's timber" because it grows fast, costs less, and can replace expensive wood in many projects!</span></div>
+  </div>
+</div>
+
+<!-- ══════════ PRACTICE QUIZ ══════════ -->
+<div class="page" id="practice">
+  <div class="info-banner blue">✏️ <strong>Practice Mode</strong> — Click an answer to check right away! Read the explanation to learn. Retry anytime.</div>
+  <div id="practiceQuiz"></div>
+  <div class="quiz-controls" id="practiceControls" style="display:none;">
+    <button class="btn btn-secondary" onclick="resetPractice()">🔄 Try Again</button>
+  </div>
+  <div class="score-banner" id="practiceScore">
+    <div class="big" id="practiceScoreNum"></div>
+    <div class="label">out of 20 correct</div>
+    <div class="remark" id="practiceRemark"></div>
+  </div>
+</div>
+
+<!-- ══════════ FINAL EXAM ══════════ -->
+<div class="page" id="exam">
+  <div class="info-banner green">📝 <strong>Final Exam</strong> — Answer ALL questions, then click <em>Submit Exam</em> to see your score. Good luck! 🍀</div>
+  <div id="examQuiz"></div>
+  <div class="quiz-controls">
+    <button class="btn btn-bamboo" onclick="submitExam()">✅ Submit Exam</button>
+    <button class="btn btn-secondary" onclick="resetExam()">🔄 Reset</button>
+  </div>
+  <div class="score-banner" id="examScore">
+    <div class="big" id="examScoreNum"></div>
+    <div class="label" id="examScoreLabel"></div>
+    <div class="remark" id="examRemark"></div>
+  </div>
+</div>
+
+<script>
+/* ── SUB-NAV ── */
+function showSub(t){
+  document.querySelectorAll('.sub-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sub-btn').forEach(b=>b.classList.remove('aw','am','ab'));
+  document.getElementById('sub-'+t).classList.add('active');
+  const map={wood:'aw',metal:'am',bamboo:'ab'};
+  document.querySelectorAll('.sub-btn').forEach(b=>{
+    const m=b.getAttribute('onclick').match(/'(\w+)'/);
+    if(m&&m[1]===t) b.classList.add(map[t]);
+  });
+}
+
+/* ── TAB NAV ── */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ── PRACTICE QUESTIONS (20) ── */
+const PQ=[
+  // Wood tools & materials (4)
+  {q:"Which saw cuts wood ACROSS the grain?",ch:["Rip Saw","Crosscut Saw","Hacksaw","Chisel"],a:1,e:"The Crosscut Saw cuts across the grain. The Rip Saw cuts along the grain.",t:"wood"},
+  {q:"What tool smooths and FLATTENS wood surfaces by shaving thin layers?",ch:["Sandpaper","Marking Gauge","Hand Plane","Wood Rasp"],a:2,e:"The Hand Plane has a flat blade that shaves thin layers to flatten and smooth wood.",t:"wood"},
+  {q:"What is PLYWOOD?",ch:["Solid wood from narra trees","Thin wood layers glued together","Bamboo strips woven together","A type of metal sheet"],a:1,e:"Plywood is made by gluing several thin layers (veneers) of wood together for extra strength.",t:"wood"},
+  {q:"A Try Square checks if corners are at exactly ___ degrees.",ch:["45°","60°","90°","180°"],a:2,e:"A Try Square is designed to check right-angle (90°) corners in woodworking.",t:"wood"},
+  // Wood finishing & adhesives (4)
+  {q:"What is the purpose of WOOD PUTTY?",ch:["Adds shine to the surface","Fills cracks and holes before painting","Joins two wood pieces together","Colors the wood grain"],a:1,e:"Wood putty is a paste used to fill cracks, dents, and holes so the surface is smooth before finishing.",t:"wood"},
+  {q:"VENEER is best described as ___.",ch:["A thick plank of solid wood","A very thin decorative wood sheet glued onto furniture","A type of wood adhesive","A cement-fiber board"],a:1,e:"Veneer is a very thin slice of real wood applied to furniture to give it a beautiful natural look.",t:"wood"},
+  {q:"Which adhesive requires coating BOTH surfaces before pressing them together?",ch:["Wood Glue (PVA)","Hot Glue","Epoxy","Contact Cement"],a:3,e:"Contact cement works by coating both surfaces, letting them dry slightly, then pressing together for an instant bond.",t:"wood"},
+  {q:"FRC Board stands for ___.",ch:["Fast-drying Rubber Coating","Fiber Reinforced Cement board","Fine-cut Recycled Composite","Flat Raw Cedar board"],a:1,e:"FRC stands for Fiber Reinforced Cement — a strong flat board used as a surface or backing in projects.",t:"wood"},
+  // Woodworking processes (3)
+  {q:"Which woodworking process prepares raw lumber into flat, usable boards?",ch:["Routing","Milling","Drilling","Joining"],a:1,e:"Milling cuts and shapes raw logs or rough lumber into flat, even boards ready for further woodworking.",t:"wood"},
+  {q:"ROUTING in woodworking is used to ___.",ch:["Make round holes for screws","Cut decorative edges and grooves into wood","Join two pieces with glue","Smooth wood with sandpaper"],a:1,e:"A router tool cuts decorative edges, grooves, or patterns into wood surfaces.",t:"wood"},
+  {q:"DRILLING and BORING are both used to ___.",ch:["Smooth wood surfaces","Make round holes in wood","Cut wood across the grain","Check wood angles"],a:1,e:"Both drilling and boring make holes in wood — boring creates larger holes, drilling creates smaller ones.",t:"wood"},
+  // Metalworking processes (4)
+  {q:"What metalworking process joins two metal pieces by MELTING them together with heat?",ch:["Casting","Molding","Welding","Joining"],a:2,e:"Welding uses extreme heat to melt both pieces and a welding rod, fusing them into one strong joint when cooled.",t:"metal"},
+  {q:"Which metalworking process pours LIQUID METAL into a mold to harden into a shape?",ch:["Joining","Welding","Casting","Cutting"],a:2,e:"Casting pours melted metal into a shaped mold. When it cools, it hardens into the exact shape of the mold.",t:"metal"},
+  {q:"What tool cuts thin sheet metal the same way scissors cut paper?",ch:["Hacksaw","Cold Chisel","Ball-Peen Hammer","Tin Snips"],a:3,e:"Tin Snips work exactly like scissors but are made of hardened steel to cut through thin sheet metal.",t:"metal"},
+  {q:"A Bench Vise in metalworking is used to ___.",ch:["Smooth metal surfaces","Hold metal firmly while you shape or cut it","Cut metal sheets","Measure metal length"],a:1,e:"A Bench Vise clamps to a workbench and grips metal tightly so it doesn't move while you work.",t:"metal"},
+  // Bamboo processes (5)
+  {q:"What is the FIRST step in bamboo craft before weaving can begin?",ch:["Dyeing","Weaving","Splitting","Panel Making"],a:2,e:"Splitting is always first — you must split the bamboo pole into flat strips before they can be woven.",t:"bamboo"},
+  {q:"SCRAPING bamboo strips is done to ___.",ch:["Add color to the strips","Remove rough edges and splinters","Attach strips to a frame","Bend strips into curves"],a:1,e:"Scraping smooths strips so they are safe to handle and easy to weave without splinters.",t:"bamboo"},
+  {q:"DYEING in bamboo craft means ___.",ch:["Cutting bamboo into strips","Smoothing bamboo with a scraper","Coloring bamboo strips before weaving","Weaving strips into a basket"],a:2,e:"Dyeing adds colors to bamboo strips before weaving so the finished product has decorative patterns and designs.",t:"bamboo"},
+  {q:"PANEL MAKING in bamboo involves ___.",ch:["Interlacing strips over and under each other","Arranging bamboo strips/poles side-by-side to make flat surfaces","Splitting a pole into strips","Coloring strips with natural dyes"],a:1,e:"Panels are made by arranging bamboo strips or poles next to each other to form flat walls, floors, or furniture.",t:"bamboo"},
+  {q:"WEAVING is best described as ___.",ch:["Pouring melted bamboo into a mold","Cutting bamboo with a bolo","Interlacing strips over and under each other","Painting bamboo with lacquer"],a:2,e:"Weaving is the key bamboo technique where strips are interlaced over and under each other to form baskets, mats, and more.",t:"bamboo"},
+];
+
+/* ── EXAM QUESTIONS (25) ── */
+const EQ=[
+  // MC (12)
+  {type:"mc",q:"Which woodworking tool REMOVES nails that were driven in by mistake?",ch:["Try Square","Claw Hammer","Wood Rasp","Hand Plane"],a:1},
+  {type:"mc",q:"VENEER is applied to furniture mainly to ___.",ch:["Hold pieces together","Make it heavier","Add an attractive decorative finish","Waterproof the surface"],a:2},
+  {type:"mc",q:"Which adhesive requires coating BOTH surfaces before bonding?",ch:["Wood Glue (PVA)","Hot Glue","Epoxy","Contact Cement"],a:3},
+  {type:"mc",q:"FRC Board stands for ___.",ch:["Fast-drying Rubber Coating","Fiber Reinforced Cement board","Fine-cut Recycled Composite","Flat Raw Cedar board"],a:1},
+  {type:"mc",q:"MILLING in woodworking means ___.",ch:["Making holes with a drill","Cutting raw lumber into flat usable boards","Joining two boards with screws","Smoothing with sandpaper"],a:1},
+  {type:"mc",q:"Which metalworking process pours liquid metal into a mold?",ch:["Welding","Joining","Casting","Molding"],a:2},
+  {type:"mc",q:"A WELDING ROD is used to ___.",ch:["Measure metal length","Cut sheet metal","Melt and fuse two metal pieces together","Hold metal in a vise"],a:2},
+  {type:"mc",q:"Tin Snips cut sheet metal in the same way as ___.",ch:["A hacksaw","Scissors","A drill","A hammer"],a:1},
+  {type:"mc",q:"In bamboo craft, SPLITTING is done using a ___.",ch:["Weaving needle","Bench vise","Bolo or machete","Metal file"],a:2},
+  {type:"mc",q:"PANEL MAKING in bamboo craft produces ___.",ch:["Woven baskets and bags","Flat surfaces for walls and furniture","Colored decorative strips","Round bamboo poles"],a:1},
+  {type:"mc",q:"Which finishing material SEALS and WATERPROOFS a wood surface?",ch:["Veneer","Asphalt wood sealer","Wood putty","Sandpaper"],a:1},
+  {type:"mc",q:"ROUTING creates ___ in wood.",ch:["Large round holes","Decorative edges and grooves","Flat smooth boards","Strong joints between boards"],a:1},
+  // TF (8)
+  {type:"tf",q:"Wood putty is used to FILL cracks and holes in wood before painting.",a:"true"},
+  {type:"tf",q:"Contact cement only needs to be applied to ONE surface before bonding.",a:"false"},
+  {type:"tf",q:"CASTING in metalworking means joining metal pieces with bolts and screws.",a:"false"},
+  {type:"tf",q:"SCRAPING bamboo strips removes rough edges and splinters.",a:"true"},
+  {type:"tf",q:"A Hacksaw is designed to cut wood, not metal.",a:"false"},
+  {type:"tf",q:"DYEING is done to add color to bamboo strips before weaving.",a:"true"},
+  {type:"tf",q:"Joining and Planing are both woodworking processes.",a:"true"},
+  {type:"tf",q:"Bamboo weaving means arranging poles side-by-side to create flat panels.",a:"false"},
+  // Matching (5 pairs)
+  {type:"match",q:"Match each term to its correct description.",pairs:[
+    {label:"Wood Putty",    ans:"Fills cracks and holes in wood before painting"},
+    {label:"Welding",       ans:"Joins metal pieces by melting them with heat"},
+    {label:"Milling",       ans:"Cuts raw lumber into flat usable boards"},
+    {label:"Splitting",     ans:"Divides a bamboo pole into flat strips"},
+    {label:"Veneer",        ans:"Thin decorative wood sheet glued onto furniture"},
+  ],options:["Fills cracks and holes in wood before painting","Joins metal pieces by melting them with heat","Cuts raw lumber into flat usable boards","Divides a bamboo pole into flat strips","Thin decorative wood sheet glued onto furniture"]},
+];
+
+/* ── BUILD PRACTICE ── */
+let pAnswered=0;
+function buildPractice(){
+  const c=document.getElementById('practiceQuiz');
+  c.innerHTML=''; pAnswered=0;
+  PQ.forEach((q,i)=>{
+    const col=q.t==='wood'?'#c8833a':q.t==='metal'?'#5a7fa8':'#6aab4f';
+    const lbl=q.t==='wood'?'🪵 Woodworking':q.t==='metal'?'🔧 Metalworking':'🎋 Bamboo Crafts';
+    const d=document.createElement('div');
+    d.className='q-block'; d.id=`pq${i}`;
+    d.innerHTML=`<div class="q-num" style="color:${col};">Q${i+1} · ${lbl}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="choices">${q.ch.map((ch,ci)=>`<button class="choice-btn" onclick="cp(${i},${ci})">${ch}</button>`).join('')}</div>
+      <div class="feedback" id="pfb${i}"></div>`;
+    c.appendChild(d);
+  });
+}
+function cp(qi,chosen){
+  const b=document.getElementById(`pq${qi}`);
+  const btns=b.querySelectorAll('.choice-btn');
+  if(btns[0].disabled)return;
+  btns.forEach(x=>x.disabled=true);
+  btns[PQ[qi].a].classList.add('correct');
+  if(chosen!==PQ[qi].a)btns[chosen].classList.add('wrong');
+  const fb=document.getElementById(`pfb${qi}`);
+  fb.className='feedback show '+(chosen===PQ[qi].a?'correct':'wrong');
+  fb.innerHTML=(chosen===PQ[qi].a?'✅ Correct! ':'❌ Not quite. ')+PQ[qi].e;
+  pAnswered++;
+  if(pAnswered===PQ.length){
+    let sc=0;
+    PQ.forEach((_,i)=>{const bl=document.getElementById(`pq${i}`);if(bl.querySelector('.choice-btn.correct')&&!bl.querySelector('.choice-btn.wrong'))sc++;});
+    document.getElementById('practiceScoreNum').textContent=`${sc} / 20`;
+    const r=sc>=18?'🌟 Outstanding!':sc>=15?'👍 Great job!':sc>=12?'📚 Keep reviewing!':'💪 Don\'t give up!';
+    document.getElementById('practiceRemark').textContent=r;
+    document.getElementById('practiceScore').classList.add('show');
+    document.getElementById('practiceControls').style.display='flex';
+  }
+}
+function resetPractice(){
+  document.getElementById('practiceScore').classList.remove('show');
+  document.getElementById('practiceControls').style.display='none';
+  buildPractice();
+}
+
+/* ── BUILD EXAM ── */
+function buildExam(){
+  const c=document.getElementById('examQuiz');
+  let html='';
+  // MC
+  html+=`<div class="section-label wood" style="margin-top:0;font-size:1rem;padding:9px 14px;"><span class="icon">📋</span> Section A: Multiple Choice (12 pts)</div>`;
+  EQ.filter(q=>q.type==='mc').forEach((q,i)=>{
+    const idx=EQ.indexOf(q);
+    html+=`<div class="q-block" id="eq${idx}"><div class="q-num">Question ${i+1}</div><div class="q-text">${q.q}</div>
+      <div class="choices">${q.ch.map((ch,ci)=>`<button class="choice-btn" data-qi="${idx}" data-ci="${ci}" onclick="se(${idx},${ci})">${ch}</button>`).join('')}</div></div>`;
+  });
+  // TF
+  html+=`<div class="section-label metal" style="font-size:1rem;padding:9px 14px;"><span class="icon">✔️</span> Section B: True or False (8 pts)</div>`;
+  EQ.filter(q=>q.type==='tf').forEach((q,i)=>{
+    const idx=EQ.indexOf(q);
+    html+=`<div class="q-block" id="eq${idx}"><div class="q-num">Question ${i+13}</div><div class="q-text">${q.q}</div>
+      <div class="choices">
+        <button class="choice-btn" data-qi="${idx}" data-ci="true" onclick="se(${idx},'true')">TRUE</button>
+        <button class="choice-btn" data-qi="${idx}" data-ci="false" onclick="se(${idx},'false')">FALSE</button>
+      </div></div>`;
+  });
+  // Matching
+  html+=`<div class="section-label bamboo" style="font-size:1rem;padding:9px 14px;"><span class="icon">🔗</span> Section C: Matching Type (5 pts)</div>`;
+  const m=EQ.find(q=>q.type==='match');
+  const mi=EQ.indexOf(m);
+  html+=`<div class="q-block" id="eq${mi}"><div class="q-num">Question 21</div><div class="q-text">${m.q}</div>
+    <div style="margin-top:10px;">${m.pairs.map((p,pi)=>`
+      <div class="matching-row">
+        <div class="matching-label">${p.label}</div>
+        <select class="match-select" id="ms${mi}_${pi}">
+          <option value="">-- Choose --</option>
+          ${m.options.map(o=>`<option value="${o}">${o}</option>`).join('')}
+        </select>
+      </div>`).join('')}
+    </div></div>`;
+  c.innerHTML=html;
+}
+
+const ES={};
+function se(qi,ci){
+  ES[qi]=ci;
+  const b=document.getElementById(`eq${qi}`);
+  b.querySelectorAll('.choice-btn').forEach(x=>{x.style.background='';x.style.borderColor='';});
+  const s=[...b.querySelectorAll('.choice-btn')].find(x=>x.dataset.ci==ci);
+  if(s){s.style.background='#e8f0fb';s.style.borderColor='#5a7fa8';}
+}
+function submitExam(){
+  let sc=0;
+  EQ.filter(q=>q.type==='mc').forEach(q=>{
+    const idx=EQ.indexOf(q),b=document.getElementById(`eq${idx}`),ch=ES[idx];
+    b.querySelectorAll('.choice-btn').forEach(x=>{x.disabled=true;x.style.background='';x.style.borderColor='';});
+    b.querySelectorAll('.choice-btn')[q.a].classList.add('correct');
+    if(ch!==undefined&&ch!=q.a)b.querySelectorAll('.choice-btn')[ch].classList.add('wrong');
+    if(ch==q.a)sc++;
+  });
+  EQ.filter(q=>q.type==='tf').forEach(q=>{
+    const idx=EQ.indexOf(q),b=document.getElementById(`eq${idx}`),ch=ES[idx];
+    const btns=[...b.querySelectorAll('.choice-btn')];
+    btns.forEach(x=>x.disabled=true);
+    btns.forEach(x=>{if(x.dataset.ci===q.a)x.classList.add('correct');});
+    if(ch!==undefined&&ch!==q.a)btns.forEach(x=>{if(x.dataset.ci===ch)x.classList.add('wrong');});
+    if(ch===q.a)sc++;
+  });
+  const m=EQ.find(q=>q.type==='match'),mi=EQ.indexOf(m);
+  m.pairs.forEach((p,pi)=>{
+    const sel=document.getElementById(`ms${mi}_${pi}`);
+    sel.disabled=true;
+    if(sel.value===p.ans){sel.classList.add('correct');sc++;}
+    else sel.classList.add('wrong');
+  });
+  document.getElementById('examScoreNum').textContent=`${sc} / 25`;
+  document.getElementById('examScoreLabel').textContent='Final Exam Score';
+  const pct=(sc/25)*100;
+  const r=pct>=92?'🌟 Excellent! Amazing work!':pct>=80?'👍 Great job! You passed!':pct>=70?'📚 You passed! Keep it up!':'💪 Keep practicing — you can do it!';
+  document.getElementById('examRemark').textContent=r;
+  document.getElementById('examScore').classList.add('show');
+  document.getElementById('examScore').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function resetExam(){
+  Object.keys(ES).forEach(k=>delete ES[k]);
+  document.getElementById('examScore').classList.remove('show');
+  buildExam();
+}
+
+buildPractice();
+buildExam();
+</script>
+</body>
+</html>

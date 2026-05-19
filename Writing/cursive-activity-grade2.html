@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cursive Writing Practice – Family & Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Nunito:wght@400;700;800&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FFF8F0;
+    --warm: #FFF0DC;
+    --pink: #FFD6C0;
+    --rose: #F4A07A;
+    --brown: #7A4A2A;
+    --dark: #3A2010;
+    --sage: #B5D5C0;
+    --sage-dark: #7AAA90;
+    --yellow: #FFE082;
+    --line-color: #C8A090;
+  }
+
+  @media print {
+    body { background: white !important; }
+    .no-print { display: none !important; }
+    .page { box-shadow: none !important; border: none !important; page-break-after: always; }
+    .page:last-child { page-break-after: avoid; }
+    .activity-section { break-inside: avoid; }
+  }
+
+  body {
+    background: linear-gradient(135deg, #FFE8D6 0%, #FFF0DC 50%, #FFDFC8 100%);
+    font-family: 'Nunito', sans-serif;
+    color: var(--dark);
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .controls {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    background: var(--rose);
+    color: white;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #C05A30;
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+  .btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #C05A30; }
+  .btn.sage { background: var(--sage-dark); box-shadow: 0 3px 0 #5A8A70; }
+
+  .page {
+    background: white;
+    max-width: 780px;
+    margin: 0 auto 40px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(122, 74, 42, 0.15);
+    page-break-after: always;
+  }
+
+  /* ── HEADER ── */
+  .page-header {
+    background: linear-gradient(135deg, var(--rose) 0%, #F0806A 100%);
+    padding: 22px 32px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .page-header h1 {
+    font-family: 'Caveat', cursive;
+    font-size: 34px;
+    color: white;
+    line-height: 1.1;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+  .page-header .sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.85);
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .header-icons { font-size: 40px; display: flex; gap: 8px; }
+
+  /* ── META BAR ── */
+  .meta-bar {
+    background: var(--warm);
+    border-bottom: 2px solid var(--pink);
+    padding: 10px 32px;
+    display: flex;
+    gap: 24px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--brown);
+  }
+  .meta-bar span { display: flex; align-items: center; gap: 6px; }
+  .meta-bar .line { flex: 1; border-bottom: 2px dotted var(--rose); margin-bottom: 2px; }
+
+  /* ── SECTION WRAPPERS ── */
+  .page-body { padding: 28px 32px 32px; }
+
+  .section-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--rose);
+    color: white;
+    font-size: 15px;
+    font-weight: 800;
+    padding: 5px 18px;
+    border-radius: 50px;
+    margin-bottom: 16px;
+    letter-spacing: 0.5px;
+  }
+  .section-title.sage { background: var(--sage-dark); }
+  .section-title.yellow-bg { background: #E0A030; }
+
+  .activity-section {
+    margin-bottom: 30px;
+    background: var(--cream);
+    border-radius: 14px;
+    padding: 20px 22px;
+    border: 2px solid var(--pink);
+  }
+  .activity-section.sage-bg {
+    background: #F0FAF4;
+    border-color: var(--sage);
+  }
+  .activity-section.yellow-sec {
+    background: #FFFBF0;
+    border-color: var(--yellow);
+  }
+
+  /* ── WRITING LINES ── */
+  .writing-lines {
+    position: relative;
+    margin: 8px 0 4px;
+  }
+  .line-set {
+    margin-bottom: 18px;
+  }
+  .guide-text {
+    font-family: 'Caveat', cursive;
+    font-size: 28px;
+    color: #D0A090;
+    line-height: 1;
+    margin-bottom: -4px;
+    user-select: none;
+    letter-spacing: 1px;
+  }
+  .write-line {
+    width: 100%;
+    height: 38px;
+    border: none;
+    border-bottom: 2.5px solid var(--line-color);
+    background: repeating-linear-gradient(
+      transparent,
+      transparent 36px,
+      var(--line-color) 36px,
+      var(--line-color) 37px
+    );
+    position: relative;
+    display: block;
+  }
+  /* midline (dashed) */
+  .write-line::after {
+    content: '';
+    position: absolute;
+    top: 18px;
+    left: 0; right: 0;
+    border-top: 1.5px dashed #E0C0B0;
+  }
+
+  .practice-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  /* ── LETTER TRACE ── */
+  .letter-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 4px;
+  }
+  .letter-card {
+    background: white;
+    border: 2px solid var(--pink);
+    border-radius: 12px;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+  }
+  .letter-card .big-letter {
+    font-family: 'Caveat', cursive;
+    font-size: 44px;
+    color: #E0A090;
+    line-height: 1;
+    letter-spacing: 2px;
+  }
+  .letter-card .trace-boxes {
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .trace-box {
+    width: 32px;
+    height: 38px;
+    border-bottom: 2.5px solid var(--line-color);
+    border-radius: 2px;
+    position: relative;
+  }
+  .trace-box::after {
+    content: '';
+    position: absolute;
+    top: 19px;
+    left: 0; right: 0;
+    border-top: 1.5px dashed #E0C0B0;
+  }
+  .letter-label {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--brown);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* ── WORD COPY ── */
+  .word-copy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .word-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .word-sample {
+    font-family: 'Caveat', cursive;
+    font-size: 26px;
+    color: var(--rose);
+    line-height: 1;
+  }
+  .copy-line {
+    width: 100%;
+    height: 36px;
+    border: none;
+    border-bottom: 2.5px solid var(--line-color);
+    background: none;
+    position: relative;
+    display: block;
+  }
+  .copy-line::after {
+    content: '';
+    position: absolute;
+    top: 17px;
+    left: 0; right: 0;
+    border-top: 1.5px dashed #E0C0B0;
+  }
+
+  /* ── SENTENCE TRACE ── */
+  .sentence-item {
+    margin-bottom: 20px;
+  }
+  .sentence-guide {
+    font-family: 'Caveat', cursive;
+    font-size: 26px;
+    color: #CCA090;
+    margin-bottom: 2px;
+    letter-spacing: 0.5px;
+  }
+  .sentence-write {
+    width: 100%;
+    height: 38px;
+    border: none;
+    border-bottom: 2.5px solid var(--line-color);
+    display: block;
+    position: relative;
+    background: none;
+  }
+  .sentence-write::after {
+    content: '';
+    position: absolute;
+    top: 18px;
+    left: 0; right: 0;
+    border-top: 1.5px dashed #E0C0B0;
+  }
+
+  /* ── DECORATION ── */
+  .decor-strip {
+    background: var(--pink);
+    padding: 8px 32px;
+    display: flex;
+    gap: 16px;
+    font-size: 22px;
+    justify-content: center;
+    letter-spacing: 8px;
+  }
+
+  .score-box {
+    display: flex;
+    gap: 16px;
+    margin-top: 4px;
+    justify-content: flex-end;
+  }
+  .star { font-size: 28px; }
+
+  /* ── PAGE 2 header ── */
+  .page-header.green {
+    background: linear-gradient(135deg, var(--sage-dark) 0%, #5A9A78 100%);
+  }
+  .page-header.blue {
+    background: linear-gradient(135deg, #7AAAD0 0%, #5080B0 100%);
+  }
+
+  .tip-box {
+    background: var(--yellow);
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #7A5000;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="controls no-print">
+  <button class="btn" onclick="window.print()">🖨️ Print Activity</button>
+</div>
+
+<!-- ═══════════════════════════════════ PAGE 1 ═══════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <div>
+      <div class="sub">Grade 2 · Cursive Writing</div>
+      <h1>Family &amp; Home</h1>
+    </div>
+    <div class="header-icons">🏡 👨‍👩‍👧‍👦</div>
+  </div>
+
+  <div class="meta-bar">
+    <span>📛 Name: <span class="line" style="width:160px;">&nbsp;</span></span>
+    <span>📅 Date: <span class="line" style="width:100px;">&nbsp;</span></span>
+    <span>⭐ Score: <span class="line" style="width:60px;">&nbsp;</span></span>
+  </div>
+
+  <div class="page-body">
+
+    <!-- PART A: TRACE THE LETTERS -->
+    <div class="activity-section">
+      <div class="section-title">✏️ Part A – Trace the Letters</div>
+      <div class="tip-box">💡 Trace each letter carefully. Start from the dot!</div>
+      <div class="letter-grid">
+
+        <div class="letter-card">
+          <div class="big-letter">Mm</div>
+          <div class="trace-boxes">
+            <div class="trace-box"></div>
+            <div class="trace-box"></div>
+            <div class="trace-box"></div>
+          </div>
+          <div class="letter-label">Mom</div>
+        </div>
+
+        <div class="letter-card">
+          <div class="big-letter">Dd</div>
+          <div class="trace-boxes">
+            <div class="trace-box"></div>
+            <div class="trace-box"></div>
+            <div class="trace-box"></div>
+          </div>
+          <div class="letter-label">Dad</div>
+        </div>
+
+        <div class="letter-card">
+          <div class="big-letter">Hh</div>
+          <div class="trace-boxes">
+            <div class="trace-box"></div>
+            <div class="trace-box"></div>
+            <div class="trace-box"></div>
+          </div>
+          <div class="letter-label">Home</div>
+        </div>
+
+        <div class="letter-card">
+          <div class="big-letter">Ff</div>
+          <div class="trace-boxes">
+            <div class="trace-box"></div>
+            <div class="trace-box"></div>
+            <div class="trace-box"></div>
+          </div>
+          <div class="letter-label">Family</div>
+        </div>
+
+        <div class="letter-card">
+          <div class="big-letter">Ss</div>
+          <div class="trace-boxes">
+            <div class="trace-box"></div>
+            <div class="trace-box"></div>
+            <div class="trace-box"></div>
+          </div>
+          <div class="letter-label">Sister</div>
+        </div>
+
+        <div class="letter-card">
+          <div class="big-letter">Bb</div>
+          <div class="trace-boxes">
+            <div class="trace-box"></div>
+            <div class="trace-box"></div>
+            <div class="trace-box"></div>
+          </div>
+          <div class="letter-label">Brother</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PART B: COPY THE WORDS -->
+    <div class="activity-section sage-bg">
+      <div class="section-title sage">📝 Part B – Copy the Words</div>
+      <div class="tip-box" style="background:#D8F0E0; color:#2A5A3A;">💡 Read each word, then write it neatly in cursive on the line below.</div>
+      <div class="word-copy-grid">
+
+        <div class="word-item">
+          <div class="word-sample">mom</div>
+          <div class="copy-line"></div>
+          <div class="copy-line" style="margin-top:6px;"></div>
+        </div>
+
+        <div class="word-item">
+          <div class="word-sample">dad</div>
+          <div class="copy-line"></div>
+          <div class="copy-line" style="margin-top:6px;"></div>
+        </div>
+
+        <div class="word-item">
+          <div class="word-sample">home</div>
+          <div class="copy-line"></div>
+          <div class="copy-line" style="margin-top:6px;"></div>
+        </div>
+
+        <div class="word-item">
+          <div class="word-sample">sister</div>
+          <div class="copy-line"></div>
+          <div class="copy-line" style="margin-top:6px;"></div>
+        </div>
+
+        <div class="word-item">
+          <div class="word-sample">family</div>
+          <div class="copy-line"></div>
+          <div class="copy-line" style="margin-top:6px;"></div>
+        </div>
+
+        <div class="word-item">
+          <div class="word-sample">brother</div>
+          <div class="copy-line"></div>
+          <div class="copy-line" style="margin-top:6px;"></div>
+        </div>
+
+        <div class="word-item">
+          <div class="word-sample">love</div>
+          <div class="copy-line"></div>
+          <div class="copy-line" style="margin-top:6px;"></div>
+        </div>
+
+        <div class="word-item">
+          <div class="word-sample">house</div>
+          <div class="copy-line"></div>
+          <div class="copy-line" style="margin-top:6px;"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="score-box no-print">
+      <span class="star">⭐</span>
+      <span class="star">⭐</span>
+      <span class="star">⭐</span>
+      <span class="star">⭐</span>
+      <span class="star">⭐</span>
+    </div>
+
+  </div>
+
+  <div class="decor-strip">🏠 👨‍👩‍👧 🌸 🏠 👨‍👩‍👧 🌸 🏠</div>
+</div>
+
+<!-- ═══════════════════════════════════ PAGE 2 ═══════════════════════════════════ -->
+<div class="page">
+  <div class="page-header green">
+    <div>
+      <div class="sub">Grade 2 · Cursive Writing</div>
+      <h1>Trace the Sentences</h1>
+    </div>
+    <div class="header-icons">✏️ 🌸</div>
+  </div>
+
+  <div class="meta-bar">
+    <span>📛 Name: <span class="line" style="width:160px;">&nbsp;</span></span>
+    <span>📅 Date: <span class="line" style="width:100px;">&nbsp;</span></span>
+  </div>
+
+  <div class="page-body">
+
+    <!-- PART C: TRACE SENTENCES -->
+    <div class="activity-section yellow-sec">
+      <div class="section-title yellow-bg">🌟 Part C – Trace the Sentences</div>
+      <div class="tip-box" style="background:#FFF3C0; color:#7A5000;">💡 Trace the sentence first. Then write it again on your own on the blank lines!</div>
+
+      <div class="sentence-item">
+        <div class="sentence-guide">I love my family.</div>
+        <div class="sentence-write"></div>
+        <div style="margin-top:12px;">
+          <div class="write-line"></div>
+        </div>
+      </div>
+
+      <div class="sentence-item">
+        <div class="sentence-guide">My home is warm.</div>
+        <div class="sentence-write"></div>
+        <div style="margin-top:12px;">
+          <div class="write-line"></div>
+        </div>
+      </div>
+
+      <div class="sentence-item">
+        <div class="sentence-guide">Mom and Dad care for me.</div>
+        <div class="sentence-write"></div>
+        <div style="margin-top:12px;">
+          <div class="write-line"></div>
+        </div>
+      </div>
+
+      <div class="sentence-item">
+        <div class="sentence-guide">We are a happy family.</div>
+        <div class="sentence-write"></div>
+        <div style="margin-top:12px;">
+          <div class="write-line"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BONUS: Free write -->
+    <div class="activity-section">
+      <div class="section-title">🎉 Bonus – Write Your Own!</div>
+      <p style="font-size:13px; font-weight:700; color:var(--brown); margin-bottom:10px;">Write one sentence about your family in cursive. You can do it! 😊</p>
+      <div class="write-line" style="margin-bottom:14px;"></div>
+      <div class="write-line" style="margin-bottom:14px;"></div>
+      <div class="write-line"></div>
+
+      <div style="margin-top:20px; text-align:center;">
+        <div style="font-family:'Caveat',cursive; font-size:22px; color:var(--rose);">
+          Great job! ⭐ Keep practicing! 🎉
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="decor-strip">🌸 ✏️ 🏡 🌸 ✏️ 🏡 🌸</div>
+</div>
+
+</body>
+</html>
