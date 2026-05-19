@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="fil">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Araling Panlipunan Reviewer – Grade 5</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sun: #f5a623;
+    --sun2: #f7c46a;
+    --blue: #1a5fa8;
+    --blue2: #2d80d4;
+    --red: #c0392b;
+    --green: #27ae60;
+    --bg: #fdf6ec;
+    --card: #fff;
+    --text: #1e2840;
+    --muted: #7a8499;
+    --radius: 16px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, var(--blue) 0%, var(--blue2) 60%, #1a8fa8 100%);
+    color: white;
+    padding: 2rem 1.5rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '🇵🇭';
+    font-size: 6rem;
+    position: absolute;
+    right: -1rem;
+    top: -1rem;
+    opacity: 0.12;
+  }
+  header h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.9rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+  header p { font-size: 0.95rem; opacity: 0.85; margin-top: 0.4rem; }
+  .sun-badge {
+    display: inline-block;
+    background: var(--sun);
+    color: #7a3d00;
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 0.25rem 0.9rem;
+    border-radius: 99px;
+    margin-top: 0.7rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* NAV TABS */
+  nav {
+    display: flex;
+    gap: 0;
+    background: white;
+    border-bottom: 3px solid var(--sun);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+  nav button {
+    flex: 1;
+    padding: 0.85rem 0.5rem;
+    border: none;
+    background: transparent;
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -3px;
+  }
+  nav button.active {
+    color: var(--blue);
+    border-bottom-color: var(--blue);
+    background: #f0f6ff;
+  }
+  nav button:hover:not(.active) { background: #f9f9f9; color: var(--text); }
+
+  /* MAIN */
+  main { max-width: 780px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* SECTION CARDS */
+  .section-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--blue);
+    margin: 1.5rem 0 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(to right, var(--sun), transparent);
+    border-radius: 2px;
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    border-left: 5px solid var(--sun);
+  }
+  .card.blue { border-left-color: var(--blue2); }
+  .card.green { border-left-color: var(--green); }
+  .card.red { border-left-color: var(--red); }
+
+  .card h3 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+  .card p, .card li {
+    font-size: 0.93rem;
+    line-height: 1.65;
+    color: #2c3555;
+  }
+  .card ul { padding-left: 1.3rem; }
+  .card li { margin-bottom: 0.25rem; }
+
+  .tag {
+    display: inline-block;
+    background: #e8f0ff;
+    color: var(--blue);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.15rem 0.6rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+  }
+
+  /* KEY PERSONS TABLE */
+  .persons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  .person-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    border-top: 4px solid var(--sun);
+    text-align: center;
+  }
+  .person-card .emoji { font-size: 2rem; margin-bottom: 0.4rem; }
+  .person-card .name { font-family: 'Baloo 2', cursive; font-weight: 700; font-size: 0.95rem; }
+  .person-card .role { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; line-height: 1.4; }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.55rem;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--sun), var(--blue));
+    border-radius: 3px;
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 1rem;
+    background: white;
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -1.65rem;
+    top: 1rem;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--sun);
+    border: 3px solid white;
+    box-shadow: 0 0 0 2px var(--sun);
+  }
+  .tl-year {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    color: var(--blue);
+    font-size: 0.95rem;
+  }
+  .tl-event { font-size: 0.88rem; color: #2c3555; margin-top: 0.15rem; line-height: 1.5; }
+
+  /* VOCAB */
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.7rem;
+  }
+  @media(max-width:500px){ .vocab-grid { grid-template-columns: 1fr; } }
+  .vocab-item {
+    background: white;
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+  .vocab-term {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 700;
+    color: var(--red);
+    font-size: 0.95rem;
+  }
+  .vocab-def { font-size: 0.82rem; color: #444; margin-top: 0.2rem; line-height: 1.4; }
+
+  /* ===== QUIZ ===== */
+  #quiz-start {
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+  #quiz-start h2 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.6rem;
+    color: var(--blue);
+    margin-bottom: 0.5rem;
+  }
+  #quiz-start p { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
+  .start-btn {
+    background: linear-gradient(135deg, var(--sun), #e8880a);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 0.9rem 2.5rem;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.15rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(245,166,35,0.4);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .start-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,166,35,0.5); }
+
+  #quiz-area { display: none; }
+  .quiz-progress {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1.2rem;
+  }
+  .progress-bar {
+    flex: 1;
+    height: 10px;
+    background: #e0e8f5;
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--blue), var(--sun));
+    border-radius: 99px;
+    transition: width 0.4s ease;
+  }
+  .q-num { font-family: 'Baloo 2', cursive; font-weight: 700; color: var(--blue); white-space: nowrap; }
+
+  .q-card {
+    background: white;
+    border-radius: 18px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom: 1rem;
+  }
+  .q-text {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: 1.2rem;
+    color: var(--text);
+  }
+  .options { display: grid; gap: 0.6rem; }
+  .opt-btn {
+    background: #f4f7ff;
+    border: 2px solid #dde6f5;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .opt-btn:hover:not(:disabled) { background: #e0eaff; border-color: var(--blue2); }
+  .opt-btn.correct { background: #d4f5e2; border-color: var(--green); color: #1a6b3c; }
+  .opt-btn.wrong { background: #fde8e8; border-color: var(--red); color: var(--red); }
+  .opt-btn:disabled { cursor: default; }
+
+  .feedback {
+    margin-top: 0.8rem;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct { background: #d4f5e2; color: #1a6b3c; }
+  .feedback.wrong { background: #fde8e8; color: #922; }
+
+  .next-btn {
+    display: none;
+    width: 100%;
+    margin-top: 0.8rem;
+    background: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0.8rem;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .next-btn:hover { background: var(--blue2); }
+  .next-btn.show { display: block; }
+
+  /* RESULTS */
+  #quiz-results { display: none; text-align: center; padding: 1.5rem 0; }
+  .score-circle {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), var(--sun));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.2rem;
+    box-shadow: 0 8px 30px rgba(26,95,168,0.3);
+    color: white;
+  }
+  .score-num {
+    font-family: 'Baloo 2', cursive;
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .score-label { font-size: 0.85rem; opacity: 0.9; margin-top: 0.2rem; }
+  #quiz-results h2 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.5rem;
+    color: var(--blue);
+    margin-bottom: 0.4rem;
+  }
+  #quiz-results p { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
+  .retry-btn {
+    background: var(--sun);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0.75rem 2rem;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .retry-btn:hover { opacity: 0.88; }
+
+  /* REVIEW ANSWERS */
+  .review-section { margin-top: 1.5rem; text-align: left; }
+  .review-section h3 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.1rem;
+    color: var(--blue);
+    margin-bottom: 0.8rem;
+  }
+  .ra-item {
+    background: white;
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    margin-bottom: 0.7rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    border-left: 4px solid var(--green);
+  }
+  .ra-item.wrong { border-left-color: var(--red); }
+  .ra-q { font-size: 0.88rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .ra-a { font-size: 0.83rem; color: #444; }
+  .ra-correct { color: var(--green); font-weight: 700; }
+  .ra-your { color: var(--red); }
+
+  .emoji-big { font-size: 2.5rem; margin-bottom: 0.5rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📚 Araling Panlipunan Reviewer</h1>
+  <p>Kasaysayan ng Pilipinas sa Panahon ng Kolonyalismo</p>
+  <div class="sun-badge">⭐ Grade 5 • Mga Aralin 15–19 at Iba Pa</div>
+</header>
+
+<nav>
+  <button class="active" onclick="switchTab('reviewer')">📖 Reviewer</button>
+  <button onclick="switchTab('persons')">👤 Mahahalagang Tao</button>
+  <button onclick="switchTab('timeline')">📅 Timeline</button>
+  <button onclick="switchTab('quiz')">📝 Quiz</button>
+</nav>
+
+<main>
+
+<!-- ===== REVIEWER TAB ===== -->
+<div class="tab-panel active" id="tab-reviewer">
+
+  <div class="section-title">🏴 Pagpupunyagi ng mga Katutubong Pangkat (Aralin 15)</div>
+
+  <div class="card">
+    <div class="tag">Aralin 15</div>
+    <h3>Mga Bahagi ng Pilipinas na Hindi Nasakop</h3>
+    <ul>
+      <li>Hindi lahat ng bahagi ng Pilipinas ay nasakop ng mga Espanyol.</li>
+      <li><strong>Mga Muslim sa Mindanao at Sulu</strong> – Patuloy na lumaban at nagpanatili ng kanilang kultura at relihiyong Islam.</li>
+      <li><strong>Mga Katutubong taga-Cordillera</strong> (Mountain Province, Kalinga, Apayao, Ifugao, Benguet, Bontoc) – Nanatiling malaya sa kabundukan ng Luzon.</li>
+      <li>Naging sentro ng kanilang kultura, tradisyon, at paniniwala ang kanilang mga kabundukan at lupain.</li>
+      <li>Ang mga Muslim ay may Sultan na pinuno; ang mga taga-Cordillera ay nagpanatili ng kanilang sariling pamahalaan.</li>
+    </ul>
+  </div>
+
+  <div class="card blue">
+    <div class="tag">Aralin 15</div>
+    <h3>Pakikipaglaban ng mga Muslim</h3>
+    <ul>
+      <li>Ang mga Espanyol ay maraming beses na nagtangkang sakupin ang Mindanao at Sulu ngunit nabigo.</li>
+      <li>Noong <strong>1571</strong> – Lumaban ang mga Muslim sa Manila laban sa mga Espanyol sa pamumuno ni Rajah Sulayman.</li>
+      <li>Noong <strong>1578</strong> – Sinubukan ng mga Espanyol na sakupin ang Mindanao sa pamamagitan ng pakikipaglaban sa mga sultan.</li>
+      <li>Noong <strong>1596, 1602, at 1637</strong> – Maraming labanan sa pagitan ng mga Muslim at Espanyol sa Zamboanga at Sulu.</li>
+      <li>Noong <strong>1718</strong> – Nakatayo ang Fort Pilar sa Zamboanga bilang depensa ng mga Espanyol.</li>
+      <li>Hanggang noong <strong>1851</strong> – Patuloy na ang pakikipaglaban ng mga Muslim.</li>
+    </ul>
+  </div>
+
+  <div class="section-title">⛵ Ang Kalakalang Galyon (Aralin 17)</div>
+
+  <div class="card">
+    <div class="tag">Aralin 17</div>
+    <h3>Ano ang Kalakalang Galyon?</h3>
+    <ul>
+      <li>Ang <strong>Kalakalang Galyon (Galleon Trade)</strong> ay isang kolonyong kalakalan sa pagitan ng <strong>Maynila at Acapulco</strong> (Mexico) na nagsimula noong <strong>1565</strong>.</li>
+      <li>Ang Maynila ang naging sentro ng komersiyo sa Asya.</li>
+      <li>Mga produktong galing sa China (seda, porselana, ginto) ang ipinagpalit sa pilak na galing Mexico.</li>
+      <li>Tumagal ito ng <strong>250 taon</strong> (1565–1815).</li>
+      <li>Ang mga Espanyol lamang ang pinayagang mangalakal – sila ang opisyal, prayle, at ibang Espanyol.</li>
+    </ul>
+  </div>
+
+  <div class="card green">
+    <div class="tag">Aralin 17</div>
+    <h3>Mga Epekto ng Kalakalang Galyon</h3>
+    <ul>
+      <li>Kumita ang pamahalaan ng kolonyaL ng malaki.</li>
+      <li>Napabayaan ang pagpapalago ng industriya dahil puro kalakalan ang pinagtutuunan.</li>
+      <li>Nawalan ng kita ang mga Pilipinong polista at nakapagdagdag ng damdamin laban sa kolonyal.</li>
+      <li>Naging daan ito sa pagpasok ng bagong ideya at pilosopiya mula sa Europa.</li>
+      <li>Noong <strong>1869</strong> – Nabuksan ang Suez Canal na nagpabilis ng pagdating ng mga bagong ideya sa Pilipinas.</li>
+    </ul>
+  </div>
+
+  <div class="section-title">🌍 Mga Pandaigdigang Pangyayari (Aralin 18)</div>
+
+  <div class="card">
+    <div class="tag">Aralin 18</div>
+    <h3>Paglipas ng Merkantilismo</h3>
+    <ul>
+      <li><strong>Merkantilismo</strong> – Paniniwala na mas magiging makapangyarihan ang isang bansa kung ito ang mag-ipon ng ginto at pilak.</li>
+      <li>Dahil dito, nagtayo ng mga kolonya ang mga bansang Europeo.</li>
+      <li>Unti-unting inalis ang merkantilismo at pinalitan ng <strong>kapitalismo</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="card blue">
+    <div class="tag">Aralin 18</div>
+    <h3>Panahon ng Pagkamulat at Kaisipang La Ilustracion</h3>
+    <ul>
+      <li>Ika-16 hanggang 17 siglo – <strong>Panahon ng Pagkamulat (Age of Enlightenment)</strong>.</li>
+      <li>Mga pilosopo: <strong>Thomas Hobbes, John Locke, Jean-Jacques Rousseau</strong> – Nag-isip ng mga ideya tungkol sa kalayaan at karapatan ng tao.</li>
+      <li>Ang kanilang mga ideya ay naabot ang mga Pilipino at nagbigay inspirasyon sa kilusan para sa kalayaan.</li>
+    </ul>
+  </div>
+
+  <div class="card red">
+    <div class="tag">Aralin 18</div>
+    <h3>Ang Rebolusyong Pranses</h3>
+    <ul>
+      <li>Nagsimula noong <strong>1789</strong> sa France.</li>
+      <li>Mga adhikain: <em>Kalayaan (Liberté), Pagkakapantay-pantay (Égalité), Pagkakapatiran (Fraternité)</em>.</li>
+      <li>Si Haring Louis XVI ay pinapatay sa guillotine.</li>
+      <li>Malaki ang impluwensiya nito sa mga Pilipino – nagbigay inspirasyon sa kanila na makipaglaban sa kolonyal na pamahalaan.</li>
+    </ul>
+  </div>
+
+  <div class="section-title">✊ Mga Naunang Pag-aalsa (Aralin 19)</div>
+
+  <div class="card">
+    <div class="tag">Aralin 19</div>
+    <h3>Pagtanggap ng mga Kastila at Pag-aalsa ng mga Katutubong Grupo</h3>
+    <ul>
+      <li>Noong dumating ang mga Espanyol, nagambot ang dating bansa at lumagay sa ilalim ng kolonyalismo.</li>
+      <li>Maraming Pilipino ang hindi tumanggap at lumaban.</li>
+      <li><strong>Magellan</strong> – Dumating sa Pilipinas noong 1521; pinatay ni Rajah Humabon ang mga kasama ni Magellan sa pamumuno ni Rajah Lapu-lapu sa Mactan.</li>
+      <li>Naging simbolo ng pagtatanggol ng kalayaan si <strong>Lapu-lapu</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="card blue">
+    <div class="tag">Aralin 19</div>
+    <h3>Mga Kilalang Pag-aalsa</h3>
+    <ul>
+      <li><strong>Pag-aalsa ni Dagohoy</strong> (1744–1829) – Pinakamahaba at pinakamalaking pag-aalsa sa Bohol. Dahil hindi binigyan ng Simbahan ng Kristiyano ang kanyang kapatid na Kristiyano ng matinong libing.</li>
+      <li><strong>Kilusang Agraryo ng 1745</strong> – Pag-aalsa ng mga magsasaka laban sa mga prayleng nagmamay-ari ng lupa sa Luzon.</li>
+      <li><strong>Pag-aalsa ni Diego Silang (1762)</strong> – Sa Ilocos; napatay si Diego ngunit ipinagpatuloy ni Gabriela Silang (kanyang asawa) ang laban.</li>
+      <li><strong>Pag-aalsa ng mga Ilocano</strong> sa pamumuno nina Juan at Miguel Vicos laban sa mga Espanyol.</li>
+    </ul>
+  </div>
+
+  <div class="section-title">🎓 Ang Papel ng mga Ilustrado (Aralin 18–19)</div>
+
+  <div class="card green">
+    <div class="tag">Ilustrado</div>
+    <h3>Sino ang mga Ilustrado?</h3>
+    <ul>
+      <li>Ang mga <strong>Ilustrado</strong> ay mga Pilipinong nakaabot sa mataas na antas ng pag-aaral, kadalasan sa Europa.</li>
+      <li>Kasama sina: <strong>Jose Rizal, Marcelo H. del Pilar, Graciano Lopez-Jaena, Mariano Gomez, Jacinto Zamora, Jose Burgos</strong>.</li>
+      <li>Namuno sila sa <strong>Kilusang Propaganda</strong> – nagtataguyod ng reporma, hindi rebolusyon.</li>
+      <li>Ang malawak na kaalaman nila sa mundo ay nagbigay inspirasyon sa mga Pilipino na ipaglaban ang kanilang karapatan.</li>
+    </ul>
+  </div>
+
+  <div class="section-title">📖 Mahahalagang Konsepto</div>
+  <div class="vocab-grid">
+    <div class="vocab-item">
+      <div class="vocab-term">Kolonyalismo</div>
+      <div class="vocab-def">Ang pamamahala ng isang bansa sa ibang bansa o teritoryo.</div>
+    </div>
+    <div class="vocab-item">
+      <div class="vocab-term">Merkantilismo</div>
+      <div class="vocab-def">Ekonomiyang teorya ng pag-iipon ng ginto at pilak para sa kapangyarihan ng bansa.</div>
+    </div>
+    <div class="vocab-item">
+      <div class="vocab-term">Ilustrado</div>
+      <div class="vocab-def">Mga Pilipinong may mataas na edukasyon, kadalasang nag-aral sa Europa.</div>
+    </div>
+    <div class="vocab-item">
+      <div class="vocab-term">Galyon</div>
+      <div class="vocab-def">Malaking barkong ginagamit sa kalakalang Maynila-Acapulco.</div>
+    </div>
+    <div class="vocab-item">
+      <div class="vocab-term">Pag-aalsa</div>
+      <div class="vocab-def">Pagtutol o pagbabago ng mga tao laban sa pamahalaan.</div>
+    </div>
+    <div class="vocab-item">
+      <div class="vocab-term">Nasyonalismo</div>
+      <div class="vocab-def">Pagmamahal at pagtatanggol sa sariling bansa at kultura.</div>
+    </div>
+    <div class="vocab-item">
+      <div class="vocab-term">Sultan</div>
+      <div class="vocab-def">Pinuno ng mga Muslim na komunidad sa Pilipinas.</div>
+    </div>
+    <div class="vocab-item">
+      <div class="vocab-term">Kilusang Propaganda</div>
+      <div class="vocab-def">Kilusan ng mga Ilustrado para sa repormang pampulitika sa pamamamagitan ng sulatin at pahayagan.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== PERSONS TAB ===== -->
+<div class="tab-panel" id="tab-persons">
+  <div class="section-title">👤 Mahahalagang Tao sa Kasaysayan</div>
+
+  <div class="persons-grid">
+    <div class="person-card">
+      <div class="emoji">⚔️</div>
+      <div class="name">Lapu-Lapu</div>
+      <div class="role">Pinuno ng Mactan; Unang bayaning Pilipino; Pinatay si Magellan noong 1521</div>
+    </div>
+    <div class="person-card">
+      <div class="emoji">🛡️</div>
+      <div class="name">Rajah Humabon</div>
+      <div class="role">Pinuno ng Cebu; Sa simula ay naging kaibigan ng mga Espanyol</div>
+    </div>
+    <div class="person-card">
+      <div class="emoji">🌊</div>
+      <div class="name">Ferdinand Magellan</div>
+      <div class="role">Espanyol na manlalayag; Nakarating sa Pilipinas noong 1521; Napatay sa Mactan</div>
+    </div>
+    <div class="person-card">
+      <div class="emoji">✊</div>
+      <div class="name">Francisco Dagohoy</div>
+      <div class="role">Nanguna sa pinakamahabang pag-aalsa sa Bohol (1744–1829) – 85 taon!</div>
+    </div>
+    <div class="person-card">
+      <div class="emoji">🗡️</div>
+      <div class="name">Diego Silang</div>
+      <div class="role">Nanguna ng pag-aalsa sa Ilocos noong 1762 laban sa mga Espanyol</div>
+    </div>
+    <div class="person-card">
+      <div class="emoji">💪</div>
+      <div class="name">Gabriela Silang</div>
+      <div class="role">Asawa ni Diego; Ipinagpatuloy ang laban matapos mapatay ang kanyang asawa</div>
+    </div>
+    <div class="person-card">
+      <div class="emoji">👑</div>
+      <div class="name">Rajah Sulayman</div>
+      <div class="role">Muslim na pinuno; Lumaban sa mga Espanyol sa Manila noong 1571</div>
+    </div>
+    <div class="person-card">
+      <div class="emoji">📚</div>
+      <div class="name">Jose Rizal</div>
+      <div class="role">Pambansang bayani; Ilustrado; Nag-aral sa Europa; Sumulat ng Noli at Fili</div>
+    </div>
+    <div class="person-card">
+      <div class="emoji">✍️</div>
+      <div class="name">Marcelo H. del Pilar</div>
+      <div class="role">Ilustrado; Namuno sa La Solidaridad (pahayagan ng Kilusang Propaganda)</div>
+    </div>
+    <div class="person-card">
+      <div class="emoji">🗣️</div>
+      <div class="name">Graciano Lopez-Jaena</div>
+      <div class="role">Ilustrado; Tagapagsalita; Nagtatag ng La Solidaridad</div>
+    </div>
+    <div class="person-card">
+      <div class="emoji">🏛️</div>
+      <div class="name">John Locke</div>
+      <div class="role">Pilosopong Ingles; Nagtatag ng ideya ng karapatang natural ng tao</div>
+    </div>
+    <div class="person-card">
+      <div class="emoji">🕊️</div>
+      <div class="name">Jean-Jacques Rousseau</div>
+      <div class="role">Pilosopong Pranses; Sumulat ng "The Social Contract"; Kalayaan ng tao</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TIMELINE TAB ===== -->
+<div class="tab-panel" id="tab-timeline">
+  <div class="section-title">📅 Mahahalagang Petsa</div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-year">1521</div>
+      <div class="tl-event">Dumating si Ferdinand Magellan sa Pilipinas. Namatay siya sa Labanan ng Mactan laban kay Lapu-Lapu.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1565</div>
+      <div class="tl-event">Nagsimula ang Kalakalang Galyon (Maynila–Acapulco). Unang barko ang dumating sa Pilipinas sa ilalim ni Miguel Lopez de Legazpi.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1571</div>
+      <div class="tl-event">Lumaban si Rajah Sulayman sa mga Espanyol sa Manila. Naitatag ng mga Espanyol ang Maynila bilang kabisera.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1578</div>
+      <div class="tl-event">Unang pagtatangka ng mga Espanyol na sakupin ang Mindanao at Sulu – nabigo.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1621</div>
+      <div class="tl-event">Pag-aalsa ng mga Pilipino sa pamumuno ni Gabriel Caubang at Hermano Pule sa Manila area.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1643</div>
+      <div class="tl-event">Pag-aalsa ni Cagayan. Napatay ang Gobernador ng Cagayan at mga Espanyol doon.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1718</div>
+      <div class="tl-event">Nagtayo ang mga Espanyol ng Fort Pilar sa Zamboanga bilang depensa laban sa mga Muslim.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1744–1829</div>
+      <div class="tl-event">Pag-aalsa ni Francisco Dagohoy sa Bohol – pinakamatagal na pag-aalsa (85 taon!) sa kasaysayan ng Pilipinas.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1745</div>
+      <div class="tl-event">Kilusang Agraryo – Pag-aalsa ng mga magsasaka laban sa mga prayling may-ari ng lupa sa Luzon.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1762</div>
+      <div class="tl-event">Pag-aalsa ni Diego Silang sa Ilocos. Matapos mapatay si Diego, ipinagpatuloy ni Gabriela Silang ang laban.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1789</div>
+      <div class="tl-event">Nagsimula ang Rebolusyong Pranses – malaking inspirasyon para sa mga nananakop na kolonya sa buong mundo.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1815</div>
+      <div class="tl-event">Nagtapos ang Kalakalang Galyon matapos 250 taon.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1851</div>
+      <div class="tl-event">Huling malaking labanan ng mga Muslim laban sa mga Espanyol sa Sulu.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1869</div>
+      <div class="tl-event">Nabuksan ang Suez Canal – nagpabilis ng pagpasok ng mga bagong ideya ng kalayaan sa Pilipinas.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1880s–1890s</div>
+      <div class="tl-event">Panahon ng mga Ilustrado at Kilusang Propaganda. Lumitaw sina Jose Rizal, del Pilar, at Lopez-Jaena.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== QUIZ TAB ===== -->
+<div class="tab-panel" id="tab-quiz">
+
+  <div id="quiz-start">
+    <div class="emoji-big">📝</div>
+    <h2>Handa Ka Na Ba?</h2>
+    <p>Subukin ang iyong kaalaman sa Araling Panlipunan!<br>20 tanong · Multiple Choice · Grade 5</p>
+    <button class="start-btn" onclick="startQuiz()">🚀 Simulan ang Quiz!</button>
+  </div>
+
+  <div id="quiz-area">
+    <div class="quiz-progress">
+      <span class="q-num" id="q-num">1 / 20</span>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:5%"></div></div>
+      <span class="q-num" id="score-live">⭐ 0</span>
+    </div>
+    <div class="q-card">
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="next-btn" onclick="nextQuestion()">Susunod na Tanong ➡️</button>
+    </div>
+  </div>
+
+  <div id="quiz-results">
+    <div class="score-circle">
+      <div class="score-num" id="final-score">0</div>
+      <div class="score-label">sa 20</div>
+    </div>
+    <h2 id="result-msg">Magaling!</h2>
+    <p id="result-sub"></p>
+    <button class="retry-btn" onclick="retryQuiz()">🔄 Subukan Ulit</button>
+
+    <div class="review-section">
+      <h3>📋 Suriin ang Iyong mga Sagot</h3>
+      <div id="answer-review"></div>
+    </div>
+  </div>
+
+</div>
+
+</main>
+
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  event.target.classList.add('active');
+}
+
+const ALL_QUESTIONS = [
+  {
+    q: "Sino ang unang bayaning Pilipino na napatay si Ferdinand Magellan sa Labanan ng Mactan noong 1521?",
+    opts: ["Rajah Humabon", "Lapu-Lapu", "Rajah Sulayman", "Diego Silang"],
+    ans: 1,
+    exp: "Si Lapu-Lapu ang pinuno ng Mactan na humadlang at napatay si Magellan. Siya ang itinuturing na unang bayaning Pilipino."
+  },
+  {
+    q: "Ano ang tawag sa kalakalan sa pagitan ng Maynila at Acapulco, Mexico?",
+    opts: ["Kalakalang Tsino", "Kalakalang Galyon", "Kalakalang Ingles", "Kalakalang Arabo"],
+    ans: 1,
+    exp: "Ang Kalakalang Galyon (Galleon Trade) ang tawag sa kalakalan sa pagitan ng Maynila at Acapulco na tumagal ng 250 taon (1565–1815)."
+  },
+  {
+    q: "Ilang taon tumagal ang pag-aalsa ni Francisco Dagohoy sa Bohol?",
+    opts: ["50 taon", "65 taon", "85 taon", "100 taon"],
+    ans: 2,
+    exp: "Ang pag-aalsa ni Dagohoy ay tumagal ng 85 taon (1744–1829), ang pinakamatagal na pag-aalsa sa kasaysayan ng Pilipinas."
+  },
+  {
+    q: "Sino ang asawa ni Diego Silang na nagpatuloy ng pag-aalsa sa Ilocos matapos mapatay ang kanyang asawa?",
+    opts: ["Gabriela Silang", "Maria Clara", "Tandang Sora", "Teresa Magbanua"],
+    ans: 0,
+    exp: "Si Gabriela Silang ang nagpatuloy ng laban matapos mapatay si Diego Silang sa Ilocos noong 1762."
+  },
+  {
+    q: "Ano ang merkantilismo?",
+    opts: [
+      "Kalayaan ng mga tao",
+      "Paniniwala na mas makapangyarihan ang bansa kung mag-iiipon ng ginto at pilak",
+      "Pag-aaral ng mga ilustrado",
+      "Uri ng kalakalan sa Pilipinas"
+    ],
+    ans: 1,
+    exp: "Ang merkantilismo ay ekonomiyang teorya ng mga Europeo na ang kayamanan ng bansa ay nakasalalay sa dami ng ginto at pilak na mayroon ito."
+  },
+  {
+    q: "Ang mga Ilustrado ay mga Pilipinong ___.",
+    opts: [
+      "Mandirigma laban sa mga Espanyol",
+      "Mahirap at walang trabaho",
+      "Nakarating sa mataas na antas ng edukasyon, kadalasan sa Europa",
+      "Pari ng Simbahang Katoliko"
+    ],
+    ans: 2,
+    exp: "Ang mga Ilustrado ay mga Pilipinong nakaabot sa mataas na pag-aaral, karamihan sa Europa, tulad nina Jose Rizal, del Pilar, at Lopez-Jaena."
+  },
+  {
+    q: "Kailan nagsimula ang Kalakalang Galyon?",
+    opts: ["1521", "1565", "1789", "1815"],
+    ans: 1,
+    exp: "Nagsimula ang Kalakalang Galyon noong 1565 at nagtapos noong 1815 – kabuuang 250 taon."
+  },
+  {
+    q: "Sino si Francisco Dagohoy at saan siya nanguna ng pag-aalsa?",
+    opts: [
+      "Isang Ilocano na nanguna ng pag-aalsa sa Vigan",
+      "Isang taga-Bohol na nanguna ng pinakamatagal na pag-aalsa",
+      "Isang Muslim na sultan ng Mindanao",
+      "Isang ilustrado na nag-aral sa Madrid"
+    ],
+    ans: 1,
+    exp: "Si Francisco Dagohoy ay taga-Bohol na nanguna ng pinakamahabang pag-aalsa sa Pilipinas (1744–1829) dahil hindi binigyan ng simbahan ng katekismo ang kapatid niya."
+  },
+  {
+    q: "Ano ang dahilan ng Rebolusyong Pranses noong 1789?",
+    opts: [
+      "Pagnanais ng kalayaan, pagkakapantay-pantay, at pagkakapatiran",
+      "Pagnanais na masakop ang ibang bansa",
+      "Kagustuhang palakasin ang merkantilismo",
+      "Pagnanais na gawing kolonyya ang Pilipinas"
+    ],
+    ans: 0,
+    exp: "Ang tatlong pangunahing adhikain ng Rebolusyong Pranses ay: Liberté (Kalayaan), Égalité (Pagkakapantay-pantay), at Fraternité (Pagkakapatiran)."
+  },
+  {
+    q: "Alin sa mga sumusunod ang HINDI bahagi ng mga Ilustrado?",
+    opts: ["Jose Rizal", "Marcelo H. del Pilar", "Francisco Dagohoy", "Graciano Lopez-Jaena"],
+    ans: 2,
+    exp: "Si Francisco Dagohoy ay isang manghihimagsik, hindi ilustrado. Ang mga Ilustrado ay sina Rizal, del Pilar, at Lopez-Jaena na nag-aral sa Europa."
+  },
+  {
+    q: "Ano ang nagtulak kay Francisco Dagohoy na mag-alsa laban sa mga Espanyol?",
+    opts: [
+      "Gusto niyang maging pinuno ng Pilipinas",
+      "Hindi binigyan ng Simbahan ng katekismong libing ang kanyang kapatid",
+      "Kinuha ng mga Espanyol ang kanyang lupa",
+      "Pinapatay ng mga Espanyol ang mga Muslim"
+    ],
+    ans: 1,
+    exp: "Ang dahilan ng pag-aalsa ni Dagohoy ay ang pagtanggi ng pari na bigyan ng Kristiyanong libing ang kanyang kapatid na namatay sa isang labanan."
+  },
+  {
+    q: "Ang mga taga-Cordillera ay nanatiling malaya mula sa pananakop ng mga Espanyol dahil ___.",
+    opts: [
+      "Sila ay maalamat at walang matalo",
+      "Nakatago sila sa mga kabundukan at patuloy na lumaban",
+      "Nagbigay sila ng ginto sa mga Espanyol",
+      "Sumuko sila nang maaga"
+    ],
+    ans: 1,
+    exp: "Ang mga taga-Cordillera ay nanatiling malaya dahil nakatira sila sa mataas na kabundukan at patuloy na nilabanan ang mga Espanyol na sumubok pumasok sa kanilang teritoryo."
+  },
+  {
+    q: "Ang Suez Canal ay nabuksan noong ___.",
+    opts: ["1815", "1851", "1869", "1898"],
+    ans: 2,
+    exp: "Ang Suez Canal ay nabuksan noong 1869 na nagpabilis ng daloy ng mga bagong ideya ng kalayaan mula sa Europa patungong Pilipinas."
+  },
+  {
+    q: "Sino ang pilosopong Ingles na nag-isip ng ideya ng natural na karapatan ng tao?",
+    opts: ["Jean-Jacques Rousseau", "Thomas Hobbes", "John Locke", "Voltaire"],
+    ans: 2,
+    exp: "Si John Locke ang pilosopong Ingles na nagtagubilin na ang bawat tao ay may natural na karapatang buhay, kalayaan, at pag-aari."
+  },
+  {
+    q: "Anong produkto ang pangunahing ipinagpalit sa Kalakalang Galyon?",
+    opts: [
+      "Ginto at pilak ng Pilipinas para sa pagkain ng Mexico",
+      "Mga produktong Tsino (seda, porselana) para sa pilak ng Mexico",
+      "Armas ng Espanyol para sa tabako ng Pilipinas",
+      "Bigas ng Pilipinas para sa tela ng Mexico"
+    ],
+    ans: 1,
+    exp: "Ang mga produktong Tsino tulad ng seda at porselana ang ipinagpalit sa pilak na galing Mexico sa pamamagitan ng Kalakalang Galyon."
+  },
+  {
+    q: "Si Rajah Sulayman ay isang ___ na lumaban sa mga Espanyol noong 1571.",
+    opts: ["Pinuno ng Cebu", "Muslim na pinuno ng Manila", "Ilustrado", "Bayani ng Bohol"],
+    ans: 1,
+    exp: "Si Rajah Sulayman ay isang Muslim na pinuno ng Manila na lumaban sa mga Espanyol noong 1571 nang subukang sakupin ng mga Espanyol ang Maynila."
+  },
+  {
+    q: "Alin ang pinakamatagal na pag-aalsa sa kasaysayan ng Pilipinas?",
+    opts: [
+      "Pag-aalsa ni Diego Silang",
+      "Pag-aalsa ng mga Muslim sa Mindanao",
+      "Pag-aalsa ni Francisco Dagohoy sa Bohol",
+      "Kilusang Agraryo ng 1745"
+    ],
+    ans: 2,
+    exp: "Ang pag-aalsa ni Francisco Dagohoy sa Bohol (1744–1829) ang pinakamatagal na pag-aalsa sa kasaysayan ng Pilipinas – 85 taon!"
+  },
+  {
+    q: "Ano ang pangunahing layunin ng Kilusang Propaganda ng mga Ilustrado?",
+    opts: [
+      "Pag-aagaw ng kapangyarihan sa pamamagitan ng digma",
+      "Paghingi ng reporma at pantay na karapatan para sa mga Pilipino",
+      "Pagtatag ng sariling bansa",
+      "Pagpapalawak ng Simbahang Katoliko"
+    ],
+    ans: 1,
+    exp: "Ang Kilusang Propaganda ay naglalayong makamit ang reporma at pantay na karapatan para sa mga Pilipino sa pamamagitan ng sulatin at pahayagan, hindi sa digma."
+  },
+  {
+    q: "Sa anong lugar sa Pilipinas nagsimula ang pag-aalsa ni Diego Silang noong 1762?",
+    opts: ["Bohol", "Ilocos / Vigan", "Mindanao", "Maynila"],
+    ans: 1,
+    exp: "Ang pag-aalsa ni Diego Silang ay nagsimula sa Ilocos (Vigan) noong 1762. Napatay siya ngunit ipinagpatuloy ni Gabriela Silang ang laban."
+  },
+  {
+    q: "Sino sa mga sumusunod ang HINDI kabilang sa mga pilosopo ng Panahon ng Pagkamulat (Enlightenment)?",
+    opts: ["John Locke", "Jean-Jacques Rousseau", "Francisco Dagohoy", "Thomas Hobbes"],
+    ans: 2,
+    exp: "Si Francisco Dagohoy ay isang Pilipinong manghihimagsik, hindi isang pilosopo ng Enlightenment. Ang mga pilosopo ng Enlightenment ay sina Locke, Rousseau, at Hobbes."
+  }
+];
+
+let questions = [];
+let current = 0;
+let score = 0;
+let userAnswers = [];
+let answered = false;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startQuiz() {
+  questions = shuffle(ALL_QUESTIONS);
+  current = 0;
+  score = 0;
+  userAnswers = [];
+  answered = false;
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-results').style.display = 'none';
+  document.getElementById('quiz-area').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = questions[current];
+  document.getElementById('q-num').textContent = `${current + 1} / ${questions.length}`;
+  document.getElementById('score-live').textContent = `⭐ ${score}`;
+  document.getElementById('progress-fill').style.width = `${((current + 1) / questions.length) * 100}%`;
+  document.getElementById('q-text').textContent = q.q;
+
+  const optDiv = document.getElementById('options');
+  optDiv.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.textContent = opt;
+    btn.onclick = () => selectAnswer(i);
+    optDiv.appendChild(btn);
+  });
+
+  document.getElementById('feedback').className = 'feedback';
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('next-btn').className = 'next-btn';
+}
+
+function selectAnswer(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.opt-btn');
+  btns.forEach(b => b.disabled = true);
+
+  const fb = document.getElementById('feedback');
+  if (i === q.ans) {
+    score++;
+    btns[i].classList.add('correct');
+    fb.textContent = '✅ Tama! ' + q.exp;
+    fb.className = 'feedback correct show';
+  } else {
+    btns[i].classList.add('wrong');
+    btns[q.ans].classList.add('correct');
+    fb.textContent = '❌ Mali. ' + q.exp;
+    fb.className = 'feedback wrong show';
+  }
+
+  userAnswers.push({ q: q.q, opts: q.opts, ans: q.ans, chosen: i, exp: q.exp });
+  document.getElementById('score-live').textContent = `⭐ ${score}`;
+  document.getElementById('next-btn').className = 'next-btn show';
+}
+
+function nextQuestion() {
+  current++;
+  if (current >= questions.length) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-area').style.display = 'none';
+  const res = document.getElementById('quiz-results');
+  res.style.display = 'block';
+
+  document.getElementById('final-score').textContent = score;
+  const pct = (score / questions.length) * 100;
+  let msg, sub;
+  if (pct >= 90) { msg = '🏆 Napakagaling! Excellent!'; sub = 'Kahanga-hanga! Handa ka na sa exam!'; }
+  else if (pct >= 75) { msg = '🌟 Magaling! Very Good!'; sub = 'Malapit ka na! Balikan lang ang ilang paksa.'; }
+  else if (pct >= 60) { msg = '👍 Sige lang! Good!'; sub = 'Kailangan pang mag-aral nang konti. Kaya mo yan!'; }
+  else { msg = '📚 Mag-aral Pa!'; sub = 'Balikan ang reviewer at subukan ulit. Kaya mo!'; }
+
+  document.getElementById('result-msg').textContent = msg;
+  document.getElementById('result-sub').textContent = sub;
+
+  const rev = document.getElementById('answer-review');
+  rev.innerHTML = '';
+  userAnswers.forEach((ua, idx) => {
+    const correct = ua.chosen === ua.ans;
+    const div = document.createElement('div');
+    div.className = 'ra-item' + (correct ? '' : ' wrong');
+    div.innerHTML = `
+      <div class="ra-q">${idx + 1}. ${ua.q}</div>
+      <div class="ra-a">
+        ${correct
+          ? `<span class="ra-correct">✅ Tamang sagot: ${ua.opts[ua.ans]}</span>`
+          : `<span class="ra-your">❌ Iyong sagot: ${ua.opts[ua.chosen]}</span><br>
+             <span class="ra-correct">✅ Tamang sagot: ${ua.opts[ua.ans]}</span>`
+        }
+      </div>
+    `;
+    rev.appendChild(div);
+  });
+}
+
+function retryQuiz() {
+  document.getElementById('quiz-results').style.display = 'none';
+  document.getElementById('quiz-start').style.display = 'block';
+}
+</script>
+</body>
+</html>

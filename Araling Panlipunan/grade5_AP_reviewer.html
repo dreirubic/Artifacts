@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="fil">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sibika 5 – 4th Quarter Reviewer</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Baloo+2:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sun: #FFD93D;
+    --sky: #4CC9F0;
+    --leaf: #06D6A0;
+    --red: #EF476F;
+    --navy: #1B3A6B;
+    --cream: #FFF8EE;
+    --orange: #FF8C42;
+    --purple: #9B5DE5;
+    --card-bg: #FFFFFF;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--navy) 0%, #2D5BE3 60%, var(--sky) 100%);
+    padding: 32px 20px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '🇵🇭';
+    font-size: 120px;
+    opacity: 0.07;
+    position: absolute;
+    top: -10px; right: -10px;
+  }
+  .header h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(1.6rem, 5vw, 2.6rem);
+    color: var(--sun);
+    font-weight: 800;
+    text-shadow: 0 2px 10px rgba(0,0,0,.3);
+    letter-spacing: 1px;
+  }
+  .header p {
+    color: #cde6ff;
+    font-size: 1rem;
+    margin-top: 6px;
+    font-weight: 700;
+  }
+  .badge {
+    display: inline-block;
+    background: var(--red);
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: .85rem;
+    font-weight: 800;
+    margin-top: 10px;
+    letter-spacing: .5px;
+  }
+
+  /* NAV TABS */
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 18px 16px 0;
+    justify-content: center;
+    background: var(--navy);
+  }
+  .tab-btn {
+    background: rgba(255,255,255,.12);
+    color: #cde6ff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px 20px 0 0;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: .85rem;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .tab-btn.active, .tab-btn:hover {
+    background: var(--cream);
+    color: var(--navy);
+  }
+
+  /* CONTENT */
+  .content { max-width: 860px; margin: 0 auto; padding: 24px 16px 60px; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-sub {
+    color: #5a7aaa;
+    font-size: .92rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 14px rgba(27,58,107,.09);
+    border-left: 6px solid var(--sky);
+    position: relative;
+    overflow: hidden;
+  }
+  .card.green { border-left-color: var(--leaf); }
+  .card.red   { border-left-color: var(--red); }
+  .card.orange{ border-left-color: var(--orange); }
+  .card.purple{ border-left-color: var(--purple); }
+  .card.sun   { border-left-color: var(--sun); }
+
+  .card h3 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+  .card p, .card li {
+    font-size: .93rem;
+    line-height: 1.65;
+    color: #2c3e6e;
+  }
+  .card ul { padding-left: 20px; }
+  .card li { margin-bottom: 4px; }
+
+  /* TERM TABLE */
+  .term-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  .term-table th {
+    background: var(--navy);
+    color: #fff;
+    padding: 10px 14px;
+    font-size: .88rem;
+    text-align: left;
+    font-weight: 800;
+  }
+  .term-table td {
+    padding: 10px 14px;
+    font-size: .88rem;
+    border-bottom: 1px solid #eef2ff;
+    vertical-align: top;
+  }
+  .term-table tr:nth-child(even) td { background: #f4f8ff; }
+  .term { font-weight: 800; color: var(--navy); }
+
+  /* HIGHLIGHT BOX */
+  .highlight {
+    background: linear-gradient(135deg, #fff9db, #ffe566);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-size: .9rem;
+    border: 2px dashed #f5c000;
+    font-weight: 700;
+  }
+  .highlight::before { content: '⭐ '; }
+
+  /* CAUSE-EFFECT TABLE */
+  .ce-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  .ce-table th {
+    padding: 10px 14px;
+    font-size: .88rem;
+    font-weight: 800;
+    color: #fff;
+    text-align: center;
+  }
+  .th-cause { background: var(--red); border-radius: 8px 0 0 0; }
+  .th-effect { background: var(--leaf); border-radius: 0 8px 0 0; }
+  .ce-table td {
+    padding: 10px 14px;
+    font-size: .88rem;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+  }
+  .ce-table tr:nth-child(even) td { background: #f7fffe; }
+
+  /* PERSON CARD */
+  .person-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+  .person-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 3px 12px rgba(27,58,107,.1);
+    border-top: 5px solid var(--sky);
+  }
+  .person-card.p2 { border-top-color: var(--orange); }
+  .person-card.p3 { border-top-color: var(--purple); }
+  .person-card.p4 { border-top-color: var(--leaf); }
+  .person-card.p5 { border-top-color: var(--red); }
+  .person-card .emoji { font-size: 2.5rem; margin-bottom: 8px; }
+  .person-card h4 { font-family: 'Baloo 2', cursive; font-size: 1rem; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
+  .person-card p { font-size: .82rem; color: #4a5980; line-height: 1.5; }
+
+  /* QUIZ SECTION */
+  .quiz-intro { text-align: center; padding: 20px 0 10px; }
+  .quiz-intro p { color: #5a7aaa; font-weight: 700; font-size: .95rem; }
+  .q-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 14px rgba(27,58,107,.1);
+  }
+  .q-number {
+    display: inline-block;
+    background: var(--navy);
+    color: var(--sun);
+    font-weight: 900;
+    font-family: 'Baloo 2', cursive;
+    font-size: .85rem;
+    padding: 2px 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  .q-text { font-size: .97rem; font-weight: 700; color: var(--navy); margin-bottom: 14px; line-height: 1.5; }
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  @media(max-width:480px){ .options { grid-template-columns: 1fr; } }
+  .opt-btn {
+    background: #f0f4ff;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-family: 'Nunito', sans-serif;
+    font-size: .88rem;
+    font-weight: 700;
+    color: var(--navy);
+    cursor: pointer;
+    text-align: left;
+    transition: all .2s;
+  }
+  .opt-btn:hover { border-color: var(--sky); background: #e0f0ff; }
+  .opt-btn.correct { background: #d4fbe8; border-color: var(--leaf); color: #065f46; }
+  .opt-btn.wrong   { background: #ffe0e6; border-color: var(--red); color: #9b1c1c; }
+  .opt-btn.reveal  { background: #d4fbe8; border-color: var(--leaf); opacity:.6; }
+  .feedback {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: .88rem;
+    font-weight: 700;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.ok { background: #d4fbe8; color: #065f46; }
+  .feedback.bad { background: #ffe0e6; color: #9b1c1c; }
+  .score-bar {
+    background: var(--navy);
+    color: #fff;
+    border-radius: 14px;
+    padding: 18px 24px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.1rem;
+    font-weight: 800;
+  }
+  .score-bar span { color: var(--sun); font-size: 1.5rem; }
+  .reset-btn {
+    display: block;
+    margin: 0 auto 30px;
+    background: var(--red);
+    color: #fff;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 24px;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform .15s;
+  }
+  .reset-btn:hover { transform: scale(1.05); }
+
+  /* ARROW DIVIDER */
+  .arrow-div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: .8rem;
+    font-weight: 800;
+    color: #8899bb;
+    margin: 16px 0 10px;
+  }
+  .arrow-div::before, .arrow-div::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: #dde5f5;
+    border-radius: 2px;
+  }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 32px; margin-top: 10px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 12px; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--sky), var(--purple));
+    border-radius: 3px;
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 18px;
+    padding: 12px 16px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(27,58,107,.08);
+    font-size: .88rem;
+    line-height: 1.6;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -23px; top: 14px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--sky);
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 2px var(--sky);
+  }
+  .tl-year {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    color: var(--navy);
+    font-size: .95rem;
+    margin-bottom: 3px;
+  }
+
+  .pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: .78rem;
+    font-weight: 800;
+    margin-right: 4px;
+    margin-bottom: 4px;
+  }
+  .pill-blue { background: #dbeafe; color: #1e3a8a; }
+  .pill-green { background: #d1fae5; color: #065f46; }
+  .pill-red { background: #fee2e2; color: #991b1b; }
+  .pill-yellow { background: #fef9c3; color: #713f12; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📚 Sibika 5 – 4th Quarter Reviewer</h1>
+  <p>Panahon ng Pananakop ng mga Espanyol sa Pilipinas</p>
+  <span class="badge">Grade 5 · Araling Panlipunan</span>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="show('terms')">📖 Mga Salita</button>
+  <button class="tab-btn" onclick="show('ilustrado')">🎓 Ilustrado</button>
+  <button class="tab-btn" onclick="show('pag-aalsa')">⚔️ Pag-aalsa</button>
+  <button class="tab-btn" onclick="show('hindi-nasakop')">🏔️ Hindi Nasakop</button>
+  <button class="tab-btn" onclick="show('kalakalan')">⛵ Kalakalan</button>
+  <button class="tab-btn" onclick="show('nasyonalismo')">🌟 Nasyonalismo</button>
+  <button class="tab-btn" onclick="show('quiz')">✏️ Quiz</button>
+</div>
+
+<div class="content">
+
+  <!-- ===== TERMS ===== -->
+  <div id="terms" class="section active">
+    <div class="section-title">📖 Mga Mahalagang Salita</div>
+    <div class="section-sub">Alamin ang kahulugan ng mga salitang ito — handa ka na para sa test!</div>
+
+    <div class="highlight">Ito ang eksaktong mga terminolohiya na nasa test paper! Aralin nang mabuti! 😊</div>
+
+    <div class="card">
+      <h3>Mga Terminolohiya at Kahulugan</h3>
+      <table class="term-table">
+        <tr>
+          <th>Salita</th>
+          <th>Kahulugan</th>
+        </tr>
+        <tr>
+          <td class="term">🇵🇭 Nasyonalismo</td>
+          <td>Ang pagmamahal at pagpapahalaga sa sariling bansa. Ito ang pagnanais na maging malaya ang Pilipinas mula sa mga mananakop.</td>
+        </tr>
+        <tr>
+          <td class="term">🎓 Ilustrado</td>
+          <td>Ang mga edukadong Pilipino na nakapag-aral sa Europa at sa ibang bansa. Sila ang namuno sa kilusang pagbabago at naglaban para sa karapatan ng mga Pilipino.</td>
+        </tr>
+        <tr>
+          <td class="term">🚬 Monopolyo ng Tabako</td>
+          <td>Batas ng mga Espanyol na sila lang ang may karapatang magbenta ng tabako. Ang mga Pilipino ay pinilit na magpalit ng ani at hindi na makalakad ng tabako nang malaya.</td>
+        </tr>
+        <tr>
+          <td class="term">⚔️ Pag-aalsa</td>
+          <td>Ang paghihimagsik o pagtutol ng mga Pilipino laban sa pamahalaang Espanyol. Halimbawa: Pag-aalsa ng Dagohoy, Pag-aalsa sa Cavite, at iba pa.</td>
+        </tr>
+        <tr>
+          <td class="term">🚢 Suez Canal</td>
+          <td>Isang daluyan ng tubig sa Egypt na nagbukas noong 1869. Dahil dito, mas mabilis ang paglalakbay mula sa Europa papuntang Pilipinas. Nakatulong ito sa paglaganap ng mga bagong ideya tungkol sa kalayaan.</td>
+        </tr>
+        <tr>
+          <td class="term">⛵ Kalakalang Galyon</td>
+          <td>Ang kalakalan ng mga Espanyol gamit ang malalaking barko (galyon) mula Manila patungong Acapulco, Mexico. Ito ang naging pinakamalaking kalakal sa panahon ng kolonyalismo.</td>
+        </tr>
+        <tr>
+          <td class="term">💡 Merkantilismo</td>
+          <td>Ang paniniwala na mas magiging mayaman ang isang bansa kung magiipon ng ginto at pilak. Ito ang dahilan kung bakit sinalakay ng mga Europeo ang mga bagong lupain.</td>
+        </tr>
+        <tr>
+          <td class="term">💡 Ilustrasyon (Age of Enlightenment)</td>
+          <td>Panahon ng mga bagong ideya tungkol sa kalayaan, pagkakapantay-pantay, at karapatan ng tao. Ito ay mula sa Europa (1700–1800) at nakatulong sa pag-usbong ng nasyonalismo sa Pilipinas.</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== ILUSTRADO ===== -->
+  <div id="ilustrado" class="section">
+    <div class="section-title">🎓 Ang mga Ilustrado</div>
+    <div class="section-sub">Mga edukadong Pilipino na nagbigay ng boses para sa kalayaan</div>
+
+    <div class="card green">
+      <h3>Sino ang mga Ilustrado?</h3>
+      <p>Ang <strong>ilustrado</strong> ay mga Pilipino mula sa mayayamang pamilya na nakapag-aral sa mataas na antas — sa Pilipinas at sa Europa. Dahil mas malawak ang kanilang kaalaman, nag-aral sila ng mga bagong ideya tungkol sa <em>kalayaan, pagkakapantay-pantay, at karapatan ng tao</em>.</p>
+    </div>
+
+    <div class="section-title" style="font-size:1rem; margin-top:4px;">👤 Mga Kilalang Ilustrado</div>
+
+    <div class="person-grid">
+      <div class="person-card">
+        <div class="emoji">📚</div>
+        <h4>Jose Rizal</h4>
+        <p>Pambansang Bayani. Sumulat ng <em>Noli Me Tangere</em> at <em>El Filibusterismo</em> upang ilantad ang pang-aabuso ng mga Espanyol. Naging inspirasyon ng rebolusyon.</p>
+      </div>
+      <div class="person-card p2">
+        <div class="emoji">🗞️</div>
+        <h4>Marcelo H. del Pilar</h4>
+        <p>Nag-editor ng <em>La Solidaridad</em> — isang pahayagan na nagtataguyod ng karapatan ng mga Pilipino. Namuno sa Kilusang Propaganda.</p>
+      </div>
+      <div class="person-card p3">
+        <div class="emoji">✍️</div>
+        <h4>Graciano Lopez-Jaena</h4>
+        <p>Itinatag ang <em>La Solidaridad</em>. Mahusay na manunulat at mananalita na nagtataguyod ng mga karapatan ng Pilipino.</p>
+      </div>
+      <div class="person-card p4">
+        <div class="emoji">✝️</div>
+        <h4>Padre Burgos, Gomez, at Zamora (GOMBURZA)</h4>
+        <p>Tatlong paring Pilipino na binaril ng mga Espanyol noong 1872. Ang kanilang kamatayan ay naging inspirasyon ni Rizal at ng iba pang ilustrado.</p>
+      </div>
+    </div>
+
+    <div class="card orange" style="margin-top:16px;">
+      <h3>Ano ang ginawa ng mga Ilustrado?</h3>
+      <ul>
+        <li>Namuno sa <strong>Kilusang Propaganda</strong> — nagtataguyod ng repormang pampamahala</li>
+        <li>Sumulat at naglathala ng mga pahayagan tulad ng <em>La Solidaridad</em></li>
+        <li>Hiniling ang <strong>pagkakapantay-pantay</strong> ng mga Pilipino at Espanyol</li>
+        <li>Tinuruan ang mga Pilipino ng kahalagahan ng edukasyon at kalayaan</li>
+        <li>Naging malakas na tinig laban sa kolonyalismo</li>
+      </ul>
+    </div>
+
+    <div class="highlight">Ang mga estudyanteng ilustrado na nasa Madrid ang namuno ng <strong>Kilusan sa Reporma</strong>. Nais nilang baguhin — hindi gumagambahin — ang pamahalaan ng Espanyol.</div>
+  </div>
+
+  <!-- ===== PAG-AALSA ===== -->
+  <div id="pag-aalsa" class="section">
+    <div class="section-title">⚔️ Mga Pag-aalsa ng mga Pilipino</div>
+    <div class="section-sub">Mga paghihimagsik laban sa pananakop ng Espanyol</div>
+
+    <div class="card red">
+      <h3>Bakit nag-aalsa ang mga Pilipino?</h3>
+      <p>Ang mga Pilipino ay nagtiis ng maraming taon sa ilalim ng pamahalaang Espanyol. Nag-aalsa sila dahil sa:</p>
+      <ul style="margin-top:10px;">
+        <li>⚡ <strong>Mabibigat na buwis</strong> — hindi nila kayang bayaran</li>
+        <li>⚡ <strong>Sapilitang paggawa</strong> (polo y servicios) — pinilit silang magtrabaho para sa Espanyol</li>
+        <li>⚡ <strong>Pang-aabuso ng mga prayle</strong> at opisyal na Espanyol</li>
+        <li>⚡ <strong>Pagkuha ng lupa</strong> ng mga Pilipino nang walang bayad</li>
+        <li>⚡ <strong>Hindi pantay</strong> na pagtrato sa mga Pilipino kumpara sa mga Espanyol</li>
+      </ul>
+    </div>
+
+    <div class="arrow-div">MGA KILALANG PAG-AALSA</div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-year">⚔️ Pag-aalsa ng Dagohoy (1744–1829)</div>
+        <p>Si <strong>Francisco Dagohoy</strong> sa Bohol ang namuno ng pinakamatagal na pag-aalsa sa kasaysayan ng Pilipinas — halos <strong>85 taon</strong>! Nagsimula ito nang hindi pahintulutan ng pari na ilibing ang kanyang kapatid. Nagtayo sila ng sariling pamayanan sa bundok.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">⚔️ Pag-aalsa ng Silang (1762–1763)</div>
+        <p>Si <strong>Diego Silang</strong> sa Ilocos ay nag-alsa laban sa mga Espanyol habang sumasakop ang mga Ingles sa Manila. Pinatay siya ng sariling kasama sa utos ng mga Espanyol. Si <strong>Gabriela Silang</strong>, asawa niya, ang nagpatuloy ng pag-aalsa.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">⚔️ Pag-aalsa sa Cavite (1872)</div>
+        <p>Pag-aalsa ng mga manggagawa at sundalo sa Cavite Arsenal. Ginamit ng mga Espanyol ito bilang dahilan para ipabitay ang tatlong pari — <strong>GOMBURZA</strong> (Gomez, Burgos, Zamora). Nagpadala ito ng matinding galit sa mga Pilipino.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">⚔️ Pag-aalsa ng Malong (1660–1661)</div>
+        <p>Si <strong>Andres Malong</strong> sa Pangasinan ang nag-alsa laban sa mabibigat na buwis at sapilitang paggawa. Tinawag niya ang sarili bilang "Haring Pilipino."</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📊 Dahilan at Resulta ng Pag-aalsa</h3>
+      <table class="ce-table">
+        <tr>
+          <th class="th-cause">❗ Dahilan ng Pag-aalsa</th>
+          <th class="th-effect">✅ Resulta / Epekto</th>
+        </tr>
+        <tr>
+          <td>Hindi gusto ng mga Pilipino na magbayad ng buwis sa Espanyol</td>
+          <td>Pinatay o pinarusahan ng mga Espanyol ang mga nag-alsa</td>
+        </tr>
+        <tr>
+          <td>Pang-aabuso ng mga prayle at opisyal na Espanyol</td>
+          <td>Nagsilbing inspirasyon ang bawat pag-aalsa sa susunod na henerasyon</td>
+        </tr>
+        <tr>
+          <td>Sapilitang paggawa at pagkuha ng lupa</td>
+          <td>Lumago ang nasyonalismo at pagnanais para sa kalayaan</td>
+        </tr>
+        <tr>
+          <td>Hindi pantay na pagtrato sa mga Pilipino</td>
+          <td>Sa huli, nagbunsod sa Rebolusyong Pilipino ng 1896</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== HINDI NASAKOP ===== -->
+  <div id="hindi-nasakop" class="section">
+    <div class="section-title">🏔️ Mga Pilipino na Hindi Nasakop</div>
+    <div class="section-sub">Aralin 15 — Pagpupunyagi ng mga Katutubong Pangkat para sa Kalayaan</div>
+
+    <div class="card purple">
+      <h3>Sino ang hindi nasakop ng mga Espanyol?</h3>
+      <p>Hindi lahat ng Pilipino ay nasakop ng mga Espanyol. Dalawang pangunahing grupo ang nanatiling malaya:</p>
+      <ul style="margin-top:10px;">
+        <li>🏔️ <strong>Mga taga-Cordillera</strong> — nakatira sa bundok ng Luzon (Benguet, Abra, Apayao, Ifugao, Kalinga, at iba pa)</li>
+        <li>🕌 <strong>Mga Muslim sa Mindanao at Sulu</strong> — may sariling sultanato at relihiyon</li>
+      </ul>
+    </div>
+
+    <div class="card sky" style="border-left-color: var(--sky);">
+      <h3>🏔️ Mga Taga-Cordillera</h3>
+      <p>Nakatira sila sa mataas na bundok na mahirap abutin ng mga Espanyol. Dahil sa kanilang <strong>kabundukan</strong>, naipagtanggol nila ang kanilang kultura, relihiyon, at kalayaan.</p>
+      <p style="margin-top:8px;">Ang kanilang likas na kapaligiran — mga bundok, kagubatan, at malalim na lambak — ang naging natural na depensa nila laban sa mga mananakop.</p>
+    </div>
+
+    <div class="card orange">
+      <h3>🕌 Mga Muslim (Sultanato ng Mindanao at Sulu)</h3>
+      <p>Bago dumating ang mga Espanyol, mayroon nang matibay na sultanato sa Mindanao at Sulu. Ang mga sultan ay may sariling pamahalaan, hukbo, at batas.</p>
+      <ul style="margin-top:8px;">
+        <li>Noong <strong>1571</strong>, sinubukan ng mga Espanyol na sakupin ang Mindanao, ngunit nabigo sila.</li>
+        <li>Noong <strong>1578</strong>, nangyari ang labanan sa Sulu — mga 3,800 Muslim ang lumakas laban sa Espanyol.</li>
+        <li>Ginamit ng mga sultan ang <strong>relihiyon at kalikasan</strong> para labanan ang mga Espanyol.</li>
+        <li>Hanggang sa pagdating ng mga Amerikano, hindi pa rin fully nasakop ang Mindanao.</li>
+      </ul>
+    </div>
+
+    <div class="highlight">Key idea: Ang mga Pilipino sa bundok at sa Mindanao ay <strong>napanatili ang kanilang kultura at kalayaan</strong> dahil sa kanilang matatag na pagsisikap at likas na kapaligiran.</div>
+  </div>
+
+  <!-- ===== KALAKALAN ===== -->
+  <div id="kalakalan" class="section">
+    <div class="section-title">⛵ Ang Kalakalang Galyon</div>
+    <div class="section-sub">Aralin 17 — Paano nakatulong ang Kalakalang Galyon sa mga Pilipino?</div>
+
+    <div class="card sun">
+      <h3>Ano ang Kalakalang Galyon?</h3>
+      <p>Ang <strong>Kalakalang Galyon</strong> ay ang malaking kalakalan ng mga Espanyol gamit ang napakalaking barko — ang <em>galyon</em>. Ang ruta ay:</p>
+      <div style="text-align:center; font-size:1.1rem; font-weight:800; color:var(--navy); margin:14px 0; line-height:2;">
+        🇵🇭 Manila &nbsp;➡️&nbsp; 🇲🇽 Acapulco, Mexico &nbsp;➡️&nbsp; 🇪🇸 Espanya
+      </div>
+      <p>Tumagal ng halos <strong>250 taon</strong> ang kalakalan na ito (mula 1565).</p>
+    </div>
+
+    <div class="card green">
+      <h3>Ano ang mga kalakal na dinadala?</h3>
+      <ul>
+        <li>🇵🇭 <strong>Mula Manila:</strong> Sutla, porsyena, pampalasa, tela, ginto, bulak — mga produkto mula sa Tsina at Asya</li>
+        <li>🇲🇽 <strong>Mula Acapulco:</strong> Pilak na pera, tsokolate, mais, kamote, at iba pang produkto mula Amerika</li>
+      </ul>
+    </div>
+
+    <div class="card red">
+      <h3>Ano ang epekto ng Kalakalang Galyon?</h3>
+      <ul>
+        <li>😔 Ang mga <strong>Pilipino lamang</strong> ang tripulante — mapanganib at mahirap ang trabaho</li>
+        <li>😔 Ang <strong>monopolyo</strong> ng kalakalan ay para sa mga Espanyol lamang; Pilipino ay hindi maaaring mangalakal nang malaya</li>
+        <li>😔 Naging <strong>alipin</strong> sa trabaho ang maraming Pilipino</li>
+        <li>😊 Naipasok ang <strong>bagong halaman at produkto</strong> tulad ng mais at kamote mula Amerika</li>
+        <li>😊 Naging <strong>sentro ng kalakalan</strong> ang Manila sa buong Asya</li>
+        <li>😊 Noong 1869, nabuksan ang <strong>Suez Canal</strong> — mas mabilis ang biyahe, mas maraming bagong ideya ang dumating sa Pilipinas</li>
+      </ul>
+    </div>
+
+    <div class="card purple">
+      <h3>🚢 Ang Monopolyo ng Tabako</h3>
+      <p>Noong <strong>1782</strong>, ipinairal ng gobernador na si Haring Carlos III ang <strong>monopolyo ng tabako</strong>. Ibig sabihin, ang pamahalaan ng Espanyol lang ang maaaring magbili ng tabako sa Pilipinas.</p>
+      <ul style="margin-top:8px;">
+        <li>Pinilit ang mga Pilipino na magtanim ng tabako</li>
+        <li>Hindi maaaring magtanim ng pagkain sa mga lugar na dapat may tabako</li>
+        <li>Ang lahat ng tabako ay ibinibenta sa pamahalaan sa napakamababang presyo</li>
+        <li>Malaking tubo para sa Espanyol — malaking kawalan para sa mga Pilipino</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== NASYONALISMO ===== -->
+  <div id="nasyonalismo" class="section">
+    <div class="section-title">🌟 Ang Pag-usbong ng Nasyonalismo</div>
+    <div class="section-sub">Aralin 16 at 18 — Bakit lumago ang pagmamahal ng mga Pilipino sa bansa?</div>
+
+    <div class="card">
+      <h3>Ano ang Nasyonalismo?</h3>
+      <p>Ang <strong>nasyonalismo</strong> ay ang pagmamahal sa sariling bansa at ang pagnanais na maging malaya ito. Sa konteksto ng mga Pilipino sa ilalim ng Espanyol, ito ay ang pagnanais na:</p>
+      <ul style="margin-top:8px;">
+        <li>🇵🇭 Maging malaya sa pananakop</li>
+        <li>🇵🇭 Ipagtanggol ang karapatan ng mga Pilipino</li>
+        <li>🇵🇭 Mapanatili ang sariling kultura at pagkakakilanlan</li>
+      </ul>
+    </div>
+
+    <div class="card orange">
+      <h3>💡 Mga Pandaigdigang Pangyayari na Nakatulong</h3>
+      <p><strong>Aralin 18:</strong> Maraming pangyayari sa mundo ang nagpukaw ng nasyonalismo sa Pilipinas:</p>
+      <ul style="margin-top:8px;">
+        <li>🏰 <strong>Rebolusyong Pranses (1789)</strong> — nagpalaganap ng ideya ng <em>liberty, equality, fraternity</em> (kalayaan, pagkakapantay-pantay, pagkakapatiran)</li>
+        <li>🇺🇸 <strong>Rebolusyong Amerikano (1776)</strong> — nagpakita na maaaring lumaya ang isang kolonya</li>
+        <li>🚢 <strong>Pagbubukas ng Suez Canal (1869)</strong> — mas mabilis na dumating ang mga bagong ideya mula Europa</li>
+        <li>📚 <strong>Panahon ng Ilustrasyon</strong> — mga pilosopo tulad ni John Locke at Jean-Jacques Rousseau ang nagtatag ng ideya ng karapatan ng tao</li>
+      </ul>
+    </div>
+
+    <div class="card green">
+      <h3>🌱 Mga Lokal na Pangyayari na Nagpalakas ng Nasyonalismo</h3>
+      <ul>
+        <li>📖 Ang mga <strong>sulatin ni Jose Rizal</strong> (Noli Me Tangere, El Filibusterismo) ay nagbukas ng mata ng mga Pilipino</li>
+        <li>📰 Ang pahayagang <strong>La Solidaridad</strong> ay nagtataguyod ng karapatan ng mga Pilipino</li>
+        <li>⚰️ Ang pagpapatay ng <strong>GOMBURZA</strong> noong 1872 ay nagpagalit sa maraming Pilipino</li>
+        <li>🚬 Ang <strong>Monopolyo ng Tabako</strong> at iba pang mabibigat na batas ay nagpalakas ng galit ng mga Pilipino</li>
+        <li>🎓 Dumami ang mga <strong>edukadong Pilipino</strong> na nakapag-aral sa Europa</li>
+      </ul>
+    </div>
+
+    <div class="highlight">Ang lahat ng mga pag-aalsa, kilusan ng mga ilustrado, at pandaigdigang mga rebolusyon ay nagbunsod sa <strong>Rebolusyong Pilipino ng 1896</strong> — ang unang hakbang tungo sa tunay na kalayaan!</div>
+
+    <div class="card purple">
+      <h3>⏰ Maikiling Timeline ng Nasyonalismo</h3>
+      <div class="timeline" style="padding-left:28px; margin-top:10px;">
+        <div class="tl-item">
+          <div class="tl-year">1782 — Monopolyo ng Tabako</div>
+          <p>Pinilit ang mga Pilipino na magtanim ng tabako para sa Espanyol. Lumago ang galit.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">1789 — Rebolusyong Pranses</div>
+          <p>Nagpalaganap ng ideya ng kalayaan at pagkakapantay-pantay sa buong mundo, kasama na ang Pilipinas.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">1869 — Pagbubukas ng Suez Canal</div>
+          <p>Mas mabilis ang biyahe at komunikasyon. Mas maraming ideya ang dumating sa Pilipinas.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">1872 — Pagpapatay ng GOMBURZA</div>
+          <p>Naging inspirasyon si Rizal at marami pang Pilipino na lumaban para sa kalayaan.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">1880s–1895 — Kilusang Propaganda</div>
+          <p>Mga ilustrado tulad ni Rizal, del Pilar, at Lopez-Jaena ay nagsulat at nakipaglaban para sa pagbabago.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">1896 — Rebolusyong Pilipino</div>
+          <p>Ang lahat ng galit at pagnanais sa kalayaan ay sumabog! Simula ng tunay na pakikipaglaban para sa kasarinlan.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== QUIZ ===== -->
+  <div id="quiz" class="section">
+    <div class="section-title">✏️ Subukan ang Iyong Kaalaman!</div>
+    <div class="section-sub">Sumagot ng mga tanong para makita kung handa ka na sa test. Kaya mo yan! 💪</div>
+
+    <div class="score-bar" id="scoreBar" style="display:none;">
+      Iyong Puntos: <span id="scoreText">0 / 0</span>
+    </div>
+    <button class="reset-btn" id="resetBtn" style="display:none;" onclick="resetQuiz()">🔄 Subukang Muli</button>
+
+    <div id="quizContainer"></div>
+  </div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    q: "Ano ang kahulugan ng NASYONALISMO?",
+    opts: ["Pagmamahal sa ibang bansa", "Pagmamahal at pagnanais na maging malaya ang sariling bansa", "Pagtanggap sa pananakop ng Espanyol", "Ang relihiyon ng mga Espanyol"],
+    ans: 1,
+    exp: "✅ Tama! Ang nasyonalismo ay ang pagmamahal sa sariling bansa at ang pagnanais na maging malaya ito."
+  },
+  {
+    q: "Sino ang mga ILUSTRADO?",
+    opts: ["Mga mandirigmang Pilipino", "Mga paring Espanyol", "Mga edukadong Pilipino na nakapag-aral sa mataas na antas", "Mga mangangalakal na Tsino"],
+    ans: 2,
+    exp: "✅ Tama! Ang ilustrado ay mga edukadong Pilipino na nakapag-aral sa Europa at sa ibang bansa."
+  },
+  {
+    q: "Ano ang MONOPOLYO NG TABAKO?",
+    opts: ["Kalayaan ng mga Pilipino na magbenta ng tabako", "Ang batas na Espanyol lang ang pwedeng magbenta ng tabako", "Isang uri ng tabako na galing sa Espanya", "Ang palengke ng mga Pilipino"],
+    ans: 1,
+    exp: "✅ Tama! Sa ilalim ng monopolyo, ang pamahalaan ng Espanyol lang ang maaaring magbenta ng tabako sa Pilipinas."
+  },
+  {
+    q: "Ano ang PAG-AALSA?",
+    opts: ["Pagtatanim ng palay", "Pagtutol o paghihimagsik laban sa pamahalaang Espanyol", "Pagdiriwang ng kasarinlan", "Pagbabayad ng buwis"],
+    ans: 1,
+    exp: "✅ Tama! Ang pag-aalsa ay ang paghihimagsik ng mga Pilipino laban sa mapang-aping pamamahala ng Espanyol."
+  },
+  {
+    q: "Saan matatagpuan ang SUEZ CANAL?",
+    opts: ["Pilipinas", "Mexico", "Egypt", "Espanya"],
+    ans: 2,
+    exp: "✅ Tama! Ang Suez Canal ay nasa Egypt. Naging daan ito para mas mabilis na makarating ang mga barko — at mga ideya — mula Europa patungong Pilipinas."
+  },
+  {
+    q: "Sino sa mga ito ay isang kilalang ILUSTRADO?",
+    opts: ["Andres Malong", "Francisco Dagohoy", "Jose Rizal", "Sultan Kudarat"],
+    ans: 2,
+    exp: "✅ Tama! Si Jose Rizal ay isa sa pinakakilalang ilustrado. Sumulat siya ng Noli Me Tangere at El Filibusterismo."
+  },
+  {
+    q: "Ang pag-aalsa ni DAGOHOY sa Bohol ay tumagal ng ilang taon?",
+    opts: ["10 taon", "25 taon", "50 taon", "85 taon"],
+    ans: 3,
+    exp: "✅ Tama! Ang Pag-aalsa ng Dagohoy (1744–1829) ay tumagal ng 85 taon — ito ang pinakamatagal na pag-aalsa sa kasaysayan ng Pilipinas!"
+  },
+  {
+    q: "Bakit hindi nasakop ng mga Espanyol ang mga taga-CORDILLERA?",
+    opts: ["Dahil sila ay Kristiyano na", "Dahil nakatira sila sa mataas na bundok na mahirap abutin", "Dahil kaibigan sila ng mga Espanyol", "Dahil sila ay mangangalakal"],
+    ans: 1,
+    exp: "✅ Tama! Ang kabundukan ng Cordillera ang nagsilbing natural na depensa ng mga katutubo. Mahirap abutin ng mga Espanyol ang kanilang mga tirahan."
+  },
+  {
+    q: "Ang KALAKALANG GALYON ay ang kalakalan ng mga Espanyol sa pagitan ng Manila at saan?",
+    opts: ["Madrid, Espanya", "Acapulco, Mexico", "Beijing, Tsina", "London, Inglatera"],
+    ans: 1,
+    exp: "✅ Tama! Ang ruta ng Kalakalang Galyon ay Manila ➡️ Acapulco, Mexico. Malaking tubo ito para sa mga Espanyol."
+  },
+  {
+    q: "Ang pagbubukas ng SUEZ CANAL noong 1869 ay nagdulot ng ano sa Pilipinas?",
+    opts: ["Mas madaling pag-atake ng mga kaaway", "Mas mabilis na pagdating ng mga bagong ideya mula Europa", "Pagkalugi ng mga mangangalakal na Pilipino", "Mas mataas na buwis"],
+    ans: 1,
+    exp: "✅ Tama! Dahil sa Suez Canal, mas mabilis ang paglalakbay. Mas maraming bagong ideya tungkol sa kalayaan ang nakarating sa Pilipinas."
+  },
+  {
+    q: "Ang REBOLUSYONG PRANSES noong 1789 ay nagpalaganap ng tatlong ideya. Alin sa mga ito ang HINDI kasama?",
+    opts: ["Kalayaan (Liberty)", "Pagkakapantay-pantay (Equality)", "Pagkakapatiran (Fraternity)", "Monopolyo (Monopoly)"],
+    ans: 3,
+    exp: "✅ Tama! Ang tatlong ideya ng Rebolusyong Pranses ay Liberty (kalayaan), Equality (pagkakapantay-pantay), at Fraternity (pagkakapatiran) — hindi monopolyo."
+  },
+  {
+    q: "Ang GOMBURZA ay tatlong paring Pilipino na pinatay ng mga Espanyol noong 1872. Ano ang pangalan ng una sa tatlo?",
+    opts: ["Gomez", "Burgos", "Zamora", "Lahat ng nabanggit"],
+    ans: 3,
+    exp: "✅ Tama! Ang GOMBURZA ay kinakatawan ang tatlong pari: Mariano Gomez, Jose Burgos, at Jacinto Zamora. Ang kanilang pagkamatay ay naging inspirasyon ni Rizal."
+  }
+];
+
+let answered = new Array(questions.length).fill(false);
+let score = 0;
+
+function buildQuiz() {
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = questions.map((q, i) => `
+    <div class="q-card" id="qcard${i}">
+      <div class="q-number">Tanong ${i+1} ng ${questions.length}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options">
+        ${q.opts.map((o, j) => `<button class="opt-btn" id="opt${i}_${j}" onclick="answer(${i},${j})">${String.fromCharCode(65+j)}. ${o}</button>`).join('')}
+      </div>
+      <div class="feedback" id="fb${i}"></div>
+    </div>
+  `).join('');
+}
+
+function answer(qi, oi) {
+  if (answered[qi]) return;
+  answered[qi] = true;
+  const q = questions[qi];
+  const fb = document.getElementById(`fb${qi}`);
+  for (let j = 0; j < q.opts.length; j++) {
+    const btn = document.getElementById(`opt${qi}_${j}`);
+    btn.disabled = true;
+    if (j === q.ans) btn.classList.add(oi === q.ans ? 'correct' : 'reveal');
+    else if (j === oi) btn.classList.add('wrong');
+  }
+  if (oi === q.ans) {
+    score++;
+    fb.className = 'feedback show ok';
+    fb.textContent = q.exp;
+  } else {
+    fb.className = 'feedback show bad';
+    fb.textContent = `❌ Mali. ${q.exp}`;
+  }
+  updateScore();
+}
+
+function updateScore() {
+  const done = answered.filter(Boolean).length;
+  document.getElementById('scoreBar').style.display = 'block';
+  document.getElementById('scoreText').textContent = `${score} / ${done}`;
+  if (done === questions.length) {
+    document.getElementById('resetBtn').style.display = 'block';
+  }
+}
+
+function resetQuiz() {
+  answered = new Array(questions.length).fill(false);
+  score = 0;
+  document.getElementById('scoreBar').style.display = 'none';
+  document.getElementById('resetBtn').style.display = 'none';
+  buildQuiz();
+}
+
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+buildQuiz();
+</script>
+</body>
+</html>

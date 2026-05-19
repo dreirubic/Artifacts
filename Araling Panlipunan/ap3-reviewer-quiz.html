@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="fil">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Araling Panlipunan 3 Reviewer 🏠</title>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pula:   #D62828;
+    --dilaw:  #F7B731;
+    --berde:  #20BF55;
+    --asul:   #1565C0;
+    --lila:   #7B2FBE;
+    --kahel:  #F76C1B;
+    --bg:     #FFFDF4;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    color: #1a1a1a;
+    overflow-x: hidden;
+  }
+
+  /* BANNER */
+  .banner {
+    background: linear-gradient(135deg, #D62828 0%, #F7B731 100%);
+    text-align: center;
+    padding: 36px 20px 54px;
+    clip-path: ellipse(130% 100% at 50% 0%);
+  }
+  .banner h1 {
+    font-family: 'Boogaloo', cursive;
+    font-size: clamp(1.8rem, 5.5vw, 3.2rem);
+    color: #fff;
+    text-shadow: 2px 4px 0 rgba(0,0,0,0.18);
+    line-height: 1.15;
+  }
+  .banner p { color: #FFF0C0; font-weight: 700; margin-top: 6px; font-size: 1rem; }
+
+  /* TABS */
+  .tabs {
+    display: flex; justify-content: center;
+    gap: 9px; padding: 16px 12px 8px; flex-wrap: wrap;
+  }
+  .tab-btn {
+    font-family: 'Boogaloo', cursive;
+    font-size: 0.95rem; padding: 9px 17px;
+    border-radius: 50px; border: 3px solid #ddd;
+    background: white; color: #666;
+    cursor: pointer; box-shadow: 0 3px 0 #ccc;
+    transition: all 0.18s;
+  }
+  .tab-btn:hover { transform: translateY(-2px); }
+  .ta { background:#D62828; color:#fff; border-color:#8a0e0e; box-shadow:0 3px 0 #8a0e0e; }
+  .tb { background:#F7B731; color:#fff; border-color:#b07a00; box-shadow:0 3px 0 #b07a00; }
+  .tc { background:#1565C0; color:#fff; border-color:#0d3f80; box-shadow:0 3px 0 #0d3f80; }
+  .td { background:#20BF55; color:#fff; border-color:#148038; box-shadow:0 3px 0 #148038; }
+  .te { background:#7B2FBE; color:#fff; border-color:#4e1a80; box-shadow:0 3px 0 #4e1a80; }
+
+  /* SECTIONS */
+  .sec { display:none; padding: 6px 14px 70px; max-width: 870px; margin: 0 auto; }
+  .sec.active { display: block; }
+
+  /* CARDS */
+  .topic-hdr { display:flex; align-items:center; gap:12px; margin: 22px 0 14px; }
+  .topic-hdr h2 { font-family:'Boogaloo',cursive; font-size:1.55rem; }
+  .topic-icon { font-size: 2.2rem; }
+
+  .card {
+    background: #fff; border-radius: 22px;
+    padding: 20px 22px; margin-bottom: 16px;
+    box-shadow: 0 5px 0 #e6dac8;
+    border: 2.5px solid #f5ece0;
+    animation: popUp 0.35s ease both;
+  }
+  @keyframes popUp {
+    from { opacity:0; transform: translateY(14px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+  .card h3 { font-family:'Boogaloo',cursive; font-size:1.18rem; margin-bottom:10px; }
+  .hp { color: var(--pula); }
+  .hd { color: var(--dilaw); }
+  .hb { color: var(--berde); }
+  .ha { color: var(--asul); }
+  .hl { color: var(--lila); }
+  .hk { color: var(--kahel); }
+
+  .ibox {
+    border-left: 5px solid var(--pula);
+    background: #FFF3F3; border-radius: 0 14px 14px 0;
+    padding: 10px 14px; margin: 8px 0;
+    font-size: 0.97rem; line-height: 1.8; font-weight: 600;
+  }
+  .ib-d { border-color:var(--dilaw); background:#FFF9E6; }
+  .ib-b { border-color:var(--berde); background:#EDFBF2; }
+  .ib-a { border-color:var(--asul);  background:#E8F0FE; }
+  .ib-l { border-color:var(--lila);  background:#F5EEFF; }
+  .ib-k { border-color:var(--kahel); background:#FFF3E6; }
+
+  .ex-box {
+    background: #FFFBE6; border: 2px dashed var(--dilaw);
+    border-radius: 14px; padding: 10px 14px;
+    margin: 8px 0; font-size: 0.95rem; line-height: 1.85; font-weight: 600;
+  }
+  .hl-r { color: var(--pula); font-weight: 800; }
+  .hl-b { color: var(--asul); font-weight: 800; }
+  .hl-g { color: var(--berde); font-weight: 800; }
+
+  /* MATERYAL GRID */
+  .mat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px; margin: 12px 0;
+  }
+  .mat-card {
+    border-radius: 18px; padding: 16px 14px;
+    text-align: center; font-weight: 700; font-size: 0.92rem; line-height: 1.55;
+  }
+  .mc-p { background:#FFF3F3; border:3px solid var(--pula); }
+  .mc-a { background:#E8F0FE; border:3px solid var(--asul); }
+  .mc-b { background:#EDFBF2; border:3px solid var(--berde); }
+  .mat-card .mic { font-size:2rem; display:block; margin-bottom:6px; }
+  .mat-card .mname { font-family:'Boogaloo',cursive; font-size:1.05rem; display:block; margin-bottom:4px; }
+
+  /* TIRAHAN GRID */
+  .bahay-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 10px; margin: 12px 0;
+  }
+  .bahay-chip {
+    border-radius: 16px; padding: 14px;
+    font-size: 0.9rem; line-height: 1.6; font-weight: 700;
+  }
+  .bt1 { background:#FFF3F3; border:2.5px solid var(--pula); }
+  .bt2 { background:#FFF9E6; border:2.5px solid var(--dilaw); }
+  .bt3 { background:#EDFBF2; border:2.5px solid var(--berde); }
+  .bt4 { background:#E8F0FE; border:2.5px solid var(--asul); }
+  .bt5 { background:#F5EEFF; border:2.5px solid var(--lila); }
+  .bt6 { background:#FFF3E6; border:2.5px solid var(--kahel); }
+  .bahay-chip .bname { font-family:'Boogaloo',cursive; font-size:1rem; color:#333; display:block; margin-bottom:4px; }
+
+  /* COMPARE TABLE */
+  .compare-table { width:100%; border-collapse:separate; border-spacing:0 8px; margin:12px 0; }
+  .compare-table th {
+    padding:10px 14px; font-family:'Boogaloo',cursive; font-size:1rem;
+    color:#fff; border-radius:10px 10px 0 0;
+  }
+  .th-r { background:var(--pula); }
+  .th-a { background:var(--asul); }
+  .compare-table td {
+    padding:10px 14px; font-weight:700; font-size:0.93rem;
+    border-bottom: 2px solid #eee;
+  }
+  .compare-table tr:last-child td { border-bottom:none; }
+  .compare-table td:first-child { color:var(--pula); font-style:italic; }
+  .compare-table td:nth-child(2) { background:#FFF3F3; border-radius:10px 0 0 10px; }
+  .compare-table td:nth-child(3) { background:#E8F0FE; border-radius:0 10px 10px 0; }
+
+  .divider { text-align:center; font-size:1.5rem; opacity:0.28; margin:8px 0; }
+
+  /* QUIZ */
+  .quiz-hdr { text-align:center; margin:16px 0 20px; }
+  .quiz-hdr h2 { font-family:'Boogaloo',cursive; font-size:1.9rem; }
+  .quiz-hdr p  { font-weight:600; color:#777; margin-top:4px; }
+
+  .scoreboard { display:flex; justify-content:center; gap:16px; margin-bottom:14px; flex-wrap:wrap; }
+  .sbox {
+    background:#fff; border-radius:14px; padding:10px 22px;
+    font-family:'Boogaloo',cursive; font-size:1rem;
+    box-shadow:0 3px 0 #ddd; text-align:center; min-width:100px;
+  }
+  .sbox span { font-size:1.7rem; display:block; }
+
+  .prog-wrap { background:#e6dac8; border-radius:50px; height:13px; margin-bottom:18px; overflow:hidden; }
+  .prog-fill { height:100%; border-radius:50px; transition:width 0.4s ease; }
+  .pf-p { background: linear-gradient(90deg, #D62828, #F7B731); }
+  .pf-a { background: linear-gradient(90deg, #1565C0, #20BF55); }
+  .pf-m { background: linear-gradient(90deg, #7B2FBE, #F76C1B); }
+
+  .q-card {
+    background:#fff; border-radius:22px; padding:24px;
+    box-shadow:0 5px 0 #e6dac8; border:2.5px solid #f5ece0; margin-bottom:16px;
+  }
+  .q-label {
+    font-family:'Boogaloo',cursive; font-size:0.88rem; color:#fff;
+    display:inline-block; padding:3px 14px; border-radius:50px; margin-bottom:10px;
+  }
+  .ql-p { background: var(--pula); }
+  .ql-a { background: var(--asul); }
+  .ql-m { background: var(--lila); }
+
+  .q-emoji { font-size:2rem; text-align:center; margin-bottom:6px; }
+  .q-text  { font-size:1.08rem; font-weight:700; margin-bottom:16px; line-height:1.6; }
+
+  .choices { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  @media(max-width:480px){ .choices { grid-template-columns:1fr; } }
+
+  .choice-btn {
+    padding:12px 14px; border-radius:14px;
+    border:3px solid #e6dac8; background:#faf7f0;
+    font-family:'Nunito',sans-serif; font-size:0.97rem; font-weight:700;
+    cursor:pointer; transition:all 0.15s; text-align:left;
+  }
+  .choice-btn:hover:not(:disabled) { border-color:var(--pula); background:#fff3f3; transform:translateY(-2px); }
+  .choice-btn.correct { background:#edfbf2; border-color:var(--berde); color:#0a4a20; }
+  .choice-btn.wrong   { background:#fee8e8; border-color:var(--pula);  color:#6a0a0a; }
+  .choice-btn:disabled { cursor:default; }
+
+  .fb-msg { margin-top:12px; padding:10px 14px; border-radius:12px; font-weight:700; display:none; }
+  .fb-ok  { background:#edfbf2; color:#0a4a20; display:block; }
+  .fb-no  { background:#fee8e8; color:#6a0a0a; display:block; }
+
+  .qctrl { display:flex; justify-content:center; gap:12px; margin-top:16px; flex-wrap:wrap; }
+  .btn-go {
+    font-family:'Boogaloo',cursive; font-size:1.05rem;
+    padding:11px 30px; border-radius:50px; border:3px solid;
+    cursor:pointer; box-shadow:0 4px 0; transition:all 0.15s; color:#fff;
+  }
+  .btn-go:hover { transform:translateY(-2px); }
+  .bg-p { background:var(--pula);  border-color:#8a0e0e; box-shadow:0 4px 0 #8a0e0e; }
+  .bg-a { background:var(--asul);  border-color:#0d3f80; box-shadow:0 4px 0 #0d3f80; }
+  .bg-b { background:var(--berde); border-color:#148038; box-shadow:0 4px 0 #148038; }
+  .bg-l { background:var(--lila);  border-color:#4e1a80; box-shadow:0 4px 0 #4e1a80; }
+
+  /* RESULT */
+  .result-box { display:none; text-align:center; padding:36px 16px; }
+  .result-box .medal { font-size:4.5rem; margin-bottom:8px; }
+  .result-box h2 { font-family:'Boogaloo',cursive; font-size:2.2rem; margin-bottom:6px; }
+  .result-box .big-score { font-family:'Boogaloo',cursive; font-size:3.8rem; color:var(--pula); }
+  .result-box p { font-weight:600; color:#666; font-size:1rem; margin-top:8px; }
+
+  /* BG DECOS */
+  .bgd { position:fixed; font-size:2rem; opacity:0.08; pointer-events:none; animation:fl 7s ease-in-out infinite; }
+  @keyframes fl { 0%,100%{transform:translateY(0);}50%{transform:translateY(-20px);} }
+  .bgd:nth-child(1){top:5%;left:2%;animation-delay:0s;}
+  .bgd:nth-child(2){top:18%;right:3%;animation-delay:1.5s;}
+  .bgd:nth-child(3){top:55%;left:1%;animation-delay:3s;}
+  .bgd:nth-child(4){bottom:12%;right:2%;animation-delay:0.8s;}
+  .bgd:nth-child(5){bottom:35%;left:3%;animation-delay:2s;}
+</style>
+</head>
+<body>
+
+<div class="bgd">🏠</div>
+<div class="bgd">🍚</div>
+<div class="bgd">👗</div>
+<div class="bgd">🌾</div>
+<div class="bgd">🏙️</div>
+
+<div class="banner">
+  <h1>🏠 Araling Panlipunan 3 Reviewer!</h1>
+  <p>Pamanang Materyal • Uri ng Komunidad at Panahanan • SIGLO 3</p>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn ta" onclick="showTab('reviewer')">📖 Reviewer</button>
+  <button class="tab-btn" onclick="showTab('q1')">🍚 Quiz 1: Pamanang Materyal</button>
+  <button class="tab-btn" onclick="showTab('q2')">🏘️ Quiz 2: Komunidad</button>
+  <button class="tab-btn" onclick="showTab('q3')">🏆 Mixed Quiz</button>
+</div>
+
+<!-- ============ REVIEWER ============ -->
+<div id="reviewer" class="sec active">
+
+  <!-- ARALIN 1 -->
+  <div class="topic-hdr">
+    <div class="topic-icon">🎨</div>
+    <h2 class="hp">Aralin 1: Pamanang Materyal</h2>
+  </div>
+
+  <div class="card">
+    <h3 class="hp">📌 Ano ang Pamanang Materyal?</h3>
+    <div class="ibox">
+      Ang <b>pamanang materyal</b> ay ang mga bagay na minana natin mula sa ating mga <b>ninuno</b> (lolo, lola, at mga nakaraang henerasyon). Kasama dito ang <b>pagkain, tirahan, at pananamit</b>.
+    </div>
+    <div class="ibox">
+      💡 Kahit nagbabago ang panahon, nanatili pa rin ang mga <b>tradisyonal na gawi</b> ng bawat pangkat etniko!
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="hp">🍚 Pagkain ng mga Ninuno</h3>
+    <div class="mat-grid">
+      <div class="mat-card mc-p">
+        <span class="mic">🌊</span>
+        <span class="mname">Pagkain mula sa Dagat</span>
+        Palayok o bumbong ang ginagamit sa pagluluto. Niluluto sa dahon o sa bao.
+      </div>
+      <div class="mat-card mc-a">
+        <span class="mic">🌿</span>
+        <span class="mname">Pagkain mula sa Kagubatan</span>
+        Naggagaling lamang sa dagat, ilog, at kagubatan. Pinakinis sa bao o ang biyas ng kawayan.
+      </div>
+      <div class="mat-card mc-b">
+        <span class="mic">🍚</span>
+        <span class="mname">Kasalukuyan</span>
+        Gumagamit na ng mga modernong kagamitan. Halimbawa: <b>adobo</b> — sikat na Pilipinong pagkain!
+      </div>
+    </div>
+    <div class="ex-box">
+      <b>Mga Halimbawa ng Tradisyonal na Pagkain:</b><br>
+      🍲 <span class="hl-r">Adobo</span> — sikat na ulam ng mga Pilipino<br>
+      🐟 Isda, baboy, manok — niluluto sa bao o kawayan<br>
+      🌾 Bigas — pangunahing pagkain ng mga Pilipino
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="hp">🏠 Tirahan ng mga Ninuno</h3>
+    <div class="ibox">
+      Ang tirahan ng mga ninuno ay <b>gawa sa mga natural na materyales</b> tulad ng <b>kawayan, kahoy, nipa, at cogon</b>. Walang binibiling materyales — lahat ay mula sa kalikasan!
+    </div>
+    <div class="bahay-grid">
+      <div class="bahay-chip bt1">
+        <span class="bname">🏠 Bahay-Kubo</span>
+        Tradisyonal na bahay ng mga Pilipino. Gawa sa kawayan at nipa. Mataas ang sahig mula sa lupa.
+      </div>
+      <div class="bahay-chip bt2">
+        <span class="bname">🗻 Bahay ng mga Ifugaw</span>
+        Tinatawag na <b>abong</b> o <b>innappal</b>. Mataas na nakaangat nang kaunti sa lupa.
+      </div>
+      <div class="bahay-chip bt3">
+        <span class="bname">🌊 Bahay ng mga Badjaw</span>
+        Nakatayo sa dagat at baybayin (Tawi-Tawi). Tinatawag na <b>lepa</b>. May mga "kubo" na bahagi.
+      </div>
+      <div class="bahay-chip bt4">
+        <span class="bname">🏛️ Bahay na Bato</span>
+        Matibay na bahay gawa sa bato at kahoy. Mataas at may bintana. Makikita sa mga lungsod.
+      </div>
+      <div class="bahay-chip bt5">
+        <span class="bname">🏢 Apartment</span>
+        Para sa maraming pamilya. Inuupahan. Makikita sa lungsod.
+      </div>
+      <div class="bahay-chip bt6">
+        <span class="bname">🏙️ Condominium</span>
+        Matataas na gusali. Maraming yunit. Makikita sa lungsod at urban na lugar.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="hp">👗 Pananamit ng mga Ninuno</h3>
+    <div class="ibox">
+      Ang mga ninuno ay may <b>sariling kasuotan</b> na nagpapakilala sa kanilang kultura at pangkat etniko. Kasama dito ang mga pangkat tulad ng <b>Ifugaw, T'boli, Tausug, Magindanaw</b>, at iba pa.
+    </div>
+    <div class="ex-box">
+      👘 Ang mga kasuotan ng mga ninuno ay <b>makulay at may sariling disenyo</b> na kumakatawan sa kanilang pangkat.<br>
+      👗 Kasalukuyan: <span class="hl-r">Blusa, damit</span> — modernong kasuotan ngayon.<br>
+      💡 Kasalukuyang pananamit vs. Tradisyonal na pananamit — may pagkakaiba!
+    </div>
+  </div>
+
+  <div class="divider">— ✦ —</div>
+
+  <!-- ARALIN 2 -->
+  <div class="topic-hdr">
+    <div class="topic-icon">🏘️</div>
+    <h2 class="ha">Aralin 2: Uri ng Komunidad at Panahanan</h2>
+  </div>
+
+  <div class="card">
+    <h3 class="ha">📌 Dalawang Uri ng Komunidad</h3>
+    <div class="ibox ib-a">
+      Ang <b>komunidad</b> ay ang lugar kung saan nakatira ang isang grupo ng mga tao. May <b>dalawang pangunahing uri</b> ng komunidad: ang <b>Rural</b> at ang <b>Urban</b>.
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="background:#555; color:#fff; border-radius:10px; padding:10px;">Katangian</th>
+          <th class="th-p" style="background:var(--pula); color:#fff; border-radius:10px; padding:10px;">🌾 Rural</th>
+          <th class="th-a" style="background:var(--asul); color:#fff; border-radius:10px; padding:10px;">🏙️ Urban</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Lugar</td><td>Lalawigan, bukid, kabukiran</td><td>Lungsod, syudad</td></tr>
+        <tr><td>Bahay</td><td>Malapit sa isa't isa; bahay-kubo, bahay na gawa sa kahoy</td><td>Matataas na gusali, condominium, apartment, subdivision</td></tr>
+        <tr><td>Hanapbuhay</td><td>Pagsasaka, pangingisda, pag-aalaga ng hayop</td><td>Negosyo, pabrika, opisina, pagawaan</td></tr>
+        <tr><td>Produkko</td><td>Palay, gulay, isda, prutas</td><td>Mga manufactured na produkto</td></tr>
+        <tr><td>Paliparan/Sasakyan</td><td>Karamihan ay hindi mayroon</td><td>Marami at makabagong sasakyan, LRT, bus</td></tr>
+        <tr><td>Paligid</td><td>Tahimik, maraming puno at halaman, malawak</td><td>Maingay, maraming tao, mataas na gusali</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3 class="ha">🌾 Pamayanang Rural — Mas Detalye</h3>
+    <div class="ibox ib-a">
+      Ang <b>pamayanang rural</b> ay matatagpuan sa <b>lalawigan</b>. Mahalaga ito dahil dito nagmumula ang ating <b>pagkain</b> tulad ng bigas, gulay, at isda.
+    </div>
+    <div class="ex-box">
+      🌾 <b>Mga katangian ng Rural na komunidad:</b><br>
+      • Maraming <b class="hl-g">punongkahoy</b> at kagubatan<br>
+      • Mga bahay ay malapit sa isa't isa, gawa sa <b>kahoy, kawayan, nipa</b><br>
+      • Dito ginagawa ang <b>pagsasaka</b> at pangingisda<br>
+      • Malawak at <b>tahimik</b> ang kapaligiran<br>
+      • Halimbawa: <b class="hl-r">Bulacan, Tarlac, Pangasinan</b>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="ha">🏙️ Pamayanang Urban — Mas Detalye</h3>
+    <div class="ibox ib-a">
+      Ang <b>pamayanang urban</b> ay matatagpuan sa <b>lungsod</b>. Dito maraming <b>trabaho, paaralan, ospital, pabrika, mall</b>, at iba pang lugar.
+    </div>
+    <div class="ex-box">
+      🏙️ <b>Mga katangian ng Urban na komunidad:</b><br>
+      • <b class="hl-b">Matataas na gusali</b> — condominium, apartment<br>
+      • Maraming sasakyan at makabagong teknolohiya<br>
+      • Mayroon <b>mall, pabrika, pagawaan, ospital, bangko</b><br>
+      • May <b>informal settlers</b> sa loob ng lungsod<br>
+      • Makikita ang <b>subdivision</b> at mga residential area
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="hb">🏗️ Mga Materyales sa Paggawa ng Bahay</h3>
+    <div class="ibox ib-b">
+      <b>Rural na bahay</b> → kawayan, kahoy, nipa, cogon, bato at metal (kasangkapan ng Pilipino)<br>
+      <b>Urban na bahay</b> → semento, bakal, bubong na yero, salamin, tiles
+    </div>
+    <div class="ex-box">
+      🔴 Para sa <b>rural na komunidad</b>: kawayan, kahoy, nipa<br>
+      🔵 Para sa <b>urban na komunidad</b>: semento, bakal, tiles, salamin
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="hp">🏡 Iba't Ibang Uri ng Tirahan sa Kasalukuyan</h3>
+    <div class="bahay-grid">
+      <div class="bahay-chip bt1"><span class="bname">🏠 Bahay-Kubo</span>Tradisyonal, gawa sa kawayan at nipa. Mataas ang sahig.</div>
+      <div class="bahay-chip bt2"><span class="bname">🏡 Bahay sa Gilid ng Baybay-dagat</span>Katangian: malapit sa tubig. Halimbawa: bahay ng Badjaw.</div>
+      <div class="bahay-chip bt3"><span class="bname">🌿 Bahay sa Itaas ng Puno</span>Katangian: nakaangat. Halimbawa: bahay ng Ifugaw.</div>
+      <div class="bahay-chip bt4"><span class="bname">🏛️ Bahay na Bato</span>Matibay, gawa sa bato at kahoy. Makikita sa mga lumang lungsod.</div>
+      <div class="bahay-chip bt5"><span class="bname">🏢 Apartment</span>Inuupahan, para sa maraming pamilya sa lungsod.</div>
+      <div class="bahay-chip bt6"><span class="bname">🏙️ Condominium</span>Mataaas na gusali, maraming yunit, urban na tirahan.</div>
+    </div>
+  </div>
+
+</div><!-- end reviewer -->
+
+<!-- ============ QUIZ 1 ============ -->
+<div id="q1" class="sec">
+  <div class="quiz-hdr">
+    <h2 style="color:var(--pula);">🍚 Quiz 1: Pamanang Materyal</h2>
+    <p>Tungkol sa pagkain, tirahan, at pananamit ng mga ninuno!</p>
+  </div>
+  <div class="scoreboard">
+    <div class="sbox">⭐ Puntos<span id="a-sc">0</span></div>
+    <div class="sbox">📋 Tanong<span id="a-qn">1/10</span></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill pf-p" id="a-prog" style="width:0%"></div></div>
+  <div id="a-area"></div>
+  <div id="a-result" class="result-box">
+    <div class="medal" id="a-medal"></div>
+    <h2 id="a-rtitle" style="color:var(--pula);"></h2>
+    <div class="big-score" id="a-rscore"></div>
+    <p id="a-rmsg"></p>
+    <div class="qctrl" style="margin-top:22px;">
+      <button class="btn-go bg-p" onclick="restartQ('pamanang')">🔄 Subukan Uli</button>
+      <button class="btn-go bg-a" onclick="showTab('q2')">Susunod →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ QUIZ 2 ============ -->
+<div id="q2" class="sec">
+  <div class="quiz-hdr">
+    <h2 style="color:var(--asul);">🏘️ Quiz 2: Uri ng Komunidad</h2>
+    <p>Rural o Urban? Alamin natin! 🌾🏙️</p>
+  </div>
+  <div class="scoreboard">
+    <div class="sbox">⭐ Puntos<span id="k-sc">0</span></div>
+    <div class="sbox">📋 Tanong<span id="k-qn">1/10</span></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill pf-a" id="k-prog" style="width:0%"></div></div>
+  <div id="k-area"></div>
+  <div id="k-result" class="result-box">
+    <div class="medal" id="k-medal"></div>
+    <h2 id="k-rtitle" style="color:var(--asul);"></h2>
+    <div class="big-score" id="k-rscore"></div>
+    <p id="k-rmsg"></p>
+    <div class="qctrl" style="margin-top:22px;">
+      <button class="btn-go bg-a" onclick="restartQ('komunidad')">🔄 Subukan Uli</button>
+      <button class="btn-go bg-l" onclick="showTab('q3')">Susunod →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ QUIZ 3 ============ -->
+<div id="q3" class="sec">
+  <div class="quiz-hdr">
+    <h2 style="color:var(--lila);">🏆 Mixed Quiz — Lahat ng Aralin!</h2>
+    <p>Handa ka na ba? Ipakita ang iyong talino! 🌟</p>
+  </div>
+  <div class="scoreboard">
+    <div class="sbox">⭐ Puntos<span id="m-sc">0</span></div>
+    <div class="sbox">📋 Tanong<span id="m-qn">1/10</span></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill pf-m" id="m-prog" style="width:0%"></div></div>
+  <div id="m-area"></div>
+  <div id="m-result" class="result-box">
+    <div class="medal" id="m-medal"></div>
+    <h2 id="m-rtitle" style="color:var(--lila);"></h2>
+    <div class="big-score" id="m-rscore"></div>
+    <p id="m-rmsg"></p>
+    <div class="qctrl" style="margin-top:22px;">
+      <button class="btn-go bg-l" onclick="restartQ('mixed')">🔄 Subukan Uli</button>
+      <button class="btn-go bg-p" onclick="showTab('reviewer')">📖 Mag-review Uli</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- TABS ----
+function showTab(id) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const ids = ['reviewer','q1','q2','q3'];
+  const cls = ['ta','tb','tc','td'];
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    b.className = 'tab-btn';
+    if (ids[i] === id) b.classList.add(cls[i]);
+  });
+}
+
+// ---- QUESTIONS ----
+const pamanangQs = [
+  {e:"🎨",q:"Ano ang tinatawag na 'pamanang materyal'?",c:["Mga bagay na minana natin mula sa ating mga ninuno","Mga laruan ng mga bata","Mga gawa sa paaralan","Mga libro at babasahin"],a:"Mga bagay na minana natin mula sa ating mga ninuno",h:"Ang pamanang materyal ay ang mga bagay tulad ng pagkain, tirahan, at pananamit na minana natin mula sa mga ninuno!"},
+  {e:"🍲",q:"Ano ang ginagamit ng mga ninuno bilang palayok sa pagluluto?",c:["Palayok o bumbong (kawayan)","Kawali at kaldero","Tiyan ng baboy","Balde"],a:"Palayok o bumbong (kawayan)",h:"Ang mga ninuno ay gumagamit ng palayok o bumbong (kawayan) sa pagluluto!"},
+  {e:"🏠",q:"Ang bahay-kubo ay gawa sa anong materyales?",c:["Kawayan at nipa","Semento at bakal","Bato at tiles","Salamin at bakal"],a:"Kawayan at nipa",h:"Ang tradisyonal na bahay-kubo ay gawa sa kawayan at nipa — mga natural na materyales!"},
+  {e:"🌊",q:"Ang tirahan ng mga Badjaw na tinatawag na 'lepa' ay matatagpuan saan?",c:["Sa dagat at baybayin (Tawi-Tawi)","Sa tuktok ng bundok","Sa gitna ng kagubatan","Sa loob ng lungsod"],a:"Sa dagat at baybayin (Tawi-Tawi)",h:"Ang mga Badjaw ay nakatira sa dagat at baybayin ng Tawi-Tawi. Ang kanilang tirahan ay tinatawag na lepa!"},
+  {e:"🗻",q:"Ang 'abong' o 'innappal' ay tirahan ng anong pangkat etniko?",c:["Mga Ifugaw","Mga Badjaw","Mga Tausug","Mga T'boli"],a:"Mga Ifugaw",h:"Ang abong at innappal ay mga uri ng bahay ng mga Ifugaw!"},
+  {e:"🍚",q:"Ang 'adobo' ay isang halimbawa ng?",c:["Tradisyonal na pagkain ng mga Pilipino","Uri ng bahay","Uri ng damit","Kagamitan sa pagluluto"],a:"Tradisyonal na pagkain ng mga Pilipino",h:"Ang adobo ay isang sikat at tradisyonal na pagkain ng mga Pilipino!"},
+  {e:"👗",q:"Bakit mahalaga ang pag-aaral ng pananamit ng ating mga ninuno?",c:["Upang makilala ang ating kultura at pagkakakilanlan","Para maging sikat","Para lumabas sa telebisyon","Para manalo sa paligsahan"],a:"Upang makilala ang ating kultura at pagkakakilanlan",h:"Ang pananamit ng ating mga ninuno ay nagpapakilala sa ating kultura at pangkat!"},
+  {e:"🏛️",q:"Ang 'bahay na bato' ay gawa sa anong materyales?",c:["Bato at kahoy","Kawayan at nipa","Semento at bakal","Yero at salamin"],a:"Bato at kahoy",h:"Ang bahay na bato ay gawa sa bato at kahoy — matibay at matagal!"},
+  {e:"🏢",q:"Ang condominium ay isang uri ng tirahan na mataas na gusali. Ito ay makikita sa?",c:["Lungsod (urban na lugar)","Kagubatan","Baybayin","Bukid"],a:"Lungsod (urban na lugar)",h:"Ang condominium ay makikita sa lungsod — ito ay isang matataas na gusali na may maraming yunit!"},
+  {e:"🌿",q:"Ang mga ninuno ay gumagamit ng anong pagkain mula sa kalikasan?",c:["Pagkain mula sa dagat, ilog, at kagubatan","Pagkain mula sa supermarket","Pagkain mula sa restaurant","Pagkain mula sa factory"],a:"Pagkain mula sa dagat, ilog, at kagubatan",h:"Ang mga ninuno ay kumukuha ng pagkain mula sa kalikasan — sa dagat, ilog, at kagubatan!"},
+  {e:"🏠",q:"Ang apartment ay para sa?",c:["Maraming pamilya na umuupa","Isang pamilya lamang na may sariling bahay","Mga hayop","Mga negosyo"],a:"Maraming pamilya na umuupa",h:"Ang apartment ay para sa maraming pamilya. Inuupahan ito, hindi binibili!"},
+  {e:"🎎",q:"Alin sa mga sumusunod ang halimbawa ng pamanang materyal?",c:["Tradisyonal na damit ng mga Ifugaw","Cellphone","Laptop","Sasakyan"],a:"Tradisyonal na damit ng mga Ifugaw",h:"Ang tradisyonal na damit ng mga Ifugaw ay isang halimbawa ng pamanang materyal — minana ito mula sa mga ninuno!"},
+  {e:"🌾",q:"Ang kasangkapang gawa sa bato at metal ay ginagamit ng mga ninuno para sa?",c:["Pagluluto at paghahanda ng pagkain","Pagtatanim ng halaman","Pag-aayos ng bahay","Pagtahi ng damit"],a:"Pagluluto at paghahanda ng pagkain",h:"Ang mga ninuno ay gumagamit ng mga kasangkapang gawa sa bato at metal para sa pagluluto at paghahanda ng pagkain!"},
+  {e:"🏡",q:"Ang tirahan ng mga Tausug ay makikita sa?",c:["Mindanao (katulad ng Sulu at Tawi-Tawi)","Cordillera","Metro Manila","Visayas"],a:"Mindanao (katulad ng Sulu at Tawi-Tawi)",h:"Ang mga Tausug ay nakatira sa Mindanao, lalo na sa Sulu at Tawi-Tawi!"},
+  {e:"🎨",q:"Ang pamanang materyal ay binubuo ng tatlong bagay. Alin ang HINDI kasama?",c:["Wika (salita)","Pagkain","Tirahan","Pananamit"],a:"Wika (salita)",h:"Ang pamanang materyal ay binubuo ng pagkain, tirahan, at pananamit. Ang wika ay pamanang di-materyal!"}
+];
+
+const komunidadQs = [
+  {e:"🌾",q:"Ano ang pangunahing uri ng komunidad?",c:["Rural at Urban","Bukid at Bundok","Dagat at Lupa","Lungsod at Paaralan"],a:"Rural at Urban",h:"Ang dalawang pangunahing uri ng komunidad ay ang Rural (lalawigan) at Urban (lungsod)!"},
+  {e:"🏙️",q:"Ang pamayanang URBAN ay matatagpuan sa?",c:["Lungsod o syudad","Lalawigan at bukid","Kagubatan","Baybayin"],a:"Lungsod o syudad",h:"Ang urban na komunidad ay nasa lungsod o syudad — dito maraming mataas na gusali at tao!"},
+  {e:"🌾",q:"Ang pamayanang RURAL ay matatagpuan sa?",c:["Lalawigan, bukid, kabukiran","Lungsod at syudad","Loob ng mall","Mataas na gusali"],a:"Lalawigan, bukid, kabukiran",h:"Ang rural na komunidad ay nasa lalawigan, bukid, at kabukiran — malayo sa lungsod!"},
+  {e:"🏢",q:"Alin ang HINDI makikita sa urban na komunidad?",c:["Malawak na palayan","Condominium","Mall","Pabrika"],a:"Malawak na palayan",h:"Ang malawak na palayan ay makikita sa rural (lalawigan) — hindi sa lungsod!"},
+  {e:"🌿",q:"Alin ang makikita sa rural na komunidad?",c:["Maraming punongkahoy at palayan","Matataas na gusali","Condominium","Subway o LRT"],a:"Maraming punongkahoy at palayan",h:"Sa rural na komunidad, maraming punongkahoy, palayan, at halaman!"},
+  {e:"🍚",q:"Ang hanapbuhay sa rural na komunidad ay karaniwang?",c:["Pagsasaka at pangingisda","Pagtatrabaho sa pabrika","Pagtatrabaho sa opisina","Negosyo sa mall"],a:"Pagsasaka at pangingisda",h:"Ang mga tao sa rural na komunidad ay karaniwang magsasaka at mamamangisda!"},
+  {e:"🏗️",q:"Ang bahay sa rural na komunidad ay karaniwang gawa sa?",c:["Kawayan, kahoy, at nipa","Semento at bakal","Salamin at tiles","Bakal at yero"],a:"Kawayan, kahoy, at nipa",h:"Ang mga bahay sa rural na komunidad ay gawa sa natural na materyales tulad ng kawayan, kahoy, at nipa!"},
+  {e:"🏙️",q:"Alin ang katangian ng URBAN na komunidad?",c:["Maraming matataas na gusali at teknolohiya","Tahimik at may maraming puno","Malawak na bukid","Walang sasakyan"],a:"Maraming matataas na gusali at teknolohiya",h:"Ang urban na komunidad ay may maraming matataas na gusali at makabagong teknolohiya!"},
+  {e:"🏘️",q:"Ang 'subdivision' ay isang uri ng tirahan na makikita sa?",c:["Urban na komunidad (lungsod)","Rural na komunidad (bukid)","Kagubatan","Baybayin"],a:"Urban na komunidad (lungsod)",h:"Ang subdivision ay makikita sa urban — ito ay isang grupo ng mga bahay sa lungsod!"},
+  {e:"🌾",q:"Ang Bulacan, Tarlac, at Pangasinan ay halimbawa ng?",c:["Rural na komunidad (lalawigan)","Urban na komunidad (lungsod)","Bahagi ng Metro Manila","Uri ng tirahan"],a:"Rural na komunidad (lalawigan)",h:"Ang Bulacan, Tarlac, at Pangasinan ay mga lalawigan — halimbawa ng rural na komunidad!"},
+  {e:"🏠",q:"Ang bahay ng mga tao sa rural ay karaniwang?",c:["Malapit sa isa't isa, mababang gusali","Matataas na condominium","May elevator at maraming palapag","Gawa sa semento at bakal"],a:"Malapit sa isa't isa, mababang gusali",h:"Sa rural, ang mga bahay ay malapit sa isa't isa at mababang gusali!"},
+  {e:"🏙️",q:"Ang 'informal settlers' ay karaniwang matatagpuan sa?",c:["Loob ng lungsod (urban)","Tuktok ng bundok","Gitna ng palayan","Baybayin ng dagat"],a:"Loob ng lungsod (urban)",h:"Ang informal settlers ay mga taong nakatira sa mga squatter area sa loob ng lungsod!"},
+  {e:"🌳",q:"Alin ang katangian ng RURAL na komunidad?",c:["Tahimik, maraming puno, malawak","Maingay, maraming tao, matataas na gusali","May LRT at subway","Maraming mall at pabrika"],a:"Tahimik, maraming puno, malawak",h:"Ang rural na komunidad ay tahimik, may maraming puno at halaman, at malawak ang kapaligiran!"},
+  {e:"🏗️",q:"Ang materyales sa paggawa ng bahay sa urban ay?",c:["Semento, bakal, at tiles","Kawayan at nipa","Cogon at kahoy","Dahon at bato"],a:"Semento, bakal, at tiles",h:"Sa urban, ang mga bahay ay gawa sa semento, bakal, at tiles — matibay at moderno!"},
+  {e:"🤔",q:"Kung maraming pabrika, mall, at mataas na gusali sa isang lugar, ito ay isang?",c:["Urban na komunidad","Rural na komunidad","Kagubatan","Baybayin"],a:"Urban na komunidad",h:"Kung may pabrika, mall, at mataas na gusali — ito ay isang URBAN na komunidad!"}
+];
+
+function buildMixed() {
+  return shuffle([...shuffle(pamanangQs).slice(0,5), ...shuffle(komunidadQs).slice(0,5)]);
+}
+function shuffle(arr) { return [...arr].sort(() => Math.random()-0.5); }
+
+let ST = {
+  pamanang: {qs:[], idx:0, sc:0},
+  komunidad: {qs:[], idx:0, sc:0},
+  mixed: {qs:[], idx:0, sc:0}
+};
+
+const CFG = {
+  pamanang: {area:'a-area', sc:'a-sc', qn:'a-qn', prog:'a-prog', result:'a-result', medal:'a-medal', rtitle:'a-rtitle', rscore:'a-rscore', rmsg:'a-rmsg', pfx:'a', ql:'ql-p', nb:'bg-p'},
+  komunidad: {area:'k-area', sc:'k-sc', qn:'k-qn', prog:'k-prog', result:'k-result', medal:'k-medal', rtitle:'k-rtitle', rscore:'k-rscore', rmsg:'k-rmsg', pfx:'k', ql:'ql-a', nb:'bg-a'},
+  mixed:     {area:'m-area', sc:'m-sc', qn:'m-qn', prog:'m-prog', result:'m-result', medal:'m-medal', rtitle:'m-rtitle', rscore:'m-rscore', rmsg:'m-rmsg', pfx:'m', ql:'ql-m', nb:'bg-l'}
+};
+
+function initQ(type) {
+  const st = ST[type];
+  st.qs  = type==='pamanang' ? shuffle(pamanangQs).slice(0,10) : type==='komunidad' ? shuffle(komunidadQs).slice(0,10) : buildMixed();
+  st.idx = 0; st.sc = 0;
+  document.getElementById(CFG[type].area).style.display='block';
+  document.getElementById(CFG[type].result).style.display='none';
+  render(type);
+}
+
+function render(type) {
+  const st=ST[type]; const c=CFG[type];
+  if (st.idx >= st.qs.length) { showResult(type); return; }
+  const q=st.qs[st.idx]; const tot=st.qs.length;
+  document.getElementById(c.sc).textContent = st.sc;
+  document.getElementById(c.qn).textContent = `${st.idx+1}/${tot}`;
+  document.getElementById(c.prog).style.width = `${(st.idx/tot)*100}%`;
+  const sh = shuffle(q.c);
+  document.getElementById(c.area).innerHTML = `
+    <div class="q-card">
+      <span class="q-label ${c.ql}">Tanong ${st.idx+1} sa ${tot}</span>
+      <div class="q-emoji">${q.e}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="choices">
+        ${sh.map(o=>`<button class="choice-btn" onclick="check('${type}','${o.replace(/'/g,"&#39;").replace(/"/g,"&quot;")}')">${o}</button>`).join('')}
+      </div>
+      <div class="fb-msg" id="${c.pfx}-fb"></div>
+    </div>
+    <div class="qctrl">
+      <button class="btn-go ${c.nb}" id="${c.pfx}-next" style="display:none" onclick="nextQ('${type}')">Susunod ➡️</button>
+    </div>`;
+}
+
+function check(type, chosen) {
+  const st=ST[type]; const c=CFG[type]; const q=st.qs[st.idx];
+  document.querySelectorAll(`#${c.area} .choice-btn`).forEach(b => {
+    b.disabled=true;
+    if (b.textContent===q.a) b.classList.add('correct');
+    else if (b.textContent===chosen && chosen!==q.a) b.classList.add('wrong');
+  });
+  const fb=document.getElementById(`${c.pfx}-fb`);
+  if (chosen===q.a) { st.sc++; fb.className='fb-msg fb-ok'; fb.textContent=`✅ Tama! ${q.e} Magaling!`; }
+  else { fb.className='fb-msg fb-no'; fb.textContent=`❌ Ang tamang sagot ay "${q.a}". 💡 ${q.h}`; }
+  document.getElementById(c.sc).textContent=st.sc;
+  document.getElementById(`${c.pfx}-next`).style.display='inline-block';
+}
+
+function nextQ(type) { ST[type].idx++; render(type); }
+
+function showResult(type) {
+  const c=CFG[type]; const st=ST[type];
+  document.getElementById(c.area).style.display='none';
+  document.getElementById(c.result).style.display='block';
+  const pct=Math.round(st.sc/st.qs.length*100);
+  let med,title,msg;
+  if(pct===100){med='🏆';title='PERPEKTO!';msg='Kahanga-hanga! Ikaw ay isang bituin! 🌟';}
+  else if(pct>=80){med='🥇';title='Napakahusay!';msg='Kamangha-mangha! Alam mo ang aralin! 🎉';}
+  else if(pct>=60){med='🥈';title='Magaling!';msg='Mabuti! Mag-review pa kaunti at magiging perpekto ka! 💪';}
+  else{med='🥉';title='Subukan Uli!';msg='Huwag sumuko! Basahin uli ang reviewer at subukan muli! 📚';}
+  document.getElementById(c.medal).textContent=med;
+  document.getElementById(c.rtitle).textContent=title;
+  document.getElementById(c.rscore).textContent=`${st.sc} / ${st.qs.length}`;
+  document.getElementById(c.rmsg).textContent=msg;
+  document.getElementById(c.prog).style.width='100%';
+}
+
+function restartQ(type) { initQ(type); }
+
+initQ('pamanang'); initQ('komunidad'); initQ('mixed');
+</script>
+</body>
+</html>
